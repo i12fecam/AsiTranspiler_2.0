@@ -7,7 +7,7 @@ import internals.MicroInstruction;
 import java.util.HashMap;
 import java.util.Map;
 
-class MicroInstructionMapper {
+class LogicFileGenerator {
     /*
     GPR+1->GPR:t4·q5 + t11·q6 + t6·q7·As' + t10·q8·F·Zsc + t10·q8·F·Zsc'
      */
@@ -46,8 +46,8 @@ class MicroInstructionMapper {
     public void addControlActionUse(ControlAction action, int id_func, int id_step, FlagStatus... flags) {
         String uses = ControlMap.get(action);
         StringBuilder builder = new StringBuilder(uses);
-        if (uses == null) {
-            builder.append(action.getControlText());//TODO terminar
+        if (uses == null) {//TODO detecta que siempre sera null posible error?
+            builder.append(action.getControlText());
             builder.append(":");
             builder.append("t").append(id_step);
             builder.append("·");
@@ -68,5 +68,23 @@ class MicroInstructionMapper {
             }
             ControlMap.put(action, builder.toString());
         }
+    }
+
+
+    public String getLogicText(){
+        StringBuilder builder = new StringBuilder();
+        //TODO añadir instrucciones de bucle incial
+        for (Map.Entry<MicroInstruction,String> entry :MImap.entrySet()){
+            builder.append(entry.getValue());
+            builder.append("\n");
+
+        }
+
+        for(Map.Entry<ControlAction,String> entry: ControlMap.entrySet()){
+            builder.append(entry.getValue());
+            builder.append("\n");
+        }
+
+        return builder.toString();
     }
 }

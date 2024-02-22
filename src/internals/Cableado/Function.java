@@ -20,13 +20,30 @@ public class Function {
         //TODO
     }
 
+    public String getFunctionName(){
+        return _functionName;
+    }
+
+    public int getId(){
+        return _id;
+    }
+
+    public Boolean getBooleanParam(){
+        if(_params.equals(FunctionParam.None)){
+            return Boolean.FALSE;
+        }else{
+            return Boolean.TRUE;
+        }
+    }
+
+    public int getNSteps() {
+        return _nSteps;
+    }
     public void addStep(int nSteps){
         assert(nSteps>0);
         _nSteps+=nSteps;
 
     }
 
-    public int getNSteps() {
-        return _nSteps;
-    }
+
 }

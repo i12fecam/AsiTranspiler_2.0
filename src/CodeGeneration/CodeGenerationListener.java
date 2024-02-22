@@ -1,30 +1,32 @@
 package CodeGeneration;
 
+import Analisis.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.Cableado.ControlAction;
-import internals.FlagStatus;
 import internals.MicroInstruction;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class CableLogicCodeGenerationListener extends SicomeBaseListener {
+public class CodeGenerationListener extends SicomeBaseListener {
     ParseTreeProperty<Integer> _ids = null;
-    public CableLogicCodeGenerationListener(ParseTreeProperty<Integer> ids){
+    SymbolTable _symbols = null;
+     public CodeGenerationListener(ParseTreeProperty<Integer> ids, SymbolTable st){
         _ids = ids;
+        _symbols=st;
     }
 
+    LogicFileGenerator logic = new LogicFileGenerator();
+
+     RepositoryFileGenerator repository = new RepositoryFileGenerator(_symbols);
 
     public String getLogicFileString(){
-        return null;
+        return logic.getLogicText();
     }
 
     public String getRepositoryFileString(){
-        return null;
+        return repository.getTextRepository();
     }
     @Override
     public void exitSimpleStep(SicomeParser.SimpleStepContext ctx) {

@@ -32,4 +32,8 @@ public class SymbolTable {
     public int getNsteps(int idFunction) {
         return functions.elementAt(idFunction).getNSteps();
     }
+
+    public  Vector<Function> getFunctions(){
+        return functions;
+    }
 }

@@ -1,6 +1,7 @@
 import Analisis.FirstPassListener;
 import Analisis.SecondPassListener;
-import CodeGeneration.CableLogicCodeGenerationListener;
+import Analisis.SymbolTable;
+import CodeGeneration.CodeGenerationListener;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
 import org.antlr.v4.runtime.*;
@@ -29,9 +30,13 @@ public class Main {
         ParseTreeWalker walker = new ParseTreeWalker();
         FirstPassListener fpass = new FirstPassListener();
         walker.walk(fpass,tree);
-        SecondPassListener spass = new SecondPassListener(fpass.getIds(), fpass.getSymbolTable());
+
+        SymbolTable symbols = fpass.getSymbolTable();
+        ParseTreeProperty<Integer> ids = fpass.getIds();
+
+        SecondPassListener spass = new SecondPassListener(ids,symbols);
         walker.walk(spass,tree);
-        CableLogicCodeGenerationListener cpass = new CableLogicCodeGenerationListener(fpass.getIds());
+        CodeGenerationListener cpass = new CodeGenerationListener(ids,symbols);
         walker.walk(cpass,tree);
 
         System.out.println("Lógica:");
