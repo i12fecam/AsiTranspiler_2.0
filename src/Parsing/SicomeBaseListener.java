@@ -28,97 +28,97 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInstrucciones_C(SicomeParser.Instrucciones_CContext ctx) { }
+	@Override public void enterCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInstrucciones_C(SicomeParser.Instrucciones_CContext ctx) { }
+	@Override public void exitCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInstruccion_C(SicomeParser.Instruccion_CContext ctx) { }
+	@Override public void enterCableInstruction(SicomeParser.CableInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInstruccion_C(SicomeParser.Instruccion_CContext ctx) { }
+	@Override public void exitCableInstruction(SicomeParser.CableInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInstr_arg(SicomeParser.Instr_argContext ctx) { }
+	@Override public void enterInstructionArgument(SicomeParser.InstructionArgumentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInstr_arg(SicomeParser.Instr_argContext ctx) { }
+	@Override public void exitInstructionArgument(SicomeParser.InstructionArgumentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSimpleStep(SicomeParser.SimpleStepContext ctx) { }
+	@Override public void enterSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSimpleStep(SicomeParser.SimpleStepContext ctx) { }
+	@Override public void exitSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConditionalStep(SicomeParser.ConditionalStepContext ctx) { }
+	@Override public void enterConditionalCableStepBlock(SicomeParser.ConditionalCableStepBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitConditionalStep(SicomeParser.ConditionalStepContext ctx) { }
+	@Override public void exitConditionalCableStepBlock(SicomeParser.ConditionalCableStepBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCond_step(SicomeParser.Cond_stepContext ctx) { }
+	@Override public void enterConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCond_step(SicomeParser.Cond_stepContext ctx) { }
+	@Override public void exitConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterComplexFlowControl(SicomeParser.ComplexFlowControlContext ctx) { }
+	@Override public void enterComplexCableFlowControl(SicomeParser.ComplexCableFlowControlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitComplexFlowControl(SicomeParser.ComplexFlowControlContext ctx) { }
+	@Override public void exitComplexCableFlowControl(SicomeParser.ComplexCableFlowControlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSimpleFlowControl(SicomeParser.SimpleFlowControlContext ctx) { }
+	@Override public void enterSimpleCableFlowControl(SicomeParser.SimpleCableFlowControlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSimpleFlowControl(SicomeParser.SimpleFlowControlContext ctx) { }
+	@Override public void exitSimpleCableFlowControl(SicomeParser.SimpleCableFlowControlContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

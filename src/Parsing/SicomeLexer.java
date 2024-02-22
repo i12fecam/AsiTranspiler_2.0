@@ -17,9 +17,9 @@ public class SicomeLexer extends Lexer {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, DECN=17, 
-		IDNT=18, MICRO_INSTR=19, BIT_ESTATUS=20, LINE_COMMENT=21, COMMENT=22, 
-		NEWLINE=23, WS=24;
+		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, NUMBER=17, 
+		IDENTIFIER=18, MICRO_INSTR=19, FLAG=20, LINE_COMMENT=21, COMMENT=22, NEWLINE=23, 
+		WS=24;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -31,8 +31,8 @@ public class SicomeLexer extends Lexer {
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
-			"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "DECN", 
-			"IDNT", "MICRO_INSTR", "BIT_ESTATUS", "LINE_COMMENT", "COMMENT", "NEWLINE", 
+			"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "NUMBER", 
+			"IDENTIFIER", "MICRO_INSTR", "FLAG", "LINE_COMMENT", "COMMENT", "NEWLINE", 
 			"WS"
 		};
 	}
@@ -49,8 +49,8 @@ public class SicomeLexer extends Lexer {
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, "DECN", "IDNT", "MICRO_INSTR", "BIT_ESTATUS", 
-			"LINE_COMMENT", "COMMENT", "NEWLINE", "WS"
+			null, null, null, null, null, "NUMBER", "IDENTIFIER", "MICRO_INSTR", 
+			"FLAG", "LINE_COMMENT", "COMMENT", "NEWLINE", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();

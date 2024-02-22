@@ -5,8 +5,8 @@ import internals.FunctionParam;
 public class Function {
 
 
-    private String _functionName;
-    private int _id;
+    private final String _functionName;
+    private final int _id;
     private FunctionParam _params;
     private int _nSteps=0;
     /**
@@ -17,7 +17,12 @@ public class Function {
      */
     public Function(String functionName,String functionArg,int id){
         this._functionName = functionName;
-        //TODO
+        switch (functionArg){
+            case "dir": _params=FunctionParam.Dir;
+            case "value": _params=FunctionParam.Value;
+            case "" : _params=FunctionParam.None;
+        }//TODO meter esto dentro del enum?
+        _id=id;
     }
 
     public String getFunctionName(){

@@ -43,10 +43,10 @@ null
 null
 null
 null
-DECN
-IDNT
+NUMBER
+IDENTIFIER
 MICRO_INSTR
-BIT_ESTATUS
+FLAG
 LINE_COMMENT
 COMMENT
 NEWLINE
@@ -54,12 +54,12 @@ WS
 
 rule names:
 prog
-instrucciones_C
-instruccion_C
-instr_arg
-step
-cond_step
-flow_control_C
+cableInstructionBlock
+cableInstruction
+instructionArgument
+cableStep
+conditionalCableStep
+cableFlowControl
 
 
 atn:

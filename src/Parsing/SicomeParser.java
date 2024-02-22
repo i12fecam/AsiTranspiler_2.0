@@ -17,16 +17,17 @@ public class SicomeParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, DECN=17, 
-		IDNT=18, MICRO_INSTR=19, BIT_ESTATUS=20, LINE_COMMENT=21, COMMENT=22, 
-		NEWLINE=23, WS=24;
+		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, NUMBER=17, 
+		IDENTIFIER=18, MICRO_INSTR=19, FLAG=20, LINE_COMMENT=21, COMMENT=22, NEWLINE=23, 
+		WS=24;
 	public static final int
-		RULE_prog = 0, RULE_instrucciones_C = 1, RULE_instruccion_C = 2, RULE_instr_arg = 3, 
-		RULE_step = 4, RULE_cond_step = 5, RULE_flow_control_C = 6;
+		RULE_prog = 0, RULE_cableInstructionBlock = 1, RULE_cableInstruction = 2, 
+		RULE_instructionArgument = 3, RULE_cableStep = 4, RULE_conditionalCableStep = 5, 
+		RULE_cableFlowControl = 6;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"prog", "instrucciones_C", "instruccion_C", "instr_arg", "step", "cond_step", 
-			"flow_control_C"
+			"prog", "cableInstructionBlock", "cableInstruction", "instructionArgument", 
+			"cableStep", "conditionalCableStep", "cableFlowControl"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -42,8 +43,8 @@ public class SicomeParser extends Parser {
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, "DECN", "IDNT", "MICRO_INSTR", "BIT_ESTATUS", 
-			"LINE_COMMENT", "COMMENT", "NEWLINE", "WS"
+			null, null, null, null, null, "NUMBER", "IDENTIFIER", "MICRO_INSTR", 
+			"FLAG", "LINE_COMMENT", "COMMENT", "NEWLINE", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -99,8 +100,8 @@ public class SicomeParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProgContext extends ParserRuleContext {
-		public Instrucciones_CContext instrucciones_C() {
-			return getRuleContext(Instrucciones_CContext.class,0);
+		public CableInstructionBlockContext cableInstructionBlock() {
+			return getRuleContext(CableInstructionBlockContext.class,0);
 		}
 		public ProgContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -123,7 +124,7 @@ public class SicomeParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(14);
-			instrucciones_C();
+			cableInstructionBlock();
 			}
 		}
 		catch (RecognitionException re) {
@@ -138,30 +139,30 @@ public class SicomeParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Instrucciones_CContext extends ParserRuleContext {
-		public List<Instruccion_CContext> instruccion_C() {
-			return getRuleContexts(Instruccion_CContext.class);
+	public static class CableInstructionBlockContext extends ParserRuleContext {
+		public List<CableInstructionContext> cableInstruction() {
+			return getRuleContexts(CableInstructionContext.class);
 		}
-		public Instruccion_CContext instruccion_C(int i) {
-			return getRuleContext(Instruccion_CContext.class,i);
+		public CableInstructionContext cableInstruction(int i) {
+			return getRuleContext(CableInstructionContext.class,i);
 		}
-		public Instrucciones_CContext(ParserRuleContext parent, int invokingState) {
+		public CableInstructionBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_instrucciones_C; }
+		@Override public int getRuleIndex() { return RULE_cableInstructionBlock; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterInstrucciones_C(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterCableInstructionBlock(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitInstrucciones_C(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitCableInstructionBlock(this);
 		}
 	}
 
-	public final Instrucciones_CContext instrucciones_C() throws RecognitionException {
-		Instrucciones_CContext _localctx = new Instrucciones_CContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_instrucciones_C);
+	public final CableInstructionBlockContext cableInstructionBlock() throws RecognitionException {
+		CableInstructionBlockContext _localctx = new CableInstructionBlockContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_cableInstructionBlock);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -179,13 +180,13 @@ public class SicomeParser extends Parser {
 				{
 				{
 				setState(19);
-				instruccion_C();
+				cableInstruction();
 				}
 				}
 				setState(22); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==IDNT );
+			} while ( _la==IDENTIFIER );
 			setState(24);
 			match(T__3);
 			}
@@ -202,44 +203,44 @@ public class SicomeParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Instruccion_CContext extends ParserRuleContext {
-		public TerminalNode IDNT() { return getToken(SicomeParser.IDNT, 0); }
-		public Instr_argContext instr_arg() {
-			return getRuleContext(Instr_argContext.class,0);
+	public static class CableInstructionContext extends ParserRuleContext {
+		public TerminalNode IDENTIFIER() { return getToken(SicomeParser.IDENTIFIER, 0); }
+		public InstructionArgumentContext instructionArgument() {
+			return getRuleContext(InstructionArgumentContext.class,0);
 		}
-		public List<StepContext> step() {
-			return getRuleContexts(StepContext.class);
+		public List<CableStepContext> cableStep() {
+			return getRuleContexts(CableStepContext.class);
 		}
-		public StepContext step(int i) {
-			return getRuleContext(StepContext.class,i);
+		public CableStepContext cableStep(int i) {
+			return getRuleContext(CableStepContext.class,i);
 		}
-		public Instruccion_CContext(ParserRuleContext parent, int invokingState) {
+		public CableInstructionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_instruccion_C; }
+		@Override public int getRuleIndex() { return RULE_cableInstruction; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterInstruccion_C(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterCableInstruction(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitInstruccion_C(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitCableInstruction(this);
 		}
 	}
 
-	public final Instruccion_CContext instruccion_C() throws RecognitionException {
-		Instruccion_CContext _localctx = new Instruccion_CContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_instruccion_C);
+	public final CableInstructionContext cableInstruction() throws RecognitionException {
+		CableInstructionContext _localctx = new CableInstructionContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_cableInstruction);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(26);
-			match(IDNT);
+			match(IDENTIFIER);
 			setState(27);
 			match(T__4);
 			setState(28);
-			instr_arg();
+			instructionArgument();
 			setState(29);
 			match(T__5);
 			setState(30);
@@ -251,7 +252,7 @@ public class SicomeParser extends Parser {
 				{
 				{
 				setState(31);
-				step();
+				cableStep();
 				}
 				}
 				setState(34); 
@@ -274,24 +275,24 @@ public class SicomeParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Instr_argContext extends ParserRuleContext {
-		public Instr_argContext(ParserRuleContext parent, int invokingState) {
+	public static class InstructionArgumentContext extends ParserRuleContext {
+		public InstructionArgumentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_instr_arg; }
+		@Override public int getRuleIndex() { return RULE_instructionArgument; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterInstr_arg(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterInstructionArgument(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitInstr_arg(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitInstructionArgument(this);
 		}
 	}
 
-	public final Instr_argContext instr_arg() throws RecognitionException {
-		Instr_argContext _localctx = new Instr_argContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_instr_arg);
+	public final InstructionArgumentContext instructionArgument() throws RecognitionException {
+		InstructionArgumentContext _localctx = new InstructionArgumentContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_instructionArgument);
 		try {
 			setState(41);
 			_errHandler.sync(this);
@@ -331,68 +332,68 @@ public class SicomeParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class StepContext extends ParserRuleContext {
-		public StepContext(ParserRuleContext parent, int invokingState) {
+	public static class CableStepContext extends ParserRuleContext {
+		public CableStepContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_step; }
+		@Override public int getRuleIndex() { return RULE_cableStep; }
 	 
-		public StepContext() { }
-		public void copyFrom(StepContext ctx) {
+		public CableStepContext() { }
+		public void copyFrom(CableStepContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class SimpleStepContext extends StepContext {
-		public List<Flow_control_CContext> flow_control_C() {
-			return getRuleContexts(Flow_control_CContext.class);
+	public static class ConditionalCableStepBlockContext extends CableStepContext {
+		public List<ConditionalCableStepContext> conditionalCableStep() {
+			return getRuleContexts(ConditionalCableStepContext.class);
 		}
-		public Flow_control_CContext flow_control_C(int i) {
-			return getRuleContext(Flow_control_CContext.class,i);
+		public ConditionalCableStepContext conditionalCableStep(int i) {
+			return getRuleContext(ConditionalCableStepContext.class,i);
+		}
+		public ConditionalCableStepBlockContext(CableStepContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterConditionalCableStepBlock(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitConditionalCableStepBlock(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class SimpleCableStepContext extends CableStepContext {
+		public List<CableFlowControlContext> cableFlowControl() {
+			return getRuleContexts(CableFlowControlContext.class);
+		}
+		public CableFlowControlContext cableFlowControl(int i) {
+			return getRuleContext(CableFlowControlContext.class,i);
 		}
 		public List<TerminalNode> MICRO_INSTR() { return getTokens(SicomeParser.MICRO_INSTR); }
 		public TerminalNode MICRO_INSTR(int i) {
 			return getToken(SicomeParser.MICRO_INSTR, i);
 		}
-		public SimpleStepContext(StepContext ctx) { copyFrom(ctx); }
+		public SimpleCableStepContext(CableStepContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterSimpleStep(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterSimpleCableStep(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitSimpleStep(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
-	public static class ConditionalStepContext extends StepContext {
-		public List<Cond_stepContext> cond_step() {
-			return getRuleContexts(Cond_stepContext.class);
-		}
-		public Cond_stepContext cond_step(int i) {
-			return getRuleContext(Cond_stepContext.class,i);
-		}
-		public ConditionalStepContext(StepContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterConditionalStep(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitConditionalStep(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitSimpleCableStep(this);
 		}
 	}
 
-	public final StepContext step() throws RecognitionException {
-		StepContext _localctx = new StepContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_step);
+	public final CableStepContext cableStep() throws RecognitionException {
+		CableStepContext _localctx = new CableStepContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_cableStep);
 		int _la;
 		try {
 			setState(66);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__8:
-				_localctx = new SimpleStepContext(_localctx);
+				_localctx = new SimpleCableStepContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(43);
@@ -404,7 +405,7 @@ public class SicomeParser extends Parser {
 					{
 					{
 					setState(44);
-					flow_control_C();
+					cableFlowControl();
 					}
 					}
 					setState(47); 
@@ -432,7 +433,7 @@ public class SicomeParser extends Parser {
 				}
 				break;
 			case T__2:
-				_localctx = new ConditionalStepContext(_localctx);
+				_localctx = new ConditionalCableStepBlockContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(58);
@@ -444,13 +445,13 @@ public class SicomeParser extends Parser {
 					{
 					{
 					setState(59);
-					cond_step();
+					conditionalCableStep();
 					}
 					}
 					setState(62); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( _la==BIT_ESTATUS );
+				} while ( _la==FLAG );
 				setState(64);
 				match(T__3);
 				}
@@ -471,38 +472,38 @@ public class SicomeParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Cond_stepContext extends ParserRuleContext {
-		public List<TerminalNode> BIT_ESTATUS() { return getTokens(SicomeParser.BIT_ESTATUS); }
-		public TerminalNode BIT_ESTATUS(int i) {
-			return getToken(SicomeParser.BIT_ESTATUS, i);
+	public static class ConditionalCableStepContext extends ParserRuleContext {
+		public List<TerminalNode> FLAG() { return getTokens(SicomeParser.FLAG); }
+		public TerminalNode FLAG(int i) {
+			return getToken(SicomeParser.FLAG, i);
 		}
-		public List<Flow_control_CContext> flow_control_C() {
-			return getRuleContexts(Flow_control_CContext.class);
+		public List<CableFlowControlContext> cableFlowControl() {
+			return getRuleContexts(CableFlowControlContext.class);
 		}
-		public Flow_control_CContext flow_control_C(int i) {
-			return getRuleContext(Flow_control_CContext.class,i);
+		public CableFlowControlContext cableFlowControl(int i) {
+			return getRuleContext(CableFlowControlContext.class,i);
 		}
 		public List<TerminalNode> MICRO_INSTR() { return getTokens(SicomeParser.MICRO_INSTR); }
 		public TerminalNode MICRO_INSTR(int i) {
 			return getToken(SicomeParser.MICRO_INSTR, i);
 		}
-		public Cond_stepContext(ParserRuleContext parent, int invokingState) {
+		public ConditionalCableStepContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_cond_step; }
+		@Override public int getRuleIndex() { return RULE_conditionalCableStep; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterCond_step(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterConditionalCableStep(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitCond_step(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitConditionalCableStep(this);
 		}
 	}
 
-	public final Cond_stepContext cond_step() throws RecognitionException {
-		Cond_stepContext _localctx = new Cond_stepContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_cond_step);
+	public final ConditionalCableStepContext conditionalCableStep() throws RecognitionException {
+		ConditionalCableStepContext _localctx = new ConditionalCableStepContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_conditionalCableStep);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -514,13 +515,13 @@ public class SicomeParser extends Parser {
 				{
 				{
 				setState(68);
-				match(BIT_ESTATUS);
+				match(FLAG);
 				}
 				}
 				setState(71); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==BIT_ESTATUS );
+			} while ( _la==FLAG );
 			setState(73);
 			match(T__11);
 			setState(74);
@@ -532,7 +533,7 @@ public class SicomeParser extends Parser {
 				{
 				{
 				setState(75);
-				flow_control_C();
+				cableFlowControl();
 				}
 				}
 				setState(78); 
@@ -571,52 +572,52 @@ public class SicomeParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class Flow_control_CContext extends ParserRuleContext {
-		public Flow_control_CContext(ParserRuleContext parent, int invokingState) {
+	public static class CableFlowControlContext extends ParserRuleContext {
+		public CableFlowControlContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_flow_control_C; }
+		@Override public int getRuleIndex() { return RULE_cableFlowControl; }
 	 
-		public Flow_control_CContext() { }
-		public void copyFrom(Flow_control_CContext ctx) {
+		public CableFlowControlContext() { }
+		public void copyFrom(CableFlowControlContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class SimpleFlowControlContext extends Flow_control_CContext {
-		public SimpleFlowControlContext(Flow_control_CContext ctx) { copyFrom(ctx); }
+	public static class SimpleCableFlowControlContext extends CableFlowControlContext {
+		public SimpleCableFlowControlContext(CableFlowControlContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterSimpleFlowControl(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterSimpleCableFlowControl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitSimpleFlowControl(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitSimpleCableFlowControl(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class ComplexFlowControlContext extends Flow_control_CContext {
-		public TerminalNode DECN() { return getToken(SicomeParser.DECN, 0); }
-		public ComplexFlowControlContext(Flow_control_CContext ctx) { copyFrom(ctx); }
+	public static class ComplexCableFlowControlContext extends CableFlowControlContext {
+		public TerminalNode NUMBER() { return getToken(SicomeParser.NUMBER, 0); }
+		public ComplexCableFlowControlContext(CableFlowControlContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterComplexFlowControl(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterComplexCableFlowControl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitComplexFlowControl(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitComplexCableFlowControl(this);
 		}
 	}
 
-	public final Flow_control_CContext flow_control_C() throws RecognitionException {
-		Flow_control_CContext _localctx = new Flow_control_CContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_flow_control_C);
+	public final CableFlowControlContext cableFlowControl() throws RecognitionException {
+		CableFlowControlContext _localctx = new CableFlowControlContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_cableFlowControl);
 		try {
 			setState(99);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__12:
-				_localctx = new ComplexFlowControlContext(_localctx);
+				_localctx = new ComplexCableFlowControlContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(89);
@@ -624,13 +625,13 @@ public class SicomeParser extends Parser {
 				setState(90);
 				match(T__4);
 				setState(91);
-				match(DECN);
+				match(NUMBER);
 				setState(92);
 				match(T__5);
 				}
 				break;
 			case T__13:
-				_localctx = new ComplexFlowControlContext(_localctx);
+				_localctx = new ComplexCableFlowControlContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(93);
@@ -638,13 +639,13 @@ public class SicomeParser extends Parser {
 				setState(94);
 				match(T__4);
 				setState(95);
-				match(DECN);
+				match(NUMBER);
 				setState(96);
 				match(T__5);
 				}
 				break;
 			case T__14:
-				_localctx = new SimpleFlowControlContext(_localctx);
+				_localctx = new SimpleCableFlowControlContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(97);
@@ -652,7 +653,7 @@ public class SicomeParser extends Parser {
 				}
 				break;
 			case T__15:
-				_localctx = new SimpleFlowControlContext(_localctx);
+				_localctx = new SimpleCableFlowControlContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(98);
