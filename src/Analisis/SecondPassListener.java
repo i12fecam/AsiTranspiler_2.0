@@ -3,6 +3,7 @@ package Analisis;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class SecondPassListener extends SicomeBaseListener {
         _st=st;
     }
     @Override
-    public void enterSimpleStep(SicomeParser.SimpleStepContext ctx) {
+    public void enterSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) {
         //TODO mirar si es necesario hacer esta comprobacion en cableado
         /*
         Set<MicroInstruction> mInstrList = HashSet.newHashSet(6);
@@ -40,8 +41,8 @@ public class SecondPassListener extends SicomeBaseListener {
      * @param ctx the parse tree
      */
     @Override
-    public void enterConditionalStep(SicomeParser.ConditionalStepContext ctx) {
-        List<SicomeParser.Cond_stepContext> conds = ctx.cond_step();
+    public void enterConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx) {
+        List<TerminalNode> conds = ctx.FLAG();
         /**
          * A B C D E F
          * 0 0 T F T F
@@ -69,10 +70,11 @@ public class SecondPassListener extends SicomeBaseListener {
     int currentFunction = 0;
 
     @Override
-    public void enterInstruccion_C(SicomeParser.Instruccion_CContext ctx) {
+    public void enterCableInstruction(SicomeParser.CableInstructionContext ctx ) {
         currentFunction = _ids.get(ctx);
     }
-
+    //TODO reimplementar esto
+    /*
     @Override
     public void enterComplexFlowControl(SicomeParser.ComplexFlowControlContext ctx) {
         int jumpDir= Integer.parseInt(ctx.DECN().getText());
@@ -80,5 +82,7 @@ public class SecondPassListener extends SicomeBaseListener {
             //TODO lanzar error de valor de salto sin sentido
         }
     }
+
+     */
 }
 

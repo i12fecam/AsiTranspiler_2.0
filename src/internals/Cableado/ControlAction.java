@@ -8,7 +8,7 @@ public class ControlAction {
 
 
     public ControlAction(String text){
-
+            //TODO rellenar
     }
 
     public String getControlText(){

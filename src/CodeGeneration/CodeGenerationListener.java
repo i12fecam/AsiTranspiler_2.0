@@ -45,5 +45,15 @@ public class CodeGenerationListener extends SicomeBaseListener {
         }
 
         //TODO reestructurar para que los listeners estén más abajo en el arbol
+        List<SicomeParser.CableFlowControlContext> controlFlowList = ctx.cableFlowControl();
+        for(SicomeParser.CableFlowControlContext cf: controlFlowList){
+                if(cf instanceof Sicome){
+                    SicomeParser.ComplexCableFlowControlContext complexCF = (SicomeParser.ComplexCableFlowControlContext) cf;
+                    int num =Integer.parseInt(complexCF.NUMBER().getText());
+                    complexCF.
+                }
+        }
     }
+
+
 }

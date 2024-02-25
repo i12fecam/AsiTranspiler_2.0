@@ -16,14 +16,16 @@ public class FirstPassListener extends SicomeBaseListener {
     ParseTreeProperty<Integer> ids = new ParseTreeProperty<Integer>();
 
 
-    @Override
-    public void enterInstruccion_C(SicomeParser.Instruccion_CContext ctx) {
-        int id =cl.addFunction(ctx.IDNT().getText(),ctx.instr_arg().getText());
-        ids.put(ctx,id);
 
-        List<SicomeParser.StepContext> steps =ctx.step();
+
+    @Override
+    public void enterCableInstruction(SicomeParser.CableInstructionContext ctx) {
+        int id =cl.addFunction(ctx.IDENTIFIER().getText(),ctx.instructionArgument().getText());//TODO Posible mejor forma de lanzar errores
+
+        ids.put(ctx,id);
+        List<SicomeParser.CableStepContext> steps =ctx.cableStep();
         int step_id = 0 ;
-        for(SicomeParser.StepContext step : steps){
+        for(SicomeParser.CableStepContext step : steps){
             ids.put(ctx,step_id);
             step_id++;
             cl.addStepToFunction(id,step_id);
