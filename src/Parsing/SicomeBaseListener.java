@@ -100,25 +100,49 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterComplexCableFlowControl(SicomeParser.ComplexCableFlowControlContext ctx) { }
+	@Override public void enterLoadSC_FlowControl(SicomeParser.LoadSC_FlowControlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitComplexCableFlowControl(SicomeParser.ComplexCableFlowControlContext ctx) { }
+	@Override public void exitLoadSC_FlowControl(SicomeParser.LoadSC_FlowControlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSimpleCableFlowControl(SicomeParser.SimpleCableFlowControlContext ctx) { }
+	@Override public void enterLoadSR_CableFlowControl(SicomeParser.LoadSR_CableFlowControlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSimpleCableFlowControl(SicomeParser.SimpleCableFlowControlContext ctx) { }
+	@Override public void exitLoadSR_CableFlowControl(SicomeParser.LoadSR_CableFlowControlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSRPlus_CableFlowControl(SicomeParser.SRPlus_CableFlowControlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSRPlus_CableFlowControl(SicomeParser.SRPlus_CableFlowControlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSCMinus_CableFlowControl(SicomeParser.SCMinus_CableFlowControlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSCMinus_CableFlowControl(SicomeParser.SCMinus_CableFlowControlContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

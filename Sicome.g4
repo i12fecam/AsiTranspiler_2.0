@@ -23,7 +23,7 @@ cableFlowControl: 'LOAD_SC' '('NUMBER ')' #LoadSC_FlowControl
           ;
 
 NUMBER: [0-9]+;
-IDENTIFIER: [a-zA-Z]+;
+IDENTIFIER: [a-zA-Z]+[a-zA-Z0-9]*;
 MICRO_INSTR:[a-zA-Z->+]+;//no se si poner mas simbolos que acepte
 FLAG:[a-zA-Z!]+;//debo especificar que puede tener interrogación al principio o no?
 

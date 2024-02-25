@@ -5,6 +5,7 @@ import internals.FlagStatus;
 import internals.MicroInstruction;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class LogicFileGenerator {
@@ -13,7 +14,7 @@ class LogicFileGenerator {
      */
     Map<MicroInstruction, String> MImap = new HashMap<>(24);
 
-    public void addMicroInstructionUse(MicroInstruction mi, int id_func, int id_step, FlagStatus... flags) {
+    public void addMicroInstructionUse(MicroInstruction mi, int id_func, int id_step, List<FlagStatus> flags) {
         String uses = MImap.get(mi);
         StringBuilder builder = new StringBuilder(uses);
         if (uses == null) {
@@ -43,7 +44,7 @@ class LogicFileGenerator {
 
     Map<ControlAction, String> ControlMap = new HashMap<>(24);
 
-    public void addControlActionUse(ControlAction action, int id_func, int id_step, FlagStatus... flags) {
+    public void addControlActionUse(ControlAction action, int id_func, int id_step, List<FlagStatus> flags) {
         String uses = ControlMap.get(action);
         StringBuilder builder = new StringBuilder(uses);
         if (uses == null) {//TODO detecta que siempre sera null posible error?

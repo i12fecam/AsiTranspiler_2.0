@@ -8,12 +8,39 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    private static String readFile(String filePath) throws IOException {
+        Path path = Paths.get(filePath);
+        return Files.readString(path);
+    }
+    public static void main(String[] args) throws IOException{
 
-        ANTLRInputStream input = new ANTLRInputStream(System.in);
-        SicomeLexer lexer = new SicomeLexer(input);
+        String filePath = "";
+        String fileContent = "@cableado\n" +
+                "instrucciones {\n" +
+                "    instruccion1(){\n" +
+                "        [SR+1->SR] PC+1->PC;\n" +
+                "    }\n" +
+                "\n" +
+                "    instruccion2(value){\n" +
+                "        [SR+1->SR] PC+1->PC;\n" +
+                "    }\n" +
+                "\n" +
+                "    instruccion3(dir){\n" +
+                "        [SR+1->SR] PC+1->PC;\n" +
+                "    }\n" +
+                "}";
+
+        //fileContent = readFile(filePath);
+
+
+        //System.err.println("Error reading the file" + ex.getMessage());
+
+        SicomeLexer lexer = new SicomeLexer(CharStreams.fromString(fileContent));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         SicomeParser parser = new SicomeParser(tokens);
         ParseTree tree = parser.prog();

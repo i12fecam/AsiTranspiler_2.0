@@ -1,18 +1,23 @@
 package internals.Cableado;
 
 public class ControlAction {
-    ControlEnum tipo;
-    int value;
+    ControlEnum _tipo;
+    int _value;
 
 
 
 
-    public ControlAction(String text){
-            //TODO rellenar
+    public ControlAction(ControlEnum control,Integer value){
+            _tipo=control;
+            if(value!=null){
+                _value=value;
+            }
+
+
     }
 
     public String getControlText(){
-        switch (tipo){
+        switch (_tipo){
             case LOAD_SC -> {
                 return "LOAD SC";
             }
@@ -30,8 +35,8 @@ public class ControlAction {
         return null;
     }
 
-    public int getValue(){
-        return value;
+    public int get_value(){
+        return _value;
     }
     @Override
     public boolean equals(Object o) {
@@ -40,12 +45,12 @@ public class ControlAction {
 
         ControlAction that = (ControlAction) o;
 
-        return tipo == that.tipo;
+        return _tipo == that._tipo;
     }
 
     @Override
     public int hashCode() {
-        return tipo != null ? tipo.hashCode() : 0;
+        return _tipo != null ? _tipo.hashCode() : 0;
     }
 
 

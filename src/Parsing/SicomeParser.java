@@ -584,28 +584,53 @@ public class SicomeParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class SimpleCableFlowControlContext extends CableFlowControlContext {
-		public SimpleCableFlowControlContext(CableFlowControlContext ctx) { copyFrom(ctx); }
+	public static class SRPlus_CableFlowControlContext extends CableFlowControlContext {
+		public SRPlus_CableFlowControlContext(CableFlowControlContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterSimpleCableFlowControl(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterSRPlus_CableFlowControl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitSimpleCableFlowControl(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitSRPlus_CableFlowControl(this);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class ComplexCableFlowControlContext extends CableFlowControlContext {
+	public static class LoadSR_CableFlowControlContext extends CableFlowControlContext {
 		public TerminalNode NUMBER() { return getToken(SicomeParser.NUMBER, 0); }
-		public ComplexCableFlowControlContext(CableFlowControlContext ctx) { copyFrom(ctx); }
+		public LoadSR_CableFlowControlContext(CableFlowControlContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterComplexCableFlowControl(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterLoadSR_CableFlowControl(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitComplexCableFlowControl(this);
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitLoadSR_CableFlowControl(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class LoadSC_FlowControlContext extends CableFlowControlContext {
+		public TerminalNode NUMBER() { return getToken(SicomeParser.NUMBER, 0); }
+		public LoadSC_FlowControlContext(CableFlowControlContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterLoadSC_FlowControl(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitLoadSC_FlowControl(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class SCMinus_CableFlowControlContext extends CableFlowControlContext {
+		public SCMinus_CableFlowControlContext(CableFlowControlContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).enterSCMinus_CableFlowControl(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SicomeListener ) ((SicomeListener)listener).exitSCMinus_CableFlowControl(this);
 		}
 	}
 
@@ -617,7 +642,7 @@ public class SicomeParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__12:
-				_localctx = new ComplexCableFlowControlContext(_localctx);
+				_localctx = new LoadSC_FlowControlContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(89);
@@ -631,7 +656,7 @@ public class SicomeParser extends Parser {
 				}
 				break;
 			case T__13:
-				_localctx = new ComplexCableFlowControlContext(_localctx);
+				_localctx = new LoadSR_CableFlowControlContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(93);
@@ -645,7 +670,7 @@ public class SicomeParser extends Parser {
 				}
 				break;
 			case T__14:
-				_localctx = new SimpleCableFlowControlContext(_localctx);
+				_localctx = new SRPlus_CableFlowControlContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(97);
@@ -653,7 +678,7 @@ public class SicomeParser extends Parser {
 				}
 				break;
 			case T__15:
-				_localctx = new SimpleCableFlowControlContext(_localctx);
+				_localctx = new SCMinus_CableFlowControlContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(98);
