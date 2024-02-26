@@ -22,12 +22,12 @@ public class Main {
         String filePath = "";
         String fileContent = "@cableado\n" +
                 "instrucciones {\n" +
-                "    instruccion1( ){\n" +
+                "    instruccion1(){\n" +
                 "        [SR+1->SR] PC+1->PC;\n" +
                 "        [LOAD_SC ( 0 ) ] ACC->GPR;\n" +
                 "        {\n" +
-                "        Zsc : [LOAD_SC ( 0 ) ] QR->GPR;\n" +
-                "        !Zsc: [LOAD_SC ( 3 ) ] M->QR;\n" +
+                "        Zsc : [LOAD_SC(0) ] QR->GPR;\n" +
+                "        !Zsc: [LOAD_SC(3 ) ] M->QR;\n" +
                 "        }\n" +
                 "    }\n" +
                 "\n" +

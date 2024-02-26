@@ -8,7 +8,7 @@ public enum Flag {
     Ovf("Ovf","Ovf"),
     N("N","N"),
     Qn("Qn","Qn"),
-    Qn_plus("Qn1","Qn_plus"),
+    Qn_plus("Qn+","Qn_plus"),
     As("As","As"),
     Qs("Qs","Qs"),
     Bs("Bs","Bs"),

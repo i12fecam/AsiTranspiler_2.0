@@ -56,7 +56,7 @@ class LogicFileGenerator {
         } else {
             builder = new StringBuilder(uses);
             builder.append(" + ");
-            builder.append("t").append(id_step+4);
+            builder.append("t").append(id_step);
             builder.append("·");
             builder.append("q").append(id_func);
             if(flags!=null) {
@@ -87,12 +87,16 @@ class LogicFileGenerator {
             if(id_func != null) {
                 builder.append("·");
                 builder.append("q").append(id_func);
+
             }
             if(flags!=null) {
                 for (FlagStatus flag : flags) {
                     builder.append("·");
                     builder.append(flag.getOutputName());
                 }
+            }
+            if(action.getValue()!=null){
+                builder.append("-").append(action.getValue());
             }
             ControlMap.put(action, builder.toString());
         } else {

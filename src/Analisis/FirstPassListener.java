@@ -28,15 +28,15 @@ public class FirstPassListener extends SicomeBaseListener {
         else{
             args =ctx.instructionArgument().getText();
         }
-        int id =cl.addFunction(functionName,args);//TODO Posible mejor forma de lanzar errores
+        int instr_id =cl.addFunction(functionName,args);//TODO Posible mejor forma de lanzar errores
 
-        ids.put(ctx,id);
+        ids.put(ctx,instr_id);
         List<SicomeParser.CableStepContext> steps =ctx.cableStep();
         int step_id = 0 ;
         for(SicomeParser.CableStepContext step : steps){
             ids.put(step,step_id);
             step_id++;
-            cl.addStepToFunction(id,step_id);
+            cl.addStepToFunction(instr_id,1);
         }
     }
 

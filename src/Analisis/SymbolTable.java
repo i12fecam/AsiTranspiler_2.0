@@ -19,8 +19,8 @@ public class SymbolTable {
     }
 
 
-    public void addStepToFunction(int id, int stepId) {
-        functions.elementAt(id).addStep(stepId);
+    public void addStepToFunction(int instr_id, int nStep) {
+        functions.elementAt(instr_id).addStep(nStep);
     }
 
     public int getNsteps(int idFunction) {

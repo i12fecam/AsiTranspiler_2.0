@@ -9,8 +9,11 @@ public class ControlAction {
 
     public ControlAction(ControlEnum control,Integer value){
             _tipo=control;
-            if(value!=null){
-                _value=value;
+            if(value==null){
+                _value=0;
+            }
+            else{
+                _value=value+3;//TODO esto es especifico de cableado, posible reformetadeado
             }
 
 
@@ -35,7 +38,8 @@ public class ControlAction {
         return null;
     }
 
-    public int get_value(){
+
+    public Integer getValue(){
         return _value;
     }
     @Override
