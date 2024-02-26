@@ -4,11 +4,11 @@ instrucciones {
         [SR+1->SR] PC+1->PC;
     }
 
-    instruccion2(value){
+    instruccion2 ( value ) {
         [SR+1->SR] PC+1->PC;
     }
 
-    instruccion3(dir){
+    instruccion3 ( dir ) {
         [SR+1->SR] PC+1->PC;
     }
 }

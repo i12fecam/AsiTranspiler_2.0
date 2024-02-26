@@ -22,16 +22,16 @@ public class Main {
         String filePath = "";
         String fileContent = "@cableado\n" +
                 "instrucciones {\n" +
-                "    instruccion1(){\n" +
-                "        [SR+1->SR] PC+1->PC;\n" +
+                "    instruccion1 ( ) {\n" +
+                "        [SR+1->SR] PC->MAR ;\n" +
                 "    }\n" +
                 "\n" +
-                "    instruccion2(value){\n" +
-                "        [SR+1->SR] PC+1->PC;\n" +
+                "    instruccion2 ( value ) {\n" +
+                "        [SR+1->SR] ACC->GPR ;\n" +
                 "    }\n" +
                 "\n" +
-                "    instruccion3(dir){\n" +
-                "        [SR+1->SR] PC+1->PC;\n" +
+                "    instruccion3 ( dir ) {\n" +
+                "        [SR+1->SR] ACC->GPR ;\n" +
                 "    }\n" +
                 "}";
 

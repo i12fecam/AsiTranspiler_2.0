@@ -7,9 +7,15 @@ import java.util.Vector;
 public class SymbolTable {
     Vector<Function> functions = new Vector<>();
 
+    /**
+     *
+     * @param functionName
+     * @param functionArg
+     * @return the id of the registered function
+     */
     int addFunction(String functionName,String functionArg){
-        functions.add(new Function(functionName,functionArg,functions.size()+1));
-        return functions.size();
+        functions.add(new Function(functionName,functionArg,functions.size()));
+        return functions.size()-1;
     }
 
 

@@ -18,12 +18,14 @@ public class CodeGenerationListener extends SicomeBaseListener {
     SymbolTable _symbols = null;
      public CodeGenerationListener(ParseTreeProperty<Integer> ids, SymbolTable st){
         _ids = ids;
-        _symbols=st;
+        _symbols = st;
+        logic = new LogicFileGenerator();
+        repository = new RepositoryFileGenerator(_symbols);
     }
 
-    LogicFileGenerator logic = new LogicFileGenerator();
+    LogicFileGenerator logic;
 
-     RepositoryFileGenerator repository = new RepositoryFileGenerator(_symbols);
+     RepositoryFileGenerator repository;
 
     public String getLogicFileString(){
         return logic.getLogicText();
@@ -41,7 +43,8 @@ public class CodeGenerationListener extends SicomeBaseListener {
 
         //Añadir todas las instruciones
         for (TerminalNode mInstr : ctx.MICRO_INSTR()) {
-            MicroInstruction mi = MicroInstruction.valueOfInput(ctx.getText());
+            MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
+            if(mi== null) throw new RuntimeException("Microinstruction not recognized");//TODO mejorar este error
             logic.addMicroInstructionUse(mi, id_func, id_step,  null);
 
         }
@@ -84,12 +87,16 @@ public class CodeGenerationListener extends SicomeBaseListener {
         //Procesar las flags
         List<FlagStatus> flags = new ArrayList<>();
         for(TerminalNode flag: ctx.FLAG()){
-            flags.add(FlagStatus.ValueOfInput(flag.getText()));
+            FlagStatus newFlag = FlagStatus.ValueOfInput(flag.getText());
+            if(newFlag == null) throw new RuntimeException("Flag not recognized"); //TODO reformular error
+            flags.add(newFlag);
+
         }
 
 
         for (TerminalNode mInstr : ctx.MICRO_INSTR()) {
-            MicroInstruction mi = MicroInstruction.valueOfInput(ctx.getText());
+            MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
+            if(mi == null) throw new RuntimeException("MicroInstruction not recognized");//TODO reformular
             logic.addMicroInstructionUse(mi, id_func, id_step, flags);
 
         }

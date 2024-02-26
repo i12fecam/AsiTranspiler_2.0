@@ -16,26 +16,32 @@ class LogicFileGenerator {
 
     public void addMicroInstructionUse(MicroInstruction mi, int id_func, int id_step, List<FlagStatus> flags) {
         String uses = MImap.get(mi);
-        StringBuilder builder = new StringBuilder(uses);
+        StringBuilder builder = null;
         if (uses == null) {
+            builder = new StringBuilder();
             builder.append(mi.outputName);
             builder.append(":");
             builder.append("t").append(id_step);
             builder.append("·");
             builder.append("q").append(id_func);
-            for (FlagStatus flag : flags) {
-                builder.append("·");
-                builder.append(flag.getOutputName());
+            if(flags!=null) {
+                for (FlagStatus flag : flags) {
+                    builder.append("·");
+                    builder.append(flag.getOutputName());
+                }
             }
             MImap.put(mi, builder.toString());
         } else {
+            builder = new StringBuilder(uses);
             builder.append(" + ");
             builder.append("t").append(id_step);
             builder.append("·");
             builder.append("q").append(id_func);
-            for (FlagStatus flag : flags) {
-                builder.append("·");
-                builder.append(flag.getOutputName());
+            if(flags!=null) {
+                for (FlagStatus flag : flags) {
+                    builder.append("·");
+                    builder.append(flag.getOutputName());
+                }
             }
             MImap.put(mi, builder.toString());
         }
@@ -46,26 +52,32 @@ class LogicFileGenerator {
 
     public void addControlActionUse(ControlAction action, int id_func, int id_step, List<FlagStatus> flags) {
         String uses = ControlMap.get(action);
-        StringBuilder builder = new StringBuilder(uses);
+        StringBuilder builder;
         if (uses == null) {//TODO detecta que siempre sera null posible error?
+            builder = new StringBuilder();
             builder.append(action.getControlText());
             builder.append(":");
             builder.append("t").append(id_step);
             builder.append("·");
             builder.append("q").append(id_func);
-            for (FlagStatus flag : flags) {
-                builder.append("·");
-                builder.append(flag.getOutputName());
+            if(flags!=null) {
+                for (FlagStatus flag : flags) {
+                    builder.append("·");
+                    builder.append(flag.getOutputName());
+                }
             }
             ControlMap.put(action, builder.toString());
         } else {
+            builder = new StringBuilder(uses);
             builder.append(" + ");
             builder.append("t").append(id_step);
             builder.append("·");
             builder.append("q").append(id_func);
-            for (FlagStatus flag : flags) {
-                builder.append("·");
-                builder.append(flag.getOutputName());
+            if(flags!=null) {
+                for (FlagStatus flag : flags) {
+                    builder.append("·");
+                    builder.append(flag.getOutputName());
+                }
             }
             ControlMap.put(action, builder.toString());
         }

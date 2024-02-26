@@ -13,7 +13,7 @@ public enum MicroInstruction {
     gpr_to_pc("GPR->PC","GPR->PC"),
     sp_plus_to_pc("SP+1->SP","SP+1->SP"),
     sp_minus_to_pc("SP-1->SP","SP-1->SP"),
-    load_sc("LOAD_SC","LOAD_SC"),
+    load_sc("LOAD_SC","LOAD_SC"),//TODO esto de que va
     sc_minus_to_sc("SC-1->SC","SC-1->SC"),
     //GPR
     m_to_gpr("M->GPR","M->GPR"),
