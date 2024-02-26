@@ -14,7 +14,27 @@ class LogicFileGenerator {
      */
     Map<MicroInstruction, String> MImap = new HashMap<>(24);
 
-    public void addMicroInstructionUse(MicroInstruction mi, int id_func, int id_step, List<FlagStatus> flags) {
+    LogicFileGenerator(){
+        //Se añade las instrucciones correspondientes al fetch
+        addMicroInstructionUse(MicroInstruction.pc_to_mar,null,0,null);
+
+        addMicroInstructionUse(MicroInstruction.pc_plus_to_pc,null,1,null);
+        addMicroInstructionUse(MicroInstruction.m_to_gpr,null,1,null);
+
+        addMicroInstructionUse(MicroInstruction.gpr_ad_to_mar,null,2,null);
+        addMicroInstructionUse(MicroInstruction.gpr_op_to_opr,null,2,null);
+    }
+
+    public void addMicroInstructionUse(MicroInstruction mi, Integer id_func, int id_step, List<FlagStatus> flags) {
+
+        /*Cuando no tiene funciones asociadas se asume que es una instrucción de fetch
+         Si no es de fetch se le ñade 3 pasos mas porque esos tres son los que pertence al inicio de fetch
+         */
+        if(id_func != null){
+            id_step+=3;
+        }
+
+
         String uses = MImap.get(mi);
         StringBuilder builder = null;
         if (uses == null) {
@@ -22,8 +42,10 @@ class LogicFileGenerator {
             builder.append(mi.outputName);
             builder.append(":");
             builder.append("t").append(id_step);
-            builder.append("·");
-            builder.append("q").append(id_func);
+            if(id_func!=null) {
+                builder.append("·");
+                builder.append("q").append(id_func);
+            }
             if(flags!=null) {
                 for (FlagStatus flag : flags) {
                     builder.append("·");
@@ -34,7 +56,7 @@ class LogicFileGenerator {
         } else {
             builder = new StringBuilder(uses);
             builder.append(" + ");
-            builder.append("t").append(id_step);
+            builder.append("t").append(id_step+4);
             builder.append("·");
             builder.append("q").append(id_func);
             if(flags!=null) {
@@ -50,16 +72,22 @@ class LogicFileGenerator {
 
     Map<ControlAction, String> ControlMap = new HashMap<>(24);
 
-    public void addControlActionUse(ControlAction action, int id_func, int id_step, List<FlagStatus> flags) {
+    public void addControlActionUse(ControlAction action, Integer id_func, int id_step, List<FlagStatus> flags) {
+
+        if(id_func != null){
+            id_step+=3;
+        }
         String uses = ControlMap.get(action);
         StringBuilder builder;
-        if (uses == null) {//TODO detecta que siempre sera null posible error?
+        if (uses == null) {
             builder = new StringBuilder();
             builder.append(action.getControlText());
             builder.append(":");
             builder.append("t").append(id_step);
-            builder.append("·");
-            builder.append("q").append(id_func);
+            if(id_func != null) {
+                builder.append("·");
+                builder.append("q").append(id_func);
+            }
             if(flags!=null) {
                 for (FlagStatus flag : flags) {
                     builder.append("·");
@@ -86,18 +114,19 @@ class LogicFileGenerator {
 
     public String getLogicText(){
         StringBuilder builder = new StringBuilder();
-        //TODO añadir instrucciones de bucle incial
+
+        builder.append("$").append("\n");
         for (Map.Entry<MicroInstruction,String> entry :MImap.entrySet()){
             builder.append(entry.getValue());
             builder.append("\n");
 
         }
-
+        builder.append("$").append("\n");
         for(Map.Entry<ControlAction,String> entry: ControlMap.entrySet()){
             builder.append(entry.getValue());
             builder.append("\n");
         }
-
+        builder.append("$").append("\n");
         return builder.toString();
     }
 }
