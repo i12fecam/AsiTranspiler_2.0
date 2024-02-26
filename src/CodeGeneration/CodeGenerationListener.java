@@ -103,13 +103,18 @@ public class CodeGenerationListener extends SicomeBaseListener {
 
         for(SicomeParser.CableFlowControlContext cf: ctx.cableFlowControl()){
             if(cf instanceof SicomeParser.LoadSC_FlowControlContext){
-                Integer num =Integer.parseInt(((SicomeParser.LoadSC_FlowControlContext) cf).NUMBER().getText());
+                Integer num = Integer.parseInt(((SicomeParser.LoadSC_FlowControlContext) cf).NUMBER().getText());
+
                 logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SC,num),
                         id_func,
                         id_step,
                         flags);
             } else if (cf instanceof SicomeParser.LoadSR_CableFlowControlContext) {
-                Integer num = Integer.parseInt(((SicomeParser.LoadSR_CableFlowControlContext) cf).NUMBER().getText());
+                Integer num =null;
+                if( ((SicomeParser.LoadSR_CableFlowControlContext) cf).NUMBER() != null){
+                    num =Integer.parseInt(((SicomeParser.LoadSR_CableFlowControlContext) cf).NUMBER().getText());
+                }
+
                 logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SR,num),
                         id_func,
                         id_step,

@@ -26,8 +26,8 @@ public class Main {
                 "        [SR+1->SR] PC+1->PC;\n" +
                 "        [LOAD_SC ( 0 ) ] ACC->GPR;\n" +
                 "        {\n" +
-                "        Zsc : [LOAD_SC(0) ] QR->GPR;\n" +
-                "        !Zsc: [LOAD_SC(3 ) ] M->QR;\n" +
+                "        Zsc : [LOAD_SR(0)] QR->GPR;\n" +
+                "        !Zsc: [LOAD_SR(START)] M->QR;\n" +
                 "        }\n" +
                 "    }\n" +
                 "\n" +
