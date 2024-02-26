@@ -128,4 +128,24 @@ public interface SicomeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSCMinus_CableFlowControl(SicomeParser.SCMinus_CableFlowControlContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#micro_instr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMicro_instr(SicomeParser.Micro_instrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#micro_instr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMicro_instr(SicomeParser.Micro_instrContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#flag}.
+	 * @param ctx the parse tree
+	 */
+	void enterFlag(SicomeParser.FlagContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#flag}.
+	 * @param ctx the parse tree
+	 */
+	void exitFlag(SicomeParser.FlagContext ctx);
 }

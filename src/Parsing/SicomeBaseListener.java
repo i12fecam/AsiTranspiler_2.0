@@ -143,6 +143,30 @@ public class SicomeBaseListener implements SicomeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSCMinus_CableFlowControl(SicomeParser.SCMinus_CableFlowControlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMicro_instr(SicomeParser.Micro_instrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMicro_instr(SicomeParser.Micro_instrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFlag(SicomeParser.FlagContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFlag(SicomeParser.FlagContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

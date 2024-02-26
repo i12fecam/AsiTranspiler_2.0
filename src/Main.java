@@ -22,17 +22,16 @@ public class Main {
         String filePath = "";
         String fileContent = "@cableado\n" +
                 "instrucciones {\n" +
-                "    instruccion1 ( ) {\n" +
-                "        [SR+1->SR] PC->MAR ;\n" +
+                "    instruccion1( ){\n" +
+                "        [SR+1->SR] PC+1->PC;\n" +
+                "        [LOAD_SC ( 0 ) ] ACC->GPR;\n" +
+                "        {\n" +
+                "        Zsc : [LOAD_SC ( 0 ) ] QR->GPR;\n" +
+                "        !Zsc: [LOAD_SC ( 3 ) ] M->QR;\n" +
+                "        }\n" +
                 "    }\n" +
                 "\n" +
-                "    instruccion2 ( value ) {\n" +
-                "        [SR+1->SR] ACC->GPR ;\n" +
-                "    }\n" +
                 "\n" +
-                "    instruccion3 ( dir ) {\n" +
-                "        [SR+1->SR] ACC->GPR ;\n" +
-                "    }\n" +
                 "}";
 
         //fileContent = readFile(filePath);
@@ -41,7 +40,11 @@ public class Main {
         //System.err.println("Error reading the file" + ex.getMessage());
 
         SicomeLexer lexer = new SicomeLexer(CharStreams.fromString(fileContent));
+
         CommonTokenStream tokens = new CommonTokenStream(lexer);
+        tokens.fill(); // Ensure all tokens are loaded
+        tokens.getTokens().forEach(System.out::println);
+
         SicomeParser parser = new SicomeParser(tokens);
         ParseTree tree = parser.prog();
 

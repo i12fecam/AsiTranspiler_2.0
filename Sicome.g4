@@ -10,23 +10,25 @@ instructionArgument: 'value'
          | 'dir'
          |
          ;
-cableStep: '[' cableFlowControl+']' MICRO_INSTR* ';'  #simpleCableStep
+cableStep: '[' cableFlowControl+']' micro_instr* ';'  #simpleCableStep
     | '{'conditionalCableStep+ '}'                         #conditionalCableStepBlock
     ;
 
-conditionalCableStep: FLAG+ ':' '[' cableFlowControl+ ']' MICRO_INSTR* ';' ;
+conditionalCableStep: flag (',' flag)* ':' '[' cableFlowControl+ ']' micro_instr* ';' ;
 
 cableFlowControl: 'LOAD_SC' '('NUMBER ')' #LoadSC_FlowControl
           | 'LOAD_SR' '(' NUMBER ')'     #LoadSR_CableFlowControl
           | 'SR+1->SR'                #SRPlus_CableFlowControl
           | 'SC-1->SC'                #SCMinus_CableFlowControl
           ;
-
+micro_instr: TEXT;
+flag: TEXT;
+//MICRO_INSTR:[A-Z!][A-Za-z\->+_@]*;//debe empezar por mayuscula
+//FLAG: ('!')?[A-Z+][a-z+]?[a-z1]?;//Tendido que
+IDENTIFIER: [a-z][a-zA-Z0-9]*; //debe empezar por minuscula
+TEXT: [A-Z!][a-zA-Z0-9+\->_@]* ;
 NUMBER: [0-9]+;
-IDENTIFIER: [a-zA-Z]+[a-zA-Z0-9]*;
-MICRO_INSTR:[a-zA-Z0-9\->+()_@]+;//El - debe ser escapado?
-FLAG:[a-zA-Z!]+;//debo especificar que puede tener interrogación al principio o no?
-
+//PC+1->PC !Zsc hola
 LINE_COMMENT: '//' .*? '\r'? '\n' -> skip;
 COMMENT : '/*' .*? '*/' -> skip ;
 

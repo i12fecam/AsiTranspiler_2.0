@@ -42,7 +42,7 @@ public class SecondPassListener extends SicomeBaseListener {
      */
     @Override
     public void enterConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx) {
-        List<TerminalNode> conds = ctx.FLAG();
+        List<SicomeParser.FlagContext> conds = ctx.flag();
         /**
          * A B C D E F
          * 0 0 T F T F

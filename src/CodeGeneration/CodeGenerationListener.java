@@ -42,7 +42,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
         int id_step = _ids.get(ctx);
 
         //Añadir todas las instruciones
-        for (TerminalNode mInstr : ctx.MICRO_INSTR()) {
+        for ( SicomeParser.Micro_instrContext mInstr: ctx.micro_instr()) {
             MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
             if(mi== null) throw new RuntimeException("Microinstruction not recognized");//TODO mejorar este error
             logic.addMicroInstructionUse(mi, id_func, id_step,  null);
@@ -86,7 +86,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
 
         //Procesar las flags
         List<FlagStatus> flags = new ArrayList<>();
-        for(TerminalNode flag: ctx.FLAG()){
+        for( SicomeParser.FlagContext flag: ctx.flag()){
             FlagStatus newFlag = FlagStatus.ValueOfInput(flag.getText());
             if(newFlag == null) throw new RuntimeException("Flag not recognized"); //TODO reformular error
             flags.add(newFlag);
@@ -94,7 +94,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
         }
 
 
-        for (TerminalNode mInstr : ctx.MICRO_INSTR()) {
+        for (SicomeParser.Micro_instrContext mInstr : ctx.micro_instr()) {
             MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
             if(mi == null) throw new RuntimeException("MicroInstruction not recognized");//TODO reformular
             logic.addMicroInstructionUse(mi, id_func, id_step, flags);
