@@ -41,32 +41,23 @@ class LogicFileGenerator {
             builder = new StringBuilder();
             builder.append(mi.outputName);
             builder.append(":");
-            builder.append("t").append(id_step);
-            if(id_func!=null) {
-                builder.append("·");
-                builder.append("q").append(id_func);
-            }
-            if(flags!=null) {
-                for (FlagStatus flag : flags) {
-                    builder.append("·");
-                    builder.append(flag.getOutputName());
-                }
-            }
-            MImap.put(mi, builder.toString());
-        } else {
+        }else {
             builder = new StringBuilder(uses);
             builder.append(" + ");
-            builder.append("t").append(id_step);
+        }
+        builder.append("t").append(id_step);
+        if(id_func!=null) {
             builder.append("·");
             builder.append("q").append(id_func);
-            if(flags!=null) {
-                for (FlagStatus flag : flags) {
-                    builder.append("·");
-                    builder.append(flag.getOutputName());
-                }
-            }
-            MImap.put(mi, builder.toString());
         }
+        if(flags!=null) {
+            for (FlagStatus flag : flags) {
+                builder.append("·");
+                builder.append(flag.getOutputName());
+            }
+        }
+        MImap.put(mi, builder.toString());
+
 
     }
 
@@ -83,36 +74,28 @@ class LogicFileGenerator {
             builder = new StringBuilder();
             builder.append(action.getControlText());
             builder.append(":");
-            builder.append("t").append(id_step);
-            if(id_func != null) {
-                builder.append("·");
-                builder.append("q").append(id_func);
-
-            }
-            if(flags!=null) {
-                for (FlagStatus flag : flags) {
-                    builder.append("·");
-                    builder.append(flag.getOutputName());
-                }
-            }
-            if(action.getValue()!=null){
-                builder.append("-").append(action.getValue());
-            }
-            ControlMap.put(action, builder.toString());
         } else {
             builder = new StringBuilder(uses);
             builder.append(" + ");
-            builder.append("t").append(id_step);
+        }
+
+        builder.append("t").append(id_step);
+        if(id_func != null) {
             builder.append("·");
             builder.append("q").append(id_func);
-            if(flags!=null) {
-                for (FlagStatus flag : flags) {
-                    builder.append("·");
-                    builder.append(flag.getOutputName());
-                }
-            }
-            ControlMap.put(action, builder.toString());
         }
+        if(flags!=null) {
+            for (FlagStatus flag : flags) {
+                builder.append("·");
+                builder.append(flag.getOutputName());
+            }
+        }
+        if(action.getValue()!=null){
+            builder.append("-").append(action.getValue());
+        }
+        ControlMap.put(action, builder.toString());
+
+
     }
 
 
