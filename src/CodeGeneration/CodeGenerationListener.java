@@ -35,7 +35,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
         return repository.getTextRepository();
     }
 
-
+    //To build the repository and logic
     @Override
     public void exitSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) {
         int id_func = _ids.get(ctx.getParent());
@@ -134,4 +134,6 @@ public class CodeGenerationListener extends SicomeBaseListener {
             }
         }
     }
+
+    //To build the program
 }

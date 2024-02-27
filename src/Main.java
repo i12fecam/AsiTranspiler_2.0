@@ -73,5 +73,7 @@ public class Main {
         System.out.println(cpass.getLogicFileString());
         System.out.println("Repositorio:");
         System.out.println(cpass.getRepositoryFileString());
+        System.out.println("Programa:");
+
     }
 }

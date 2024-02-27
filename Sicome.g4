@@ -1,6 +1,6 @@
 grammar Sicome;
 
-prog: cableInstructionBlock;
+prog: cableInstructionBlock variablesBlock programBlock;
 
 cableInstructionBlock: '@cableado' 'instrucciones''{' cableInstruction+ '}';
 
@@ -23,12 +23,23 @@ cableFlowControl: 'LOAD_SC' '('NUMBER ')' #LoadSC_FlowControl
           ;
 micro_instr: TEXT;
 flag: TEXT;
-//MICRO_INSTR:[A-Z!][A-Za-z\->+_@]*;//debe empezar por mayuscula
-//FLAG: ('!')?[A-Z+][a-z+]?[a-z1]?;//Tendido que
+
+variablesBlock: 'variables' '{' variableDeclaration* '}' ;
+variableDeclaration: id=IDENTIFIER '=' value=(HEXNUMBER | NUMBER )                #simpleVariableDeclaration
+                   | id=IDENTIFIER '[' size=NUMBER ']'  '=' value=(HEXNUMBER | NUMBER) #vectorVariableDeclaration
+                   ;
+
+programBlock: 'programa' '{' programLine* '}' ;
+programLine: name=IDENTIFIER arg=(NUMBER|HEXNUMBER|IDENTIFIER) #instructionUse
+            | 'MARK' label=IDENTIFIER #markUse
+            ;
+
+
 IDENTIFIER: [a-z][a-zA-Z0-9]*; //debe empezar por minuscula
 TEXT: [A-Z!][a-zA-Z0-9+\->_@]* ;
+HEXNUMBER: '0x'[0-9a-fA-F]+ ;
 NUMBER: [0-9]+;
-//PC+1->PC !Zsc hola
+
 LINE_COMMENT: '//' .*? '\r'? '\n' -> skip;
 COMMENT : '/*' .*? '*/' -> skip ;
 

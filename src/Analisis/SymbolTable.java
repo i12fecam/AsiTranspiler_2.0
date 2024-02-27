@@ -1,7 +1,10 @@
 package Analisis;
 
 import internals.Cableado.Function;
+import internals.Variable;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 public class SymbolTable {
@@ -29,5 +32,50 @@ public class SymbolTable {
 
     public  Vector<Function> getFunctions(){
         return functions;
+    }
+
+    /*
+        Variables
+     */
+    Vector<Variable> variables = new Vector<>();
+    public void addVariable(String variableName,int reservedSpace,int initializedValue ){
+        variables.add(new Variable(variableName,getNextAvailablePositionInMemory(),reservedSpace,initializedValue));
+    }
+
+    public void addVariable(String variableName, int reservedSpace, List<int> initializedValues){
+        variables.add(new Variable(variableName,getNextAvailablePositionInMemory(),reservedSpace,initializedValues));
+    }
+    public List<Variable> getVariables(){
+        return variables;
+    }
+    public Integer getVariablePositionInMemory(String variableName,int offset){
+        for(Variable var:variables){
+            if(Objects.equals(var.name(), variableName)){
+                return var.getMemoryDir(offset);
+            }
+        }
+        return null;
+    }
+
+    public int getNextAvailablePositionInMemory(){
+        if(variables.size()==0){
+            return 0;
+        } else {
+            return variables.lastElement().endOfMemory()+1;
+        }
+    }
+
+    public int getStartOfInstruction(){
+        return getNextAvailablePositionInMemory();
+    }
+    /*
+        Labels
+     */
+    public void addLabel(String label,int pos){
+
+    }
+
+    public int getPosFromLabel(String label){
+        return 0;
     }
 }
