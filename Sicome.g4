@@ -16,10 +16,10 @@ cableStep: '[' cableFlowControl+']' micro_instr* ';'  #simpleCableStep
 
 conditionalCableStep: flag (',' flag)* ':' '[' cableFlowControl+ ']' micro_instr* ';' ;
 
-cableFlowControl: 'LOAD_SC' '('NUMBER ')' #LoadSC_FlowControl
-          | 'LOAD_SR' '(' (NUMBER | 'START') ')'     #LoadSR_CableFlowControl
-          | 'SR+1->SR'                #SRPlus_CableFlowControl
-          | 'SC-1->SC'                #SCMinus_CableFlowControl
+cableFlowControl: type='LOAD_SC' '('value=NUMBER ')'
+          | type='LOAD_SR' '(' value=(NUMBER | 'START') ')'
+          | type='SR+1->SR'
+          | type='SC-1->SC'
           ;
 micro_instr: TEXT;
 flag: TEXT;

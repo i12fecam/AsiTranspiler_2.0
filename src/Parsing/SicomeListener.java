@@ -81,53 +81,15 @@ public interface SicomeListener extends ParseTreeListener {
 	 */
 	void exitConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code LoadSC_FlowControl}
-	 * labeled alternative in {@link SicomeParser#cableFlowControl}.
+	 * Enter a parse tree produced by {@link SicomeParser#cableFlowControl}.
 	 * @param ctx the parse tree
 	 */
-	void enterLoadSC_FlowControl(SicomeParser.LoadSC_FlowControlContext ctx);
+	void enterCableFlowControl(SicomeParser.CableFlowControlContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code LoadSC_FlowControl}
-	 * labeled alternative in {@link SicomeParser#cableFlowControl}.
+	 * Exit a parse tree produced by {@link SicomeParser#cableFlowControl}.
 	 * @param ctx the parse tree
 	 */
-	void exitLoadSC_FlowControl(SicomeParser.LoadSC_FlowControlContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code LoadSR_CableFlowControl}
-	 * labeled alternative in {@link SicomeParser#cableFlowControl}.
-	 * @param ctx the parse tree
-	 */
-	void enterLoadSR_CableFlowControl(SicomeParser.LoadSR_CableFlowControlContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code LoadSR_CableFlowControl}
-	 * labeled alternative in {@link SicomeParser#cableFlowControl}.
-	 * @param ctx the parse tree
-	 */
-	void exitLoadSR_CableFlowControl(SicomeParser.LoadSR_CableFlowControlContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code SRPlus_CableFlowControl}
-	 * labeled alternative in {@link SicomeParser#cableFlowControl}.
-	 * @param ctx the parse tree
-	 */
-	void enterSRPlus_CableFlowControl(SicomeParser.SRPlus_CableFlowControlContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code SRPlus_CableFlowControl}
-	 * labeled alternative in {@link SicomeParser#cableFlowControl}.
-	 * @param ctx the parse tree
-	 */
-	void exitSRPlus_CableFlowControl(SicomeParser.SRPlus_CableFlowControlContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code SCMinus_CableFlowControl}
-	 * labeled alternative in {@link SicomeParser#cableFlowControl}.
-	 * @param ctx the parse tree
-	 */
-	void enterSCMinus_CableFlowControl(SicomeParser.SCMinus_CableFlowControlContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code SCMinus_CableFlowControl}
-	 * labeled alternative in {@link SicomeParser#cableFlowControl}.
-	 * @param ctx the parse tree
-	 */
-	void exitSCMinus_CableFlowControl(SicomeParser.SCMinus_CableFlowControlContext ctx);
+	void exitCableFlowControl(SicomeParser.CableFlowControlContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SicomeParser#micro_instr}.
 	 * @param ctx the parse tree

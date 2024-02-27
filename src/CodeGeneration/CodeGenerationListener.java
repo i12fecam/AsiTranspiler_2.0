@@ -53,32 +53,30 @@ public class CodeGenerationListener extends SicomeBaseListener {
 
         }
         //Añade todos los controlFlow
-        for(SicomeParser.CableFlowControlContext cf: ctx.cableFlowControl()){
-                if(cf instanceof SicomeParser.LoadSC_FlowControlContext){
-                    Integer num =Integer.parseInt(((SicomeParser.LoadSC_FlowControlContext) cf).NUMBER().getText());
-                    logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SC,num),
-                                                id_func,
-                                                id_step,
-                                                null);
-                } else if (cf instanceof SicomeParser.LoadSR_CableFlowControlContext) {
-                    Integer num = Integer.parseInt(((SicomeParser.LoadSR_CableFlowControlContext) cf).NUMBER().getText());
-                    logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SR,num),
-                            id_func,
-                            id_step,
-                             null);
 
-                } else if (cf instanceof SicomeParser.SRPlus_CableFlowControlContext) {
-                    logic.addControlActionUse(new ControlAction(ControlEnum.SR_PLUS,null),
-                            id_func,
-                            id_step,
-                            null);
-
-                } else if (cf instanceof SicomeParser.SCMinus_CableFlowControlContext) {
-                    logic.addControlActionUse(new ControlAction(ControlEnum.SC_MINUS,null),
-                            id_func,
-                            id_step,
-                             null);
+        for(SicomeParser.CableFlowControlContext cf: ctx.cableFlowControl()) {
+            String type = cf.type.getText();
+            if (type.equals("LOAD_SC")) {
+                Integer value = Integer.decode(cf.value.getText());
+                logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SC, value),
+                        id_func,
+                        id_step,
+                        null);
+            } else if (type.equals("LOAD_SR")) {
+                Integer value = null;
+                if (cf.value.getText().equals("START")) {
+                    value = Integer.decode(cf.value.getText());
                 }
+                logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SR, value),
+                        id_func,
+                        id_step,
+                        null);
+            } else {
+                logic.addControlActionUse(new ControlAction(ControlEnum.valueOfInput(cf.type.getText()), null),
+                        id_func,
+                        id_step,
+                        null);
+            }
         }
     }
 
@@ -106,36 +104,29 @@ public class CodeGenerationListener extends SicomeBaseListener {
         }
 
         for(SicomeParser.CableFlowControlContext cf: ctx.cableFlowControl()){
-            if(cf instanceof SicomeParser.LoadSC_FlowControlContext){
-                Integer num = Integer.parseInt(((SicomeParser.LoadSC_FlowControlContext) cf).NUMBER().getText());
-
-                logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SC,num),
+            String type =cf.type.getText();
+            if(type.equals("LOAD_SC")){
+                Integer value = Integer.decode(cf.value.getText());
+                logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SC,value),
                         id_func,
                         id_step,
                         flags);
-            } else if (cf instanceof SicomeParser.LoadSR_CableFlowControlContext) {
-                Integer num =null;
-                if( ((SicomeParser.LoadSR_CableFlowControlContext) cf).NUMBER() != null){
-                    num =Integer.parseInt(((SicomeParser.LoadSR_CableFlowControlContext) cf).NUMBER().getText());
+            } else if (type.equals("LOAD_SR")) {
+                Integer value=null;
+                if(cf.value.getText().equals("START")){
+                    value = Integer.decode(cf.value.getText());
                 }
-
-                logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SR,num),
+                logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SR,value),
                         id_func,
                         id_step,
                         flags);
-
-            } else if (cf instanceof SicomeParser.SRPlus_CableFlowControlContext) {
-                logic.addControlActionUse(new ControlAction(ControlEnum.SR_PLUS,null),
-                        id_func,
-                        id_step,
-                        flags);
-
-            } else if (cf instanceof SicomeParser.SCMinus_CableFlowControlContext) {
-                logic.addControlActionUse(new ControlAction(ControlEnum.SC_MINUS,null),
+            } else {
+                logic.addControlActionUse(new ControlAction(ControlEnum.valueOf(cf.type.getText()),null),
                         id_func,
                         id_step,
                         flags);
             }
+
         }
     }
 
