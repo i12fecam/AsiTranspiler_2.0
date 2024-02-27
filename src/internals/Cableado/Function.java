@@ -18,9 +18,9 @@ public class Function {
     public Function(String functionName,String functionArg,int id){
         this._functionName = functionName;
         switch (functionArg){
-            case "dir": _params=FunctionParam.Dir;
-            case "value": _params=FunctionParam.Value;
-            case "" : _params=FunctionParam.None;
+            case "dir": _params=FunctionParam.Dir; break;
+            case "value": _params=FunctionParam.Value; break;
+            case "" : _params=FunctionParam.None; break;
         }//TODO meter esto dentro del enum?
         _id=id;
     }

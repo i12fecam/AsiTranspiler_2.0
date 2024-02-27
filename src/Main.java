@@ -22,19 +22,30 @@ public class Main {
         String filePath = "";
         String fileContent = "@cableado\n" +
                 "instrucciones {\n" +
-                "    instruccion1(){\n" +
+                "    valueI(value){\n" +
                 "        [SR+1->SR] PC+1->PC;\n" +
                 "    }\n" +
+                "    dirI(dir){\n" +
+                "            [SR+1->SR] PC+1->PC;\n" +
+                "    }\n" +
+                "    noneI(){\n" +
+                "                [SR+1->SR] PC+1->PC;\n" +
+                "        }\n" +
                 "}\n" +
                 "\n" +
                 "variables{\n" +
                 "    variable1 = 95 ;\n" +
-                "    variableHexadecimal = 0x13E ;\n" +
+                "    variableHexadecimal = 14 ;\n" +
                 "    vector[3] = {1} ;\n" +
-                "    vector[4] = {1,2,3,4} ;\n" +
+                "    vector2[4] = {1,2,3,4} ;\n" +
                 "}\n" +
                 "\n" +
                 "programa{\n" +
+                "    MARK inicio;\n" +
+                "    valueI 12;\n" +
+                "    dirI inicio ;\n" +
+                "    noneI ;\n" +
+                "    valueI vector[2];\n" +
                 "\n" +
                 "}";
 
@@ -54,6 +65,7 @@ public class Main {
 
 
         System.out.println(tree.toStringTree(parser));
+
 
         copileInstructions(tree);
 

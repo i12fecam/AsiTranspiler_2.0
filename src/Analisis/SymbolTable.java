@@ -93,7 +93,7 @@ public class SymbolTable {
 
     Map<String,Integer> labels = new HashMap<>();
     public void addLabel(String label,int pos){
-        if(labels.get(label) == null) throw new RuntimeException("Ya hay un label con este nombre");
+        if(labels.get(label) != null) throw new RuntimeException("Ya hay un label con este nombre");
 
         labels.put(label,pos);
     }

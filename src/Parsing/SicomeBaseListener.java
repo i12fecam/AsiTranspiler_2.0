@@ -52,18 +52,6 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInstructionArgument(SicomeParser.InstructionArgumentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInstructionArgument(SicomeParser.InstructionArgumentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) { }
 	/**
 	 * {@inheritDoc}

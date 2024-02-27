@@ -37,6 +37,12 @@ public class Variable {
         if(offset > capacity()){
             throw new RuntimeException("OutOfBoundIndex");
         }
+        return _start+offset;
+    }
+    public int getValue(int offset){
+        if(offset > capacity()){
+            throw new RuntimeException("OutOfBoundIndex");
+        }
         return _values.get(offset);
     }
 

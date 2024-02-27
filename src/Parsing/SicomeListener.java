@@ -37,16 +37,6 @@ public interface SicomeListener extends ParseTreeListener {
 	 */
 	void exitCableInstruction(SicomeParser.CableInstructionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SicomeParser#instructionArgument}.
-	 * @param ctx the parse tree
-	 */
-	void enterInstructionArgument(SicomeParser.InstructionArgumentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SicomeParser#instructionArgument}.
-	 * @param ctx the parse tree
-	 */
-	void exitInstructionArgument(SicomeParser.InstructionArgumentContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code simpleCableStep}
 	 * labeled alternative in {@link SicomeParser#cableStep}.
 	 * @param ctx the parse tree

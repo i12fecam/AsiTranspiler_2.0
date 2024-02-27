@@ -151,7 +151,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
                 if(arg.num!=null){      //raw number
                     paramNumber = Integer.decode(arg.num.getText());
                 }else if(arg.var!=null && arg.offset!=null){    //vectorVariable
-                    paramNumber = _symbols.getPosFromVariable(instrName.getText(),Integer.decode(arg.offset.getText()));
+                    paramNumber = _symbols.getPosFromVariable(arg.var.getText(),Integer.decode(arg.offset.getText()));
                 }else if(arg.var!=null && _symbols.isVariable(arg.var.getText())) { //simpleVariable
                     paramNumber = _symbols.getPosFromVariable(instrName.getText(), 0);
                 }else {
@@ -161,7 +161,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
 
             case Dir -> {
                 if (arg.var != null && _symbols.isLabel(arg.var.getText())) { //jump label
-                    paramNumber = _symbols.getPosFromLabel(instrName.getText());
+                    paramNumber = _symbols.getPosFromLabel(arg.var.getText());
                 } else {
                     throw new RuntimeException("Expected argument of type dir not found");
                 }

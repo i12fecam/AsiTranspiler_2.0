@@ -24,11 +24,11 @@ public class FirstPassListener extends SicomeBaseListener {
     public void enterCableInstruction(SicomeParser.CableInstructionContext ctx) {
         String functionName =ctx.IDENTIFIER().getText();
         String args = null;
-        if(ctx.instructionArgument() == null){
+        if(ctx.arg== null){
             args = "";
         }
         else{
-            args =ctx.instructionArgument().getText();
+            args =ctx.arg.getText();
         }
         int instr_id = symbolTable.addFunction(functionName,args);//TODO Posible mejor forma de lanzar errores
 

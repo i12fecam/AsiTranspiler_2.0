@@ -4,12 +4,9 @@ prog: cableInstructionBlock variablesBlock programBlock;
 
 cableInstructionBlock: '@cableado' 'instrucciones''{' cableInstruction+ '}';
 
-cableInstruction: IDENTIFIER '(' instructionArgument ')' '{' cableStep+ '}';
+cableInstruction: IDENTIFIER '(' arg=('value'|'dir')? ')' '{' cableStep+ '}';
 
-instructionArgument: 'value'
-         | 'dir'
-         |
-         ;
+
 cableStep: '[' cableFlowControl+']' micro_instr* ';'  #simpleCableStep
     | '{'conditionalCableStep+ '}'                         #conditionalCableStepBlock
     ;
@@ -30,8 +27,8 @@ variableDeclaration: id=IDENTIFIER '=' value=(HEXNUMBER | NUMBER )              
                    ;
 
 programBlock: 'programa' '{' programLine* '}' ;
-programLine: name=IDENTIFIER arg=instructionUseArgument #instructionUse
-            | 'MARK' label=IDENTIFIER #markUse
+programLine: name=IDENTIFIER arg=instructionUseArgument ';'#instructionUse
+            | 'MARK' label=IDENTIFIER  ';' #markUse
             ;
 instructionUseArgument: var=IDENTIFIER ('['offset=(NUMBER|HEXNUMBER) ']')?
                       | num=(NUMBER|HEXNUMBER)

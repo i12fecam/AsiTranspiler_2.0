@@ -1,0 +1,29 @@
+@cableado
+instrucciones {
+    valueI(){
+        [SR+1->SR] PC+1->PC;
+    }
+    dirI(){
+            [SR+1->SR] PC+1->PC;
+    }
+    noneI(){
+                [SR+1->SR] PC+1->PC;
+        }
+}
+
+variables{
+    variable1 = 95 ;
+    variableHexadecimal = 14 ;
+    vector[3] = {1} ;
+    vector2[4] = {1,2,3,4} ;
+}
+
+programa{
+    MARK inicio;
+    valueI 12;
+    dirI inicio;
+    valueI vector2[2];
+    noneI;
+    valueI vector[2];
+
+}

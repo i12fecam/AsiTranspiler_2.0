@@ -28,7 +28,7 @@ public class ProgramGenerator {
         for(Variable var : _symbols.getVariables()){
                 int memDir=var.getStartPosition();
                 for(int i = 0; i<var.capacity(); i++){
-                    int memValue=var.getPosition(i);
+                    int memValue=var.getValue(i);
                     buider.append(memDir);
                     buider.append(" ");
                     buider.append(memValue);//Todo esto se debe poner en hexadecimal?
@@ -45,8 +45,10 @@ public class ProgramGenerator {
 
     public void addInstructionUse(String instruction, Integer param) {
         InstructionBuilder.append(instruction);
-        InstructionBuilder.append(" ");
-        InstructionBuilder.append(param);
+        if(param!=null){
+            InstructionBuilder.append(" ");
+            InstructionBuilder.append(param);
+        }
         InstructionBuilder.append("\n");
     }
 }
