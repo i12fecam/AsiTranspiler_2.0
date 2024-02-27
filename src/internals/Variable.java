@@ -8,9 +8,9 @@ public class Variable {
     int _start;
     int _end;
 
-    List<int> _values;
-
-    public Variable(String variableName,int startInMemory, int reservedSpace, List<int> initializedValues) {
+    List<Integer> _values;
+    //Para vectores
+    public Variable(String variableName,int startInMemory, int reservedSpace, List<Integer> initializedValues) {
         assert(reservedSpace>1);
         assert(variableName!=null);
         assert(initializedValues!=null);
@@ -18,29 +18,14 @@ public class Variable {
 
         _name=variableName;
         _start=startInMemory;
-        _end=startInMemory+reservedSpace;
+        _end=startInMemory+reservedSpace-1;
         _values= initializedValues;
-
+        assert(size()==reservedSpace);
     }
 
-    public Variable(String variableName,int startInMemory, int reservedSpace, int initializedValue) {
-        assert(variableName!=null);
-        assert(startInMemory>0);
-        assert(reservedSpace>0);
-
-
-        _name=variableName;
-        _start=startInMemory;
-        _end=startInMemory+reservedSpace;
-        _values = new ArrayList<int>(reservedSpace);
-        for(int pos=0;pos<size();pos++){
-            _values.add(initializedValue);
-        }
-
-    }
 
     public int size(){
-        return _end-_start;
+        return _end-_start+1;
     }
     public int startOfMemory(){
         return _start;
@@ -53,7 +38,7 @@ public class Variable {
         if(offset>size()){
             throw new RuntimeException("OutOfBOundIndex");
         }
-        return _end + offset;
+        return _values.get(offset);
     }
 
     public String name() {

@@ -21,11 +21,14 @@ public class CodeGenerationListener extends SicomeBaseListener {
         _symbols = st;
         logic = new LogicFileGenerator();
         repository = new RepositoryFileGenerator(_symbols);
+        program = new ProgramGenerator(_symbols);
     }
 
     LogicFileGenerator logic;
 
      RepositoryFileGenerator repository;
+
+     ProgramGenerator program;
 
     public String getLogicFileString(){
         return logic.getLogicText();
@@ -34,6 +37,8 @@ public class CodeGenerationListener extends SicomeBaseListener {
     public String getRepositoryFileString(){
         return repository.getTextRepository();
     }
+
+    public String getProgramFileString() {return program.getText();}
 
     //To build the repository and logic
     @Override
@@ -136,4 +141,6 @@ public class CodeGenerationListener extends SicomeBaseListener {
     }
 
     //To build the program
+
+
 }

@@ -3,9 +3,7 @@ package Analisis;
 import internals.Cableado.Function;
 import internals.Variable;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Vector;
+import java.util.*;
 
 public class SymbolTable {
     Vector<Function> functions = new Vector<>();
@@ -38,11 +36,18 @@ public class SymbolTable {
         Variables
      */
     Vector<Variable> variables = new Vector<>();
-    public void addVariable(String variableName,int reservedSpace,int initializedValue ){
-        variables.add(new Variable(variableName,getNextAvailablePositionInMemory(),reservedSpace,initializedValue));
+    public void addSimpleVariable(String variableName, int initializedValue ){
+        List<Integer> value = new ArrayList<>();
+        value.add(initializedValue);
+        variables.add(new Variable(variableName,getNextAvailablePositionInMemory(),1,value));
     }
 
-    public void addVariable(String variableName, int reservedSpace, List<int> initializedValues){
+    public void addVectorVariable(String variableName, int reservedSpace,int initializedValue){
+
+        List<Integer> values = new ArrayList<>(Collections.nCopies(reservedSpace, initializedValue));
+        variables.add(new Variable(variableName,getNextAvailablePositionInMemory(),reservedSpace,values));
+    }
+    public void addVectorVariable(String variableName, int reservedSpace, List<Integer> initializedValues){
         variables.add(new Variable(variableName,getNextAvailablePositionInMemory(),reservedSpace,initializedValues));
     }
     public List<Variable> getVariables(){

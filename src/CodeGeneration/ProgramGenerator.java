@@ -31,10 +31,15 @@ public class ProgramGenerator {
                     buider.append(" ");
                     buider.append(memValue);//Todo esto se debe poner en hexadecimal?
                     buider.append("\n");
+                    memDir++;
                 }
         }
         buider.append("@").append("\n");
         buider.append(_symbols.getStartOfInstruction()).append("\n");
         buider.append("@").append("\n");
+        /**
+         * Por completar
+         */
+        return buider.toString();
     }
 }

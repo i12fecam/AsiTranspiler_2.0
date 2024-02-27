@@ -24,13 +24,17 @@ public class Main {
                 "instrucciones {\n" +
                 "    instruccion1(){\n" +
                 "        [SR+1->SR] PC+1->PC;\n" +
-                "        [LOAD_SC ( 0 ) ] ACC->GPR;\n" +
-                "        {\n" +
-                "        Zsc : [LOAD_SR(0)] QR->GPR;\n" +
-                "        !Zsc: [LOAD_SR(START)] M->QR;\n" +
-                "        }\n" +
                 "    }\n" +
+                "}\n" +
                 "\n" +
+                "variables{\n" +
+                "    variable1 = 95 ;\n" +
+                "    variableHexadecimal = 0x13E ;\n" +
+                "    vector[3] = {1} ;\n" +
+                "    vector[4] = {1,2,3,4} ;\n" +
+                "}\n" +
+                "\n" +
+                "programa{\n" +
                 "\n" +
                 "}";
 
@@ -74,6 +78,7 @@ public class Main {
         System.out.println("Repositorio:");
         System.out.println(cpass.getRepositoryFileString());
         System.out.println("Programa:");
+        System.out.println(cpass.getProgramFileString());
 
     }
 }

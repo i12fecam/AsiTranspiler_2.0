@@ -25,8 +25,8 @@ micro_instr: TEXT;
 flag: TEXT;
 
 variablesBlock: 'variables' '{' variableDeclaration* '}' ;
-variableDeclaration: id=IDENTIFIER '=' value=(HEXNUMBER | NUMBER )                #simpleVariableDeclaration
-                   | id=IDENTIFIER '[' size=NUMBER ']'  '=' value=(HEXNUMBER | NUMBER) #vectorVariableDeclaration
+variableDeclaration: id=IDENTIFIER '=' value=(HEXNUMBER | NUMBER )              ';'  #simpleVariableDeclaration
+                   | id=IDENTIFIER '[' size=NUMBER ']'  '=' '{' value+=(HEXNUMBER | NUMBER) (',' value+=(HEXNUMBER | NUMBER) )* '}' ';' #vectorVariableDeclaration
                    ;
 
 programBlock: 'programa' '{' programLine* '}' ;
