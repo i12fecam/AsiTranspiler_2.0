@@ -30,10 +30,13 @@ variableDeclaration: id=IDENTIFIER '=' value=(HEXNUMBER | NUMBER )              
                    ;
 
 programBlock: 'programa' '{' programLine* '}' ;
-programLine: name=IDENTIFIER arg=(NUMBER|HEXNUMBER|IDENTIFIER)? #instructionUse
+programLine: name=IDENTIFIER arg=instructionUseArgument #instructionUse
             | 'MARK' label=IDENTIFIER #markUse
             ;
-
+instructionUseArgument: var=IDENTIFIER ('['offset=(NUMBER|HEXNUMBER) ']')?
+                      | num=(NUMBER|HEXNUMBER)
+                      |
+                      ;
 
 IDENTIFIER: [a-z][a-zA-Z0-9]*; //debe empezar por minuscula
 TEXT: [A-Z!][a-zA-Z0-9+\->_@]* ;

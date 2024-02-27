@@ -6,7 +6,9 @@ import Parsing.SicomeParser;
 import internals.Cableado.ControlAction;
 import internals.Cableado.ControlEnum;
 import internals.FlagStatus;
+import internals.FunctionParam;
 import internals.MicroInstruction;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
@@ -135,6 +137,43 @@ public class CodeGenerationListener extends SicomeBaseListener {
 
     @Override
     public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
-        String insName =ctx.name.getText();
+        Token instrName =ctx.name;
+        SicomeParser.InstructionUseArgumentContext arg =ctx.instructionUseArgument();
+        FunctionParam ExpectedArg =_symbols.getArgument(instrName.getText());
+        if(ExpectedArg == null){
+            throw new RuntimeException("La Instrucción no está definida");
+        }
+
+        Integer paramNumber =null;
+
+        switch (ExpectedArg){
+            case Value -> {
+                if(arg.num!=null){      //raw number
+                    paramNumber = Integer.decode(arg.num.getText());
+                }else if(arg.var!=null && arg.offset!=null){    //vectorVariable
+                    paramNumber = _symbols.getPosFromVariable(instrName.getText(),Integer.decode(arg.offset.getText()));
+                }else if(arg.var!=null && _symbols.isVariable(arg.var.getText())) { //simpleVariable
+                    paramNumber = _symbols.getPosFromVariable(instrName.getText(), 0);
+                }else {
+                    throw new RuntimeException("Expected argument of type value not found");
+                }
+            }
+
+            case Dir -> {
+                if (arg.var != null && _symbols.isLabel(arg.var.getText())) { //jump label
+                    paramNumber = _symbols.getPosFromLabel(instrName.getText());
+                } else {
+                    throw new RuntimeException("Expected argument of type dir not found");
+                }
+            }
+
+
+            case None -> {
+                if(arg.var!= null || arg.num!= null || arg.offset!=null){
+                    throw new RuntimeException("Expected not argument and found argument");
+                }
+            }
+        }
+        program.addInstructionUse(instrName.getText(),paramNumber);
     }
 }

@@ -178,4 +178,14 @@ public interface SicomeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMarkUse(SicomeParser.MarkUseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#instructionUseArgument}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstructionUseArgument(SicomeParser.InstructionUseArgumentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#instructionUseArgument}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstructionUseArgument(SicomeParser.InstructionUseArgumentContext ctx);
 }

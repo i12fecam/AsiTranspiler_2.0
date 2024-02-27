@@ -1,6 +1,7 @@
 package Analisis;
 
 import internals.Cableado.Function;
+import internals.FunctionParam;
 import internals.Variable;
 
 import java.util.*;
@@ -32,6 +33,14 @@ public class SymbolTable {
         return functions;
     }
 
+    public FunctionParam getArgument(String InstructionName){
+        for(Function fun: functions){
+            if(fun.getName().equals(InstructionName)){
+                return fun.getParam();
+            }
+        }
+        return null;
+    }
     /*
         Variables
      */
@@ -39,21 +48,21 @@ public class SymbolTable {
     public void addSimpleVariable(String variableName, int initializedValue ){
         List<Integer> value = new ArrayList<>();
         value.add(initializedValue);
-        variables.add(new Variable(variableName,getNextAvailablePositionInMemory(),1,value));
+        variables.add(new Variable(variableName, getNextAvailablePos(),1,value));
     }
 
     public void addVectorVariable(String variableName, int reservedSpace,int initializedValue){
 
         List<Integer> values = new ArrayList<>(Collections.nCopies(reservedSpace, initializedValue));
-        variables.add(new Variable(variableName,getNextAvailablePositionInMemory(),reservedSpace,values));
+        variables.add(new Variable(variableName, getNextAvailablePos(),reservedSpace,values));
     }
     public void addVectorVariable(String variableName, int reservedSpace, List<Integer> initializedValues){
-        variables.add(new Variable(variableName,getNextAvailablePositionInMemory(),reservedSpace,initializedValues));
+        variables.add(new Variable(variableName, getNextAvailablePos(),reservedSpace,initializedValues));
     }
     public List<Variable> getVariables(){
         return variables;
     }
-    public Integer getVariablePositionInMemory(String variableName,int offset){
+    public Integer getPosFromVariable(String variableName, int offset){
         for(Variable var:variables){
             if(Objects.equals(var.name(), variableName)){
                 return var.getPosition(offset);
@@ -61,8 +70,13 @@ public class SymbolTable {
         }
         return null;
     }
-
-    private int getNextAvailablePositionInMemory(){
+    public boolean isVariable(String variableName) {
+        if(getPosFromVariable(variableName,0)==null){
+            return false;
+        }
+        return true;
+    }
+    private int getNextAvailablePos(){
         if(variables.size()==0){
             return 0;
         } else {
@@ -71,16 +85,27 @@ public class SymbolTable {
     }
 
     public int getStartOfInstruction(){
-        return getNextAvailablePositionInMemory();
+        return getNextAvailablePos();
     }
     /*
         Labels
      */
-    public void addLabel(String label,int pos){
 
+    Map<String,Integer> labels = new HashMap<>();
+    public void addLabel(String label,int pos){
+        if(labels.get(label) == null) throw new RuntimeException("Ya hay un label con este nombre");
+
+        labels.put(label,pos);
     }
 
     public int getPosFromLabel(String label){
-        return 0;
+        if(labels.get(label) == null) throw new RuntimeException("El label al que se refiere no existe");
+        return labels.get(label) + getStartOfInstruction();//TODO esto funciona bien si empieza el bloque con mark?
+    }
+
+
+    public boolean isLabel(String labelName) {
+        if(labels.get(labelName) == null) return false;
+        return true;
     }
 }

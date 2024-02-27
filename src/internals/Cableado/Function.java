@@ -41,6 +41,10 @@ public class Function {
         }
     }
 
+    public FunctionParam getParam(){
+        return _params;
+    }
+
     public int getNSteps() {
         return _nSteps;
     }

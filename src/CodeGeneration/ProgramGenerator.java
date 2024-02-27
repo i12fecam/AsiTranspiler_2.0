@@ -6,6 +6,8 @@ import internals.Variable;
 public class ProgramGenerator {
 
     SymbolTable _symbols;
+
+    StringBuilder InstructionBuilder= new StringBuilder();
     public ProgramGenerator(SymbolTable symbols){
         _symbols =symbols;
     }
@@ -37,9 +39,14 @@ public class ProgramGenerator {
         buider.append("@").append("\n");
         buider.append(_symbols.getStartOfInstruction()).append("\n");
         buider.append("@").append("\n");
-        /**
-         * Por completar
-         */
+        buider.append(InstructionBuilder.toString());
         return buider.toString();
+    }
+
+    public void addInstructionUse(String instruction, Integer param) {
+        InstructionBuilder.append(instruction);
+        InstructionBuilder.append(" ");
+        InstructionBuilder.append(param);
+        InstructionBuilder.append("\n");
     }
 }

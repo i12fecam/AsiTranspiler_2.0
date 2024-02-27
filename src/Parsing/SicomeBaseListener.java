@@ -203,6 +203,18 @@ public class SicomeBaseListener implements SicomeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMarkUse(SicomeParser.MarkUseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstructionUseArgument(SicomeParser.InstructionUseArgumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstructionUseArgument(SicomeParser.InstructionUseArgumentContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
