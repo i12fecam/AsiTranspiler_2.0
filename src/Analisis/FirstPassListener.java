@@ -70,6 +70,16 @@ public class FirstPassListener extends SicomeBaseListener {
             throw new RuntimeException("Vector initializer not valid");
         }
     }
+    int ProgramLine = 0;
+    @Override
+    public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
+        ProgramLine++;
+    }
+
+    @Override
+    public void exitMarkUse(SicomeParser.MarkUseContext ctx) {
+        symbolTable.addLabel(ctx.label.getText(),ProgramLine);
+    }
 
     public ParseTreeProperty<Integer> getIds(){
         return ids;
