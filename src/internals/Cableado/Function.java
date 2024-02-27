@@ -25,7 +25,7 @@ public class Function {
         _id=id;
     }
 
-    public String getFunctionName(){
+    public String getName(){
         return _functionName;
     }
 

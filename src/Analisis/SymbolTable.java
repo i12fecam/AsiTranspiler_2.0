@@ -56,17 +56,17 @@ public class SymbolTable {
     public Integer getVariablePositionInMemory(String variableName,int offset){
         for(Variable var:variables){
             if(Objects.equals(var.name(), variableName)){
-                return var.getMemoryDir(offset);
+                return var.getPosition(offset);
             }
         }
         return null;
     }
 
-    public int getNextAvailablePositionInMemory(){
+    private int getNextAvailablePositionInMemory(){
         if(variables.size()==0){
             return 0;
         } else {
-            return variables.lastElement().endOfMemory()+1;
+            return variables.lastElement().getEndPosition()+1;
         }
     }
 

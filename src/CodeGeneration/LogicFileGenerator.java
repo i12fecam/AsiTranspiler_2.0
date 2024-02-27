@@ -99,7 +99,7 @@ class LogicFileGenerator {
     }
 
 
-    public String getLogicText(){
+    public String getText(){
         StringBuilder builder = new StringBuilder();
 
         builder.append("$").append("\n");

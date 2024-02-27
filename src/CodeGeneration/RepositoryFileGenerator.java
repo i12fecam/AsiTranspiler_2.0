@@ -19,10 +19,10 @@ public class RepositoryFileGenerator {
     STAQ true 11 q6
     ZEROS32 true 7 q7
      */
-    public String getTextRepository(){
+    public String getText(){
         StringBuilder builder = new StringBuilder();
         for(Function func: _symbols.getFunctions()){
-            builder.append(func.getFunctionName());
+            builder.append(func.getName());
             builder.append(" ");
             builder.append(func.getBooleanParam().toString());
             builder.append(" ");

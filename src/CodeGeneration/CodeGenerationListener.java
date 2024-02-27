@@ -8,7 +8,6 @@ import internals.Cableado.ControlEnum;
 import internals.FlagStatus;
 import internals.MicroInstruction;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +30,11 @@ public class CodeGenerationListener extends SicomeBaseListener {
      ProgramGenerator program;
 
     public String getLogicFileString(){
-        return logic.getLogicText();
+        return logic.getText();
     }
 
     public String getRepositoryFileString(){
-        return repository.getTextRepository();
+        return repository.getText();
     }
 
     public String getProgramFileString() {return program.getText();}
@@ -143,4 +142,8 @@ public class CodeGenerationListener extends SicomeBaseListener {
     //To build the program
 
 
+    @Override
+    public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
+        String insName =ctx.name.getText();
+    }
 }

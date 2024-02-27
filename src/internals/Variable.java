@@ -1,6 +1,5 @@
 package internals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Variable {
@@ -20,23 +19,23 @@ public class Variable {
         _start=startInMemory;
         _end=startInMemory+reservedSpace-1;
         _values= initializedValues;
-        assert(size()==reservedSpace);
+        assert(capacity()==reservedSpace);
     }
 
 
-    public int size(){
+    public int capacity(){
         return _end-_start+1;
     }
-    public int startOfMemory(){
+    public int getStartPosition(){
         return _start;
     }
-    public  int endOfMemory(){
+    public  int getEndPosition(){
         return _end;
     }
 
-    public int getMemoryDir(int offset){
-        if(offset>size()){
-            throw new RuntimeException("OutOfBOundIndex");
+    public int getPosition(int offset){
+        if(offset > capacity()){
+            throw new RuntimeException("OutOfBoundIndex");
         }
         return _values.get(offset);
     }

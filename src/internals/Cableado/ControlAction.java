@@ -8,22 +8,19 @@ public class ControlAction {
 
 
     public ControlAction(ControlEnum control,Integer value){
-            _tipo=control;
-            if(control.equals(ControlEnum.LOAD_SC)){
-                assert (value!=null);
-                _value = value;
+        _tipo=control;
+        if(control.equals(ControlEnum.LOAD_SC)){
+            assert (value!=null);
+            _value = value;
+        } else if(control.equals(ControlEnum.LOAD_SR)){
+            if(value==null){
+                _value=0;
+            } else{
+                _value=value+3;//TODO esto es especifico de cableado, posible reformetadeado
             }
-            else if(control.equals(ControlEnum.LOAD_SR)){
-                if(value==null){
-                    _value=0;
-                }
-                else{
-                    _value=value+3;//TODO esto es especifico de cableado, posible reformetadeado
-                }
-            }
-            else {
-                assert(value==null);
-            }
+        } else {
+            assert(value==null);
+        }
 
 
 

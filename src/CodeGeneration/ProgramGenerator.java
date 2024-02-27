@@ -24,9 +24,9 @@ public class ProgramGenerator {
     public String getText(){
         StringBuilder buider =new StringBuilder();
         for(Variable var : _symbols.getVariables()){
-                int memDir=var.startOfMemory();
-                for(int i =0;i<var.size();i++){
-                    int memValue=var.getMemoryDir(i);
+                int memDir=var.getStartPosition();
+                for(int i = 0; i<var.capacity(); i++){
+                    int memValue=var.getPosition(i);
                     buider.append(memDir);
                     buider.append(" ");
                     buider.append(memValue);//Todo esto se debe poner en hexadecimal?

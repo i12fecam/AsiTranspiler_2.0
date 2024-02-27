@@ -30,7 +30,7 @@ variableDeclaration: id=IDENTIFIER '=' value=(HEXNUMBER | NUMBER )              
                    ;
 
 programBlock: 'programa' '{' programLine* '}' ;
-programLine: name=IDENTIFIER arg=(NUMBER|HEXNUMBER|IDENTIFIER) #instructionUse
+programLine: name=IDENTIFIER arg=(NUMBER|HEXNUMBER|IDENTIFIER)? #instructionUse
             | 'MARK' label=IDENTIFIER #markUse
             ;
 
