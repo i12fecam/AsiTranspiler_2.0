@@ -26,18 +26,18 @@ public class ProgramGenerator {
     public String getText(){
         StringBuilder buider =new StringBuilder();
         for(Variable var : _symbols.getVariables()){
-                int memDir=var.getStartPosition();
+                Integer memDir=var.getStartPosition();
                 for(int i = 0; i<var.capacity(); i++){
                     int memValue=var.getValue(i);
-                    buider.append(memDir);
+                    buider.append(Integer.toHexString(memDir));
                     buider.append(" ");
-                    buider.append(memValue);//Todo esto se debe poner en hexadecimal?
+                    buider.append(Integer.toHexString(memValue));
                     buider.append("\n");
                     memDir++;
                 }
         }
         buider.append("@").append("\n");
-        buider.append(_symbols.getStartOfInstruction()).append("\n");
+        buider.append(Integer.toHexString(_symbols.getStartOfInstruction())).append("\n");
         buider.append("@").append("\n");
         buider.append(InstructionBuilder.toString());
         return buider.toString();
@@ -47,7 +47,7 @@ public class ProgramGenerator {
         InstructionBuilder.append(instruction);
         if(param!=null){
             InstructionBuilder.append(" ");
-            InstructionBuilder.append(param);
+            InstructionBuilder.append(Integer.toHexString(param));
         }
         InstructionBuilder.append("\n");
     }

@@ -7,10 +7,11 @@ import Parsing.SicomeParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class Main {
     private static String readFile(String filePath) throws IOException {
@@ -18,61 +19,96 @@ public class Main {
         return Files.readString(path);
     }
     public static void main(String[] args) throws IOException{
+        /*
+        asi copile programa.txt /folder
+        asi test programa.txt
+        asi help
+         */
+        if(args.length>0 && Objects.equals(args[0], "copile")){
+            CodeGenerationListener cg = null;
+            if(args.length>1){
+                File program= new File(args[1]);
+                cg=testProgram(program);
+            }else{printHelp();}
 
-        String filePath = "";
-        String fileContent = "@cableado\n" +
-                "instrucciones {\n" +
-                "    valueI(value){\n" +
-                "        [SR+1->SR] PC+1->PC;\n" +
-                "    }\n" +
-                "    dirI(dir){\n" +
-                "            [SR+1->SR] PC+1->PC;\n" +
-                "    }\n" +
-                "    noneI(){\n" +
-                "                [SR+1->SR] PC+1->PC;\n" +
-                "        }\n" +
-                "}\n" +
-                "\n" +
-                "variables{\n" +
-                "    variable1 = 95 ;\n" +
-                "    variableHexadecimal = 14 ;\n" +
-                "    vector[3] = {1} ;\n" +
-                "    vector2[4] = {1,2,3,4} ;\n" +
-                "}\n" +
-                "\n" +
-                "programa{\n" +
-                "    MARK inicio;\n" +
-                "    valueI 12;\n" +
-                "    dirI inicio ;\n" +
-                "    noneI ;\n" +
-                "    valueI vector[2];\n" +
-                "\n" +
-                "}";
+            if(args.length>2){
+                saveResults(args[2],cg.getRepositoryFileString(),cg.getLogicFileString(), cg.getProgramFileString());
+            }
 
-        //fileContent = readFile(filePath);
-
-
-        //System.err.println("Error reading the file" + ex.getMessage());
-
-        SicomeLexer lexer = new SicomeLexer(CharStreams.fromString(fileContent));
-
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        tokens.fill(); // Ensure all tokens are loaded
-        tokens.getTokens().forEach(System.out::println);
-
-        SicomeParser parser = new SicomeParser(tokens);
-        ParseTree tree = parser.prog();
-
-
-        System.out.println(tree.toStringTree(parser));
-
-
-        copileInstructions(tree);
+        } else if (args.length>0 && Objects.equals(args[0], "test")) {
+            if(args.length>1){
+                File program= new File(args[1]);
+                testProgram(program);
+            }else{printHelp();}
+        } else if (args.length>0 && Objects.equals(args[0], "help")) {
+            printHelp();
+        }
 
 
     }
 
-    private static void copileInstructions(ParseTree tree) {
+    private static void printHelp() {
+    }
+
+
+    private static boolean saveResults(String FolderPath, String repositoryContent, String logicContent, String programContent) {
+        try {
+            File baseFolder = new File(FolderPath);
+            String commonName= baseFolder.getName();
+            if (baseFolder.exists()) {
+                System.out.println("Directory already exists. Skipping creation.");
+                return false;
+            }
+
+            if (baseFolder.mkdir()) {
+                System.out.println("Base folder created: " + baseFolder.getAbsolutePath());
+
+                // Create dummy files inside the base folder
+                createFile(baseFolder, commonName + ".rep",repositoryContent);
+                createFile(baseFolder, commonName + ".lcb",logicContent);
+                createFile(baseFolder, commonName + ".txt",programContent);
+
+                return true;
+            } else {
+                System.err.println("Failed to create base folder.");
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private static void createFile(File parentFolder, String fileName, String fileContent) {
+        File file = new File(parentFolder, fileName);
+        try {
+            if (file.createNewFile()) {
+                System.out.println("File created: " + file.getAbsolutePath());
+                FileWriter writer = new FileWriter(file);
+                writer.write(fileContent);
+                writer.close();
+            } else {
+                System.err.println("Failed to create file: " + file.getAbsolutePath());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("IOException while creating file: " + e.getMessage());
+        }
+    }
+    private static CodeGenerationListener testProgram(File programFile)  {
+        String programContent;
+        try {
+            programContent =readFileContent(programFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        //Inicar parseado
+        SicomeLexer lexer = new SicomeLexer(CharStreams.fromString(programContent));
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        SicomeParser parser = new SicomeParser(tokens);
+        ParseTree tree = parser.prog();
+
+        //Iniciar walker
         ParseTreeWalker walker = new ParseTreeWalker();
         FirstPassListener fpass = new FirstPassListener();
         walker.walk(fpass,tree);
@@ -84,13 +120,20 @@ public class Main {
         walker.walk(spass,tree);
         CodeGenerationListener cpass = new CodeGenerationListener(ids,symbols);
         walker.walk(cpass,tree);
-
-        System.out.println("Lógica:");
-        System.out.println(cpass.getLogicFileString());
-        System.out.println("Repositorio:");
-        System.out.println(cpass.getRepositoryFileString());
-        System.out.println("Programa:");
-        System.out.println(cpass.getProgramFileString());
-
+        return cpass;
     }
+
+    public static String readFileContent(File file) throws IOException {
+        StringBuilder content = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        }
+
+        return content.toString();
+    }
+
 }
