@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Anotates the tree in functions and steps with their number
- * Register in the Symbol Table Marks and FUnction definitions
+ * Register in the Symbol Table Marks ,Variables and Function definitions
  */
 public class FirstPassListener extends SicomeBaseListener {
 
@@ -18,8 +18,11 @@ public class FirstPassListener extends SicomeBaseListener {
     ParseTreeProperty<Integer> ids = new ParseTreeProperty<Integer>();
 
 
-
-
+    /**
+     * Anotates the tree with the ids of the steps and the id of the function
+     * Also adds to the symbol table the function definition
+     * @param ctx the parse tree
+     */
     @Override
     public void enterCableInstruction(SicomeParser.CableInstructionContext ctx) {
         String functionName =ctx.IDENTIFIER().getText();
@@ -30,18 +33,21 @@ public class FirstPassListener extends SicomeBaseListener {
         else{
             args =ctx.arg.getText();
         }
-        int instr_id = symbolTable.addFunction(functionName,args);//TODO Posible mejor forma de lanzar errores
+        List<SicomeParser.CableStepContext> steps =ctx.cableStep();
+        int instr_id = symbolTable.addFunction(functionName,args,steps.size());
 
         ids.put(ctx,instr_id);
-        List<SicomeParser.CableStepContext> steps =ctx.cableStep();
         int step_id = 0 ;
         for(SicomeParser.CableStepContext step : steps){
             ids.put(step,step_id);
             step_id++;
-            symbolTable.addStepToFunction(instr_id,1);
         }
     }
 
+    /**
+     * Adds to the symbol table the variable definition
+     * @param ctx the parse tree
+     */
     @Override
     public void exitSimpleVariableDeclaration(SicomeParser.SimpleVariableDeclarationContext ctx) {
         String id =ctx.id.getText();
@@ -49,7 +55,10 @@ public class FirstPassListener extends SicomeBaseListener {
         //TODO comprobar maximo de tamaño
         symbolTable.addSimpleVariable(id,value);
     }
-
+    /**
+     * Adds the variable definition to the symbol table
+     * @param ctx the parse tree
+     */
     @Override
     public void exitVectorVariableDeclaration(SicomeParser.VectorVariableDeclarationContext ctx) {
 
@@ -70,21 +79,39 @@ public class FirstPassListener extends SicomeBaseListener {
             throw new RuntimeException("Vector initializer not valid");
         }
     }
+
     int ProgramLine = 0;
+
+    /**
+     * Increments the program line to count the current line being processed
+     * @param ctx the parse tree
+     */
     @Override
     public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
         ProgramLine++;
     }
 
+    /**
+     * Adds to the symbol table the label defintion
+     * @param ctx the parse tree
+     */
     @Override
     public void exitMarkUse(SicomeParser.MarkUseContext ctx) {
         symbolTable.addLabel(ctx.label.getText(),ProgramLine);
     }
 
+    /**
+     * Returns the ids the tree is annotated with
+     * @return the ids
+     */
     public ParseTreeProperty<Integer> getIds(){
         return ids;
     }
 
+    /**
+     * Returns the completed symbolTable
+     * @return the completed symbolTable
+     */
     public SymbolTable getSymbolTable(){
         return symbolTable;
     }

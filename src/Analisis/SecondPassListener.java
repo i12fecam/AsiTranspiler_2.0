@@ -19,6 +19,11 @@ public class SecondPassListener extends SicomeBaseListener {
         _ids=ids;
         _st=st;
     }
+
+    /**
+     * Checks if any of the microinstruinstructions used in a step is part of the same group
+     * @param ctx the parse tree
+     */
     @Override
     public void enterSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) {
         //TODO mirar si es necesario hacer esta comprobacion en cableado
@@ -37,7 +42,7 @@ public class SecondPassListener extends SicomeBaseListener {
 
 
     /**
-     * Se hace comprobación de que la logica de bifurcación sea completa
+     * Checks if the combination of conditions in a step is valid
      * @param ctx the parse tree
      */
     @Override
@@ -67,22 +72,8 @@ public class SecondPassListener extends SicomeBaseListener {
          */
     }
 
-    int currentFunction = 0;
 
-    @Override
-    public void enterCableInstruction(SicomeParser.CableInstructionContext ctx ) {
-        currentFunction = _ids.get(ctx);
-    }
-    //TODO reimplementar esto
-    /*
-    @Override
-    public void enterComplexFlowControl(SicomeParser.ComplexFlowControlContext ctx) {
-        int jumpDir= Integer.parseInt(ctx.DECN().getText());
-        if( jumpDir <0 || jumpDir >_st.getNsteps(currentFunction)){
-            //TODO lanzar error de valor de salto sin sentido
-        }
-    }
 
-     */
+
 }
 

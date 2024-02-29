@@ -6,7 +6,7 @@ import Parsing.SicomeParser;
 import internals.Cableado.ControlAction;
 import internals.Cableado.ControlEnum;
 import internals.FlagStatus;
-import internals.FunctionParam;
+import internals.FunctionArg;
 import internals.MicroInstruction;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -139,7 +139,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
     public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
         Token instrName =ctx.name;
         SicomeParser.InstructionUseArgumentContext arg =ctx.instructionUseArgument();
-        FunctionParam ExpectedArg =_symbols.getArgument(instrName.getText());
+        FunctionArg ExpectedArg =_symbols.getArgument(instrName.getText());
         if(ExpectedArg == null){
             throw new RuntimeException("La Instrucción no está definida");
         }

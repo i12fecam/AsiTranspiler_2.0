@@ -39,7 +39,7 @@ public class Variable {
         }
         return _start+offset;
     }
-    public int getValue(int offset){
+    public int getInitialValue(int offset){
         if(offset > capacity()){
             throw new RuntimeException("OutOfBoundIndex");
         }

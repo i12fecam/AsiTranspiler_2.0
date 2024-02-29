@@ -5,9 +5,9 @@ import internals.Variable;
 
 public class ProgramGenerator {
 
-    SymbolTable _symbols;
+    private SymbolTable _symbols;
 
-    StringBuilder InstructionBuilder= new StringBuilder();
+    private StringBuilder InstructionBuilder= new StringBuilder();
     public ProgramGenerator(SymbolTable symbols){
         _symbols =symbols;
     }
@@ -28,7 +28,7 @@ public class ProgramGenerator {
         for(Variable var : _symbols.getVariables()){
                 Integer memDir=var.getStartPosition();
                 for(int i = 0; i<var.capacity(); i++){
-                    int memValue=var.getValue(i);
+                    int memValue=var.getInitialValue(i);
                     buider.append(Integer.toHexString(memDir));
                     buider.append(" ");
                     buider.append(Integer.toHexString(memValue));
@@ -43,11 +43,16 @@ public class ProgramGenerator {
         return buider.toString();
     }
 
-    public void addInstructionUse(String instruction, Integer param) {
+    /**
+     * Registers an instruction use
+     * @param instruction The name of the instruction
+     * @param argument the argument of the instructions (Position in memory), null if it doesnt have an argument
+     */
+    public void addInstructionUse(String instruction, Integer argument) {
         InstructionBuilder.append(instruction);
-        if(param!=null){
+        if(argument!=null){
             InstructionBuilder.append(" ");
-            InstructionBuilder.append(Integer.toHexString(param));
+            InstructionBuilder.append(Integer.toHexString(argument));
         }
         InstructionBuilder.append("\n");
     }
