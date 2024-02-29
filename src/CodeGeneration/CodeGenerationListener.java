@@ -1,5 +1,6 @@
 package CodeGeneration;
 
+import Analisis.LogicException;
 import Analisis.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
@@ -50,7 +51,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
         //Añadir todas las instruciones
         for ( SicomeParser.Micro_instrContext mInstr: ctx.micro_instr()) {
             MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
-            if(mi== null) throw new RuntimeException("Microinstruction not recognized");//TODO mejorar este error
+            if(mi== null) throw new LogicException("Microinstrucción no reconocidad",mInstr.getStart());//TODO verificar lo de getStart
             logic.addMicroInstructionUse(mi, id_func, id_step,  null);
 
         }
@@ -74,7 +75,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
                         id_step,
                         null);
             } else {
-                logic.addControlActionUse(new ControlAction(ControlEnum.valueOfInput(cf.type.getText()), null),
+                logic.addControlActionUse(new ControlAction(ControlEnum.valueOfInput(cf.type.getText()), null),//TODO reformular esto
                         id_func,
                         id_step,
                         null);
@@ -92,7 +93,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
         List<FlagStatus> flags = new ArrayList<>();
         for( SicomeParser.FlagContext flag: ctx.flag()){
             FlagStatus newFlag = FlagStatus.ValueOfInput(flag.getText());
-            if(newFlag == null) throw new RuntimeException("Flag not recognized"); //TODO reformular error
+            if(newFlag == null) throw new LogicException("Bandera no reconocida",flag.getStart());
             flags.add(newFlag);
 
         }
@@ -100,7 +101,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
 
         for (SicomeParser.Micro_instrContext mInstr : ctx.micro_instr()) {
             MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
-            if(mi == null) throw new RuntimeException("MicroInstruction not recognized");//TODO reformular
+            if(mi== null) throw new LogicException("Microinstrucción no reconocidad",mInstr.getStart());
             logic.addMicroInstructionUse(mi, id_func, id_step, flags);
 
         }
@@ -141,7 +142,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
         SicomeParser.InstructionUseArgumentContext arg =ctx.instructionUseArgument();
         FunctionArg ExpectedArg =_symbols.getArgument(instrName.getText());
         if(ExpectedArg == null){
-            throw new RuntimeException("La Instrucción no está definida");
+            throw new LogicException("La Instrucción no está definida",instrName);
         }
 
         Integer paramNumber =null;
@@ -155,7 +156,7 @@ public class CodeGenerationListener extends SicomeBaseListener {
                 }else if(arg.var!=null && _symbols.isVariable(arg.var.getText())) { //simpleVariable
                     paramNumber = _symbols.getPosFromVariable(instrName.getText(), 0);
                 }else {
-                    throw new RuntimeException("Expected argument of type value not found");
+                    throw new LogicException("Argumento de tipo valor no encontrado",instrName);
                 }
             }
 
@@ -163,14 +164,14 @@ public class CodeGenerationListener extends SicomeBaseListener {
                 if (arg.var != null && _symbols.isLabel(arg.var.getText())) { //jump label
                     paramNumber = _symbols.getPosFromLabel(arg.var.getText());
                 } else {
-                    throw new RuntimeException("Expected argument of type dir not found");
+                    throw new LogicException("Argumento de tipo dirección no encontrado",instrName);
                 }
             }
 
 
             case None -> {
                 if(arg.var!= null || arg.num!= null || arg.offset!=null){
-                    throw new RuntimeException("Expected not argument and found argument");
+                    throw new LogicException("Se ha encontrado argumento cuando no debería haber",instrName);
                 }
             }
         }

@@ -33,14 +33,14 @@ public class Variable {
         return _end;
     }
 
-    public int getPosition(int offset){
-        if(offset > capacity()){
+    public int getPosition(int offset) throws RuntimeException {
+        if(offset > capacity() || offset < 0){
             throw new RuntimeException("OutOfBoundIndex");
         }
         return _start+offset;
     }
     public int getInitialValue(int offset){
-        if(offset > capacity()){
+        if(offset > capacity() || offset < 0){
             throw new RuntimeException("OutOfBoundIndex");
         }
         return _values.get(offset);

@@ -7,16 +7,21 @@ import internals.Variable;
 import java.util.*;
 
 public class SymbolTable {
-    private Vector<Function> functions = new Vector<>();
+    private final Vector<Function> functions = new Vector<>();
 
     /**
      * Registers a new function
-     * @param functionName the fucntionName
+     * @param functionName the function name
      * @param functionArg the function arguments
      * @param steps the number of steps of the function
      * @return the id of the registered function
      */
-    public int addFunction(String functionName,String functionArg,int steps){
+    public int addFunction(String functionName,String functionArg,int steps) throws RuntimeException {
+        for(Function fun:functions){
+            if(Objects.equals(fun.getName(), functionName)){
+                throw new RuntimeException("Ya existe una función con este nombre");
+            }
+        }
         functions.add(new Function(functionName,functionArg,steps,functions.size()));
         return functions.size()-1;
     }
@@ -55,14 +60,17 @@ public class SymbolTable {
     /*
         Variables
      */
-    private Vector<Variable> variables = new Vector<>();
+    private List<Variable> variables = new ArrayList<>();
 
     /**
      * Adds a simple variable
      * @param variableName name of the variable
      * @param initializedValue initial value
      */
-    public void addSimpleVariable(String variableName, int initializedValue ){
+    public void addSimpleVariable(String variableName, int initializedValue ) throws RuntimeException {
+        if(isVariable(variableName) || isLabel(variableName)){
+            throw new RuntimeException("Ya existe una variable o label con el mismo nombre");
+        }
         List<Integer> value = new ArrayList<>();
         value.add(initializedValue);
         variables.add(new Variable(variableName, getNextAvailablePos(),1,value));
@@ -74,8 +82,10 @@ public class SymbolTable {
      * @param reservedSpace the size of the vector
      * @param initializedValue the value that all the vector spaces are initialized to
      */
-    public void addVectorVariable(String variableName, int reservedSpace,int initializedValue){
-
+    public void addVectorVariable(String variableName, int reservedSpace,int initializedValue) throws RuntimeException {
+        if(isVariable(variableName) || isLabel(variableName)){
+            throw new RuntimeException("Ya existe una variable o label con el mismo nombre");
+        }
         List<Integer> values = new ArrayList<>(Collections.nCopies(reservedSpace, initializedValue));
         variables.add(new Variable(variableName, getNextAvailablePos(),reservedSpace,values));
     }
@@ -86,7 +96,10 @@ public class SymbolTable {
      * @param reservedSpace the size of the vector
      * @param initializedValues A list with the same size as the size of the vector, filled with the initialized value as the vector
      */
-    public void addVectorVariable(String variableName, int reservedSpace, List<Integer> initializedValues){
+    public void addVectorVariable(String variableName, int reservedSpace, List<Integer> initializedValues) throws RuntimeException {
+        if(isVariable(variableName) || isLabel(variableName)){
+            throw new RuntimeException("Ya existe una variable o label con el mismo nombre");
+        }
         variables.add(new Variable(variableName, getNextAvailablePos(),reservedSpace,initializedValues));
     }
 
@@ -133,7 +146,7 @@ public class SymbolTable {
         if(variables.size()==0){
             return 0;
         } else {
-            return variables.lastElement().getEndPosition()+1;
+            return variables.getLast().getEndPosition()+1;
         }
     }
 
@@ -156,7 +169,9 @@ public class SymbolTable {
      * @param pos position in memory the label is referring to,Assummes the postion 0 refers to the first instruction
      */
     public void addLabel(String label,int pos){
-        if(labels.get(label) != null) throw new RuntimeException("Ya hay un label con este nombre");
+        if(isVariable(label) || isLabel(label)){
+            throw new RuntimeException("Ya existe una variable o label con el mismo nombre");
+        }
 
         labels.put(label,pos);
     }
