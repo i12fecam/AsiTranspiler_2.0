@@ -22,7 +22,7 @@ public class MainTest {
                     [SR+1->SR] PC+1->PC;
                 }
 
-                instruccion1 ( value ) {
+                instruccion2 value ) {
                     [SR+1->SR] PC+1->PC;
                 }
 

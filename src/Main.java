@@ -1,4 +1,5 @@
 import Analisis.FirstPassListener;
+import Analisis.LogicException;
 import Analisis.SecondPassListener;
 import Analisis.SymbolTable;
 import CodeGeneration.CodeGenerationListener;
@@ -18,36 +19,58 @@ public class Main {
         Path path = Paths.get(filePath);
         return Files.readString(path);
     }
+
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_RESET = "\u001B[0m";
     public static void main(String[] args) throws IOException{
         /*
         asi copile programa.txt /folder
         asi test programa.txt
         asi help
          */
-        if(args.length>0 && Objects.equals(args[0], "copile")){
-            CodeGenerationListener cg = null;
-            if(args.length>1){
-                File program= new File(args[1]);
-                cg=testProgram(program);
-            }else{printHelp();}
+        try {
+            if (args.length > 0 && Objects.equals(args[0], "copile")) {
+                CodeGenerationListener cg = null;
+                if (args.length > 1) {
+                    File program = new File(args[1]);
+                    cg = testProgram(program);
+                } else {
+                    printHelp();
+                }
 
-            if(args.length>2){
-                saveResults(args[2],cg.getRepositoryFileString(),cg.getLogicFileString(), cg.getProgramFileString());
+                if (args.length > 2) {
+                    saveResults(args[2], cg.getRepositoryFileString(), cg.getLogicFileString(), cg.getProgramFileString());
+                }
+
+            } else if (args.length > 0 && Objects.equals(args[0], "test")) {
+                if (args.length > 1) {
+                    File program = new File(args[1]);
+                    testProgram(program);
+                } else {
+                    printHelp();
+                }
+            } else if (args.length > 0 && Objects.equals(args[0], "help")) {
+                printHelp();
+            } else {
+                printHelp();
+
             }
-
-        } else if (args.length>0 && Objects.equals(args[0], "test")) {
-            if(args.length>1){
-                File program= new File(args[1]);
-                testProgram(program);
-            }else{printHelp();}
-        } else if (args.length>0 && Objects.equals(args[0], "help")) {
-            printHelp();
+        }catch (LogicException e){
+            System.out.println(ANSI_RED+ "line "+e.getLine()+":"+e.getCharInLine()+" "+ e.getMessage()+ANSI_RESET);
         }
 
 
     }
 
     private static void printHelp() {
+        String text=
+                """
+                Funcionamiento de AST
+                ast test programaAst.txt
+                ast copile programaAst.txt dir/to/output
+                
+                """;
+        System.out.println(text);
     }
 
 

@@ -146,7 +146,7 @@ public class SymbolTable {
         if(variables.size()==0){
             return 0;
         } else {
-            return variables.getLast().getEndPosition()+1;
+            return variables.get(variables.size()).getEndPosition()+1;
         }
     }
 
