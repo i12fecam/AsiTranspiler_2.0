@@ -2,9 +2,11 @@ package Analisis;
 
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
+import internals.MicroInstruction;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,18 +28,20 @@ public class SecondPassListener extends SicomeBaseListener {
      */
     @Override
     public void enterSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) {
-        //TODO mirar si es necesario hacer esta comprobacion en cableado
-        /*
-        Set<MicroInstruction> mInstrList = HashSet.newHashSet(6);
+        List<MicroInstruction> mInstrList = new ArrayList<>();
 
-        List<TerminalNode> mInstr = ctx.MICRO_INSTR();
-        for (TerminalNode tn: mInstr){
-            String mInstrName = tn.getSymbol().getText();
-            mInstrList.add(new MicroInstruction(mInstrName));
-            //TODO echar error al haber repeticion de tipos
+        var mInstrCtx = ctx.micro_instr();
+
+        for (var tn: mInstrCtx) {
+            MicroInstruction newMI = MicroInstruction.valueOfInput(tn.getText());
+            for (var recordedMi : mInstrList){
+                if (newMI.getType().equals(recordedMi.getType())) {
+                    throw new LogicException("Ya hay una instrucción que pertenece al mismo grupo de microinstrucción", tn.getStart());
+                }
+            }
+            mInstrList.add(newMI);
         }
 
-         */
     }
 
 
@@ -45,9 +49,7 @@ public class SecondPassListener extends SicomeBaseListener {
      * Checks if the combination of conditions in a step is valid
      * @param ctx the parse tree
      */
-    @Override
-    public void enterConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx) {
-        List<SicomeParser.FlagContext> conds = ctx.flag();
+
         /**
          * A B C D E F
          * 0 0 T F T F
@@ -70,7 +72,6 @@ public class SecondPassListener extends SicomeBaseListener {
          * Si algo es V la siguiente afirmacion
          * F o F y algo mas
          */
-    }
 
 
 

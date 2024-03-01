@@ -79,21 +79,21 @@ public class Main {
             File baseFolder = new File(FolderPath);
             String commonName= baseFolder.getName();
             if (baseFolder.exists()) {
-                System.out.println("Directory already exists. Skipping creation.");
+                System.out.println("El directorio ya existe, no se volvera a crear.");//Hace a pesar de que exista?
                 return false;
             }
 
             if (baseFolder.mkdir()) {
-                System.out.println("Base folder created: " + baseFolder.getAbsolutePath());
+                System.out.println("Carpeta creada en: " + baseFolder.getAbsolutePath());
 
-                // Create dummy files inside the base folder
+
                 createFile(baseFolder, commonName + ".rep",repositoryContent);
                 createFile(baseFolder, commonName + ".lcb",logicContent);
                 createFile(baseFolder, commonName + ".txt",programContent);
 
                 return true;
             } else {
-                System.err.println("Failed to create base folder.");
+                System.err.println("Hubo un fallo al crear la carpeta.");
                 return false;
             }
         } catch (Exception e) {
@@ -106,16 +106,16 @@ public class Main {
         File file = new File(parentFolder, fileName);
         try {
             if (file.createNewFile()) {
-                System.out.println("File created: " + file.getAbsolutePath());
+                System.out.println("Archivo creado en: " + file.getAbsolutePath());
                 FileWriter writer = new FileWriter(file);
                 writer.write(fileContent);
                 writer.close();
             } else {
-                System.err.println("Failed to create file: " + file.getAbsolutePath());
+                System.err.println("Hubo un problema creando el archivo en: " + file.getAbsolutePath());
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("IOException while creating file: " + e.getMessage());
+            System.err.println("Hubo un problema creando el archivo: " + e.getMessage());
         }
     }
     private static CodeGenerationListener testProgram(File programFile)  {
