@@ -1,6 +1,6 @@
 package internals;
 
-public enum FunctionParam {
+public enum FunctionArg {
     Dir,
     Value,
     None,

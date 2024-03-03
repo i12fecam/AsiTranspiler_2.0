@@ -33,15 +33,15 @@ public class Variable {
         return _end;
     }
 
-    public int getPosition(int offset){
-        if(offset > capacity()){
-            throw new RuntimeException("OutOfBoundIndex");
+    public int getPosition(int offset) throws RuntimeException {
+        if(offset > capacity() || offset < 0){
+            throw new RuntimeException("El index que desea se encuentra fuera del rango del vector");
         }
         return _start+offset;
     }
-    public int getValue(int offset){
-        if(offset > capacity()){
-            throw new RuntimeException("OutOfBoundIndex");
+    public int getInitialValue(int offset){
+        if(offset > capacity() || offset < 0){
+            throw new RuntimeException("El index que desea se encuentra fuera del rango del vector");
         }
         return _values.get(offset);
     }

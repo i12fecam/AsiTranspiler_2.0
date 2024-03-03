@@ -1,4 +1,5 @@
 import Analisis.FirstPassListener;
+import Analisis.LogicException;
 import Analisis.SecondPassListener;
 import Analisis.SymbolTable;
 import CodeGeneration.CodeGenerationListener;
@@ -18,36 +19,58 @@ public class Main {
         Path path = Paths.get(filePath);
         return Files.readString(path);
     }
+
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_RESET = "\u001B[0m";
     public static void main(String[] args) throws IOException{
         /*
         asi copile programa.txt /folder
         asi test programa.txt
         asi help
          */
-        if(args.length>0 && Objects.equals(args[0], "copile")){
-            CodeGenerationListener cg = null;
-            if(args.length>1){
-                File program= new File(args[1]);
-                cg=testProgram(program);
-            }else{printHelp();}
+        try {
+            if (args.length > 0 && Objects.equals(args[0], "copile")) {
+                CodeGenerationListener cg = null;
+                if (args.length > 1) {
+                    File program = new File(args[1]);
+                    cg = testProgram(program);
+                } else {
+                    printHelp();
+                }
 
-            if(args.length>2){
-                saveResults(args[2],cg.getRepositoryFileString(),cg.getLogicFileString(), cg.getProgramFileString());
+                if (args.length > 2) {
+                    saveResults(args[2], cg.getRepositoryFileString(), cg.getLogicFileString(), cg.getProgramFileString());
+                }
+
+            } else if (args.length > 0 && Objects.equals(args[0], "test")) {
+                if (args.length > 1) {
+                    File program = new File(args[1]);
+                    testProgram(program);
+                } else {
+                    printHelp();
+                }
+            } else if (args.length > 0 && Objects.equals(args[0], "help")) {
+                printHelp();
+            } else {
+                printHelp();
+
             }
-
-        } else if (args.length>0 && Objects.equals(args[0], "test")) {
-            if(args.length>1){
-                File program= new File(args[1]);
-                testProgram(program);
-            }else{printHelp();}
-        } else if (args.length>0 && Objects.equals(args[0], "help")) {
-            printHelp();
+        }catch (LogicException e){
+            System.out.println(ANSI_RED+ "line "+e.getLine()+":"+e.getCharInLine()+" "+ e.getMessage()+ANSI_RESET);
         }
 
 
     }
 
     private static void printHelp() {
+        String text=
+                """
+                Funcionamiento de AST
+                ast test programaAst.txt
+                ast copile programaAst.txt dir/to/output
+                
+                """;
+        System.out.println(text);
     }
 
 
@@ -56,21 +79,21 @@ public class Main {
             File baseFolder = new File(FolderPath);
             String commonName= baseFolder.getName();
             if (baseFolder.exists()) {
-                System.out.println("Directory already exists. Skipping creation.");
+                System.out.println("El directorio ya existe, no se volvera a crear.");//Hace a pesar de que exista?
                 return false;
             }
 
             if (baseFolder.mkdir()) {
-                System.out.println("Base folder created: " + baseFolder.getAbsolutePath());
+                System.out.println("Carpeta creada en: " + baseFolder.getAbsolutePath());
 
-                // Create dummy files inside the base folder
+
                 createFile(baseFolder, commonName + ".rep",repositoryContent);
                 createFile(baseFolder, commonName + ".lcb",logicContent);
                 createFile(baseFolder, commonName + ".txt",programContent);
 
                 return true;
             } else {
-                System.err.println("Failed to create base folder.");
+                System.err.println("Hubo un fallo al crear la carpeta.");
                 return false;
             }
         } catch (Exception e) {
@@ -83,16 +106,16 @@ public class Main {
         File file = new File(parentFolder, fileName);
         try {
             if (file.createNewFile()) {
-                System.out.println("File created: " + file.getAbsolutePath());
+                System.out.println("Archivo creado en: " + file.getAbsolutePath());
                 FileWriter writer = new FileWriter(file);
                 writer.write(fileContent);
                 writer.close();
             } else {
-                System.err.println("Failed to create file: " + file.getAbsolutePath());
+                System.err.println("Hubo un problema creando el archivo en: " + file.getAbsolutePath());
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("IOException while creating file: " + e.getMessage());
+            System.err.println("Hubo un problema creando el archivo: " + e.getMessage());
         }
     }
     private static CodeGenerationListener testProgram(File programFile)  {

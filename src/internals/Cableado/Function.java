@@ -1,13 +1,13 @@
 package internals.Cableado;
 
-import internals.FunctionParam;
+import internals.FunctionArg;
 
 public class Function {
 
 
     private final String _functionName;
     private final int _id;
-    private FunctionParam _params;
+    private FunctionArg _params;
     private int _nSteps=0;
     /**
      *
@@ -15,14 +15,15 @@ public class Function {
      * @param functionArg Can be "value","dir" or ""
      * @return FunctionNumber
      */
-    public Function(String functionName,String functionArg,int id){
+    public Function(String functionName,String functionArg,int nSteps ,int id){
         this._functionName = functionName;
         switch (functionArg){
-            case "dir": _params=FunctionParam.Dir; break;
-            case "value": _params=FunctionParam.Value; break;
-            case "" : _params=FunctionParam.None; break;
+            case "dir": _params= FunctionArg.Dir; break;
+            case "value": _params= FunctionArg.Value; break;
+            case "" : _params= FunctionArg.None; break;
         }//TODO meter esto dentro del enum?
         _id=id;
+        _nSteps=nSteps;
     }
 
     public String getName(){
@@ -34,14 +35,14 @@ public class Function {
     }
 
     public Boolean getBooleanParam(){
-        if(_params.equals(FunctionParam.None)){
+        if(_params.equals(FunctionArg.None)){
             return Boolean.FALSE;
         }else{
             return Boolean.TRUE;
         }
     }
 
-    public FunctionParam getParam(){
+    public FunctionArg getParam(){
         return _params;
     }
 
