@@ -22,7 +22,7 @@ public class MainTest {
                     [SR+1->SR] PC+1->PC;
                 }
 
-                instruccion2 value ) {
+                instruccion2 ( value ) {
                     [SR+1->SR] PC+1->PC;
                 }
 
@@ -53,6 +53,13 @@ public class MainTest {
         walker.walk(spass,tree);
         CodeGenerationListener cpass = new CodeGenerationListener(ids,symbols);
         walker.walk(cpass,tree);
+
+        System.out.println("Repositorio");
+        System.out.println(cpass.getRepositoryFileString());
+        System.out.println("Logica");
+        System.out.println(cpass.getLogicFileString());
+        System.out.println("programa");
+        System.out.println(cpass.getProgramFileString());
     }
 
 }

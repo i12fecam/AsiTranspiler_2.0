@@ -96,6 +96,7 @@ programa{
 	...
 }
 ```
+El bloque de instrucciones empezará inmediatamente después del bloque de variables en memoria
 
 Dentro del programa se podrá inscribir usar las instrucciones que hayamos definidos antes juntos a las variables
 
@@ -135,3 +136,107 @@ multilinea
 */
 ```
 
+## Programas ejemplo
+
+```
+@cableado
+instrucciones{
+
+	//Carga del registro ACC con el contenido de la dirección de memoria indicada.
+	lda(var){ 
+		[SR+1->SR] M->GPR,0->ACC;
+		[LOAD_SR (start)]  GPR+ACC->ACC;
+	}
+
+
+	//Carga del registro QR con el contenido de la dirección de memoria indicada.
+	ldq(var){
+		[LOAD_SR (start)] M->QR;
+	}
+	
+	//Almacena el contenido del registro ACC en la dirección de memoria indicada.
+	sta(var){
+		[SR+1->SR] ACC->GPR;
+		[LOAD_SR (start)] GPR->M;
+	}
+
+		//Almacena el contenido del registro QR en la dirección de memoria indicada.
+	stq(var){
+		[LOAD_SR (start)] QR->M;
+	}
+	
+}
+
+variables{
+	variable1 = 5;
+	variable2 = 6;
+	resultado1 = 0;
+}
+
+programa{
+	lda variable1;
+	sta resultado1;
+	ldq variable2;
+}
+```
+
+```
+@cableado
+instrucciones{
+
+	//Carga del registro ACC con el contenido de la dirección de memoria indicada.
+	lda(var){ 
+		[SR+1->SR] M->GPR,0->ACC;
+		[LOAD_SR (start)]  GPR+ACC->ACC;
+	}
+	
+	paraq(var){
+		/*Salva ACC en la pila, QR en dir y GPR en QR (temporal)*/
+		
+		[SR+1->SR] QR->M , SP-1->SP; //0
+		[SR+1->SR] GPR->QR , SP->MAR; //1
+		[SR+1->SR] ACC->GPR; //2
+		[SR+1->SR] GPR->M, QR->GPR; //3
+		[SR+1->SR] GPR(AD)->MAR, 0->QR; //4
+
+		/*ONES*/
+		[SR+1->SR,LOAD SC(16)] QR->GPR; //5
+		[SR+1->SR, SC-1->SC] ROL_FAQ ; //6
+		{ //7
+			F Zsc :[SR+1->SR] GPR+1->GPR;
+			!F Zsc : [SR+1->SR];
+			F !Zsc : [LOAD_SR (6)] GPR+1->GPR;
+			!F !Zsc :[LOAD_SR (6)] ;
+		}
+
+		/*Guarda bit de paridad (menos significativo) en dir*/
+
+		[SR+1->SR] GPR->QR ,0->ACC; //8
+		{ //9
+			Qn : [SR+1->SR] ACC+1->ACC;
+			!Qn : [SR+1->SR];
+		}
+
+		/*Restaura ACC y QR*/
+
+		[SR+1->SR] ACC->GPR M->QR;
+		[SR+1->SR] SP->MAR;
+		[SR+1->SR] 0->ACC;
+		[SR+1->SR] M->GPR;
+		[SR+1->SR] GPR+ACC->ACC;
+		[LOAD_SR (start)] SP+1->SP;
+		
+	}
+	
+}
+
+variables{
+	input = 2;
+	output = 0;
+}
+
+programa{
+	lda input;
+	paraq output;
+}
+```

@@ -1,9 +1,9 @@
 @cableado
 instrucciones {
-    valueI(){
+    valueI(value){
         [SR+1->SR] PC+1->PC;
     }
-    dirI(){
+    dirI(dir){
             [SR+1->SR] PC+1->PC;
     }
     noneI(){
@@ -19,11 +19,11 @@ variables{
 }
 
 programa{
-    MARK inicio;
-    valueI 12;
-    dirI inicio;
-    valueI vector2[2];
-    noneI;
-    valueI vector[2];
+    MARK inicio; //0
+    valueI 12; //0
+    dirI inicio; //1
+    valueI vector2[2]; //2
+    noneI; //3
+    valueI vector[2]; //4
 
 }
