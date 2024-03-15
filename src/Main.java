@@ -1,4 +1,4 @@
-import Analisis.FirstPassListener;
+import Analisis.BasicAnalisis;
 import Analisis.LogicException;
 import Analisis.SecondPassListener;
 import Analisis.SymbolTable;
@@ -133,7 +133,7 @@ public class Main {
 
         //Iniciar walker
         ParseTreeWalker walker = new ParseTreeWalker();
-        FirstPassListener fpass = new FirstPassListener();
+        BasicAnalisis fpass = new BasicAnalisis();
         walker.walk(fpass,tree);
 
         SymbolTable symbols = fpass.getSymbolTable();

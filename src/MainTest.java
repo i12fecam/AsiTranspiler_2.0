@@ -1,7 +1,9 @@
-import Analisis.FirstPassListener;
+import Analisis.BasicAnalisis;
+import Analisis.CableAnalisis;
 import Analisis.SecondPassListener;
 import Analisis.SymbolTable;
 import CodeGeneration.BasicCodeGenenator;
+import CodeGeneration.CableCodeGenerator;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
 import org.antlr.v4.runtime.CharStreams;
@@ -41,15 +43,15 @@ public class MainTest {
 
         //Iniciar walker
         ParseTreeWalker walker = new ParseTreeWalker();
-        FirstPassListener fpass = new FirstPassListener();
+        CableAnalisis fpass = new CableAnalisis();
         walker.walk(fpass,tree);
 
         SymbolTable symbols = fpass.getSymbolTable();
         ParseTreeProperty<Integer> ids = fpass.getIds();
 
-        SecondPassListener spass = new SecondPassListener(ids,symbols);
-        walker.walk(spass,tree);
-        BasicCodeGenenator cpass = new BasicCodeGenenator(ids,symbols);
+        //SecondPassListener spass = new SecondPassListener(ids,symbols);
+        //walker.walk(spass,tree);
+        CableCodeGenerator cpass = new CableCodeGenerator(ids,symbols);
         walker.walk(cpass,tree);
 
         System.out.println("Repositorio");

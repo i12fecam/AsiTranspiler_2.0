@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class LogicFileGenerator {
+class CableLogicHelper {
     /*
     GPR+1->GPR:t4·q5 + t11·q6 + t6·q7·As' + t10·q8·F·Zsc + t10·q8·F·Zsc'
      */
@@ -17,7 +17,7 @@ class LogicFileGenerator {
     /**
      * Initializes the generator adding manually the microinstructions referring to the fetch functionality
      */
-    public LogicFileGenerator(){
+    public CableLogicHelper(){
         //Se añade las instrucciones correspondientes al fetch
         addMicroInstructionUse(MicroInstruction.pc_to_mar,null,0,null);
 

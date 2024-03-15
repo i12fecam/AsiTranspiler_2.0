@@ -3,9 +3,9 @@ package CodeGeneration;
 import Analisis.SymbolTable;
 import internals.Cableado.Function;
 
-public class RepositoryFileGenerator {
+public class CableRepositoryHelper {
     SymbolTable _symbols;
-    public RepositoryFileGenerator(SymbolTable symbols) {
+    public CableRepositoryHelper(SymbolTable symbols) {
 
     _symbols= symbols;
     }
