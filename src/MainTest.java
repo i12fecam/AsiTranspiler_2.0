@@ -1,7 +1,7 @@
 import Analisis.FirstPassListener;
 import Analisis.SecondPassListener;
 import Analisis.SymbolTable;
-import CodeGeneration.CodeGenerationListener;
+import CodeGeneration.BasicCodeGenenator;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
 import org.antlr.v4.runtime.CharStreams;
@@ -9,8 +9,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
-import java.io.IOException;
 
 public class MainTest {
 
@@ -51,7 +49,7 @@ public class MainTest {
 
         SecondPassListener spass = new SecondPassListener(ids,symbols);
         walker.walk(spass,tree);
-        CodeGenerationListener cpass = new CodeGenerationListener(ids,symbols);
+        BasicCodeGenenator cpass = new BasicCodeGenenator(ids,symbols);
         walker.walk(cpass,tree);
 
         System.out.println("Repositorio");

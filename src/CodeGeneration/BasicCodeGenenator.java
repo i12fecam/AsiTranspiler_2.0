@@ -15,10 +15,10 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CodeGenerationListener extends SicomeBaseListener {
+public class BasicCodeGenenator extends SicomeBaseListener {
     ParseTreeProperty<Integer> _ids = null;
     SymbolTable _symbols = null;
-     public CodeGenerationListener(ParseTreeProperty<Integer> ids, SymbolTable st){
+     public BasicCodeGenenator(ParseTreeProperty<Integer> ids, SymbolTable st){
         _ids = ids;
         _symbols = st;
         logic = new LogicFileGenerator();
