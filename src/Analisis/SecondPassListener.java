@@ -30,13 +30,13 @@ public class SecondPassListener extends SicomeBaseListener {
     public void enterSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) {
         List<MicroInstruction> mInstrList = new ArrayList<>();
 
-        var mInstrCtx = ctx.micro_instr();
+        var mInstrCtx = ctx.instr;
 
         for (var tn: mInstrCtx) {
             MicroInstruction newMI = MicroInstruction.valueOfInput(tn.getText());
             for (var recordedMi : mInstrList){
                 if (newMI.getType().equals(recordedMi.getType())) {
-                    throw new LogicException("Ya hay una instrucción que pertenece al mismo grupo de microinstrucción", tn.getStart());
+                    throw new LogicException("Ya hay una instrucción que pertenece al mismo grupo de microinstrucción", tn);
                 }
             }
             mInstrList.add(newMI);

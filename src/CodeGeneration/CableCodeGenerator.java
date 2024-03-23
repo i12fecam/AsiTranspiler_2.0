@@ -7,6 +7,7 @@ import internals.Cableado.ControlAction;
 import internals.Cableado.ControlEnum;
 import internals.FlagStatus;
 import internals.MicroInstruction;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
@@ -40,9 +41,9 @@ public class CableCodeGenerator extends BasicCodeGenenator {
         int id_step = _ids.get(ctx);
 
         //Añadir todas las instruciones
-        for ( SicomeParser.Micro_instrContext mInstr: ctx.micro_instr()) {
+        for ( Token mInstr: ctx.instr) {
             MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
-            if(mi== null) throw new LogicException("Microinstrucción no reconocidad",mInstr.getStart());//TODO verificar lo de getStart
+            if(mi== null) throw new LogicException("Microinstrucción no reconocidad",mInstr);
             logic.addMicroInstructionUse(mi, id_func, id_step,  null);
 
         }
@@ -82,17 +83,17 @@ public class CableCodeGenerator extends BasicCodeGenenator {
 
         //Procesar las flags
         List<FlagStatus> flags = new ArrayList<>();
-        for( SicomeParser.FlagContext flag: ctx.flag()){
+        for( Token flag: ctx.flags){
             FlagStatus newFlag = FlagStatus.ValueOfInput(flag.getText());
-            if(newFlag == null) throw new LogicException("Bandera no reconocida",flag.getStart());
+            if(newFlag == null) throw new LogicException("Bandera no reconocida",flag);
             flags.add(newFlag);
 
         }
 
 
-        for (SicomeParser.Micro_instrContext mInstr : ctx.micro_instr()) {
+        for (Token mInstr : ctx.instr) {
             MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
-            if(mi== null) throw new LogicException("Microinstrucción no reconocidad",mInstr.getStart());
+            if(mi== null) throw new LogicException("Microinstrucción no reconocidad",mInstr);
             logic.addMicroInstructionUse(mi, id_func, id_step, flags);
 
         }

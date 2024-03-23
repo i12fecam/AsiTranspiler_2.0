@@ -1,4 +1,5 @@
-package Parsing;// Generated from Sicome.g4 by ANTLR 4.13.1
+// Generated from /home/abi/Codigo/AsiTranspiler 2.0/grammar/Sicome.g4 by ANTLR 4.13.1
+package Parsing;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -7,99 +8,29 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface SicomeListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link SicomeParser#prog}.
+	 * Enter a parse tree produced by the {@code cableProgram}
+	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
 	 */
-	void enterProg(SicomeParser.ProgContext ctx);
+	void enterCableProgram(SicomeParser.CableProgramContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SicomeParser#prog}.
+	 * Exit a parse tree produced by the {@code cableProgram}
+	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
 	 */
-	void exitProg(SicomeParser.ProgContext ctx);
+	void exitCableProgram(SicomeParser.CableProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SicomeParser#cableInstructionBlock}.
+	 * Enter a parse tree produced by the {@code microCableProgram}
+	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
 	 */
-	void enterCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx);
+	void enterMicroCableProgram(SicomeParser.MicroCableProgramContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SicomeParser#cableInstructionBlock}.
+	 * Exit a parse tree produced by the {@code microCableProgram}
+	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
 	 */
-	void exitCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SicomeParser#cableInstruction}.
-	 * @param ctx the parse tree
-	 */
-	void enterCableInstruction(SicomeParser.CableInstructionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SicomeParser#cableInstruction}.
-	 * @param ctx the parse tree
-	 */
-	void exitCableInstruction(SicomeParser.CableInstructionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code simpleCableStep}
-	 * labeled alternative in {@link SicomeParser#cableStep}.
-	 * @param ctx the parse tree
-	 */
-	void enterSimpleCableStep(SicomeParser.SimpleCableStepContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code simpleCableStep}
-	 * labeled alternative in {@link SicomeParser#cableStep}.
-	 * @param ctx the parse tree
-	 */
-	void exitSimpleCableStep(SicomeParser.SimpleCableStepContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code conditionalCableStepBlock}
-	 * labeled alternative in {@link SicomeParser#cableStep}.
-	 * @param ctx the parse tree
-	 */
-	void enterConditionalCableStepBlock(SicomeParser.ConditionalCableStepBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code conditionalCableStepBlock}
-	 * labeled alternative in {@link SicomeParser#cableStep}.
-	 * @param ctx the parse tree
-	 */
-	void exitConditionalCableStepBlock(SicomeParser.ConditionalCableStepBlockContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SicomeParser#conditionalCableStep}.
-	 * @param ctx the parse tree
-	 */
-	void enterConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SicomeParser#conditionalCableStep}.
-	 * @param ctx the parse tree
-	 */
-	void exitConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SicomeParser#cableFlowControl}.
-	 * @param ctx the parse tree
-	 */
-	void enterCableFlowControl(SicomeParser.CableFlowControlContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SicomeParser#cableFlowControl}.
-	 * @param ctx the parse tree
-	 */
-	void exitCableFlowControl(SicomeParser.CableFlowControlContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SicomeParser#micro_instr}.
-	 * @param ctx the parse tree
-	 */
-	void enterMicro_instr(SicomeParser.Micro_instrContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SicomeParser#micro_instr}.
-	 * @param ctx the parse tree
-	 */
-	void exitMicro_instr(SicomeParser.Micro_instrContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SicomeParser#flag}.
-	 * @param ctx the parse tree
-	 */
-	void enterFlag(SicomeParser.FlagContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SicomeParser#flag}.
-	 * @param ctx the parse tree
-	 */
-	void exitFlag(SicomeParser.FlagContext ctx);
+	void exitMicroCableProgram(SicomeParser.MicroCableProgramContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SicomeParser#variablesBlock}.
 	 * @param ctx the parse tree
@@ -178,4 +109,176 @@ public interface SicomeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInstructionUseArgument(SicomeParser.InstructionUseArgumentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#cableInstructionBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#cableInstructionBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#cableInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterCableInstruction(SicomeParser.CableInstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#cableInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitCableInstruction(SicomeParser.CableInstructionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code simpleCableStep}
+	 * labeled alternative in {@link SicomeParser#cableStep}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleCableStep(SicomeParser.SimpleCableStepContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code simpleCableStep}
+	 * labeled alternative in {@link SicomeParser#cableStep}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleCableStep(SicomeParser.SimpleCableStepContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code conditionalCableStepBlock}
+	 * labeled alternative in {@link SicomeParser#cableStep}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionalCableStepBlock(SicomeParser.ConditionalCableStepBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code conditionalCableStepBlock}
+	 * labeled alternative in {@link SicomeParser#cableStep}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionalCableStepBlock(SicomeParser.ConditionalCableStepBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#conditionalCableStep}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#conditionalCableStep}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#cableFlowControl}.
+	 * @param ctx the parse tree
+	 */
+	void enterCableFlowControl(SicomeParser.CableFlowControlContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#cableFlowControl}.
+	 * @param ctx the parse tree
+	 */
+	void exitCableFlowControl(SicomeParser.CableFlowControlContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#statusLogicBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatusLogicBlock(SicomeParser.StatusLogicBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#statusLogicBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatusLogicBlock(SicomeParser.StatusLogicBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code simpleStatusLogic}
+	 * labeled alternative in {@link SicomeParser#statusLogic}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleStatusLogic(SicomeParser.SimpleStatusLogicContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code simpleStatusLogic}
+	 * labeled alternative in {@link SicomeParser#statusLogic}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleStatusLogic(SicomeParser.SimpleStatusLogicContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code complexStatusLogic}
+	 * labeled alternative in {@link SicomeParser#statusLogic}.
+	 * @param ctx the parse tree
+	 */
+	void enterComplexStatusLogic(SicomeParser.ComplexStatusLogicContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code complexStatusLogic}
+	 * labeled alternative in {@link SicomeParser#statusLogic}.
+	 * @param ctx the parse tree
+	 */
+	void exitComplexStatusLogic(SicomeParser.ComplexStatusLogicContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#statusLogicOption}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatusLogicOption(SicomeParser.StatusLogicOptionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#statusLogicOption}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatusLogicOption(SicomeParser.StatusLogicOptionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#microInstructionBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#microInstructionBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#microInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterMicroInstruction(SicomeParser.MicroInstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#microInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitMicroInstruction(SicomeParser.MicroInstructionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code simpleMicroStep}
+	 * labeled alternative in {@link SicomeParser#microStep}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleMicroStep(SicomeParser.SimpleMicroStepContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code simpleMicroStep}
+	 * labeled alternative in {@link SicomeParser#microStep}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleMicroStep(SicomeParser.SimpleMicroStepContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code conditionalMicroStepBlock}
+	 * labeled alternative in {@link SicomeParser#microStep}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionalMicroStepBlock(SicomeParser.ConditionalMicroStepBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code conditionalMicroStepBlock}
+	 * labeled alternative in {@link SicomeParser#microStep}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionalMicroStepBlock(SicomeParser.ConditionalMicroStepBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#microFlowControl}.
+	 * @param ctx the parse tree
+	 */
+	void enterMicroFlowControl(SicomeParser.MicroFlowControlContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#microFlowControl}.
+	 * @param ctx the parse tree
+	 */
+	void exitMicroFlowControl(SicomeParser.MicroFlowControlContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#conditionalMicroStep}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionalMicroStep(SicomeParser.ConditionalMicroStepContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#conditionalMicroStep}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionalMicroStep(SicomeParser.ConditionalMicroStepContext ctx);
 }
