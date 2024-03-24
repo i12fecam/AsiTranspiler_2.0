@@ -14,13 +14,9 @@ public class CableAnalisis extends BasicAnalisis{
     @Override
     public void enterCableInstruction(SicomeParser.CableInstructionContext ctx) {
         String functionName =ctx.IDENTIFIER().getText();
-        String args = null;
-        if(ctx.arg== null){
-            args = "";
-        }
-        else{
-            args =ctx.arg.getText();
-        }
+        String args = "";
+        if(ctx.arg!= null)  args =ctx.arg.getText();
+
         List<SicomeParser.CableStepContext> steps =ctx.cableStep();
         int instr_id;
         try {

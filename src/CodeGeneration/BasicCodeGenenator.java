@@ -53,17 +53,23 @@ public class BasicCodeGenenator extends SicomeBaseListener {
 
         switch (ExpectedArg){
             case Value -> {
-                if(arg.num!=null){      //raw number
+                if(arg.num!=null) {      //raw number
                     paramNumber = Integer.decode(arg.num.getText());
-                }else if(arg.var!=null && arg.offset!=null){    //vectorVariable
+                }
+                else{
+                    throw new LogicException("Argumento de tipo valor no encontrado",instrName);
+                }
+            }
+            case Var -> {
+
+                if(arg.var!=null && arg.offset!=null){    //vectorVariable
                     paramNumber = _symbols.getPosFromVariable(arg.var.getText(),Integer.decode(arg.offset.getText()));
                 }else if(arg.var!=null && _symbols.isVariable(arg.var.getText())) { //simpleVariable
                     paramNumber = _symbols.getPosFromVariable(instrName.getText(), 0);
                 }else {
-                    throw new LogicException("Argumento de tipo valor no encontrado",instrName);
+                    throw new LogicException("Argumento de tipo variable no encontrado",instrName);
                 }
             }
-
             case Dir -> {
                 if (arg.var != null && _symbols.isLabel(arg.var.getText())) { //jump label
                     paramNumber = _symbols.getPosFromLabel(arg.var.getText());

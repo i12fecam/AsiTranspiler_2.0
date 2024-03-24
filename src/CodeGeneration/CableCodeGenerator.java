@@ -43,7 +43,7 @@ public class CableCodeGenerator extends BasicCodeGenenator {
         //Añadir todas las instruciones
         for ( Token mInstr: ctx.instr) {
             MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
-            if(mi== null) throw new LogicException("Microinstrucción no reconocidad",mInstr);
+            if(mi== null) throw new LogicException("Microinstrucción no reconocida",mInstr);
             logic.addMicroInstructionUse(mi, id_func, id_step,  null);
 
         }

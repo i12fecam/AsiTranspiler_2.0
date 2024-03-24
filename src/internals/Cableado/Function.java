@@ -20,6 +20,7 @@ public class Function {
         switch (functionArg){
             case "dir": _params= FunctionArg.Dir; break;
             case "value": _params= FunctionArg.Value; break;
+            case "var" : _params=FunctionArg.Var;break;
             case "" : _params= FunctionArg.None; break;
         }//TODO meter esto dentro del enum?
         _id=id;

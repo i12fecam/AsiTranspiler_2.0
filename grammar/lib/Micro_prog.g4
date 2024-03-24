@@ -11,9 +11,14 @@ statusLogic: name=IDENTIFIER '->' option=('INCR'|'BIF'|'RET') disable='DISABLE'?
 
 statusLogicOption : flags=FLAG (',' flags=FLAG)* ':' option=('INCR'|'BIF'|'RET') disable='DISABLE'? ;
 
+
+
+
+
+
 microInstructionBlock : '@microinstruccion' 'instrucciones''{' microInstruction+ '}';
 
-microInstruction: IDENTIFIER '(' arg=('value'|'dir')? ')' '{' microStep+ '}';
+microInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' microStep+ '}';
 
 microStep:  '[' microFlowControl+']' instr=MICRO_INSTR* ';'  #simpleMicroStep
                | '{'conditionalMicroStep+ '}'                #conditionalMicroStepBlock
