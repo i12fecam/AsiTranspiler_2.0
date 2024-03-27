@@ -13,11 +13,11 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CableCodeGenerator extends BasicCodeGenenator {
+public class CableCodeGenerator extends BasicCodeGenerator {
 
-    CableLogicHelper logic;
+    protected CableLogicHelper logic;
 
-    CableRepositoryHelper repository;
+    protected CableRepositoryHelper repository;
 
 
     public CableCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st) {

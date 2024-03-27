@@ -2,11 +2,15 @@ package Analisis;
 
 import internals.Cableado.Function;
 import internals.FunctionArg;
+import internals.Micro.BifurcationLogic;
 import internals.Variable;
 
 import java.util.*;
 
 public class SymbolTable {
+    /*-------------------------------------------------------------------
+        functions
+     */
     private final Vector<Function> functions = new Vector<>();
 
     /**
@@ -57,7 +61,25 @@ public class SymbolTable {
         }
         return null;
     }
-    /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*-----------------------------------------------------------------------------------------------------
         Variables
      */
     private List<Variable> variables = new ArrayList<>();
@@ -157,7 +179,39 @@ public class SymbolTable {
     public int getStartOfInstruction(){
         return getNextAvailablePos();
     }
-    /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*--------------------------------------------------------------------------------
         Labels
      */
 
@@ -196,4 +250,42 @@ public class SymbolTable {
         if(labels.get(labelName) == null) return false;
         return true;
     }
+
+
+    /*--------------------------------------------------------------------------
+    Bifurcation Logic
+     */
+    private Vector<BifurcationLogic> bifurcationLogics = new Vector<>();
+    public int addBifurcationLogic(String name,boolean needsArg) throws RuntimeException {
+        if(bifurcationLogics.size()==16){
+            throw new RuntimeException("El número de reglas de bifurcación tiene un máximo de 16");
+        }
+        for(var bifLogic:bifurcationLogics){
+            if(bifLogic.getName().equals(name)){
+                throw new RuntimeException("Ya existe una regla de bifurcacion con el mismo nombre");
+            }
+        }
+
+        bifurcationLogics.add(new BifurcationLogic(bifurcationLogics.size(),name,needsArg));
+        return bifurcationLogics.size()-1;
+    }
+
+    public boolean doesBifurcationLogicNeedArgument(String name) throws RuntimeException {
+        for(var BifLogic:bifurcationLogics){
+            if(BifLogic.getName().equals(name)){
+                return BifLogic.neeedsArg();
+            }
+        }
+        throw new RuntimeException("La logica de bifurcación que se refiere no ha sido definida");
+    }
+
+    public BifurcationLogic getBifurcationLogic(String name){
+        for(var bifLogic: bifurcationLogics){
+            if(bifLogic.getName().equals(name)){
+                return bifLogic;
+            }
+        }
+        return null;
+    }
+
 }

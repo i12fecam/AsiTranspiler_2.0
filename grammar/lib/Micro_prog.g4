@@ -20,11 +20,8 @@ microInstructionBlock : '@microinstruccion' 'instrucciones''{' microInstruction+
 
 microInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' microStep+ '}';
 
-microStep:  '[' microFlowControl+']' instr=MICRO_INSTR* ';'  #simpleMicroStep
-               | '{'conditionalMicroStep+ '}'                #conditionalMicroStepBlock
-               ;
+microStep:  '[' microFlowControl+']' instr=MICRO_INSTR* ';';
 microFlowControl: action='LOAD_SR' '(' value=NUMBER ')'
                 | action='SR+1->SR'
                 | action=IDENTIFIER ('(' value=NUMBER ')')?
                 ;
-conditionalMicroStep: flags+=FLAG (',' flags+=FLAG)* ':' '[' microFlowControl+ ']' instr=MICRO_INSTR* ';' ;

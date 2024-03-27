@@ -4,21 +4,14 @@ import Analisis.LogicException;
 import Analisis.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.Cableado.ControlAction;
-import internals.Cableado.ControlEnum;
-import internals.FlagStatus;
 import internals.FunctionArg;
-import internals.MicroInstruction;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class BasicCodeGenenator extends SicomeBaseListener {
-    ParseTreeProperty<Integer> _ids = null;
-    SymbolTable _symbols = null;
-     public BasicCodeGenenator(ParseTreeProperty<Integer> ids, SymbolTable st){
+public class BasicCodeGenerator extends SicomeBaseListener {
+    protected ParseTreeProperty<Integer> _ids = null;
+    protected SymbolTable _symbols = null;
+     public BasicCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st){
         _ids = ids;
         _symbols = st;
         program = new ProgramGenerator(_symbols);

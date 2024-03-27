@@ -1,8 +1,5 @@
-import Analisis.BasicAnalisis;
 import Analisis.CableAnalisis;
-import Analisis.SecondPassListener;
 import Analisis.SymbolTable;
-import CodeGeneration.BasicCodeGenenator;
 import CodeGeneration.CableCodeGenerator;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;

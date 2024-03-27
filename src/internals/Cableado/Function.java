@@ -12,7 +12,7 @@ public class Function {
     /**
      *
      * @param functionName
-     * @param functionArg Can be "value","dir" or ""
+     * @param functionArg Can be "value","dir","var" or ""
      * @return FunctionNumber
      */
     public Function(String functionName,String functionArg,int nSteps ,int id){
@@ -50,11 +50,7 @@ public class Function {
     public int getNSteps() {
         return _nSteps;
     }
-    public void addStep(int nSteps){
-        assert(nSteps>0);
-        _nSteps+=nSteps;
 
-    }
 
 
 }

@@ -238,29 +238,15 @@ public interface SicomeListener extends ParseTreeListener {
 	 */
 	void exitMicroInstruction(SicomeParser.MicroInstructionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code simpleMicroStep}
-	 * labeled alternative in {@link SicomeParser#microStep}.
+	 * Enter a parse tree produced by {@link SicomeParser#microStep}.
 	 * @param ctx the parse tree
 	 */
-	void enterSimpleMicroStep(SicomeParser.SimpleMicroStepContext ctx);
+	void enterMicroStep(SicomeParser.MicroStepContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code simpleMicroStep}
-	 * labeled alternative in {@link SicomeParser#microStep}.
+	 * Exit a parse tree produced by {@link SicomeParser#microStep}.
 	 * @param ctx the parse tree
 	 */
-	void exitSimpleMicroStep(SicomeParser.SimpleMicroStepContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code conditionalMicroStepBlock}
-	 * labeled alternative in {@link SicomeParser#microStep}.
-	 * @param ctx the parse tree
-	 */
-	void enterConditionalMicroStepBlock(SicomeParser.ConditionalMicroStepBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code conditionalMicroStepBlock}
-	 * labeled alternative in {@link SicomeParser#microStep}.
-	 * @param ctx the parse tree
-	 */
-	void exitConditionalMicroStepBlock(SicomeParser.ConditionalMicroStepBlockContext ctx);
+	void exitMicroStep(SicomeParser.MicroStepContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SicomeParser#microFlowControl}.
 	 * @param ctx the parse tree
@@ -271,14 +257,4 @@ public interface SicomeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMicroFlowControl(SicomeParser.MicroFlowControlContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SicomeParser#conditionalMicroStep}.
-	 * @param ctx the parse tree
-	 */
-	void enterConditionalMicroStep(SicomeParser.ConditionalMicroStepContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SicomeParser#conditionalMicroStep}.
-	 * @param ctx the parse tree
-	 */
-	void exitConditionalMicroStep(SicomeParser.ConditionalMicroStepContext ctx);
 }

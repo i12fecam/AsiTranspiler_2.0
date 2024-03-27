@@ -2,7 +2,7 @@ import Analisis.BasicAnalisis;
 import Analisis.LogicException;
 import Analisis.SecondPassListener;
 import Analisis.SymbolTable;
-import CodeGeneration.BasicCodeGenenator;
+import CodeGeneration.BasicCodeGenerator;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
 import org.antlr.v4.runtime.*;
@@ -30,7 +30,7 @@ public class Main {
          */
         try {
             if (args.length > 0 && Objects.equals(args[0], "copile")) {
-                BasicCodeGenenator cg = null;
+                BasicCodeGenerator cg = null;
                 if (args.length > 1) {
                     File program = new File(args[1]);
                     cg = testProgram(program);
@@ -118,7 +118,7 @@ public class Main {
             System.err.println("Hubo un problema creando el archivo: " + e.getMessage());
         }
     }
-    private static BasicCodeGenenator testProgram(File programFile)  {
+    private static BasicCodeGenerator testProgram(File programFile)  {
         String programContent;
         try {
             programContent =readFileContent(programFile);
@@ -141,7 +141,7 @@ public class Main {
 
         SecondPassListener spass = new SecondPassListener(ids,symbols);
         walker.walk(spass,tree);
-        BasicCodeGenenator cpass = new BasicCodeGenenator(ids,symbols);
+        BasicCodeGenerator cpass = new BasicCodeGenerator(ids,symbols);
         walker.walk(cpass,tree);
         return cpass;
     }
