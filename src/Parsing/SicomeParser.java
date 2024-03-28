@@ -1325,7 +1325,8 @@ public class SicomeParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class StatusLogicOptionContext extends ParserRuleContext {
-		public Token flags;
+		public Token FLAG;
+		public List<Token> flags = new ArrayList<Token>();
 		public Token option;
 		public Token disable;
 		public List<TerminalNode> FLAG() { return getTokens(SicomeParser.FLAG); }
@@ -1354,7 +1355,8 @@ public class SicomeParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(220);
-			((StatusLogicOptionContext)_localctx).flags = match(FLAG);
+			((StatusLogicOptionContext)_localctx).FLAG = match(FLAG);
+			((StatusLogicOptionContext)_localctx).flags.add(((StatusLogicOptionContext)_localctx).FLAG);
 			setState(225);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -1364,7 +1366,8 @@ public class SicomeParser extends Parser {
 				setState(221);
 				match(T__7);
 				setState(222);
-				((StatusLogicOptionContext)_localctx).flags = match(FLAG);
+				((StatusLogicOptionContext)_localctx).FLAG = match(FLAG);
+				((StatusLogicOptionContext)_localctx).flags.add(((StatusLogicOptionContext)_localctx).FLAG);
 				}
 				}
 				setState(227);
@@ -1560,7 +1563,10 @@ public class SicomeParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class MicroStepContext extends ParserRuleContext {
-		public Token instr;
+		public MicroFlowControlContext microFlowControl;
+		public List<MicroFlowControlContext> flow = new ArrayList<MicroFlowControlContext>();
+		public Token MICRO_INSTR;
+		public List<Token> instr = new ArrayList<Token>();
 		public List<MicroFlowControlContext> microFlowControl() {
 			return getRuleContexts(MicroFlowControlContext.class);
 		}
@@ -1601,13 +1607,14 @@ public class SicomeParser extends Parser {
 				{
 				{
 				setState(258);
-				microFlowControl();
+				((MicroStepContext)_localctx).microFlowControl = microFlowControl();
+				((MicroStepContext)_localctx).flow.add(((MicroStepContext)_localctx).microFlowControl);
 				}
 				}
 				setState(261); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 17185112064L) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 17188782080L) != 0) );
 			setState(263);
 			match(T__6);
 			setState(267);
@@ -1617,7 +1624,8 @@ public class SicomeParser extends Parser {
 				{
 				{
 				setState(264);
-				((MicroStepContext)_localctx).instr = match(MICRO_INSTR);
+				((MicroStepContext)_localctx).MICRO_INSTR = match(MICRO_INSTR);
+				((MicroStepContext)_localctx).instr.add(((MicroStepContext)_localctx).MICRO_INSTR);
 				}
 				}
 				setState(269);
@@ -1667,11 +1675,11 @@ public class SicomeParser extends Parser {
 			setState(283);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__19:
+			case T__18:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(272);
-				((MicroFlowControlContext)_localctx).action = match(T__19);
+				((MicroFlowControlContext)_localctx).action = match(T__18);
 				setState(273);
 				match(T__12);
 				setState(274);
@@ -1680,11 +1688,11 @@ public class SicomeParser extends Parser {
 				match(T__16);
 				}
 				break;
-			case T__21:
+			case T__22:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(276);
-				((MicroFlowControlContext)_localctx).action = match(T__21);
+				((MicroFlowControlContext)_localctx).action = match(T__22);
 				}
 				break;
 			case IDENTIFIER:
@@ -1895,9 +1903,9 @@ public class SicomeParser extends Parser {
 		"\u0000\u0000\u010a\u010d\u0001\u0000\u0000\u0000\u010b\u0109\u0001\u0000"+
 		"\u0000\u0000\u010b\u010c\u0001\u0000\u0000\u0000\u010c\u010e\u0001\u0000"+
 		"\u0000\u0000\u010d\u010b\u0001\u0000\u0000\u0000\u010e\u010f\u0005\u0005"+
-		"\u0000\u0000\u010f!\u0001\u0000\u0000\u0000\u0110\u0111\u0005\u0014\u0000"+
+		"\u0000\u0000\u010f!\u0001\u0000\u0000\u0000\u0110\u0111\u0005\u0013\u0000"+
 		"\u0000\u0111\u0112\u0005\r\u0000\u0000\u0112\u0113\u0005!\u0000\u0000"+
-		"\u0113\u011c\u0005\u0011\u0000\u0000\u0114\u011c\u0005\u0016\u0000\u0000"+
+		"\u0113\u011c\u0005\u0011\u0000\u0000\u0114\u011c\u0005\u0017\u0000\u0000"+
 		"\u0115\u0119\u0005\"\u0000\u0000\u0116\u0117\u0005\r\u0000\u0000\u0117"+
 		"\u0118\u0005!\u0000\u0000\u0118\u011a\u0005\u0011\u0000\u0000\u0119\u0116"+
 		"\u0001\u0000\u0000\u0000\u0119\u011a\u0001\u0000\u0000\u0000\u011a\u011c"+

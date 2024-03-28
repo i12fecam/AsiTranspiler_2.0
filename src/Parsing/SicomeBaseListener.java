@@ -269,25 +269,13 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSimpleMicroStep(SicomeParser.SimpleMicroStepContext ctx) { }
+	@Override public void enterMicroStep(SicomeParser.MicroStepContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSimpleMicroStep(SicomeParser.SimpleMicroStepContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterConditionalMicroStepBlock(SicomeParser.ConditionalMicroStepBlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitConditionalMicroStepBlock(SicomeParser.ConditionalMicroStepBlockContext ctx) { }
+	@Override public void exitMicroStep(SicomeParser.MicroStepContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -300,18 +288,6 @@ public class SicomeBaseListener implements SicomeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMicroFlowControl(SicomeParser.MicroFlowControlContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterConditionalMicroStep(SicomeParser.ConditionalMicroStepContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitConditionalMicroStep(SicomeParser.ConditionalMicroStepContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

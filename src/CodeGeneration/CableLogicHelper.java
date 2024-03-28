@@ -1,7 +1,7 @@
 package CodeGeneration;
 
 import internals.Cableado.ControlAction;
-import internals.FlagStatus;
+import internals.FlagState;
 import internals.MicroInstruction;
 
 import java.util.HashMap;
@@ -35,7 +35,7 @@ class CableLogicHelper {
      * @param idStep the step the in which the microinstruction is used, The first step of a fuction is assumed to be 0
      * @param flags the flags that are to be activated to use the micro instruction
      */
-    public void addMicroInstructionUse(MicroInstruction mi, Integer idFunc, int idStep, List<FlagStatus> flags) {
+    public void addMicroInstructionUse(MicroInstruction mi, Integer idFunc, int idStep, List<FlagState> flags) {
 
         /*Cuando no tiene funciones asociadas se asume que es una instrucción de fetch
          Si no es de fetch se le ñade 3 pasos mas porque esos tres son los que pertence al inicio de fetch
@@ -61,7 +61,7 @@ class CableLogicHelper {
             builder.append("q").append(idFunc);
         }
         if(flags!=null) {
-            for (FlagStatus flag : flags) {
+            for (FlagState flag : flags) {
                 builder.append("·");
                 builder.append(flag.getOutputName());
             }
@@ -73,7 +73,7 @@ class CableLogicHelper {
 
     private Map<ControlAction, String> ControlMap = new HashMap<>(24);
 
-    public void addControlActionUse(ControlAction action, Integer idFunc, int idStep, List<FlagStatus> flags) {
+    public void addControlActionUse(ControlAction action, Integer idFunc, int idStep, List<FlagState> flags) {
 
         if(idFunc != null){
             idStep+=3;
@@ -95,7 +95,7 @@ class CableLogicHelper {
             builder.append("q").append(idFunc);
         }
         if(flags!=null) {
-            for (FlagStatus flag : flags) {
+            for (FlagState flag : flags) {
                 builder.append("·");
                 builder.append(flag.getOutputName());
             }

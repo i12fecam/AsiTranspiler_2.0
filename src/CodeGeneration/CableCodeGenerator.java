@@ -5,7 +5,7 @@ import Analisis.SymbolTable;
 import Parsing.SicomeParser;
 import internals.Cableado.ControlAction;
 import internals.Cableado.ControlEnum;
-import internals.FlagStatus;
+import internals.FlagState;
 import internals.MicroInstruction;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -82,9 +82,9 @@ public class CableCodeGenerator extends BasicCodeGenerator {
 
 
         //Procesar las flags
-        List<FlagStatus> flags = new ArrayList<>();
+        List<FlagState> flags = new ArrayList<>();
         for( Token flag: ctx.flags){
-            FlagStatus newFlag = FlagStatus.ValueOfInput(flag.getText());
+            FlagState newFlag = FlagState.ValueOfInput(flag.getText());
             if(newFlag == null) throw new LogicException("Bandera no reconocida",flag);
             flags.add(newFlag);
 

@@ -2,28 +2,28 @@ package internals;
 
 import java.util.Objects;
 
-public class FlagStatus {
+public class FlagState {
 
 
 
     private final Flag flag;
     private final boolean activated;
 
-    public FlagStatus(Flag flag, boolean activated) {
+    public FlagState(Flag flag, boolean activated) {
         this.flag = flag;
         this.activated = activated;
     }
 
-    public static FlagStatus ValueOfInput(String input){
+    public static FlagState ValueOfInput(String input){
         Flag flag = null;
         if(input.startsWith("!")){
             flag = Flag.ValueofInput(input.substring(1));
             if(flag == null) return null;
-            return new FlagStatus(flag, false);
+            return new FlagState(flag, false);
         }
         flag = Flag.ValueofInput(input);
         if(flag == null) return null;
-        return new FlagStatus(flag,true);
+        return new FlagState(flag,true);
     }
 
     public String getOutputName(){
@@ -32,14 +32,19 @@ public class FlagStatus {
         else return flag.outputName +"'";
     }
 
+    public Flag getFlag() {
+        return flag;
+    }
 
-
+    public boolean getState(){
+        return activated;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FlagStatus flagStatus = (FlagStatus) o;
-        return activated == flagStatus.activated && flag == flagStatus.flag;
+        FlagState flagState = (FlagState) o;
+        return activated == flagState.activated && flag == flagState.flag;
     }
 
     @Override

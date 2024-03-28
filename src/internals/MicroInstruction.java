@@ -94,7 +94,7 @@ public enum MicroInstruction {
         }
         return null;
     }
-    public MicroInstructionType getType(){//TODO el get type debe modficarse porque se han movido cosas
+    public MicroInstructionType getType(){
         if( ordinal()<= 2){
              return MicroInstructionType.mar;
         } else if (ordinal() <= 5) {

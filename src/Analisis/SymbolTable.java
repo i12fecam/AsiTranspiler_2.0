@@ -62,6 +62,15 @@ public class SymbolTable {
         return null;
     }
 
+    public Function getFunctionByName(int id){
+        for(Function fun: functions){
+            if(fun.getId()==id){
+                return fun;
+            }
+        }
+        return null;
+    }
+
 
 
 
