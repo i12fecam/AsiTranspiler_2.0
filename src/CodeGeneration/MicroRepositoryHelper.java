@@ -70,7 +70,7 @@ public class MicroRepositoryHelper {
             builder.append(" ");
 
             for(var StepCode:entry.getValue()){
-                builder.append(StepCode);
+                builder.append(Integer.toHexString(StepCode));
                 builder.append(" ");
             }
         }
