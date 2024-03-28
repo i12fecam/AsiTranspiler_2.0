@@ -55,7 +55,7 @@ public class MicroRepositoryHelper {
                 "CB 4000100\n" +
                 "CB 0201100\n" +
                 "CB 3000300\n" +
-                "$");
+                "$\n");
         for(var entry:repo.entrySet()){
             int functionId =entry.getKey();
             Function fun =_symbols.getFunctionByName(functionId);
