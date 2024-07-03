@@ -1,12 +1,4 @@
-import Analisis.BasicAnalisis;
 import Analisis.LogicException;
-import Analisis.SecondPassListener;
-import Analisis.SymbolTable;
-import CodeGeneration.BasicCodeGenerator;
-import Parsing.SicomeLexer;
-import Parsing.SicomeParser;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -20,8 +12,13 @@ public class Main {
         return Files.readString(path);
     }
 
+
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
+
+    private static Runner runner = new Runner();
+
+
     public static void main(String[] args) throws IOException{
         /*
         asi copile programa.txt /folder
@@ -30,22 +27,24 @@ public class Main {
          */
         try {
             if (args.length > 0 && Objects.equals(args[0], "copile")) {
-                BasicCodeGenerator cg = null;
+
                 if (args.length > 1) {
                     File program = new File(args[1]);
-                    cg = testProgram(program);
+                    String fileContent = readFileContent(program);
+                    runner.run(fileContent);
                 } else {
                     printHelp();
                 }
 
                 if (args.length > 2) {
-                    saveResults(args[2], cg.getRepositoryFileString(), cg.getLogicFileString(), cg.getProgramFileString());
+                    saveResults(args[2], runner.getRepositoryText(), runner.getLogicText(), runner.getProgramText());
                 }
 
             } else if (args.length > 0 && Objects.equals(args[0], "test")) {
                 if (args.length > 1) {
                     File program = new File(args[1]);
-                    testProgram(program);
+                    String fileContent = readFileContent(program);
+                    runner.run(fileContent);
                 } else {
                     printHelp();
                 }
@@ -118,33 +117,7 @@ public class Main {
             System.err.println("Hubo un problema creando el archivo: " + e.getMessage());
         }
     }
-    private static BasicCodeGenerator testProgram(File programFile)  {
-        String programContent;
-        try {
-            programContent =readFileContent(programFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        //Inicar parseado
-        SicomeLexer lexer = new SicomeLexer(CharStreams.fromString(programContent));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        SicomeParser parser = new SicomeParser(tokens);
-        ParseTree tree = parser.prog();
 
-        //Iniciar walker
-        ParseTreeWalker walker = new ParseTreeWalker();
-        BasicAnalisis fpass = new BasicAnalisis();
-        walker.walk(fpass,tree);
-
-        SymbolTable symbols = fpass.getSymbolTable();
-        ParseTreeProperty<Integer> ids = fpass.getIds();
-
-        SecondPassListener spass = new SecondPassListener(ids,symbols);
-        walker.walk(spass,tree);
-        BasicCodeGenerator cpass = new BasicCodeGenerator(ids,symbols);
-        walker.walk(cpass,tree);
-        return cpass;
-    }
 
     public static String readFileContent(File file) throws IOException {
         StringBuilder content = new StringBuilder();

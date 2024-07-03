@@ -19,8 +19,8 @@ public class CableInstructionTest {
     String outputRepositoryText = "instruccion1 true 0 q0\n";
 
 
-        TestHelper helper = new TestHelper();
-        helper.startTest(inputText);
+        Runner helper = new Runner();
+        helper.run(inputText);
         System.out.println(helper.getRepositoryText());
         assertEquals(helper.getRepositoryText(),outputRepositoryText);
     }

@@ -6,13 +6,12 @@ import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-public class TestHelper {
+public class Runner {
     private BasicCodeGenerator res = null;
-    public void startTest(String fileContent){
+    public void run(String fileContent){
 
 
         //Inicar parseado
