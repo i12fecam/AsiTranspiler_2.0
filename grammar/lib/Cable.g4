@@ -3,7 +3,7 @@ import Base;
 
 cableInstructionBlock: '@cableado' 'instrucciones''{' cableInstruction+ '}';
 
-cableInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' cableStep+ '}';
+cableInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' cableStep* '}';
 
 cableStep: '[' cableFlowControl+']' instr+=MICRO_INSTR* ';'  #simpleCableStep
     | '{'conditionalCableStep+ '}'                         #conditionalCableStepBlock

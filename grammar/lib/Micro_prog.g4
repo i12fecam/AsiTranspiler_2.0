@@ -18,7 +18,7 @@ statusLogicOption : flags+=FLAG (',' flags+=FLAG)* ':' option=('INCR'|'BIF'|'RET
 
 microInstructionBlock : '@microinstruccion' 'instrucciones''{' microInstruction+ '}';
 
-microInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' microStep+ '}';
+microInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' microStep* '}';
 
 microStep:  '[' flow+=microFlowControl+']' instr+=MICRO_INSTR* ';';
 microFlowControl: action='LOAD_SC' '(' value=NUMBER ')'

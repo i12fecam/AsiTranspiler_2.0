@@ -12,7 +12,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 public class MainTest {
 
     public static void main(String[] args) {
-        String programContent= """
+        /*String programContent=
+            """
             @cableado
             instrucciones {
                 instruccion1(){
@@ -31,7 +32,15 @@ public class MainTest {
             }
             programa{}
             """;
-
+        */
+        String programContent = "@cableado\n" +
+                "instrucciones {\n" +
+                "    instruccion1(value){\n" +
+                "     \n" +
+                "    }" +
+                "}" +
+                "variables{}" +
+                "programa{}";
         //Inicar parseado
         SicomeLexer lexer = new SicomeLexer(CharStreams.fromString(programContent));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
