@@ -79,7 +79,7 @@ public class MicroCodeGenerator extends BasicCodeGenerator{
             repository.associateMicroInstruction(id_func,id_step,mi);
         }
 
-        boolean usedArg = false;
+        boolean usedArg = false;//TODO por que hice esto
         for(var flowControl:ctx.flow){
            switch (flowControl.action.getText()){
                case "LOAD_SC":
