@@ -1,3 +1,4 @@
+import Analisis.LogicException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -144,6 +145,125 @@ public class CableInstructionTest {
         assertCableLogic(helper.getLogicText(),outputLogicText);
     }
 
+    @Test
+    public void mustHandleLoadSRStart(){
+        String inputText = """
+                @cableado
+                instrucciones {
+                    instruccion1(){
+                     [] PC+1->PC;
+                     [LOAD_SR(START)] GPR->PC;
+                    }
+                }
+                variables{}
+                programa{}
+                """;
+
+        String outputRepositoryText = "halt false 0 q0\ninstruccion1 false 2 q1\n";
+
+        String outputLogicText = """
+                $
+                M->GPR:t1
+                GPR(OP)->OPR:t2
+                PC->MAR:t0
+                GPR(AD)->MAR:t2
+                PC+1->PC:t1 + t3·q1
+                GPR->PC:t4·q1
+                $
+                SR+1->SR:t0 + t1 + t2 + t3·q1
+                LOAD SR:t4·q1-3
+                $
+                """;
+
+        Runner helper = new Runner();
+        helper.run(inputText);
+
+        //System.out.println(helper.getLogicText());
+
+        assertEquals(outputRepositoryText,helper.getRepositoryText());
+        assertCableLogic(helper.getLogicText(),outputLogicText);
+    }
+
+    @Test
+    public void mustHandleSRPlusAndLoadSC(){
+        String inputText = """
+                @cableado
+                instrucciones {
+                    instruccion1(){
+                     [SR+1->SR LOAD_SC(8)] PC+1->PC;
+                     [LOAD_SR(START)] GPR->PC;
+                    }
+                }
+                variables{}
+                programa{}
+                """;
+
+        String outputRepositoryText = "halt false 0 q0\ninstruccion1 false 2 q1\n";
+
+        String outputLogicText = """
+                $
+                M->GPR:t1
+                GPR(OP)->OPR:t2
+                PC->MAR:t0
+                GPR(AD)->MAR:t2
+                PC+1->PC:t1 + t3·q1
+                GPR->PC:t4·q1
+                $
+                SR+1->SR:t0 + t1 + t2 + t3·q1
+                LOAD SR:t4·q1-3
+                LOAD SC:t3·q1-8
+                $
+                """;
+
+        Runner helper = new Runner();
+        helper.run(inputText);
+
+        System.out.println(helper.getLogicText());
+
+        assertEquals(outputRepositoryText,helper.getRepositoryText());
+        assertCableLogic(helper.getLogicText(),outputLogicText);
+    }
+
+
+    @Test
+    public void mustProhibitSRPlusAndLoadSR(){
+        String inputText = """
+                @cableado
+                instrucciones {
+                    instruccion1(){
+                     [SR+1->SR LOAD_SR(8)] PC+1->PC;
+                     [LOAD_SR(START)] GPR->PC;
+                    }
+                }
+                variables{}
+                programa{}
+                """;
+
+        String outputRepositoryText = "halt false 0 q0\ninstruccion1 false 2 q1\n";
+
+        String outputLogicText = """
+                $
+                M->GPR:t1
+                GPR(OP)->OPR:t2
+                PC->MAR:t0
+                GPR(AD)->MAR:t2
+                PC+1->PC:t1 + t3·q1
+                GPR->PC:t4·q1
+                $
+                SR+1->SR:t0 + t1 + t2 + t3·q1
+                LOAD SR:t4·q1-3
+                LOAD SC:t3·q1-8
+                $
+                """;
+
+        Runner helper = new Runner();
+        assertThrows(LogicException.class , () -> helper.run(inputText));
+
+        //System.out.println(helper.getLogicText());
+
+        //assertEquals(outputRepositoryText,helper.getRepositoryText());
+        //assertCableLogic(helper.getLogicText(),outputLogicText);
+    }
     public void assertCableLogic(String received, String expected){
         String[] receivedSection = received.split("$");
         String[] expectedSection = expected.split("$");

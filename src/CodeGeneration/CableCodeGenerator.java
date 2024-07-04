@@ -47,31 +47,56 @@ public class CableCodeGenerator extends BasicCodeGenerator {
             logic.addMicroInstructionUse(mi, id_func, id_step,  null);
 
         }
-        //Añade todos los controlFlow
+
+        //Se gestiona los control flow
+
+
+        //Si no hay nada se asume que se quiere decir SR+1->SR
+        if(ctx.cableFlowControl().size()==0){
+            logic.addControlActionUse(new ControlAction(ControlEnum.SR_PLUS, null),
+                    id_func,
+                    id_step,
+                    null);
+            return;
+        }
+
+        boolean found_SR_Cable_Flow = false;
 
         for(SicomeParser.CableFlowControlContext cf: ctx.cableFlowControl()) {
             String type = cf.type.getText();
-            if (type.equals("LOAD_SC")) {
-                Integer value = Integer.decode(cf.value.getText());
-                logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SC, value),
-                        id_func,
-                        id_step,
-                        null);
-            } else if (type.equals("LOAD_SR")) {
-                Integer value = null;
-                if (cf.value.getText().equals("START")) {
+            String valueString = cf.value == null ? "" : cf.value.getText();
+            Integer value = null;
+            ControlEnum ce = ControlEnum.valueOfInput(type);
+
+            switch (ce){
+                case LOAD_SC -> {
                     value = Integer.decode(cf.value.getText());
                 }
-                logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SR, value),
-                        id_func,
-                        id_step,
-                        null);
-            } else {
-                logic.addControlActionUse(new ControlAction(ControlEnum.valueOfInput(cf.type.getText()), null),//TODO reformular esto
-                        id_func,
-                        id_step,
-                        null);
+                case LOAD_SR -> {
+                    if(found_SR_Cable_Flow) throw new LogicException("No puede haber dos controles de tipo SR en el mismo paso", cf.type);
+                    found_SR_Cable_Flow = true;
+
+                    if(valueString.equals("START")){
+                        value = 0;
+                    } else value = Integer.decode(cf.value.getText()) + 3;
+                }
+
+                case SR_PLUS, SC_MINUS -> {
+                    if(found_SR_Cable_Flow) throw new LogicException("No puede haber dos controles de tipo SR en el mismo paso", cf.type);
+                    found_SR_Cable_Flow = true;
+                }
+
+                default -> {
+                    System.out.println("Error al leer la microinstrucción");
+                }
             }
+
+            logic.addControlActionUse(new ControlAction(ce, value),
+                    id_func,
+                    id_step,
+                    null);
+
+
         }
     }
 
@@ -98,29 +123,42 @@ public class CableCodeGenerator extends BasicCodeGenerator {
 
         }
 
-        for(SicomeParser.CableFlowControlContext cf: ctx.cableFlowControl()){
-            String type =cf.type.getText();
-            if(type.equals("LOAD_SC")){
-                Integer value = Integer.decode(cf.value.getText());
-                logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SC,value),
-                        id_func,
-                        id_step,
-                        flags);
-            } else if (type.equals("LOAD_SR")) {
-                Integer value=null;
-                if(cf.value.getText().equals("START")){
+        boolean found_SR_Cable_Flow = false;
+
+        for(SicomeParser.CableFlowControlContext cf: ctx.cableFlowControl()) {
+            String type = cf.type.getText();
+            String valueString = cf.value == null ? "" : cf.value.getText();
+            Integer value = null;
+            ControlEnum ce = ControlEnum.valueOfInput(type);
+
+            switch (ce){
+                case LOAD_SC -> {
                     value = Integer.decode(cf.value.getText());
                 }
-                logic.addControlActionUse(new ControlAction(ControlEnum.LOAD_SR,value),
-                        id_func,
-                        id_step,
-                        flags);
-            } else {
-                logic.addControlActionUse(new ControlAction(ControlEnum.valueOf(cf.type.getText()),null),
-                        id_func,
-                        id_step,
-                        flags);
+                case LOAD_SR -> {
+                    if(found_SR_Cable_Flow) throw new LogicException("No puede haber dos controles de tipo SR en el mismo paso", cf.type);
+                    found_SR_Cable_Flow = true;
+
+                    if(valueString.equals("START")){
+                        value = 0;
+                    } else value = Integer.decode(cf.value.getText()) + 3;
+                }
+
+                case SR_PLUS, SC_MINUS -> {
+                    if(found_SR_Cable_Flow) throw new LogicException("No puede haber dos controles de tipo SR en el mismo paso", cf.type);
+                    found_SR_Cable_Flow = true;
+                }
+
+                default -> {
+                    System.out.println("Error al leer la microinstrucción");
+                }
             }
+
+            logic.addControlActionUse(new ControlAction(ce, value),
+                    id_func,
+                    id_step,
+                    flags);
+
 
         }
     }
