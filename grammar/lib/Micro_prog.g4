@@ -20,7 +20,7 @@ microInstructionBlock : '@microinstruccion' 'instrucciones''{' microInstruction+
 
 microInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' microStep* '}';
 
-microStep:  '[' flow+=microFlowControl+']' instr+=MICRO_INSTR* ';';
+microStep:  '[' flow+=microFlowControl*']' instr+=MICRO_INSTR* ';';
 microFlowControl: action='LOAD_SC' '(' value=NUMBER ')'
                 | action='SC-1->SC'
                 | action=IDENTIFIER ('(' value=NUMBER ')')?

@@ -1600,10 +1600,10 @@ public class SicomeParser extends Parser {
 			{
 			setState(259);
 			match(T__5);
-			setState(261); 
+			setState(263);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			do {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 17188782080L) != 0)) {
 				{
 				{
 				setState(260);
@@ -1611,28 +1611,28 @@ public class SicomeParser extends Parser {
 				((MicroStepContext)_localctx).flow.add(((MicroStepContext)_localctx).microFlowControl);
 				}
 				}
-				setState(263); 
+				setState(265);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 17188782080L) != 0) );
-			setState(265);
+			}
+			setState(266);
 			match(T__6);
-			setState(269);
+			setState(270);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==MICRO_INSTR) {
 				{
 				{
-				setState(266);
+				setState(267);
 				((MicroStepContext)_localctx).MICRO_INSTR = match(MICRO_INSTR);
 				((MicroStepContext)_localctx).instr.add(((MicroStepContext)_localctx).MICRO_INSTR);
 				}
 				}
-				setState(271);
+				setState(272);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(272);
+			setState(273);
 			match(T__4);
 			}
 		}
@@ -1672,44 +1672,44 @@ public class SicomeParser extends Parser {
 		enterRule(_localctx, 34, RULE_microFlowControl);
 		int _la;
 		try {
-			setState(285);
+			setState(286);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__18:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(274);
-				((MicroFlowControlContext)_localctx).action = match(T__18);
 				setState(275);
-				match(T__12);
+				((MicroFlowControlContext)_localctx).action = match(T__18);
 				setState(276);
-				((MicroFlowControlContext)_localctx).value = match(NUMBER);
+				match(T__12);
 				setState(277);
+				((MicroFlowControlContext)_localctx).value = match(NUMBER);
+				setState(278);
 				match(T__16);
 				}
 				break;
 			case T__22:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(278);
+				setState(279);
 				((MicroFlowControlContext)_localctx).action = match(T__22);
 				}
 				break;
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(279);
+				setState(280);
 				((MicroFlowControlContext)_localctx).action = match(IDENTIFIER);
-				setState(283);
+				setState(284);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__12) {
 					{
-					setState(280);
-					match(T__12);
 					setState(281);
-					((MicroFlowControlContext)_localctx).value = match(NUMBER);
+					match(T__12);
 					setState(282);
+					((MicroFlowControlContext)_localctx).value = match(NUMBER);
+					setState(283);
 					match(T__16);
 					}
 				}
@@ -1732,7 +1732,7 @@ public class SicomeParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001)\u0120\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001)\u0121\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -1769,14 +1769,14 @@ public class SicomeParser extends Parser {
 		"\u00ef\b\u000e\u000b\u000e\f\u000e\u00f0\u0001\u000e\u0001\u000e\u0001"+
 		"\u000f\u0001\u000f\u0001\u000f\u0003\u000f\u00f8\b\u000f\u0001\u000f\u0001"+
 		"\u000f\u0001\u000f\u0005\u000f\u00fd\b\u000f\n\u000f\f\u000f\u0100\t\u000f"+
-		"\u0001\u000f\u0001\u000f\u0001\u0010\u0001\u0010\u0004\u0010\u0106\b\u0010"+
-		"\u000b\u0010\f\u0010\u0107\u0001\u0010\u0001\u0010\u0005\u0010\u010c\b"+
-		"\u0010\n\u0010\f\u0010\u010f\t\u0010\u0001\u0010\u0001\u0010\u0001\u0011"+
+		"\u0001\u000f\u0001\u000f\u0001\u0010\u0001\u0010\u0005\u0010\u0106\b\u0010"+
+		"\n\u0010\f\u0010\u0109\t\u0010\u0001\u0010\u0001\u0010\u0005\u0010\u010d"+
+		"\b\u0010\n\u0010\f\u0010\u0110\t\u0010\u0001\u0010\u0001\u0010\u0001\u0011"+
 		"\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011"+
-		"\u0001\u0011\u0001\u0011\u0003\u0011\u011c\b\u0011\u0003\u0011\u011e\b"+
+		"\u0001\u0011\u0001\u0011\u0003\u0011\u011d\b\u0011\u0003\u0011\u011f\b"+
 		"\u0011\u0001\u0011\u0000\u0000\u0012\u0000\u0002\u0004\u0006\b\n\f\u000e"+
 		"\u0010\u0012\u0014\u0016\u0018\u001a\u001c\u001e \"\u0000\u0003\u0001"+
-		"\u0000\u000e\u0010\u0002\u0000\u0015\u0015!!\u0001\u0000\u001a\u001c\u0131"+
+		"\u0000\u000e\u0010\u0002\u0000\u0015\u0015!!\u0001\u0000\u001a\u001c\u0132"+
 		"\u0000-\u0001\u0000\u0000\u0000\u0002/\u0001\u0000\u0000\u0000\u0004M"+
 		"\u0001\u0000\u0000\u0000\u0006O\u0001\u0000\u0000\u0000\b`\u0001\u0000"+
 		"\u0000\u0000\nj\u0001\u0000\u0000\u0000\fl\u0001\u0000\u0000\u0000\u000e"+
@@ -1784,7 +1784,7 @@ public class SicomeParser extends Parser {
 		"\u0001\u0000\u0000\u0000\u0014\u00c0\u0001\u0000\u0000\u0000\u0016\u00c2"+
 		"\u0001\u0000\u0000\u0000\u0018\u00db\u0001\u0000\u0000\u0000\u001a\u00dd"+
 		"\u0001\u0000\u0000\u0000\u001c\u00ea\u0001\u0000\u0000\u0000\u001e\u00f4"+
-		"\u0001\u0000\u0000\u0000 \u0103\u0001\u0000\u0000\u0000\"\u011d\u0001"+
+		"\u0001\u0000\u0000\u0000 \u0103\u0001\u0000\u0000\u0000\"\u011e\u0001"+
 		"\u0000\u0000\u0000$%\u0003\f\u0006\u0000%&\u0003\u0002\u0001\u0000&\'"+
 		"\u0003\u0006\u0003\u0000\'.\u0001\u0000\u0000\u0000()\u0003\u0016\u000b"+
 		"\u0000)*\u0003\u001c\u000e\u0000*+\u0003\u0002\u0001\u0000+,\u0003\u0006"+
@@ -1896,25 +1896,25 @@ public class SicomeParser extends Parser {
 		"\u0001\u0000\u0000\u0000\u00fe\u00fc\u0001\u0000\u0000\u0000\u00fe\u00ff"+
 		"\u0001\u0000\u0000\u0000\u00ff\u0101\u0001\u0000\u0000\u0000\u0100\u00fe"+
 		"\u0001\u0000\u0000\u0000\u0101\u0102\u0005\u0003\u0000\u0000\u0102\u001f"+
-		"\u0001\u0000\u0000\u0000\u0103\u0105\u0005\u0006\u0000\u0000\u0104\u0106"+
-		"\u0003\"\u0011\u0000\u0105\u0104\u0001\u0000\u0000\u0000\u0106\u0107\u0001"+
+		"\u0001\u0000\u0000\u0000\u0103\u0107\u0005\u0006\u0000\u0000\u0104\u0106"+
+		"\u0003\"\u0011\u0000\u0105\u0104\u0001\u0000\u0000\u0000\u0106\u0109\u0001"+
 		"\u0000\u0000\u0000\u0107\u0105\u0001\u0000\u0000\u0000\u0107\u0108\u0001"+
-		"\u0000\u0000\u0000\u0108\u0109\u0001\u0000\u0000\u0000\u0109\u010d\u0005"+
-		"\u0007\u0000\u0000\u010a\u010c\u0005\u001f\u0000\u0000\u010b\u010a\u0001"+
-		"\u0000\u0000\u0000\u010c\u010f\u0001\u0000\u0000\u0000\u010d\u010b\u0001"+
-		"\u0000\u0000\u0000\u010d\u010e\u0001\u0000\u0000\u0000\u010e\u0110\u0001"+
-		"\u0000\u0000\u0000\u010f\u010d\u0001\u0000\u0000\u0000\u0110\u0111\u0005"+
-		"\u0005\u0000\u0000\u0111!\u0001\u0000\u0000\u0000\u0112\u0113\u0005\u0013"+
-		"\u0000\u0000\u0113\u0114\u0005\r\u0000\u0000\u0114\u0115\u0005!\u0000"+
-		"\u0000\u0115\u011e\u0005\u0011\u0000\u0000\u0116\u011e\u0005\u0017\u0000"+
-		"\u0000\u0117\u011b\u0005\"\u0000\u0000\u0118\u0119\u0005\r\u0000\u0000"+
-		"\u0119\u011a\u0005!\u0000\u0000\u011a\u011c\u0005\u0011\u0000\u0000\u011b"+
-		"\u0118\u0001\u0000\u0000\u0000\u011b\u011c\u0001\u0000\u0000\u0000\u011c"+
-		"\u011e\u0001\u0000\u0000\u0000\u011d\u0112\u0001\u0000\u0000\u0000\u011d"+
-		"\u0116\u0001\u0000\u0000\u0000\u011d\u0117\u0001\u0000\u0000\u0000\u011e"+
-		"#\u0001\u0000\u0000\u0000 -4HMT`fjry\u0080\u0089\u008f\u0098\u009c\u00a3"+
-		"\u00ab\u00b1\u00c0\u00c7\u00cf\u00d7\u00db\u00e2\u00e8\u00f0\u00f7\u00fe"+
-		"\u0107\u010d\u011b\u011d";
+		"\u0000\u0000\u0000\u0108\u010a\u0001\u0000\u0000\u0000\u0109\u0107\u0001"+
+		"\u0000\u0000\u0000\u010a\u010e\u0005\u0007\u0000\u0000\u010b\u010d\u0005"+
+		"\u001f\u0000\u0000\u010c\u010b\u0001\u0000\u0000\u0000\u010d\u0110\u0001"+
+		"\u0000\u0000\u0000\u010e\u010c\u0001\u0000\u0000\u0000\u010e\u010f\u0001"+
+		"\u0000\u0000\u0000\u010f\u0111\u0001\u0000\u0000\u0000\u0110\u010e\u0001"+
+		"\u0000\u0000\u0000\u0111\u0112\u0005\u0005\u0000\u0000\u0112!\u0001\u0000"+
+		"\u0000\u0000\u0113\u0114\u0005\u0013\u0000\u0000\u0114\u0115\u0005\r\u0000"+
+		"\u0000\u0115\u0116\u0005!\u0000\u0000\u0116\u011f\u0005\u0011\u0000\u0000"+
+		"\u0117\u011f\u0005\u0017\u0000\u0000\u0118\u011c\u0005\"\u0000\u0000\u0119"+
+		"\u011a\u0005\r\u0000\u0000\u011a\u011b\u0005!\u0000\u0000\u011b\u011d"+
+		"\u0005\u0011\u0000\u0000\u011c\u0119\u0001\u0000\u0000\u0000\u011c\u011d"+
+		"\u0001\u0000\u0000\u0000\u011d\u011f\u0001\u0000\u0000\u0000\u011e\u0113"+
+		"\u0001\u0000\u0000\u0000\u011e\u0117\u0001\u0000\u0000\u0000\u011e\u0118"+
+		"\u0001\u0000\u0000\u0000\u011f#\u0001\u0000\u0000\u0000 -4HMT`fjry\u0080"+
+		"\u0089\u008f\u0098\u009c\u00a3\u00ab\u00b1\u00c0\u00c7\u00cf\u00d7\u00db"+
+		"\u00e2\u00e8\u00f0\u00f7\u00fe\u0107\u010e\u011c\u011e";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

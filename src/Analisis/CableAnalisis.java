@@ -31,4 +31,9 @@ public class CableAnalisis extends BasicAnalisis{
             step_id++;
         }
     }
+
+    @Override
+    public void enterCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx) {
+        symbolTable.addFunction("halt","",0);
+    }
 }

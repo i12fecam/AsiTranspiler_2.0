@@ -1,6 +1,7 @@
 package CodeGeneration;
 
 import internals.Cableado.ControlAction;
+import internals.Cableado.ControlEnum;
 import internals.FlagState;
 import internals.MicroInstruction;
 
@@ -26,6 +27,12 @@ class CableLogicHelper {
 
         addMicroInstructionUse(MicroInstruction.gpr_ad_to_mar,null,2,null);
         addMicroInstructionUse(MicroInstruction.gpr_op_to_opr,null,2,null);
+
+
+        addControlActionUse(new ControlAction(ControlEnum.SR_PLUS,null),null,0,null);
+        addControlActionUse(new ControlAction(ControlEnum.SR_PLUS,null),null,1,null);
+        addControlActionUse(new ControlAction(ControlEnum.SR_PLUS,null),null,2,null);
+
     }
 
     /**

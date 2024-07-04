@@ -2,7 +2,7 @@ package internals.Cableado;
 
 public class ControlAction {
     ControlEnum _tipo;
-    int _value;
+    Integer _value;
 
 
 
@@ -14,7 +14,7 @@ public class ControlAction {
             _value = value;
         } else if(control.equals(ControlEnum.LOAD_SR)){
             if(value==null){
-                _value=0;
+                _value= null;
             } else{
                 _value=value+3;//TODO esto es especifico de cableado, posible reformetadeado
             }
