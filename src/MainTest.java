@@ -1,29 +1,33 @@
+import Analisis.LogicException;
+
 public class MainTest {
 
     public static void main(String[] args) {
         String programContent=
             """
             @cableado
-            instrucciones {
-                instruccion1(){
-                    [SR+1->SR] PC+1->PC;
+                instrucciones {
+                    instruccion1(){
+                        {
+                            X : [SR+1->SR] PC->MAR;
+                            As: [SR+1->SR LOAD_SC(3)] 0->ACC;
+                        }
+                        [LOAD_SR(START)] !ACC->ACC;
+                    }
                 }
-
-                instruccion2 ( value ) {
-                    [SR+1->SR] PC+1->PC;
+                variables{
                 }
-
-                instruccion3 ( dir ) {
-                    [SR+1->SR] PC+1->PC;
+                programa{
                 }
-            }
-            variables {
-            }
-            programa{}
             """;
 
         Runner runner = new Runner();
-        runner.run(programContent);
+
+            runner.run(programContent);
+
+
+
+        runner.printTokens();
 
         System.out.println("Repositorio");
         System.out.println(runner.getRepositoryText());

@@ -5,7 +5,7 @@ public enum ControlEnum {
     LOAD_SR("LOAD_SR"),
     LOAD_SC("LOAD_SC"),
     SR_PLUS("SR+1->SR"),
-    SC_MINUS("SR+1->SR");
+    SC_MINUS("SC-1->SC");
 
     public String _input_text;
     private  ControlEnum(String input_text){

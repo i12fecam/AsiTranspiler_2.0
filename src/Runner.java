@@ -8,15 +8,16 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
+import org.antlr.v4.runtime.Token;
 public class Runner {
     private BasicCodeGenerator res = null;
+    private CommonTokenStream tokens = null;
     public void run(String fileContent){
 
 
         //Inicar parseado
         SicomeLexer lexer = new SicomeLexer(CharStreams.fromString(fileContent));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        tokens = new CommonTokenStream(lexer);
         SicomeParser parser = new SicomeParser(tokens);
         var tree = parser.prog();
 
@@ -60,5 +61,16 @@ public class Runner {
 
     public String getProgramText(){
         return res.getProgramFileString();
+    }
+
+    public void printTokens(){
+        tokens.fill();
+        for (Token token : tokens.getTokens()) {
+            String tokenName = SicomeLexer.VOCABULARY.getSymbolicName(token.getType());
+            if (tokenName == null) {
+                tokenName = SicomeLexer.VOCABULARY.getDisplayName(token.getType());
+            }
+            System.out.println("Token: " + tokenName + " (" + token.getText() + ")");
+        }
     }
 }
