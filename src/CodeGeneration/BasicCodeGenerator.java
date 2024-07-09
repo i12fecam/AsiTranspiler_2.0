@@ -37,14 +37,14 @@ public class BasicCodeGenerator extends SicomeBaseListener {
     public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
         Token instrName =ctx.name;
         SicomeParser.InstructionUseArgumentContext arg =ctx.instructionUseArgument();
-        FunctionArg ExpectedArg =_symbols.getArgument(instrName.getText());
-        if(ExpectedArg == null){
+        FunctionArg expectedArg =_symbols.getArgument(instrName.getText());
+        if(expectedArg == null){
             throw new LogicException("La Instrucción no está definida",instrName);
         }
 
         Integer paramNumber =null;
 
-        switch (ExpectedArg){
+        switch (expectedArg){
             case Value -> {
                 if(arg.num!=null) {      //raw number
                     paramNumber = Integer.decode(arg.num.getText());
@@ -58,7 +58,7 @@ public class BasicCodeGenerator extends SicomeBaseListener {
                 if(arg.var!=null && arg.offset!=null){    //vectorVariable
                     paramNumber = _symbols.getPosFromVariable(arg.var.getText(),Integer.decode(arg.offset.getText()));
                 }else if(arg.var!=null && _symbols.isVariable(arg.var.getText())) { //simpleVariable
-                    paramNumber = _symbols.getPosFromVariable(instrName.getText(), 0);
+                    paramNumber = _symbols.getPosFromVariable(arg.var.getText(), 0);
                 }else {
                     throw new LogicException("Argumento de tipo variable no encontrado",instrName);
                 }

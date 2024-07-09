@@ -2,16 +2,16 @@ lexer grammar Base;
 
 
 
-
+fragment HEXNUMBER: '0x'[0-9a-fA-F]+ ;
+fragment DECNUMBER: [0-9]+;
+NUMBER: HEXNUMBER|DECNUMBER;
 
 
 FLAG: [A-Z!][a-z]?[a-z+]?;
 IDENTIFIER: [a-z][a-zA-Z0-9]*; //debe empezar por minuscula
 MICRO_INSTR: [A-Z!0][a-zA-Z0-9+\->_@]* ;
 
-NUMBER: HEXNUMBER|DECNUMBER;
-HEXNUMBER: '0x'[0-9a-fA-F]+ ;
-DECNUMBER: [0-9]+;
+
 
 
 

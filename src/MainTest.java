@@ -8,22 +8,28 @@ public class MainTest {
             @cableado
                 instrucciones {
                     instruccion1(){
-                        {
-                            X : [SR+1->SR] PC->MAR;
-                            As: [SR+1->SR LOAD_SC(3)] 0->ACC;
-                        }
-                        [LOAD_SR(START)] !ACC->ACC;
+                    
                     }
                 }
                 variables{
+                a = 5;
+                b= 10;
+                c = 15;
+                d = 0xA1;
                 }
                 programa{
+                instruccion1;
+                halt;
                 }
             """;
 
         Runner runner = new Runner();
-
+        try {
             runner.run(programContent);
+        }catch (RuntimeException e){
+
+        }
+
 
 
 

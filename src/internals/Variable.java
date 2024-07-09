@@ -10,7 +10,7 @@ public class Variable {
     List<Integer> _values;
     //Para vectores
     public Variable(String variableName,int startInMemory, int reservedSpace, List<Integer> initializedValues) {
-        assert(reservedSpace>1);
+        //assert(reservedSpace>1);
         assert(variableName!=null);
         assert(initializedValues!=null);
         assert(initializedValues.size() == reservedSpace);

@@ -150,7 +150,7 @@ public class SymbolTable {
      */
     public Integer getPosFromVariable(String variableName, int offset){
         for(Variable var:variables){
-            if(Objects.equals(var.name(), variableName)){
+            if(var.name().equals(variableName)){
                 return var.getPosition(offset);
             }
         }
@@ -177,7 +177,7 @@ public class SymbolTable {
         if(variables.size()==0){
             return 0;
         } else {
-            return variables.get(variables.size()).getEndPosition()+1;
+            return variables.get(variables.size()-1).getEndPosition()+1;
         }
     }
 

@@ -29,15 +29,15 @@ public class ProgramGenerator {
                 Integer memDir=var.getStartPosition();
                 for(int i = 0; i<var.capacity(); i++){
                     int memValue=var.getInitialValue(i);
-                    buider.append(Integer.toHexString(memDir));
+                    buider.append(Integer.toHexString(memDir).toUpperCase());
                     buider.append(" ");
-                    buider.append(Integer.toHexString(memValue));
+                    buider.append(Integer.toHexString(memValue).toUpperCase());
                     buider.append("\n");
                     memDir++;
                 }
         }
         buider.append("@").append("\n");
-        buider.append(Integer.toHexString(_symbols.getStartOfInstruction())).append("\n");
+        buider.append(  Integer.toHexString(_symbols.getStartOfInstruction()).toUpperCase()  ) .append("\n");
         buider.append("@").append("\n");
         buider.append(InstructionBuilder.toString());
         return buider.toString();
