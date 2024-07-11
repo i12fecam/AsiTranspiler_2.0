@@ -1,4 +1,4 @@
-package CodeGeneration;
+package CodeGeneration.Cable;
 
 import Analisis.SymbolTable;
 import internals.Cableado.Function;

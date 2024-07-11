@@ -282,7 +282,7 @@ public class SymbolTable {
     public boolean doesBifurcationLogicNeedArgument(String name) throws RuntimeException {
         for(var BifLogic:bifurcationLogics){
             if(BifLogic.getName().equals(name)){
-                return BifLogic.neeedsArg();
+                return BifLogic.needsArg();
             }
         }
         throw new RuntimeException("La logica de bifurcación que se refiere no ha sido definida");

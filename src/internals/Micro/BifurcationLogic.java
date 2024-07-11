@@ -11,7 +11,7 @@ public class BifurcationLogic {
         this.needsArg=needsArg;
     }
 
-    public boolean neeedsArg(){
+    public boolean needsArg(){
         return needsArg;
     }
     public int getId(){

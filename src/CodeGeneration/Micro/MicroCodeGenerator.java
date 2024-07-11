@@ -1,7 +1,8 @@
-package CodeGeneration;
+package CodeGeneration.Micro;
 
 import Analisis.LogicException;
 import Analisis.SymbolTable;
+import CodeGeneration.BasicCodeGenerator;
 import Parsing.SicomeParser;
 import internals.FlagState;
 import internals.Micro.BifurcationLogic;
@@ -10,7 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
 
-public class MicroCodeGenerator extends BasicCodeGenerator{
+public class MicroCodeGenerator extends BasicCodeGenerator {
 
     private MicroLogicHelper logic = new MicroLogicHelper();
 
@@ -94,7 +95,7 @@ public class MicroCodeGenerator extends BasicCodeGenerator{
                default:
                    BifurcationLogic bifLogic =_symbols.getBifurcationLogic(flowControl.action.getText());
                    if(bifLogic == null) throw new LogicException("La lógica de bifurcación no ha sido definida anteriormente", flowControl.action);
-                   if(!bifLogic.neeedsArg() && flowControl.value!=null ){
+                   if(!bifLogic.needsArg() && flowControl.value!=null ){
                        throw new LogicException("La logica de bifurcación necesita de un argumento", flowControl.action);
                    }
                    repository.associateControlFlow(id_func,id_step, bifLogic.getId());

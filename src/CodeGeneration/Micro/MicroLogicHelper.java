@@ -1,4 +1,4 @@
-package CodeGeneration;
+package CodeGeneration.Micro;
 
 import internals.Flag;
 import internals.FlagState;

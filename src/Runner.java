@@ -1,7 +1,7 @@
 import Analisis.*;
 import CodeGeneration.BasicCodeGenerator;
-import CodeGeneration.CableCodeGenerator;
-import CodeGeneration.MicroCodeGenerator;
+import CodeGeneration.Cable.CableCodeGenerator;
+import CodeGeneration.Micro.MicroCodeGenerator;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
 import org.antlr.v4.runtime.CharStreams;

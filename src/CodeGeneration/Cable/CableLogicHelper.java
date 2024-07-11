@@ -1,4 +1,4 @@
-package CodeGeneration;
+package CodeGeneration.Cable;
 
 import internals.Cableado.ControlAction;
 import internals.Cableado.ControlEnum;
@@ -45,7 +45,7 @@ class CableLogicHelper {
     public void addMicroInstructionUse(MicroInstruction mi, Integer idFunc, int idStep, List<FlagState> flags) {
 
         /*Cuando no tiene funciones asociadas se asume que es una instrucción de fetch
-         Si no es de fetch se le ñade 3 pasos mas porque esos tres son los que pertence al inicio de fetch
+         Si no es de fetch se le añade 3 pasos mas porque esos tres son los que pertence al inicio de fetch
          */
         if(idFunc != null){
             idStep+=3;

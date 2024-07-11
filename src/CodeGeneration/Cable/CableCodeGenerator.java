@@ -1,7 +1,8 @@
-package CodeGeneration;
+package CodeGeneration.Cable;
 
 import Analisis.LogicException;
 import Analisis.SymbolTable;
+import CodeGeneration.BasicCodeGenerator;
 import Parsing.SicomeParser;
 import internals.Cableado.ControlAction;
 import internals.Cableado.ControlEnum;
