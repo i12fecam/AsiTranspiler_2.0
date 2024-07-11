@@ -151,7 +151,7 @@ public class SymbolTable {
     public Integer getPosFromVariable(String variableName, int offset){
         for(Variable var:variables){
             if(var.name().equals(variableName)){
-                return var.getPosition(offset);
+                    return var.getPosition(offset);
             }
         }
         return null;

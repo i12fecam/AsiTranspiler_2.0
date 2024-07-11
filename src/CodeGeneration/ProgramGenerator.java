@@ -52,7 +52,7 @@ public class ProgramGenerator {
         InstructionBuilder.append(instruction);
         if(argument!=null){
             InstructionBuilder.append(" ");
-            InstructionBuilder.append(Integer.toHexString(argument));
+            InstructionBuilder.append(Integer.toHexString(argument).toUpperCase());
         }
         InstructionBuilder.append("\n");
     }
