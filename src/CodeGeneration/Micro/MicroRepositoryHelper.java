@@ -69,10 +69,17 @@ public class MicroRepositoryHelper {
             }
             builder.append(" ");
 
-            for(var StepCode:entry.getValue()){
-                builder.append(Integer.toHexString(StepCode));
-                builder.append(" ");
+            if(entry.getValue().size() == 0){
+                builder.append("0");
             }
+            else{
+                for(var StepCode:entry.getValue()){
+                    builder.append(Integer.toHexString(StepCode));
+                    builder.append(" ");
+                }
+            }
+
+            builder.append("\n");
         }
 
         return builder.toString();

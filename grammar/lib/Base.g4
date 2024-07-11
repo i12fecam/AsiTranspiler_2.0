@@ -7,8 +7,8 @@ fragment DECNUMBER: [0-9]+;
 NUMBER: HEXNUMBER|DECNUMBER;
 
 
-FLAG: [A-Z!][a-z]?[a-z+]?;
-IDENTIFIER: [a-z][a-zA-Z0-9]*; //debe empezar por minuscula
+FLAG: [!]?[A-Z][a-z]?[a-z+1]?;
+IDENTIFIER: [a-z][a-zA-Z0-9_]*; //debe empezar por minuscula
 MICRO_INSTR: [A-Z!0][a-zA-Z0-9+\->_@]* ;
 
 

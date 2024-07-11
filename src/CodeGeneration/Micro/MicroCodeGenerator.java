@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class MicroCodeGenerator extends BasicCodeGenerator {
 
+
     private MicroLogicHelper logic = new MicroLogicHelper();
 
     private MicroRepositoryHelper repository;
@@ -20,6 +21,14 @@ public class MicroCodeGenerator extends BasicCodeGenerator {
     public MicroCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st) {
         super(ids, st);
         repository = new MicroRepositoryHelper(st);
+    }
+
+    public String getLogicFileString(){
+        return logic.getString();
+    }
+
+    public String getRepositoryFileString(){
+        return repository.getText();
     }
 
     @Override
@@ -30,9 +39,9 @@ public class MicroCodeGenerator extends BasicCodeGenerator {
         boolean bif = false;
         boolean ret = false;
         switch (ctx.option.getText()){
-            case "bif":bif=true; break;
-            case "inc":inc=true;break;
-            case "ret":ret=true;break;
+            case "BIF":bif=true; break;
+            case "INCR":inc=true;break;
+            case "RET":ret=true;break;
         }
         boolean enable = true;
         if(ctx.disable!=null) enable=false;
@@ -58,9 +67,9 @@ public class MicroCodeGenerator extends BasicCodeGenerator {
             boolean bif = false;
             boolean ret = false;
             switch (optionCtx.option.getText()){
-                case "bif":bif=true; break;
-                case "inc":inc=true;break;
-                case "ret":ret=true;break;
+                case "BIF":bif=true; break;
+                case "INCR":inc=true;break;
+                case "RET":ret=true;break;
             }
             boolean enable = true;
             if(optionCtx.disable!=null) enable=false;

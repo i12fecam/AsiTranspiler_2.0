@@ -1,18 +1,20 @@
 package internals;
 
 public enum Flag {
-    Zb("Zb","Zb"),
-    Za("Za","Za"),
-    Zac("Zac","Zac"),
-    Zsc("Zsc","Zsc"),
-    Ovf("Ovf","Ovf"),
-    N("N","N"),
-    Qn("Qn","Qn"),
-    Qn1("Qn+","Qn_plus"),
-    As("As","As"),
-    Qs("Qs","Qs"),
-    Bs("Bs","Bs"),
-    X("X","X");
+    Zb("Zb","Zb"), //micro, cable
+    Za("Za","Za"), //micro ,cable
+    Zac("Zac","Zac"), //micro, cable
+    Zsc("Zsc","Zsc"), //micro, cable
+    Ovf("Ovf","Ovf"), //TODO que hacer sobre este
+    N("N","N"), //micro ,cable
+    Qn("Qn","Qn"), //micro , cable
+    Qn1("Qn+","Qn_plus"), //micro, cable
+    As("As","As"), //micro, cable
+    Qs("Qs","Qs"), //micro, cable
+    Bs("Bs","Bs"), //micro, cable
+    X("X","X"), //micro ,cable
+
+    F("F","F"); //micro , cable
 
     public final String outputName;
 

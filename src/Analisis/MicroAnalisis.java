@@ -1,19 +1,27 @@
 package Analisis;
 
 import Parsing.SicomeParser;
+import org.antlr.v4.runtime.Token;
 
 public class MicroAnalisis extends BasicAnalisis{
 
     @Override
+    public void enterMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx) {
+        symbolTable.addFunction("halt","",0);
+    }
+
+    @Override
     public void enterMicroInstruction(SicomeParser.MicroInstructionContext ctx) {
-        String name = ctx.IDENTIFIER().toString();
-        String arg = ctx.arg.getText();
+        Token identifier = ctx.IDENTIFIER().getSymbol();
+        Token arg = ctx.arg;
         int size = ctx.microStep().size();
+
+
         int instrId = -1;
         try {
-            instrId = symbolTable.addFunction(name, arg, size);
+            instrId = symbolTable.addFunction(identifier.getText(), arg.getText(), size);
         }catch (RuntimeException e){
-            throw new LogicException(e.getMessage(),ctx.IDENTIFIER().getSymbol());
+            throw new LogicException(e.getMessage(),identifier);
         }
 
         //Se anota en el arbol las IDs

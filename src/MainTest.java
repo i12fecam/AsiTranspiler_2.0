@@ -5,22 +5,27 @@ public class MainTest {
     public static void main(String[] args) {
         String programContent=
             """
-            @cableado
+            estados{
+                 inc ->  INCR
+                 bif ->  BIF
+                 ret -> RET
+                 bif1 -> {
+                    F, Zb, Za, Zac, Zsc, X, Qn, Qn1, As, Qs, Bs, N: INCR
+                    !F, !Zb, !Za, !Zac, !Zsc, !X, !Qn, !Qn1, !As, !Qs, !Bs, !N: BIF
+                    As: RET DISABLE
+                 }
+                 
+                 
+                }
+                
+                @microinstruccion
                 instrucciones {
-                    instruccion1(){
+                    instruccion1(value){
                     
                     }
                 }
-                variables{
-                a = 5;
-                b= 10;
-                c = 15;
-                d = 0xA1;
-                }
-                programa{
-                instruccion1;
-                halt;
-                }
+                variables{}
+                programa{}
             """;
 
         Runner runner = new Runner();

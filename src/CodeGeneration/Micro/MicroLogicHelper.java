@@ -7,20 +7,30 @@ import java.util.List;
 
 public class MicroLogicHelper {
 
-    private StringBuilder builder= new StringBuilder("B3 B2 B1 B0 F Zb Za Zac Zsc X Qn Qn1 As Qs Bs N I B R E");
+    private StringBuilder builder= new StringBuilder("B3 B2 B1 B0 F Zb Za Zac Zsc X Qn Qn1 As Qs Bs N I B R E\n");
 
+    public String getString(){
+        return builder.toString();
+    }
     public void addStatusLogic(int id, List<FlagState> flags, boolean inc, boolean bif, boolean ret, boolean enable){
         assert(id<16);
 
-        String StringId =Integer.toBinaryString(id);
-        for(var charID: StringId.toCharArray()){
+        String stringId =Integer.toBinaryString(id);
+        //Se padea a que llegue a cuatro números
+        while(true){
+            if(stringId.length()<4){
+                stringId = "0" + stringId;
+            }else{
+                break;
+            }
+        }
+
+        for(var charID: stringId.toCharArray()){
             builder.append(charID);
             builder.append("  ");
         }
-        //checkFlag(flags,Flag.F);
-        //TODO no se que hacer con F
-        builder.append("X").append(" ");
 
+        processFlag(flags,Flag.F);
         processFlag(flags,Flag.Zb);
         processFlag(flags,Flag.Za);
         processFlag(flags,Flag.Zac);

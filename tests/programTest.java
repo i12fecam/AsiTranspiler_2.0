@@ -31,6 +31,7 @@ public class programTest {
                 0
                 @
                 instruccion1
+                @
                 """;
 
         Runner helper = new Runner();
@@ -64,6 +65,7 @@ public class programTest {
                 @
                 instruccion1
                 halt
+                @
                 """;
 
         Runner helper = new Runner();
@@ -104,6 +106,7 @@ public class programTest {
                 @
                 instruccion1
                 halt
+                @
                 """;
 
         Runner helper = new Runner();
@@ -149,6 +152,7 @@ public class programTest {
                 @
                 instruccion1
                 halt
+                @
                 """;
 
         Runner helper = new Runner();
@@ -189,6 +193,7 @@ public class programTest {
                 @
                 instruccion1
                 halt
+                @
                 """;
 
         Runner helper = new Runner();
@@ -225,6 +230,7 @@ public class programTest {
                 @
                 instruccion1 0
                 halt
+                @
                 """;
 
         Runner helper = new Runner();
@@ -297,6 +303,7 @@ public class programTest {
                 instruccion1 0
                 instruccion1 5
                 halt
+                @
                 """;
 
         Runner helper = new Runner();
@@ -341,6 +348,7 @@ public class programTest {
                 instruccion1 4
                 instruccion1 7
                 halt
+                @
                 """;
 
         Runner helper = new Runner();
@@ -402,6 +410,7 @@ public class programTest {
                 instruccion1 A
                 instruccion1 A1
                 halt
+                @
                 """;
 
         Runner helper = new Runner();
@@ -452,6 +461,7 @@ public class programTest {
                 jmp A
                 jmp B
                 halt
+                @
                 """;
 
         Runner helper = new Runner();

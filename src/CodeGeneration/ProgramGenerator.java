@@ -40,6 +40,7 @@ public class ProgramGenerator {
         buider.append(  Integer.toHexString(_symbols.getStartOfInstruction()).toUpperCase()  ) .append("\n");
         buider.append("@").append("\n");
         buider.append(InstructionBuilder.toString());
+        buider.append("@").append("\n");
         return buider.toString();
     }
 
