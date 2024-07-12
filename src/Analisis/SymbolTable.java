@@ -1,6 +1,6 @@
 package Analisis;
 
-import internals.Cableado.Function;
+import internals.Function;
 import internals.FunctionArg;
 import internals.Micro.BifurcationLogic;
 import internals.Variable;

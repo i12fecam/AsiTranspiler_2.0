@@ -83,12 +83,14 @@ public class MicroCodeGenerator extends BasicCodeGenerator {
         int id_func = _ids.get(ctx.getParent());
         int id_step = _ids.get(ctx);
 
+        //Se asocian las micro instrucciones
         for(var mInstrToken:ctx.instr){
             MicroInstruction mi = MicroInstruction.valueOfInput(mInstrToken.getText());
             if(mi==null) throw new LogicException("Microinstruccion no reconocida",mInstrToken);
             repository.associateMicroInstruction(id_func,id_step,mi);
         }
 
+        //Se asocian las instrucciones relacionadas con SC y la lógica de bifurcación
         boolean usedArg = false;//TODO por que hice esto
         for(var flowControl:ctx.flow){
            switch (flowControl.action.getText()){

@@ -78,8 +78,8 @@ public class CableCodeGenerator extends BasicCodeGenerator {
                     found_SR_Cable_Flow = true;
 
                     if(valueString.equals("START")){
-                        value = 0;
-                    } else value = Integer.decode(cf.value.getText()) + 3;
+                        value = null;
+                    } else value = Integer.decode(cf.value.getText());
                 }
 
                 case SR_PLUS, SC_MINUS -> {
@@ -141,8 +141,8 @@ public class CableCodeGenerator extends BasicCodeGenerator {
                     found_SR_Cable_Flow = true;
 
                     if(valueString.equals("START")){
-                        value = 0;
-                    } else value = Integer.decode(cf.value.getText()) + 3;
+                        value = null;
+                    } else value = Integer.decode(cf.value.getText());
                 }
 
                 case SR_PLUS, SC_MINUS -> {

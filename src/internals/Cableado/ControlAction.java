@@ -2,27 +2,28 @@ package internals.Cableado;
 
 public class ControlAction {
     ControlEnum _tipo;
-    Integer _value;
+    Integer _value = null;
 
 
 
 
     public ControlAction(ControlEnum control,Integer value){
+
         _tipo=control;
-        if(control.equals(ControlEnum.LOAD_SC)){
-            assert (value!=null);
-            _value = value;
-        } else if(control.equals(ControlEnum.LOAD_SR)){
-            if(value==null){
-                _value= null;
-            } else{
-                _value=value+3;//TODO esto es especifico de cableado, posible reformetadeado
+
+        switch (control){
+            case LOAD_SC -> {
+                _value = value;
             }
-        } else {
-            assert(value==null);
+            case LOAD_SR -> {
+                if(value != null){
+                    _value = value+3;
+                }else _value = 0;
+            }
+            default -> {
+                assert (value == null);
+            }
         }
-
-
 
     }
 

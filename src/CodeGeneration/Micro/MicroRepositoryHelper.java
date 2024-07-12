@@ -1,7 +1,7 @@
 package CodeGeneration.Micro;
 
 import Analisis.SymbolTable;
-import internals.Cableado.Function;
+import internals.Function;
 import internals.FunctionArg;
 import internals.MicroInstruction;
 

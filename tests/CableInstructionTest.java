@@ -171,14 +171,14 @@ public class CableInstructionTest {
                 GPR->PC:t4·q1
                 $
                 SR+1->SR:t0 + t1 + t2 + t3·q1
-                LOAD SR:t4·q1-3
+                LOAD SR:t4·q1-0
                 $
                 """;
 
         Runner helper = new Runner();
         helper.run(inputText);
 
-        //System.out.println(helper.getLogicText());
+        System.out.println(helper.getLogicText());
 
         assertEquals(outputRepositoryText,helper.getRepositoryText());
         assertCableLogic(helper.getLogicText(),outputLogicText);
@@ -210,7 +210,7 @@ public class CableInstructionTest {
                 GPR->PC:t4·q1
                 $
                 SR+1->SR:t0 + t1 + t2 + t3·q1
-                LOAD SR:t4·q1-3
+                LOAD SR:t4·q1-0
                 LOAD SC:t3·q1-8
                 $
                 """;
@@ -339,7 +339,7 @@ public class CableInstructionTest {
                 $
                 SR+1->SR:t0 + t1 + t2 + t3·q1·X + t3·q1·As
                 LOAD SC:t3·q1·As-3
-                LOAD SR:t4·q1-3
+                LOAD SR:t4·q1-0
                 $
                 """;
 

@@ -1,7 +1,7 @@
 package CodeGeneration.Cable;
 
 import Analisis.SymbolTable;
-import internals.Cableado.Function;
+import internals.Function;
 
 public class CableRepositoryHelper {
     SymbolTable _symbols;

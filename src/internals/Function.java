@@ -1,4 +1,4 @@
-package internals.Cableado;
+package internals;
 
 import internals.FunctionArg;
 
@@ -22,6 +22,7 @@ public class Function {
             case "value": _params= FunctionArg.Value; break;
             case "var" : _params=FunctionArg.Var;break;
             case "" : _params= FunctionArg.None; break;
+            default: _params=FunctionArg.None;break;
         }//TODO meter esto dentro del enum?
         _id=id;
         _nSteps=nSteps;
