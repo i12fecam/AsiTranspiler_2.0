@@ -11,6 +11,8 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
 
+import static Analisis.HelperFunctions.parseNumber;
+
 public class MicroCodeGenerator extends BasicCodeGenerator {
 
 
@@ -97,7 +99,7 @@ public class MicroCodeGenerator extends BasicCodeGenerator {
                case "LOAD_SC":
                    usedArg=true;
                    repository.associateMicroInstruction(id_func,id_step,MicroInstruction.load_sc);
-                   Integer sc_value = Integer.decode(flowControl.value.getText());
+                   Integer sc_value = parseNumber(flowControl.value.getText(),null);
                    repository.associateSCvalue(id_func,id_step,sc_value);
                    break;
                case "SC-1->SC":
@@ -111,7 +113,7 @@ public class MicroCodeGenerator extends BasicCodeGenerator {
                    }
                    repository.associateControlFlow(id_func,id_step, bifLogic.getId());
                    if(flowControl.value!=null){
-                       int value = Integer.decode(flowControl.value.getText());
+                       int value = parseNumber(flowControl.value.getText(),null);
                        repository.associateBifValue(id_func,id_step,value);
                    }
 

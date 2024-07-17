@@ -3,9 +3,10 @@ package Analisis;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static Analisis.HelperFunctions.parseNumber;
 
 /**
  * Anotates the tree in functions and steps with their number
@@ -26,7 +27,8 @@ public class BasicAnalisis extends SicomeBaseListener {
     @Override
     public void exitSimpleVariableDeclaration(SicomeParser.SimpleVariableDeclarationContext ctx) {
         String id =ctx.id.getText();
-        int value =Integer.decode(ctx.value.getText());
+
+        int value = parseNumber(ctx.value.getText(),null);
         //TODO comprobar maximo de tamaño
         try {
             symbolTable.addSimpleVariable(id, value);
@@ -42,11 +44,10 @@ public class BasicAnalisis extends SicomeBaseListener {
     public void exitVectorVariableDeclaration(SicomeParser.VectorVariableDeclarationContext ctx) {
 
         String id = ctx.id.getText();
-        int size = Integer.decode(ctx.size.getText());
-
+        int size = parseNumber(ctx.size.getText(),null);
         List<Integer> values= new ArrayList<Integer>();
         ctx.value.forEach(token -> {
-            values.add(Integer.decode(token.getText()));
+            values.add(parseNumber(ctx.size.getText(),null));
         });
 
         try {

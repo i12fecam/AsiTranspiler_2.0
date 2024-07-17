@@ -8,6 +8,8 @@ import internals.FunctionArg;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
+import static Analisis.HelperFunctions.parseNumber;
+
 public class BasicCodeGenerator extends SicomeBaseListener {
     protected ParseTreeProperty<Integer> _ids = null;
     protected SymbolTable _symbols = null;
@@ -47,7 +49,7 @@ public class BasicCodeGenerator extends SicomeBaseListener {
         switch (expectedArg){
             case Value -> {
                 if(arg.num!=null) {      //raw number
-                    paramNumber = Integer.decode(arg.num.getText());
+                    paramNumber = parseNumber(arg.num.getText(),null);
                 }
                 else{
                     throw new LogicException("Argumento de tipo valor no encontrado",instrName);
@@ -57,7 +59,7 @@ public class BasicCodeGenerator extends SicomeBaseListener {
 
                 if(arg.var!=null && arg.offset!=null){    //vectorVariable
                     try {
-                        paramNumber = _symbols.getPosFromVariable(arg.var.getText(), Integer.decode(arg.offset.getText()));
+                        paramNumber = _symbols.getPosFromVariable(arg.var.getText(), parseNumber(arg.offset.getText(),null));
                     }catch (RuntimeException e){
                         throw new LogicException(e.getMessage(),instrName);
                     }

@@ -3,8 +3,9 @@ lexer grammar Base;
 
 
 fragment HEXNUMBER: '0x'[0-9a-fA-F]+ ;
+fragment BINNUMBER: '0b'[01.]+;
 fragment DECNUMBER: [0-9]+;
-NUMBER: HEXNUMBER|DECNUMBER;
+NUMBER: HEXNUMBER|BINNUMBER|DECNUMBER;
 
 LOAD_SC: 'LOAD_SC';
 LOAD_SR: 'LOAD_SR';

@@ -14,6 +14,8 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Analisis.HelperFunctions.parseNumber;
+
 public class CableCodeGenerator extends BasicCodeGenerator {
 
     protected CableLogicHelper logic;
@@ -71,7 +73,8 @@ public class CableCodeGenerator extends BasicCodeGenerator {
 
             switch (ce){
                 case LOAD_SC -> {
-                    value = Integer.decode(cf.value.getText());
+                    value = parseNumber(cf.value.getText(),null);
+
                 }
                 case LOAD_SR -> {
                     if(found_SR_Cable_Flow) throw new LogicException("No puede haber dos controles de tipo SR en el mismo paso", cf.type);
@@ -79,7 +82,7 @@ public class CableCodeGenerator extends BasicCodeGenerator {
 
                     if(valueString.equals("START")){
                         value = null;
-                    } else value = Integer.decode(cf.value.getText());
+                    } else value = parseNumber(cf.value.getText(),null);
                 }
 
                 case SR_PLUS, SC_MINUS -> {
@@ -134,7 +137,7 @@ public class CableCodeGenerator extends BasicCodeGenerator {
 
             switch (ce){
                 case LOAD_SC -> {
-                    value = Integer.decode(cf.value.getText());
+                    value = parseNumber(cf.value.getText(),null);
                 }
                 case LOAD_SR -> {
                     if(found_SR_Cable_Flow) throw new LogicException("No puede haber dos controles de tipo SR en el mismo paso", cf.type);
@@ -142,7 +145,7 @@ public class CableCodeGenerator extends BasicCodeGenerator {
 
                     if(valueString.equals("START")){
                         value = null;
-                    } else value = Integer.decode(cf.value.getText());
+                    } else value = parseNumber(cf.value.getText(),null);
                 }
 
                 case SR_PLUS, SC_MINUS -> {
