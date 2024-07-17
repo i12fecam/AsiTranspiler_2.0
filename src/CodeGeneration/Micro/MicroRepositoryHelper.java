@@ -54,7 +54,7 @@ public class MicroRepositoryHelper {
         builder.append("$\n" +
                 "CB 4000100\n" +
                 "CB 0201100\n" +
-                "CB 3000300\n" +
+                "CB B000300\n" +
                 "$\n");
         for(var entry:repo.entrySet()){
             int functionId =entry.getKey();
@@ -67,15 +67,17 @@ public class MicroRepositoryHelper {
             }else{
                 builder.append("true");
             }
-            builder.append(" ");
+
 
             if(entry.getValue().size() == 0){
+                builder.append(" ");
                 builder.append("0");
             }
             else{
                 for(var StepCode:entry.getValue()){
-                    builder.append(Integer.toHexString(StepCode));
                     builder.append(" ");
+                    builder.append(Integer.toHexString(StepCode).toUpperCase());
+
                 }
             }
 

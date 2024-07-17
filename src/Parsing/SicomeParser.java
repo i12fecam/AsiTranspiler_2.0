@@ -20,9 +20,9 @@ public class SicomeParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, NUMBER=31, 
-		FLAG=32, IDENTIFIER=33, MICRO_INSTR=34, LINE_COMMENT=35, COMMENT=36, NEWLINE=37, 
-		WS=38;
+		T__24=25, T__25=26, NUMBER=27, LOAD_SC=28, LOAD_SR=29, SR_INCREMENT=30, 
+		SC_DECREMENT=31, FLAG=32, IDENTIFIER=33, MICRO_INSTR=34, LINE_COMMENT=35, 
+		COMMENT=36, NEWLINE=37, WS=38;
 	public static final int
 		RULE_prog = 0, RULE_variablesBlock = 1, RULE_variableDeclaration = 2, 
 		RULE_programBlock = 3, RULE_programLine = 4, RULE_instructionUseArgument = 5, 
@@ -45,9 +45,9 @@ public class SicomeParser extends Parser {
 		return new String[] {
 			null, "'variables'", "'{'", "'}'", "'='", "';'", "'['", "']'", "','", 
 			"'programa'", "'MARK'", "'@cableado'", "'instrucciones'", "'('", "'value'", 
-			"'dir'", "'var'", "')'", "':'", "'LOAD_SC'", "'LOAD_SR'", "'START'", 
-			"'SR+1->SR'", "'SC-1->SC'", "'estados'", "'->'", "'INCR'", "'BIF'", "'RET'", 
-			"'DISABLE'", "'@microinstruccion'"
+			"'dir'", "'var'", "')'", "':'", "'START'", "'estados'", "'->'", "'INCR'", 
+			"'BIF'", "'RET'", "'DISABLE'", "'@microinstruccion'", null, "'LOAD_SC'", 
+			"'LOAD_SR'", "'SR+1->SR'", "'SC-1->SC'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -55,8 +55,9 @@ public class SicomeParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, "NUMBER", "FLAG", "IDENTIFIER", 
-			"MICRO_INSTR", "LINE_COMMENT", "COMMENT", "NEWLINE", "WS"
+			null, null, null, "NUMBER", "LOAD_SC", "LOAD_SR", "SR_INCREMENT", "SC_DECREMENT", 
+			"FLAG", "IDENTIFIER", "MICRO_INSTR", "LINE_COMMENT", "COMMENT", "NEWLINE", 
+			"WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -187,7 +188,7 @@ public class SicomeParser extends Parser {
 				programBlock();
 				}
 				break;
-			case T__23:
+			case T__19:
 				_localctx = new MicroCableProgramContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
@@ -858,7 +859,7 @@ public class SicomeParser extends Parser {
 				setState(137);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 14155776L) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4026531840L) != 0)) {
 					{
 					{
 					setState(134);
@@ -1007,7 +1008,7 @@ public class SicomeParser extends Parser {
 				setState(171); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 14155776L) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 4026531840L) != 0) );
 			setState(173);
 			match(T__6);
 			setState(177);
@@ -1044,7 +1045,11 @@ public class SicomeParser extends Parser {
 	public static class CableFlowControlContext extends ParserRuleContext {
 		public Token type;
 		public Token value;
+		public TerminalNode LOAD_SC() { return getToken(SicomeParser.LOAD_SC, 0); }
 		public TerminalNode NUMBER() { return getToken(SicomeParser.NUMBER, 0); }
+		public TerminalNode LOAD_SR() { return getToken(SicomeParser.LOAD_SR, 0); }
+		public TerminalNode SR_INCREMENT() { return getToken(SicomeParser.SR_INCREMENT, 0); }
+		public TerminalNode SC_DECREMENT() { return getToken(SicomeParser.SC_DECREMENT, 0); }
 		public CableFlowControlContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1067,11 +1072,11 @@ public class SicomeParser extends Parser {
 			setState(192);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__18:
+			case LOAD_SC:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(182);
-				((CableFlowControlContext)_localctx).type = match(T__18);
+				((CableFlowControlContext)_localctx).type = match(LOAD_SC);
 				setState(183);
 				match(T__12);
 				setState(184);
@@ -1080,17 +1085,17 @@ public class SicomeParser extends Parser {
 				match(T__16);
 				}
 				break;
-			case T__19:
+			case LOAD_SR:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(186);
-				((CableFlowControlContext)_localctx).type = match(T__19);
+				((CableFlowControlContext)_localctx).type = match(LOAD_SR);
 				setState(187);
 				match(T__12);
 				setState(188);
 				((CableFlowControlContext)_localctx).value = _input.LT(1);
 				_la = _input.LA(1);
-				if ( !(_la==T__20 || _la==NUMBER) ) {
+				if ( !(_la==T__18 || _la==NUMBER) ) {
 					((CableFlowControlContext)_localctx).value = (Token)_errHandler.recoverInline(this);
 				}
 				else {
@@ -1102,18 +1107,18 @@ public class SicomeParser extends Parser {
 				match(T__16);
 				}
 				break;
-			case T__21:
+			case SR_INCREMENT:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(190);
-				((CableFlowControlContext)_localctx).type = match(T__21);
+				((CableFlowControlContext)_localctx).type = match(SR_INCREMENT);
 				}
 				break;
-			case T__22:
+			case SC_DECREMENT:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(191);
-				((CableFlowControlContext)_localctx).type = match(T__22);
+				((CableFlowControlContext)_localctx).type = match(SC_DECREMENT);
 				}
 				break;
 			default:
@@ -1161,7 +1166,7 @@ public class SicomeParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(194);
-			match(T__23);
+			match(T__19);
 			setState(195);
 			match(T__1);
 			setState(197); 
@@ -1257,11 +1262,11 @@ public class SicomeParser extends Parser {
 				setState(203);
 				((SimpleStatusLogicContext)_localctx).name = match(IDENTIFIER);
 				setState(204);
-				match(T__24);
+				match(T__20);
 				setState(205);
 				((SimpleStatusLogicContext)_localctx).option = _input.LT(1);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 469762048L) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 29360128L) != 0)) ) {
 					((SimpleStatusLogicContext)_localctx).option = (Token)_errHandler.recoverInline(this);
 				}
 				else {
@@ -1272,10 +1277,10 @@ public class SicomeParser extends Parser {
 				setState(207);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if (_la==T__28) {
+				if (_la==T__24) {
 					{
 					setState(206);
-					((SimpleStatusLogicContext)_localctx).disable = match(T__28);
+					((SimpleStatusLogicContext)_localctx).disable = match(T__24);
 					}
 				}
 
@@ -1288,7 +1293,7 @@ public class SicomeParser extends Parser {
 				setState(209);
 				((ComplexStatusLogicContext)_localctx).name = match(IDENTIFIER);
 				setState(210);
-				match(T__24);
+				match(T__20);
 				setState(211);
 				match(T__1);
 				setState(213); 
@@ -1378,7 +1383,7 @@ public class SicomeParser extends Parser {
 			setState(230);
 			((StatusLogicOptionContext)_localctx).option = _input.LT(1);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 469762048L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 29360128L) != 0)) ) {
 				((StatusLogicOptionContext)_localctx).option = (Token)_errHandler.recoverInline(this);
 			}
 			else {
@@ -1389,10 +1394,10 @@ public class SicomeParser extends Parser {
 			setState(232);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__28) {
+			if (_la==T__24) {
 				{
 				setState(231);
-				((StatusLogicOptionContext)_localctx).disable = match(T__28);
+				((StatusLogicOptionContext)_localctx).disable = match(T__24);
 				}
 			}
 
@@ -1439,7 +1444,7 @@ public class SicomeParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(234);
-			match(T__29);
+			match(T__25);
 			setState(235);
 			match(T__11);
 			setState(236);
@@ -1602,7 +1607,7 @@ public class SicomeParser extends Parser {
 			setState(263);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8598847488L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 11005853696L) != 0)) {
 				{
 				{
 				setState(260);
@@ -1650,7 +1655,9 @@ public class SicomeParser extends Parser {
 	public static class MicroFlowControlContext extends ParserRuleContext {
 		public Token action;
 		public Token value;
+		public TerminalNode LOAD_SC() { return getToken(SicomeParser.LOAD_SC, 0); }
 		public TerminalNode NUMBER() { return getToken(SicomeParser.NUMBER, 0); }
+		public TerminalNode SC_DECREMENT() { return getToken(SicomeParser.SC_DECREMENT, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(SicomeParser.IDENTIFIER, 0); }
 		public MicroFlowControlContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1674,11 +1681,11 @@ public class SicomeParser extends Parser {
 			setState(286);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__18:
+			case LOAD_SC:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(275);
-				((MicroFlowControlContext)_localctx).action = match(T__18);
+				((MicroFlowControlContext)_localctx).action = match(LOAD_SC);
 				setState(276);
 				match(T__12);
 				setState(277);
@@ -1687,11 +1694,11 @@ public class SicomeParser extends Parser {
 				match(T__16);
 				}
 				break;
-			case T__22:
+			case SC_DECREMENT:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(279);
-				((MicroFlowControlContext)_localctx).action = match(T__22);
+				((MicroFlowControlContext)_localctx).action = match(SC_DECREMENT);
 				}
 				break;
 			case IDENTIFIER:
@@ -1775,7 +1782,7 @@ public class SicomeParser extends Parser {
 		"\u0011\u0001\u0011\u0003\u0011\u011d\b\u0011\u0003\u0011\u011f\b\u0011"+
 		"\u0001\u0011\u0000\u0000\u0012\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010"+
 		"\u0012\u0014\u0016\u0018\u001a\u001c\u001e \"\u0000\u0003\u0001\u0000"+
-		"\u000e\u0010\u0002\u0000\u0015\u0015\u001f\u001f\u0001\u0000\u001a\u001c"+
+		"\u000e\u0010\u0002\u0000\u0013\u0013\u001b\u001b\u0001\u0000\u0016\u0018"+
 		"\u0132\u0000-\u0001\u0000\u0000\u0000\u0002/\u0001\u0000\u0000\u0000\u0004"+
 		"M\u0001\u0000\u0000\u0000\u0006O\u0001\u0000\u0000\u0000\b`\u0001\u0000"+
 		"\u0000\u0000\nj\u0001\u0000\u0000\u0000\fl\u0001\u0000\u0000\u0000\u000e"+
@@ -1793,11 +1800,11 @@ public class SicomeParser extends Parser {
 		"\u0000\u000036\u0001\u0000\u0000\u000042\u0001\u0000\u0000\u000045\u0001"+
 		"\u0000\u0000\u000057\u0001\u0000\u0000\u000064\u0001\u0000\u0000\u0000"+
 		"78\u0005\u0003\u0000\u00008\u0003\u0001\u0000\u0000\u00009:\u0005!\u0000"+
-		"\u0000:;\u0005\u0004\u0000\u0000;<\u0005\u001f\u0000\u0000<N\u0005\u0005"+
-		"\u0000\u0000=>\u0005!\u0000\u0000>?\u0005\u0006\u0000\u0000?@\u0005\u001f"+
+		"\u0000:;\u0005\u0004\u0000\u0000;<\u0005\u001b\u0000\u0000<N\u0005\u0005"+
+		"\u0000\u0000=>\u0005!\u0000\u0000>?\u0005\u0006\u0000\u0000?@\u0005\u001b"+
 		"\u0000\u0000@A\u0005\u0007\u0000\u0000AB\u0005\u0004\u0000\u0000BC\u0005"+
-		"\u0002\u0000\u0000CH\u0005\u001f\u0000\u0000DE\u0005\b\u0000\u0000EG\u0005"+
-		"\u001f\u0000\u0000FD\u0001\u0000\u0000\u0000GJ\u0001\u0000\u0000\u0000"+
+		"\u0002\u0000\u0000CH\u0005\u001b\u0000\u0000DE\u0005\b\u0000\u0000EG\u0005"+
+		"\u001b\u0000\u0000FD\u0001\u0000\u0000\u0000GJ\u0001\u0000\u0000\u0000"+
 		"HF\u0001\u0000\u0000\u0000HI\u0001\u0000\u0000\u0000IK\u0001\u0000\u0000"+
 		"\u0000JH\u0001\u0000\u0000\u0000KL\u0005\u0003\u0000\u0000LN\u0005\u0005"+
 		"\u0000\u0000M9\u0001\u0000\u0000\u0000M=\u0001\u0000\u0000\u0000N\u0005"+
@@ -1809,9 +1816,9 @@ public class SicomeParser extends Parser {
 		"\u0005\u0000\u0000\\a\u0001\u0000\u0000\u0000]^\u0005\n\u0000\u0000^_"+
 		"\u0005!\u0000\u0000_a\u0005\u0005\u0000\u0000`Y\u0001\u0000\u0000\u0000"+
 		"`]\u0001\u0000\u0000\u0000a\t\u0001\u0000\u0000\u0000bf\u0005!\u0000\u0000"+
-		"cd\u0005\u0006\u0000\u0000de\u0005\u001f\u0000\u0000eg\u0005\u0007\u0000"+
+		"cd\u0005\u0006\u0000\u0000de\u0005\u001b\u0000\u0000eg\u0005\u0007\u0000"+
 		"\u0000fc\u0001\u0000\u0000\u0000fg\u0001\u0000\u0000\u0000gk\u0001\u0000"+
-		"\u0000\u0000hk\u0005\u001f\u0000\u0000ik\u0001\u0000\u0000\u0000jb\u0001"+
+		"\u0000\u0000hk\u0005\u001b\u0000\u0000ik\u0001\u0000\u0000\u0000jb\u0001"+
 		"\u0000\u0000\u0000jh\u0001\u0000\u0000\u0000ji\u0001\u0000\u0000\u0000"+
 		"k\u000b\u0001\u0000\u0000\u0000lm\u0005\u000b\u0000\u0000mn\u0005\f\u0000"+
 		"\u0000np\u0005\u0002\u0000\u0000oq\u0003\u000e\u0007\u0000po\u0001\u0000"+
@@ -1852,23 +1859,23 @@ public class SicomeParser extends Parser {
 		"\u0001\u0000\u0000\u0000\u00b1\u00b2\u0001\u0000\u0000\u0000\u00b2\u00b4"+
 		"\u0001\u0000\u0000\u0000\u00b3\u00b1\u0001\u0000\u0000\u0000\u00b4\u00b5"+
 		"\u0005\u0005\u0000\u0000\u00b5\u0013\u0001\u0000\u0000\u0000\u00b6\u00b7"+
-		"\u0005\u0013\u0000\u0000\u00b7\u00b8\u0005\r\u0000\u0000\u00b8\u00b9\u0005"+
-		"\u001f\u0000\u0000\u00b9\u00c1\u0005\u0011\u0000\u0000\u00ba\u00bb\u0005"+
-		"\u0014\u0000\u0000\u00bb\u00bc\u0005\r\u0000\u0000\u00bc\u00bd\u0007\u0001"+
-		"\u0000\u0000\u00bd\u00c1\u0005\u0011\u0000\u0000\u00be\u00c1\u0005\u0016"+
-		"\u0000\u0000\u00bf\u00c1\u0005\u0017\u0000\u0000\u00c0\u00b6\u0001\u0000"+
+		"\u0005\u001c\u0000\u0000\u00b7\u00b8\u0005\r\u0000\u0000\u00b8\u00b9\u0005"+
+		"\u001b\u0000\u0000\u00b9\u00c1\u0005\u0011\u0000\u0000\u00ba\u00bb\u0005"+
+		"\u001d\u0000\u0000\u00bb\u00bc\u0005\r\u0000\u0000\u00bc\u00bd\u0007\u0001"+
+		"\u0000\u0000\u00bd\u00c1\u0005\u0011\u0000\u0000\u00be\u00c1\u0005\u001e"+
+		"\u0000\u0000\u00bf\u00c1\u0005\u001f\u0000\u0000\u00c0\u00b6\u0001\u0000"+
 		"\u0000\u0000\u00c0\u00ba\u0001\u0000\u0000\u0000\u00c0\u00be\u0001\u0000"+
 		"\u0000\u0000\u00c0\u00bf\u0001\u0000\u0000\u0000\u00c1\u0015\u0001\u0000"+
-		"\u0000\u0000\u00c2\u00c3\u0005\u0018\u0000\u0000\u00c3\u00c5\u0005\u0002"+
+		"\u0000\u0000\u00c2\u00c3\u0005\u0014\u0000\u0000\u00c3\u00c5\u0005\u0002"+
 		"\u0000\u0000\u00c4\u00c6\u0003\u0018\f\u0000\u00c5\u00c4\u0001\u0000\u0000"+
 		"\u0000\u00c6\u00c7\u0001\u0000\u0000\u0000\u00c7\u00c5\u0001\u0000\u0000"+
 		"\u0000\u00c7\u00c8\u0001\u0000\u0000\u0000\u00c8\u00c9\u0001\u0000\u0000"+
 		"\u0000\u00c9\u00ca\u0005\u0003\u0000\u0000\u00ca\u0017\u0001\u0000\u0000"+
-		"\u0000\u00cb\u00cc\u0005!\u0000\u0000\u00cc\u00cd\u0005\u0019\u0000\u0000"+
-		"\u00cd\u00cf\u0007\u0002\u0000\u0000\u00ce\u00d0\u0005\u001d\u0000\u0000"+
+		"\u0000\u00cb\u00cc\u0005!\u0000\u0000\u00cc\u00cd\u0005\u0015\u0000\u0000"+
+		"\u00cd\u00cf\u0007\u0002\u0000\u0000\u00ce\u00d0\u0005\u0019\u0000\u0000"+
 		"\u00cf\u00ce\u0001\u0000\u0000\u0000\u00cf\u00d0\u0001\u0000\u0000\u0000"+
 		"\u00d0\u00dc\u0001\u0000\u0000\u0000\u00d1\u00d2\u0005!\u0000\u0000\u00d2"+
-		"\u00d3\u0005\u0019\u0000\u0000\u00d3\u00d5\u0005\u0002\u0000\u0000\u00d4"+
+		"\u00d3\u0005\u0015\u0000\u0000\u00d3\u00d5\u0005\u0002\u0000\u0000\u00d4"+
 		"\u00d6\u0003\u001a\r\u0000\u00d5\u00d4\u0001\u0000\u0000\u0000\u00d6\u00d7"+
 		"\u0001\u0000\u0000\u0000\u00d7\u00d5\u0001\u0000\u0000\u0000\u00d7\u00d8"+
 		"\u0001\u0000\u0000\u0000\u00d8\u00d9\u0001\u0000\u0000\u0000\u00d9\u00da"+
@@ -1879,9 +1886,9 @@ public class SicomeParser extends Parser {
 		"\u0000\u0000\u00e1\u00e4\u0001\u0000\u0000\u0000\u00e2\u00e0\u0001\u0000"+
 		"\u0000\u0000\u00e2\u00e3\u0001\u0000\u0000\u0000\u00e3\u00e5\u0001\u0000"+
 		"\u0000\u0000\u00e4\u00e2\u0001\u0000\u0000\u0000\u00e5\u00e6\u0005\u0012"+
-		"\u0000\u0000\u00e6\u00e8\u0007\u0002\u0000\u0000\u00e7\u00e9\u0005\u001d"+
+		"\u0000\u0000\u00e6\u00e8\u0007\u0002\u0000\u0000\u00e7\u00e9\u0005\u0019"+
 		"\u0000\u0000\u00e8\u00e7\u0001\u0000\u0000\u0000\u00e8\u00e9\u0001\u0000"+
-		"\u0000\u0000\u00e9\u001b\u0001\u0000\u0000\u0000\u00ea\u00eb\u0005\u001e"+
+		"\u0000\u0000\u00e9\u001b\u0001\u0000\u0000\u0000\u00ea\u00eb\u0005\u001a"+
 		"\u0000\u0000\u00eb\u00ec\u0005\f\u0000\u0000\u00ec\u00ee\u0005\u0002\u0000"+
 		"\u0000\u00ed\u00ef\u0003\u001e\u000f\u0000\u00ee\u00ed\u0001\u0000\u0000"+
 		"\u0000\u00ef\u00f0\u0001\u0000\u0000\u0000\u00f0\u00ee\u0001\u0000\u0000"+
@@ -1904,10 +1911,10 @@ public class SicomeParser extends Parser {
 		"\u0000\u0000\u0000\u010e\u010c\u0001\u0000\u0000\u0000\u010e\u010f\u0001"+
 		"\u0000\u0000\u0000\u010f\u0111\u0001\u0000\u0000\u0000\u0110\u010e\u0001"+
 		"\u0000\u0000\u0000\u0111\u0112\u0005\u0005\u0000\u0000\u0112!\u0001\u0000"+
-		"\u0000\u0000\u0113\u0114\u0005\u0013\u0000\u0000\u0114\u0115\u0005\r\u0000"+
-		"\u0000\u0115\u0116\u0005\u001f\u0000\u0000\u0116\u011f\u0005\u0011\u0000"+
-		"\u0000\u0117\u011f\u0005\u0017\u0000\u0000\u0118\u011c\u0005!\u0000\u0000"+
-		"\u0119\u011a\u0005\r\u0000\u0000\u011a\u011b\u0005\u001f\u0000\u0000\u011b"+
+		"\u0000\u0000\u0113\u0114\u0005\u001c\u0000\u0000\u0114\u0115\u0005\r\u0000"+
+		"\u0000\u0115\u0116\u0005\u001b\u0000\u0000\u0116\u011f\u0005\u0011\u0000"+
+		"\u0000\u0117\u011f\u0005\u001f\u0000\u0000\u0118\u011c\u0005!\u0000\u0000"+
+		"\u0119\u011a\u0005\r\u0000\u0000\u011a\u011b\u0005\u001b\u0000\u0000\u011b"+
 		"\u011d\u0005\u0011\u0000\u0000\u011c\u0119\u0001\u0000\u0000\u0000\u011c"+
 		"\u011d\u0001\u0000\u0000\u0000\u011d\u011f\u0001\u0000\u0000\u0000\u011e"+
 		"\u0113\u0001\u0000\u0000\u0000\u011e\u0117\u0001\u0000\u0000\u0000\u011e"+

@@ -3,19 +3,19 @@ package internals;
 public enum MicroInstruction {
     //Mar
     pc_to_mar("PC->MAR","PC->MAR",1*Math.pow(2,26)),
-    gpr_ad_to_mar("GPR(AD)->MAR","GPR(AD)->MAR",2*Math.pow(2,26)),//No sale en cableado
+    gpr_ad_to_mar("GPR{AD}->MAR","GPR(AD)->MAR",2*Math.pow(2,26)),//No sale en cableado
     sp_to_mar("SP->MAR","SP->MAR",3*Math.pow(2,26)),
     //OPR
-    gpr_to_m("GPR->MAR","GPR->MAR",1*Math.pow(2,24)),
-    qr_to_m("QR->M","QR->M",2*Math.pow(2,26)),
-    gpr_op_to_opr("GPR(OP)->OPR","GPR(OP)->OPR",3*Math.pow(2,26)),
+    gpr_to_m("GPR->M","GPR->M",1*Math.pow(2,24)),
+    qr_to_m("QR->M","QR->M",2*Math.pow(2,24)),
+    gpr_op_to_opr("GPR{OP}->OPR","GPR(OP)->OPR",3*Math.pow(2,24)),
     //PC,SP,SC
-    pc_plus_to_pc("PC+1->PC","PC+1->PC",1*Math.pow(2,23)),
-    gpr_to_pc("GPR->PC","GPR->PC",2*Math.pow(2,23)),
-    sp_plus_to_pc("SP+1->SP","SP+1->SP",3*Math.pow(2,23)),
-    sp_minus_to_pc("SP-1->SP","SP-1->SP",4*Math.pow(2,23)),
-    load_sc("LOAD_SC","LOAD_SC",5*Math.pow(2,23)),//Problema para cuando queramos hacer microprogramado
-    sc_minus_to_sc("SC-1->SC","SC-1->SC",6*Math.pow(2,23)),
+    pc_plus_to_pc("PC+1->PC","PC+1->PC",1*Math.pow(2,21)),
+    gpr_to_pc("GPR->PC","GPR->PC",2*Math.pow(2,21)),
+    sp_plus_to_pc("SP+1->SP","SP+1->SP",3*Math.pow(2,21)),
+    sp_minus_to_pc("SP-1->SP","SP-1->SP",4*Math.pow(2,21)),
+    load_sc("LOAD_SC","LOAD_SC",5*Math.pow(2,21)),//TODO Problema para cuando queramos hacer microprogramado
+    sc_minus_to_sc("SC-1->SC","SC-1->SC",6*Math.pow(2,21)),
     //GPR
     m_to_gpr("M->GPR","M->GPR",1*Math.pow(2,12)),
     acc_to_gpr("ACC->GPR","ACC->GPR",2*Math.pow(2,12)),

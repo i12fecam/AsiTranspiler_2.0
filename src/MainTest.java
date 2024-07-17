@@ -4,29 +4,12 @@ public class MainTest {
 
     public static void main(String[] args) {
         String programContent=
-            """
-            estados{
-                 inc ->  INCR
-                 bif ->  BIF
-                 ret -> RET
-                 bif1 -> {
-                    F, Zb, Za, Zac, Zsc, X, Qn, Qn1, As, Qs, Bs, N: INCR
-                    !F, !Zb, !Za, !Zac, !Zsc, !X, !Qn, !Qn1, !As, !Qs, !Bs, !N: BIF
-                    As: RET DISABLE
-                 }
-                 
-                 
-                }
-                
-                @microinstruccion
-                instrucciones {
-                    instruccion1(value){
-                    
-                    }
-                }
-                variables{}
-                programa{}
-            """;
+                """
+                        @cableado
+                        instrucciones {
+                            instruccion1(){
+                             [SR+1->SR] PC+1->PC;
+                            }}variables{}programa{}""";
 
         Runner runner = new Runner();
         try {

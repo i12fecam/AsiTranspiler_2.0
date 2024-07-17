@@ -313,7 +313,7 @@ public class CableInstructionTest {
                 instrucciones {
                     instruccion1(){
                         {
-                            X : [SR+1->SR] PC+1->PC;
+                            X : [SR+1->SR ] PC+1->PC;
                             As: [SR+1->SR LOAD_SC(3)]  0->ACC;
                         }
                         [LOAD_SR(START)] !ACC->ACC;

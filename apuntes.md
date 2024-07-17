@@ -1,1 +1,3 @@
-He tenido en cuenta que una instrucción puede contener varios controles y que no sean
+
+Ret en microprogramado para estados en inservible porque solo se utliza en fetch?
+Se puede pasar por argumento a donde saltar?

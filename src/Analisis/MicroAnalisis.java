@@ -14,12 +14,14 @@ public class MicroAnalisis extends BasicAnalisis{
     public void enterMicroInstruction(SicomeParser.MicroInstructionContext ctx) {
         Token identifier = ctx.IDENTIFIER().getSymbol();
         Token arg = ctx.arg;
+        String argString = "";
+        if(arg!= null)  argString =ctx.arg.getText();
         int size = ctx.microStep().size();
 
 
         int instrId = -1;
         try {
-            instrId = symbolTable.addFunction(identifier.getText(), arg.getText(), size);
+            instrId = symbolTable.addFunction(identifier.getText(), argString, size);
         }catch (RuntimeException e){
             throw new LogicException(e.getMessage(),identifier);
         }

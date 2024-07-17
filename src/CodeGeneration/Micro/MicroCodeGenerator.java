@@ -106,12 +106,15 @@ public class MicroCodeGenerator extends BasicCodeGenerator {
                default:
                    BifurcationLogic bifLogic =_symbols.getBifurcationLogic(flowControl.action.getText());
                    if(bifLogic == null) throw new LogicException("La lógica de bifurcación no ha sido definida anteriormente", flowControl.action);
-                   if(!bifLogic.needsArg() && flowControl.value!=null ){
+                   if(bifLogic.needsArg() && flowControl.value==null ){
                        throw new LogicException("La logica de bifurcación necesita de un argumento", flowControl.action);
                    }
                    repository.associateControlFlow(id_func,id_step, bifLogic.getId());
-                   int value = Integer.decode(flowControl.value.getText());
-                   repository.associateBifValue(id_func,id_step,value);
+                   if(flowControl.value!=null){
+                       int value = Integer.decode(flowControl.value.getText());
+                       repository.associateBifValue(id_func,id_step,value);
+                   }
+
                    break;
 
            }
