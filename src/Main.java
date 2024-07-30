@@ -56,6 +56,7 @@ public class Main {
             }
         }catch (LogicException e){
             System.out.println(ANSI_RED+ "line "+e.getLine()+":"+e.getCharInLine()+" "+ e.getMessage()+ANSI_RESET);
+
         }
 
 

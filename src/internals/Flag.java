@@ -43,4 +43,14 @@ public enum Flag {
         this.outputName = outputName;
         this.inputName = inputName;
     }
+
+    /*
+    public static void main(String[] arg){
+        for(Flag e:values()){
+            System.out.println("- " + e.inputName);
+        }
+
+    }
+
+     */
 }

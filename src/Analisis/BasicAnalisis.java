@@ -32,7 +32,7 @@ public class BasicAnalisis extends SicomeBaseListener {
         //TODO comprobar maximo de tamaño
         try {
             symbolTable.addSimpleVariable(id, value);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e){
             throw new LogicException(e.getMessage(),ctx.id);
         }
     }
@@ -47,7 +47,7 @@ public class BasicAnalisis extends SicomeBaseListener {
         int size = parseNumber(ctx.size.getText(),null);
         List<Integer> values= new ArrayList<Integer>();
         ctx.value.forEach(token -> {
-            values.add(parseNumber(ctx.size.getText(),null));
+            values.add(parseNumber(token.getText(),null));
         });
 
         try {
@@ -84,7 +84,7 @@ public class BasicAnalisis extends SicomeBaseListener {
     public void exitMarkUse(SicomeParser.MarkUseContext ctx) {
         try {
             symbolTable.addLabel(ctx.label.getText(), ProgramLine);
-        }catch (RuntimeException e ){
+        } catch (RuntimeException e ){
             throw new LogicException(e.getMessage(),ctx.label);
         }
     }

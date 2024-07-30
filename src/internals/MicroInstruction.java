@@ -109,4 +109,12 @@ public enum MicroInstruction {
         }
     }
 
+    public static void main(String[] arg){
+        for(MicroInstruction i:values()) {
+
+            System.out.println("- " + i.inputName);
+        }
+
+
+    }
 }

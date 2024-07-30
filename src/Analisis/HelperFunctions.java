@@ -3,9 +3,15 @@ package Analisis;
  public class HelperFunctions {
     public static Integer  parseNumber(String num, Integer maxNum){
         if(maxNum == null){
-            maxNum=999;
+            maxNum=999999999;
         }
-        String first2chars = num.substring(0,2);
+        String first2chars = null;
+        if(num.length()>1){
+            first2chars = num.substring(0,2);
+        }else{
+           first2chars = num.substring(0,1);
+        }
+
         Integer res = null;
         switch (first2chars) {
             case "0x" -> {
@@ -29,5 +35,10 @@ package Analisis;
             throw new RuntimeException("El número supera el límite establecido: " +maxNum);
         }
         return res;
+    }
+
+    public static void main(String[] arg){
+        Integer res =parseNumber("1",null);
+        System.out.println(res);
     }
 }
