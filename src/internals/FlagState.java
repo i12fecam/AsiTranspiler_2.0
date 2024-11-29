@@ -2,7 +2,7 @@ package internals;
 
 import java.util.Objects;
 
-public class FlagState {
+public class FlagState implements Comparable {
 
 
 
@@ -32,6 +32,12 @@ public class FlagState {
         else return flag.outputName +"'";
     }
 
+    public String getInputName(){
+        String res = new String();
+        if(activated) return flag.outputName;
+        else return "!" + flag.outputName;
+    }
+
     public Flag getFlag() {
         return flag;
     }
@@ -47,8 +53,25 @@ public class FlagState {
         return activated == flagState.activated && flag == flagState.flag;
     }
 
+
+
+
     @Override
     public int hashCode() {
         return Objects.hash(flag, activated);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        var other = (FlagState) o;
+        var cmp = Integer.compare(this.flag.ordinal(),other.flag.ordinal() );
+        switch (cmp){
+            case 0 :
+                if(this.activated == other.activated) return 0;
+                if(this.activated) return 1;
+                return -1;
+            default:
+                return cmp;
+        }
     }
 }

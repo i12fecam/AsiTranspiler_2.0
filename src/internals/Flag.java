@@ -44,6 +44,8 @@ public enum Flag {
         this.inputName = inputName;
     }
 
+
+
     /*
     public static void main(String[] arg){
         for(Flag e:values()){
