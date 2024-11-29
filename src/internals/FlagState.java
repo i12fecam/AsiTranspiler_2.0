@@ -7,9 +7,9 @@ public class FlagState implements Comparable {
 
 
     private final Flag flag;
-    private final boolean activated;
+    private final Boolean activated;
 
-    public FlagState(Flag flag, boolean activated) {
+    public FlagState(Flag flag, Boolean activated) {
         this.flag = flag;
         this.activated = activated;
     }
@@ -42,6 +42,7 @@ public class FlagState implements Comparable {
         return flag;
     }
 
+    public boolean isStateDefined(){return activated != null;}
     public boolean getState(){
         return activated;
     }
