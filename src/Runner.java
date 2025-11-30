@@ -9,6 +9,33 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.Token;
+
+import java.nio.file.Path;
+
+enum  ObjetiveConfig{
+    LOGIC,
+    INSTRUCTION_SET,
+    ALL
+}
+enum VerbConfig{
+    ANALYZE,
+    COMPILE
+}
+record Config(
+    VerbConfig verb,
+    ObjetiveConfig obj,
+    Path inputFilePath,
+    Path outputPath,
+    String outputName,
+    Path includeInputFilePath
+){
+    public Config{
+        if (outputName == null){
+            outputName = inputFilePath.getFileName().toString().split("\\.")[0];
+        }
+    }
+
+}
 public class Runner {
     private BasicCodeGenerator res = null;
     private CommonTokenStream tokens = null;

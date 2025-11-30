@@ -19,46 +19,77 @@ public class Main {
     private static Runner runner = new Runner();
 
 
-    public static void main(String[] args) throws IOException{
-        /*
-        asi copile programa.txt /folder
-        asi test programa.txt
-        asi help
-         */
-        try {
-            if (args.length > 0 && Objects.equals(args[0], "copile")) {
+//    public static void main(String[] args) throws IOException{
+//        /*
+//        asi copile programa.txt /folder
+//        asi test programa.txt
+//        asi help
+//         */
+//        try {
+//            if (args.length > 0 && Objects.equals(args[0], "copile")) {
+//
+//                if (args.length > 1) {
+//                    File program = new File(args[1]);
+//                    String fileContent = readFileContent(program);
+//                    runner.run(fileContent);
+//                } else {
+//                    printHelp();
+//                }
+//
+//                if (args.length > 2) {
+//                    saveResults(args[2], runner.getRepositoryText(), runner.getLogicText(), runner.getProgramText());
+//                }
+//
+//            } else if (args.length > 0 && Objects.equals(args[0], "test")) {
+//                if (args.length > 1) {
+//                    File program = new File(args[1]);
+//                    String fileContent = readFileContent(program);
+//                    runner.run(fileContent);
+//                } else {
+//                    printHelp();
+//                }
+//            } else if (args.length > 0 && Objects.equals(args[0], "help")) {
+//                printHelp();
+//            } else {
+//                printHelp();
+//
+//            }
+//        }catch (LogicException e){
+//            System.out.println(ANSI_RED+ "line "+e.getLine()+":"+e.getCharInLine()+" "+ e.getMessage()+ANSI_RESET);
+//
+//        }
+//
+//
+//    }
 
-                if (args.length > 1) {
-                    File program = new File(args[1]);
-                    String fileContent = readFileContent(program);
-                    runner.run(fileContent);
-                } else {
-                    printHelp();
-                }
+    public static void main(String[] args){
+        var errController = new ErrorController();
+        VerbConfig verb;
+        ObjetiveConfig obj;
+        Path inputFilePath;
+        Path outputPath;
+        String outputName;
+        Path includeInputFilePath;
 
-                if (args.length > 2) {
-                    saveResults(args[2], runner.getRepositoryText(), runner.getLogicText(), runner.getProgramText());
-                }
+        switch (args[0]){
+            case "analizar":
+                verb = VerbConfig.ANALYZE;
+                break;
+            case "compilar":
+                verb = VerbConfig.COMPILE;
 
-            } else if (args.length > 0 && Objects.equals(args[0], "test")) {
-                if (args.length > 1) {
-                    File program = new File(args[1]);
-                    String fileContent = readFileContent(program);
-                    runner.run(fileContent);
-                } else {
-                    printHelp();
-                }
-            } else if (args.length > 0 && Objects.equals(args[0], "help")) {
-                printHelp();
-            } else {
-                printHelp();
-
-            }
-        }catch (LogicException e){
-            System.out.println(ANSI_RED+ "line "+e.getLine()+":"+e.getCharInLine()+" "+ e.getMessage()+ANSI_RESET);
-
+            case null,default:
+                throw new RuntimeException("Error detecting verb");
         }
 
+        obj = switch (args[1]) {
+            case "logica" -> ObjetiveConfig.LOGIC;
+            case "repertorio" -> ObjetiveConfig.INSTRUCTION_SET;
+            case "todo" -> ObjetiveConfig.ALL;
+            case null, default -> throw new RuntimeException("Error detecting objetive");
+        };
+
+        //var config = new Config()
 
     }
 

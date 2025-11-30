@@ -18,14 +18,14 @@ public class ErrorMessage {
         this.token = token;
     }
 
-    ErrorMessage(ErrorLevel level, ErrorEnum id,List<Object> args, Token token){
+    public ErrorMessage(ErrorLevel level, ErrorEnum id, List<Object> args, Token token){
         this.level = level;
         this.id = id;
         this.token = token;
         this.arguments = args;
     }
 
-    String print(ResourceBundle errorTranslations,boolean terminalColors){
+    public String toString(ResourceBundle errorTranslations,boolean terminalColors){
         String res = "";
 
 
