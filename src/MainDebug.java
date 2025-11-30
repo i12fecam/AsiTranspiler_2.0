@@ -1,6 +1,4 @@
-import Analisis.LogicException;
-
-public class MainTest {
+public class MainDebug {
 
     public static void main(String[] args) {
         String programContent=
@@ -9,7 +7,11 @@ public class MainTest {
                         instrucciones {
                             instruccion1(){
                              [SR+1->SR] PC+1->PC;
-                            }}variables{}programa{}""";
+                            }
+                        }
+                       variables{}
+                       programa{}
+                       """;
 
         Runner runner = new Runner();
         try {

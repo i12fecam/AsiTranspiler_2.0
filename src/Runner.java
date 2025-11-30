@@ -21,11 +21,12 @@ public class Runner {
         SicomeParser parser = new SicomeParser(tokens);
         var tree = parser.prog();
 
-        //Se comprueba si es de tipo cable o no , si esta el bloque de estados sera de microcableado
-        Boolean isCable = true;
-        if (tree.getChildCount() == 4){
-            isCable = false;
-        }
+
+        boolean isCable = switch (tree){
+             case SicomeParser.CableProgramContext CableContext ->  true;
+             case SicomeParser.MicroCableProgramContext microCableProgramContext-> false;
+            default -> false;
+        };
         //Hacer analisis
         ParseTreeWalker walker = new ParseTreeWalker();
 
