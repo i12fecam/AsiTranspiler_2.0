@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="info.picocli.shell.jline2" type="repository">
+    <properties maven-id="info.picocli:picocli-shell-jline2:4.7.6" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/picocli-shell-jline2-4.7.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/picocli-4.7.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jline-2.14.6.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/picocli-shell-jline2-4.7.6-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/picocli-4.7.6-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jline-2.14.6-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

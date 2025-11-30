@@ -1,10 +1,13 @@
 import Analisis.LogicException;
+import picocli.CommandLine;
+import picocli.CommandLine.*;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 
 public class Main {
     private static String readFile(String filePath) throws IOException {
@@ -61,37 +64,67 @@ public class Main {
 //
 //
 //    }
+@Command(name = "AsiTranspiler", mixinStandardHelpOptions = true, version = "AsiTranspiler 0.4",
+        description = "Covierte archivos .asi a archivos .lcb, .rep, .prog para ser utilizados con el programa SICOME.")
+class AsiTranspiler implements Callable<Integer> {
+    @Parameters(index = "0",description = "La acción a realizar")
+    VerbConfig verb;
+    @Parameters(index = "1",description = "Que objetivo tendrá a compilar")
+    ObjetiveConfig objetive;
+    @Parameters(index = "2", description = "El archivo a compilar")
+    private File file;
 
-    public static void main(String[] args){
-        var errController = new ErrorController();
-        VerbConfig verb;
-        ObjetiveConfig obj;
-        Path inputFilePath;
-        Path outputPath;
-        String outputName;
-        Path includeInputFilePath;
+    @Parameters(index="3",description = "El directorio donde se creará los nuevos archivos")
+    private Path outputPath;
 
-        switch (args[0]){
-            case "analizar":
-                verb = VerbConfig.ANALYZE;
-                break;
-            case "compilar":
-                verb = VerbConfig.COMPILE;
+    @Option(names = {"-n", "--nombre"}, description = "El nombre de los archivos a crear")
+    private String name = file.getName();
 
-            case null,default:
-                throw new RuntimeException("Error detecting verb");
-        }
+    @Option(names = {"-i", "--incluir"}, description = "Archivo que utilizar para repertorio y lógica")
+    private File includedFile;
+    @Override
+    public Integer call() throws Exception { // your business logic goes here...
+}
 
-        obj = switch (args[1]) {
-            case "logica" -> ObjetiveConfig.LOGIC;
-            case "repertorio" -> ObjetiveConfig.INSTRUCTION_SET;
-            case "todo" -> ObjetiveConfig.ALL;
-            case null, default -> throw new RuntimeException("Error detecting objetive");
-        };
-
-        //var config = new Config()
-
+    // this example implements Callable, so parsing, error handling and handling user
+    // requests for usage help or version help can be done with one line of code.
+    public static void main(String... args) {
+        int exitCode = new CommandLine(new AsiTranspiler()).execute(args);
+        System.exit(exitCode);
     }
+}
+
+
+//    public static void main(String[] args){
+//        var errController = new ErrorController();
+//        VerbConfig verb;
+//        ObjetiveConfig obj;
+//        Path inputFilePath;
+//        Path outputPath;
+//        String outputName;
+//        Path includeInputFilePath;
+//
+//        switch (args[0]){
+//            case "analizar":
+//                verb = VerbConfig.ANALYZE;
+//                break;
+//            case "compilar":
+//                verb = VerbConfig.COMPILE;
+//
+//            case null,default:
+//                throw new RuntimeException("Error detecting verb");
+//        }
+//
+//        obj = switch (args[1]) {
+//            case "logica" -> ObjetiveConfig.LOGIC;
+//            case "repertorio" -> ObjetiveConfig.INSTRUCTION_SET;
+//            case "todo" -> ObjetiveConfig.ALL;
+//            case null, default -> throw new RuntimeException("Error detecting objetive");
+//        };
+//
+//        //var config = new Config()
+//
+//    }
 
     private static void printHelp() {
         String text=
