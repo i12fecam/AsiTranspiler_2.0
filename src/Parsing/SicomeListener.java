@@ -1,4 +1,4 @@
-// Generated from /home/abi/Codigo/AsiTranspiler 2.0/grammar/Sicome.g4 by ANTLR 4.13.1
+// Generated from /home/abi/Proyectos/SicomeTranspiler/grammar/Sicome.g4 by ANTLR 4.13.2
 package Parsing;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -7,6 +7,18 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  * {@link SicomeParser}.
  */
 public interface SicomeListener extends ParseTreeListener {
+	/**
+	 * Enter a parse tree produced by the {@code microProgramableLogic}
+	 * labeled alternative in {@link SicomeParser#prog}.
+	 * @param ctx the parse tree
+	 */
+	void enterMicroProgramableLogic(SicomeParser.MicroProgramableLogicContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code microProgramableLogic}
+	 * labeled alternative in {@link SicomeParser#prog}.
+	 * @param ctx the parse tree
+	 */
+	void exitMicroProgramableLogic(SicomeParser.MicroProgramableLogicContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code cableProgram}
 	 * labeled alternative in {@link SicomeParser#prog}.
@@ -20,17 +32,17 @@ public interface SicomeListener extends ParseTreeListener {
 	 */
 	void exitCableProgram(SicomeParser.CableProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code microCableProgram}
+	 * Enter a parse tree produced by the {@code microProgramableProgram}
 	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
 	 */
-	void enterMicroCableProgram(SicomeParser.MicroCableProgramContext ctx);
+	void enterMicroProgramableProgram(SicomeParser.MicroProgramableProgramContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code microCableProgram}
+	 * Exit a parse tree produced by the {@code microProgramableProgram}
 	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
 	 */
-	void exitMicroCableProgram(SicomeParser.MicroCableProgramContext ctx);
+	void exitMicroProgramableProgram(SicomeParser.MicroProgramableProgramContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SicomeParser#variablesBlock}.
 	 * @param ctx the parse tree

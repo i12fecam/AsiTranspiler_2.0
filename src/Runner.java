@@ -40,42 +40,72 @@ public class Runner {
     private BasicCodeGenerator res = null;
     private CommonTokenStream tokens = null;
     public void run(String fileContent){
+        run(fileContent,ObjetiveConfig.ALL);
+    }
+    public void run(String fileContent,ObjetiveConfig obj) {
 
+        ParseTreeWalker walker = new ParseTreeWalker();
 
-        //Inicar parseado
         SicomeLexer lexer = new SicomeLexer(CharStreams.fromString(fileContent));
         tokens = new CommonTokenStream(lexer);
         SicomeParser parser = new SicomeParser(tokens);
         var tree = parser.prog();
 
+        switch (obj) {
+            case LOGIC -> {
+                //Por hacer
+            }
+            case INSTRUCTION_SET -> {
+                //Por hacer
+            }
+            case ALL -> {
+                //Hacer fase de analisis
 
-        boolean isCable = switch (tree){
-             case SicomeParser.CableProgramContext CableContext ->  true;
-             case SicomeParser.MicroCableProgramContext microCableProgramContext-> false;
-            default -> false;
-        };
-        //Hacer analisis
-        ParseTreeWalker walker = new ParseTreeWalker();
+                switch (tree) {
+                    case SicomeParser.MicroProgramableLogicContext ctx -> {
+                        throw new RuntimeException("No se puede compilar");
+                    }
+                    case SicomeParser.MicroProgramableProgramContext ctx -> {
+                        var analysisPass = new MicroAnalisis();
+                        walker.walk(analysisPass, tree);
 
-        BasicAnalisis fpass = null;
-        if(isCable){
-            fpass = new CableAnalisis();
-        } else fpass = new MicroAnalisis();
+                        var symbols = analysisPass.getSymbolTable();
+                        var ids = analysisPass.getIds();
 
-        walker.walk(fpass,tree);
+                        var codeGenerationPass = new MicroCodeGenerator(ids, symbols);
+                        walker.walk(codeGenerationPass, tree);
 
-        SymbolTable symbols = fpass.getSymbolTable();
-        ParseTreeProperty<Integer> ids = fpass.getIds();
+                        res = codeGenerationPass;
+                    }
+                    case SicomeParser.CableProgramContext ctx -> {
+                        var analysisPass = new CableAnalisis();
+                        walker.walk(analysisPass, tree);
 
-        //Se hace generación de código
-        BasicCodeGenerator cpass = null;
-        if(isCable){
-            cpass = new CableCodeGenerator(ids,symbols);
-        }  else cpass = new MicroCodeGenerator(ids,symbols);
+                        var symbols = analysisPass.getSymbolTable();
+                        var ids = analysisPass.getIds();
 
-        walker.walk(cpass,tree);
+                        var codeGenerationPass = new CableCodeGenerator(ids, symbols);
+                        walker.walk(codeGenerationPass, tree);
 
-        res = cpass;
+                        res = codeGenerationPass;
+                    }
+
+                    default -> throw new IllegalStateException("Unexpected value: " + tree);
+                }
+
+                //Hacer pass de analisis de logica de micro
+                //Hacer pass de analisis de micro/cableado
+                //Hacer pass de analisis de programa
+                //Hacer pass de codegen de micro/cableado
+                //Hacer pass de codegen de programa (controlar si se hace con include
+
+
+            }
+
+
+        }
+
+
     }
 
     public String getRepositoryText(){

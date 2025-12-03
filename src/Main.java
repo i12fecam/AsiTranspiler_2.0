@@ -66,7 +66,9 @@ public class Main {
 //    }
 @Command(name = "AsiTranspiler", mixinStandardHelpOptions = true, version = "AsiTranspiler 0.4",
         description = "Covierte archivos .asi a archivos .lcb, .rep, .prog para ser utilizados con el programa SICOME.")
-class AsiTranspiler implements Callable<Integer> {
+static class AsiTranspiler implements Callable<Integer> {
+
+
     @Parameters(index = "0",description = "La acción a realizar")
     VerbConfig verb;
     @Parameters(index = "1",description = "Que objetivo tendrá a compilar")
@@ -78,12 +80,16 @@ class AsiTranspiler implements Callable<Integer> {
     private Path outputPath;
 
     @Option(names = {"-n", "--nombre"}, description = "El nombre de los archivos a crear")
-    private String name = file.getName();
+    private String name;
 
     @Option(names = {"-i", "--incluir"}, description = "Archivo que utilizar para repertorio y lógica")
     private File includedFile;
     @Override
-    public Integer call() throws Exception { // your business logic goes here...
+    public Integer call() throws Exception {
+        Runner runner = new Runner();
+        String fileContent = readFileContent(file);
+
+        return 1;// your business logic goes here...
 }
 
     // this example implements Callable, so parsing, error handling and handling user

@@ -1,4 +1,4 @@
-// Generated from /home/abi/Codigo/AsiTranspiler 2.0/grammar/Sicome.g4 by ANTLR 4.13.1
+// Generated from /home/abi/Proyectos/SicomeTranspiler/grammar/Sicome.g4 by ANTLR 4.13.2
 package Parsing;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -17,6 +17,18 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMicroProgramableLogic(SicomeParser.MicroProgramableLogicContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMicroProgramableLogic(SicomeParser.MicroProgramableLogicContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCableProgram(SicomeParser.CableProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -29,13 +41,13 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMicroCableProgram(SicomeParser.MicroCableProgramContext ctx) { }
+	@Override public void enterMicroProgramableProgram(SicomeParser.MicroProgramableProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMicroCableProgram(SicomeParser.MicroCableProgramContext ctx) { }
+	@Override public void exitMicroProgramableProgram(SicomeParser.MicroProgramableProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
