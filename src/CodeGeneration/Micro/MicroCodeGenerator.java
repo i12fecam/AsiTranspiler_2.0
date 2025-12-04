@@ -2,7 +2,8 @@ package CodeGeneration.Micro;
 
 import Analisis.LogicException;
 import Analisis.SymbolTable;
-import CodeGeneration.BasicCodeGenerator;
+import CodeGeneration.ProgramCodeGenerator;
+import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import internals.FlagState;
 import internals.Micro.BifurcationLogic;
@@ -13,15 +14,18 @@ import java.util.ArrayList;
 
 import static Analisis.HelperFunctions.parseNumber;
 
-public class MicroCodeGenerator extends BasicCodeGenerator {
+public class MicroCodeGenerator extends SicomeBaseListener {
 
+    private SymbolTable _symbols;
+    private ParseTreeProperty<Integer> _ids;
 
     private MicroLogicHelper logic = new MicroLogicHelper();
 
     private MicroRepositoryHelper repository;
 
     public MicroCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st) {
-        super(ids, st);
+        this._ids = ids;
+        this._symbols = st;
         repository = new MicroRepositoryHelper(st);
     }
 

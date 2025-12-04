@@ -12,12 +12,15 @@ import static Analisis.HelperFunctions.parseNumber;
  * Anotates the tree in functions and steps with their number
  * Register in the Symbol Table Marks ,Variables and Function definitions
  */
-public class BasicAnalisis extends SicomeBaseListener {
+public class ProgramAnalysis extends SicomeBaseListener {
 
-    SymbolTable symbolTable = new SymbolTable();
-    ParseTreeProperty<Integer> ids = new ParseTreeProperty<>();
+    public SymbolTable symbolTable = new SymbolTable();
+    public ParseTreeProperty<Integer> ids = new ParseTreeProperty<>();
 
-
+    public ProgramAnalysis(SymbolTable symbolTable, ParseTreeProperty<Integer> ids){
+        this.symbolTable = symbolTable;
+        this.ids = ids;
+    }
 
 
     /**
@@ -89,19 +92,5 @@ public class BasicAnalisis extends SicomeBaseListener {
         }
     }
 
-    /**
-     * Returns the ids the tree is annotated with
-     * @return the ids
-     */
-    public ParseTreeProperty<Integer> getIds(){
-        return ids;
-    }
 
-    /**
-     * Returns the completed symbolTable
-     * @return the completed symbolTable
-     */
-    public SymbolTable getSymbolTable(){
-        return symbolTable;
-    }
 }

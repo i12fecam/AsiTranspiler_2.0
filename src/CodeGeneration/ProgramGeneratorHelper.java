@@ -3,12 +3,12 @@ package CodeGeneration;
 import Analisis.SymbolTable;
 import internals.Variable;
 
-public class ProgramGenerator {
+public class ProgramGeneratorHelper {
 
     private SymbolTable _symbols;
 
     private StringBuilder InstructionBuilder= new StringBuilder();
-    public ProgramGenerator(SymbolTable symbols){
+    public ProgramGeneratorHelper(SymbolTable symbols){
         _symbols =symbols;
     }
     /*

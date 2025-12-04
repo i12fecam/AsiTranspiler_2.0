@@ -2,7 +2,8 @@ package CodeGeneration.Cable;
 
 import Analisis.LogicException;
 import Analisis.SymbolTable;
-import CodeGeneration.BasicCodeGenerator;
+import CodeGeneration.ProgramCodeGenerator;
+import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import internals.Cableado.ControlAction;
 import internals.Cableado.ControlEnum;
@@ -16,23 +17,24 @@ import java.util.List;
 
 import static Analisis.HelperFunctions.parseNumber;
 
-public class CableCodeGenerator extends BasicCodeGenerator {
+public class CableCodeGenerator extends SicomeBaseListener {
 
     protected CableLogicHelper logic;
 
     protected CableRepositoryHelper repository;
 
+    protected ParseTreeProperty<Integer> _ids = null;
 
     public CableCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st) {
-        super(ids, st);
+        _ids = ids;
         logic = new CableLogicHelper();
         repository = new CableRepositoryHelper(st);
     }
-    @Override
+
     public String getLogicFileString(){
         return logic.getText();
     }
-    @Override
+
     public String getRepositoryFileString(){
         return repository.getText();
     }

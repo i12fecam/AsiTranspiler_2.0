@@ -1,10 +1,19 @@
 package Analisis;
 
+import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
+import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.List;
 
-public class CableAnalisis extends BasicAnalisis{
+public class CableAnalisis extends SicomeBaseListener {
+    private SymbolTable symbolTable;
+    private ParseTreeProperty<Integer> ids;
+
+    public CableAnalisis(ParseTreeProperty<Integer> ids, SymbolTable symbolTable) {
+        this.ids = ids;
+        this.symbolTable = symbolTable;
+    }
 
     /**
      * Anotates the tree with the ids of the steps and the id of the function

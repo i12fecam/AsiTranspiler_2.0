@@ -1,9 +1,19 @@
 package Analisis;
 
+import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
-public class MicroAnalisis extends BasicAnalisis{
+public class MicroAnalisis extends SicomeBaseListener {
+    public ParseTreeProperty<Integer> ids = new ParseTreeProperty<>();
+    public SymbolTable symbolTable = new SymbolTable();
+
+
+    public MicroAnalisis(ParseTreeProperty<Integer> ids, SymbolTable symbolTable) {
+        this.ids = ids;
+        this.symbolTable = symbolTable;
+    }
 
     @Override
     public void enterMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx) {
@@ -35,38 +45,4 @@ public class MicroAnalisis extends BasicAnalisis{
         }
     }
 
-    @Override
-    public void enterSimpleStatusLogic(SicomeParser.SimpleStatusLogicContext ctx) {
-        String name = ctx.name.getText();
-        boolean needsArg = false;
-        if(ctx.option.getText().equals("BIF")){//TODO reformular para no poner literales
-            needsArg = true;
-        }
-
-        try {
-            symbolTable.addBifurcationLogic(name,needsArg);
-        }catch (RuntimeException e){
-            throw new LogicException(e.getMessage(),ctx.name);
-        }
-
-    }
-
-    @Override
-    public void enterComplexStatusLogic(SicomeParser.ComplexStatusLogicContext ctx) {
-        String name = ctx.name.getText();
-        boolean needsArg = false;
-        for(var newCtx :ctx.statusLogicOption() ){
-            if(newCtx.option.getText().equals("BIF")){
-                needsArg = true;
-                break;
-            }
-        }
-
-        try {
-            symbolTable.addBifurcationLogic(name,needsArg);
-        }catch (RuntimeException e){
-            throw new LogicException(e.getMessage(),ctx.name);
-        }
-
-    }
 }

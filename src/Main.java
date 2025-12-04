@@ -87,8 +87,40 @@ static class AsiTranspiler implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         Runner runner = new Runner();
-        String fileContent = readFileContent(file);
 
+        String fileContent1 = readFileContent(file);
+        String fileContent2 = null;
+        if (includedFile != null)  fileContent2 = readFileContent(includedFile);
+        if(name == null) name = file.getName();
+
+        try{
+            runner.run(fileContent1,objetive,fileContent2);
+        } catch (RuntimeException e) {
+            System.out.println(e);
+        }
+
+
+        switch (verb){
+            case ANALYZE -> {
+                //DO NOTHING
+            }
+            case COMPILE -> {
+                switch (objetive){
+                    case LOGIC -> {
+                        createFile(outputPath,name + ".lcb", runner.getLogicText());
+                    }
+                    case INSTRUCTION_SET -> {
+                        createFile(outputPath,name + ".lcb", runner.getLogicText());
+                        createFile(outputPath,name +".rep",runner.getRepositoryText());
+                    }
+                    case ALL ->{
+                        createFile(outputPath,name + ".lcb", runner.getLogicText());
+                        createFile(outputPath,name +".rep",runner.getRepositoryText());
+                        createFile(outputPath,name + ".prog",runner.getProgramText());
+                    }
+                }
+            }
+        }
         return 1;// your business logic goes here...
 }
 
@@ -144,36 +176,36 @@ static class AsiTranspiler implements Callable<Integer> {
     }
 
 
-    private static boolean saveResults(String FolderPath, String repositoryContent, String logicContent, String programContent) {
-        try {
-            File baseFolder = new File(FolderPath);
-            String commonName= baseFolder.getName();
-            if (baseFolder.exists()) {
-                System.out.println("El directorio ya existe, no se volvera a crear.");//Hace a pesar de que exista?
-                return false;
-            }
+//    private static boolean saveResults(String FolderPath, String repositoryContent, String logicContent, String programContent) {
+//        try {
+//            File baseFolder = new File(FolderPath);
+//            String commonName= baseFolder.getName();
+//            if (baseFolder.exists()) {
+//                System.out.println("El directorio ya existe, no se volvera a crear.");//Hace a pesar de que exista?
+//                return false;
+//            }
+//
+//            if (baseFolder.mkdir()) {
+//                System.out.println("Carpeta creada en: " + baseFolder.getAbsolutePath());
+//
+//
+//                createFile(baseFolder, commonName + ".rep",repositoryContent);
+//                createFile(baseFolder, commonName + ".lcb",logicContent);
+//                createFile(baseFolder, commonName + ".txt",programContent);
+//
+//                return true;
+//            } else {
+//                System.err.println("Hubo un fallo al crear la carpeta.");
+//                return false;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
-            if (baseFolder.mkdir()) {
-                System.out.println("Carpeta creada en: " + baseFolder.getAbsolutePath());
-
-
-                createFile(baseFolder, commonName + ".rep",repositoryContent);
-                createFile(baseFolder, commonName + ".lcb",logicContent);
-                createFile(baseFolder, commonName + ".txt",programContent);
-
-                return true;
-            } else {
-                System.err.println("Hubo un fallo al crear la carpeta.");
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private static void createFile(File parentFolder, String fileName, String fileContent) {
-        File file = new File(parentFolder, fileName);
+    private static void createFile(Path parentFolder, String fileName, String fileContent) {
+        File file = new File(parentFolder.toFile(), fileName);
         try {
             if (file.createNewFile()) {
                 System.out.println("Archivo creado en: " + file.getAbsolutePath());

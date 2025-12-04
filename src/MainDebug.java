@@ -23,7 +23,7 @@ public class MainDebug {
 
 
 
-        runner.printTokens();
+
 
         System.out.println("Repositorio");
         System.out.println(runner.getRepositoryText());

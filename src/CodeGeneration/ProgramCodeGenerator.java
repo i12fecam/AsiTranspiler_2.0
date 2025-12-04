@@ -10,26 +10,20 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import static Analisis.HelperFunctions.parseNumber;
 
-public class BasicCodeGenerator extends SicomeBaseListener {
+public class ProgramCodeGenerator extends SicomeBaseListener {
     protected ParseTreeProperty<Integer> _ids = null;
     protected SymbolTable _symbols = null;
-     public BasicCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st){
+     public ProgramCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st){
         _ids = ids;
         _symbols = st;
-        program = new ProgramGenerator(_symbols);
+        program = new ProgramGeneratorHelper(_symbols);
     }
 
 
 
-     ProgramGenerator program;
+     ProgramGeneratorHelper program;
 
-    public String getLogicFileString(){
-        return "";
-    }
 
-    public String getRepositoryFileString(){
-        return "";
-    }
 
     public String getProgramFileString() {return program.getText();}
 

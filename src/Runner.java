@@ -1,5 +1,5 @@
 import Analisis.*;
-import CodeGeneration.BasicCodeGenerator;
+import CodeGeneration.ProgramCodeGenerator;
 import CodeGeneration.Cable.CableCodeGenerator;
 import CodeGeneration.Micro.MicroCodeGenerator;
 import Parsing.SicomeLexer;
@@ -37,67 +37,116 @@ record Config(
 
 }
 public class Runner {
-    private BasicCodeGenerator res = null;
-    private CommonTokenStream tokens = null;
+    String logicText;
+    String repositoryText;
+    String programText;
     public void run(String fileContent){
-        run(fileContent,ObjetiveConfig.ALL);
+        run(fileContent,ObjetiveConfig.ALL,null);
     }
-    public void run(String fileContent,ObjetiveConfig obj) {
+    public void run(String fileContent,ObjetiveConfig obj,String includeFileContent) {
 
+        SicomeParser.ProgContext programTree = null;
+        SicomeParser.ProgContext restTree = null;
+
+        SicomeLexer lexerFile = new SicomeLexer(CharStreams.fromString(fileContent));
+        var tokensFile = new CommonTokenStream(lexerFile);
+        SicomeParser parserFile = new SicomeParser(tokensFile);
+        programTree = parserFile.prog();
+        restTree = programTree;
+
+        if(includeFileContent != null){
+            SicomeLexer lexerFile2 = new SicomeLexer(CharStreams.fromString(includeFileContent));
+            var tokensFile2 = new CommonTokenStream(lexerFile2);
+            SicomeParser parserFile2 = new SicomeParser(tokensFile2);
+            restTree = parserFile2.prog();
+        }
+
+
+
+        var symbols = new SymbolTable();
+        var ids = new ParseTreeProperty<Integer>();
         ParseTreeWalker walker = new ParseTreeWalker();
-
-        SicomeLexer lexer = new SicomeLexer(CharStreams.fromString(fileContent));
-        tokens = new CommonTokenStream(lexer);
-        SicomeParser parser = new SicomeParser(tokens);
-        var tree = parser.prog();
 
         switch (obj) {
             case LOGIC -> {
-                //Por hacer
+                switch (restTree){
+                    case SicomeParser.MicroProgramableLogicContext ctx ->{
+
+                        var analysisMicroLogicPass = new MicroLogicAnalisis(symbols);
+                        walker.walk(analysisMicroLogicPass, ctx.statusLogicBlock());
+
+                        var microCodeGeneratorPass = new MicroCodeGenerator(ids, symbols);
+                        walker.walk(microCodeGeneratorPass, restTree);
+
+                        logicText = microCodeGeneratorPass.getLogicFileString();
+                    }
+                    case SicomeParser.MicroProgramableProgramContext ctx ->{
+                        var analysisMicroLogicPass = new MicroLogicAnalisis(symbols);
+                        walker.walk(analysisMicroLogicPass, ctx.statusLogicBlock());
+
+                        var microCodeGeneratorPass = new MicroCodeGenerator(ids, symbols);
+                        walker.walk(microCodeGeneratorPass, restTree);
+                        logicText = microCodeGeneratorPass.getLogicFileString();
+                    }
+                    default -> throw new RuntimeException("No existe el bloque correcto");
+                }
             }
             case INSTRUCTION_SET -> {
                 //Por hacer
+
             }
             case ALL -> {
                 //Hacer fase de analisis
 
-                switch (tree) {
+                switch (restTree) {
                     case SicomeParser.MicroProgramableLogicContext ctx -> {
                         throw new RuntimeException("No se puede compilar");
                     }
                     case SicomeParser.MicroProgramableProgramContext ctx -> {
-                        var analysisPass = new MicroAnalisis();
-                        walker.walk(analysisPass, tree);
 
-                        var symbols = analysisPass.getSymbolTable();
-                        var ids = analysisPass.getIds();
+                        var analysisMicroLogicPass = new MicroLogicAnalisis(symbols);
+                        walker.walk(analysisMicroLogicPass, ctx.statusLogicBlock());
 
-                        var codeGenerationPass = new MicroCodeGenerator(ids, symbols);
-                        walker.walk(codeGenerationPass, tree);
+                        var analysisMicroPass = new MicroAnalisis(ids,symbols);
+                        walker.walk(analysisMicroPass,ctx.microInstructionBlock());
 
-                        res = codeGenerationPass;
+                        var analysisProgram = new ProgramAnalysis(symbols,ids);
+                        walker.walk(analysisProgram,programTree);
+
+                        var microCodeGeneratorPass = new MicroCodeGenerator(ids, symbols);
+                        walker.walk(microCodeGeneratorPass, restTree);
+
+                        logicText = microCodeGeneratorPass.getLogicFileString();
+                        repositoryText = microCodeGeneratorPass.getRepositoryFileString();
+
+                        var codeGenerationProgramPass = new ProgramCodeGenerator(ids,symbols);
+                        walker.walk(codeGenerationProgramPass,programTree);
+
+                        programText = codeGenerationProgramPass.getProgramFileString();
                     }
                     case SicomeParser.CableProgramContext ctx -> {
-                        var analysisPass = new CableAnalisis();
-                        walker.walk(analysisPass, tree);
 
-                        var symbols = analysisPass.getSymbolTable();
-                        var ids = analysisPass.getIds();
+                        var cableAnalysisPass = new CableAnalisis(ids,symbols);
+                        walker.walk(cableAnalysisPass, restTree);
 
-                        var codeGenerationPass = new CableCodeGenerator(ids, symbols);
-                        walker.walk(codeGenerationPass, tree);
+                        var programAnalysisPass = new ProgramAnalysis(symbols,ids);
+                        walker.walk(programAnalysisPass,programTree);
+                        var cableCodeGeneratorPass = new CableCodeGenerator(ids, symbols);
+                        walker.walk(cableCodeGeneratorPass, restTree);
 
-                        res = codeGenerationPass;
+                        logicText = cableCodeGeneratorPass.getLogicFileString();
+                        repositoryText = cableCodeGeneratorPass.getRepositoryFileString();
+
+                        var programCodeGenerationPass = new ProgramCodeGenerator(ids,symbols);
+                        walker.walk(programCodeGenerationPass,programTree);
+
+                        programText = programCodeGenerationPass.getProgramFileString();
+
                     }
 
-                    default -> throw new IllegalStateException("Unexpected value: " + tree);
+                    default -> throw new IllegalStateException("Unexpected value: ");
                 }
 
-                //Hacer pass de analisis de logica de micro
-                //Hacer pass de analisis de micro/cableado
-                //Hacer pass de analisis de programa
-                //Hacer pass de codegen de micro/cableado
-                //Hacer pass de codegen de programa (controlar si se hace con include
 
 
             }
@@ -109,26 +158,25 @@ public class Runner {
     }
 
     public String getRepositoryText(){
-
-        return res.getRepositoryFileString();
+        return repositoryText;
     }
 
     public String getLogicText(){
-        return res.getLogicFileString();
+        return logicText;
     }
 
     public String getProgramText(){
-        return res.getProgramFileString();
+        return programText;
     }
 
-    public void printTokens(){
-        tokens.fill();
-        for (Token token : tokens.getTokens()) {
-            String tokenName = SicomeLexer.VOCABULARY.getSymbolicName(token.getType());
-            if (tokenName == null) {
-                tokenName = SicomeLexer.VOCABULARY.getDisplayName(token.getType());
-            }
-            System.out.println("Token: " + tokenName + " (" + token.getText() + ")");
-        }
-    }
+//    public void printTokens(){
+//        tokens.fill();
+//        for (Token token : tokens.getTokens()) {
+//            String tokenName = SicomeLexer.VOCABULARY.getSymbolicName(token.getType());
+//            if (tokenName == null) {
+//                tokenName = SicomeLexer.VOCABULARY.getDisplayName(token.getType());
+//            }
+//            System.out.println("Token: " + tokenName + " (" + token.getText() + ")");
+//        }
+//    }
 }
