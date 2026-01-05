@@ -123,7 +123,7 @@ public class SicomeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCableFlowControl(SicomeParser.CableFlowControlContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMicroIntr(SicomeParser.MicroIntrContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -173,11 +173,4 @@ public class SicomeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitMicroStep(SicomeParser.MicroStepContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitMicroFlowControl(SicomeParser.MicroFlowControlContext ctx) { return visitChildren(ctx); }
 }

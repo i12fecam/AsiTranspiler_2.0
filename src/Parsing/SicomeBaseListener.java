@@ -197,13 +197,13 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCableFlowControl(SicomeParser.CableFlowControlContext ctx) { }
+	@Override public void enterMicroIntr(SicomeParser.MicroIntrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCableFlowControl(SicomeParser.CableFlowControlContext ctx) { }
+	@Override public void exitMicroIntr(SicomeParser.MicroIntrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -288,18 +288,6 @@ public class SicomeBaseListener implements SicomeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMicroStep(SicomeParser.MicroStepContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMicroFlowControl(SicomeParser.MicroFlowControlContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMicroFlowControl(SicomeParser.MicroFlowControlContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

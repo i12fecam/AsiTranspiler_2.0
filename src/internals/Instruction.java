@@ -5,7 +5,7 @@ public class Instruction {
 
     private final String _functionName;
     private final int _id;
-    private InstructionArg _params;
+    private InstructionArgumentType _params;
     private int _nSteps=0;
     /**
      *
@@ -16,11 +16,11 @@ public class Instruction {
     public Instruction(String functionName, String functionArg, int nSteps , int id){
         this._functionName = functionName;
         switch (functionArg){
-            case "dir": _params= InstructionArg.Dir; break;
-            case "value": _params= InstructionArg.Value; break;
-            case "var" : _params= InstructionArg.Var;break;
-            case "" : _params= InstructionArg.None; break;
-            default: _params= InstructionArg.None;break;
+            case "dir": _params= InstructionArgumentType.Dir; break;
+            case "value": _params= InstructionArgumentType.Value; break;
+            case "var" : _params= InstructionArgumentType.Var;break;
+            case "" : _params= InstructionArgumentType.None; break;
+            default: _params= InstructionArgumentType.None;break;
         }//TODO meter esto dentro del enum?
         _id=id;
         _nSteps=nSteps;
@@ -35,14 +35,14 @@ public class Instruction {
     }
 
     public Boolean getBooleanParam(){
-        if(_params.equals(InstructionArg.None)){
+        if(_params.equals(InstructionArgumentType.None)){
             return Boolean.FALSE;
         }else{
             return Boolean.TRUE;
         }
     }
 
-    public InstructionArg getParam(){
+    public InstructionArgumentType getParam(){
         return _params;
     }
 

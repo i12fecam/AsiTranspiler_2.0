@@ -110,11 +110,11 @@ public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SicomeParser#cableFlowControl}.
+	 * Visit a parse tree produced by {@link SicomeParser#microIntr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCableFlowControl(SicomeParser.CableFlowControlContext ctx);
+	T visitMicroIntr(SicomeParser.MicroIntrContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SicomeParser#statusLogicBlock}.
 	 * @param ctx the parse tree
@@ -159,10 +159,4 @@ public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMicroStep(SicomeParser.MicroStepContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link SicomeParser#microFlowControl}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMicroFlowControl(SicomeParser.MicroFlowControlContext ctx);
 }

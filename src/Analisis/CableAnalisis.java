@@ -8,8 +8,8 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.List;
 
 public class CableAnalisis extends SicomeBaseListener {
-    private SymbolTable symbolTable;
-    private ParseTreeProperty<Integer> ids;
+    private final SymbolTable symbolTable;
+    private final ParseTreeProperty<Integer> ids;
 
     public CableAnalisis(ParseTreeProperty<Integer> ids, SymbolTable symbolTable) {
         this.ids = ids;

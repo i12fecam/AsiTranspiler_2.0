@@ -235,11 +235,13 @@ public class CableInstructionTest {
         assertCableLogic(helper.getLogicText(),outputLogicText);
     }
 
-
-
-
-
-
+    //TODO test de comprobar que no se pase argumento a quien no necesita
+    //TODO test de comprobar que se pase argumento a quien lo necesita
+    //TODO test que no se pueda utilizar instrucciones de tipo cable en microprogramado
+    //TODO Comprobar que no haya la misma microinstrucciones en el mismo paso tanto en cableado como micro
+    //TODO test que se pone bien cada cosa en su sección en la salida
+    //TODO hacer test que compruebe que en microprogramado no se pueda hacer que haya una instrucción con bif con valor además de una instrucción con argumento
+    //TODO hacer comprobraciones de valor máximo de arguumento de load sc y de arg de bif
     @Test
     public void mustProcessComplexStep(){
         String inputText = """

@@ -6,4 +6,5 @@ public enum MicroInstructionType {
     pc_sp_sc,
     gpr,
     alu,
+    cable,
 }

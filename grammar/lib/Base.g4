@@ -1,4 +1,4 @@
-lexer grammar Base;
+grammar Base;
 
 
 
@@ -15,6 +15,7 @@ SC_DECREMENT: 'SC-1->SC';
 FLAG: [!]?[A-Z][a-z]?[a-z+1]?;
 IDENTIFIER: [a-z][a-zA-Z0-9_]*; //debe empezar por minuscula
 MICRO_INSTR: ([A-Z!]|[01]'-')[a-zA-Z0-9+\->_@{}]+ ;
+microIntr: MICRO_INSTR ('(' arg=NUMBER ')')?;
 
 
 

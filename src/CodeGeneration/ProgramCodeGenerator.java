@@ -4,19 +4,19 @@ import Analisis.LogicException;
 import internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.InstructionArg;
+import internals.InstructionArgumentType;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import static Analisis.HelperFunctions.parseNumber;
 
 public class ProgramCodeGenerator extends SicomeBaseListener {
-    protected ParseTreeProperty<Integer> _ids = null;
-    protected SymbolTable _symbols = null;
+    protected ParseTreeProperty<Integer> ids = null;
+    protected SymbolTable symbols = null;
      public ProgramCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st){
-        _ids = ids;
-        _symbols = st;
-        program = new ProgramCodeGeneratorHelper(_symbols);
+        this.ids = ids;
+        symbols = st;
+        program = new ProgramCodeGeneratorHelper(symbols);
     }
 
 
@@ -33,7 +33,7 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
     public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
         Token instrName =ctx.name;
         SicomeParser.InstructionUseArgumentContext arg =ctx.instructionUseArgument();
-        InstructionArg expectedArg =_symbols.getArgument(instrName.getText());
+        InstructionArgumentType expectedArg = symbols.getArgument(instrName.getText());
         if(expectedArg == null){
             throw new LogicException("La Instrucción no está definida",instrName);
         }
@@ -53,13 +53,13 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
 
                 if(arg.var!=null && arg.offset!=null){    //vectorVariable
                     try {
-                        paramNumber = _symbols.getPosFromVariable(arg.var.getText(), parseNumber(arg.offset.getText(),null));
+                        paramNumber = symbols.getPosFromVariable(arg.var.getText(), parseNumber(arg.offset.getText(),null));
                     }catch (RuntimeException e){
                         throw new LogicException(e.getMessage(),instrName);
                     }
-                }else if(arg.var!=null && _symbols.isVariable(arg.var.getText())) { //simpleVariable
+                }else if(arg.var!=null && symbols.isVariable(arg.var.getText())) { //simpleVariable
                     try{
-                        paramNumber = _symbols.getPosFromVariable(arg.var.getText(), 0);
+                        paramNumber = symbols.getPosFromVariable(arg.var.getText(), 0);
                     }catch (RuntimeException e){
                         throw new LogicException(e.getMessage(),instrName);
                     }
@@ -69,8 +69,8 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
                 }
             }
             case Dir -> {
-                if (arg.var != null && _symbols.isLabel(arg.var.getText())) { //jump label
-                    paramNumber = _symbols.getPosFromLabel(arg.var.getText());
+                if (arg.var != null && symbols.isLabel(arg.var.getText())) { //jump label
+                    paramNumber = symbols.getPosFromLabel(arg.var.getText());
                 } else {
                     throw new LogicException("Argumento de tipo dirección no encontrado",instrName);
                 }

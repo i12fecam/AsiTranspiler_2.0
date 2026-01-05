@@ -176,15 +176,15 @@ public interface SicomeListener extends ParseTreeListener {
 	 */
 	void exitConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SicomeParser#cableFlowControl}.
+	 * Enter a parse tree produced by {@link SicomeParser#microIntr}.
 	 * @param ctx the parse tree
 	 */
-	void enterCableFlowControl(SicomeParser.CableFlowControlContext ctx);
+	void enterMicroIntr(SicomeParser.MicroIntrContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SicomeParser#cableFlowControl}.
+	 * Exit a parse tree produced by {@link SicomeParser#microIntr}.
 	 * @param ctx the parse tree
 	 */
-	void exitCableFlowControl(SicomeParser.CableFlowControlContext ctx);
+	void exitMicroIntr(SicomeParser.MicroIntrContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SicomeParser#statusLogicBlock}.
 	 * @param ctx the parse tree
@@ -259,14 +259,4 @@ public interface SicomeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMicroStep(SicomeParser.MicroStepContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SicomeParser#microFlowControl}.
-	 * @param ctx the parse tree
-	 */
-	void enterMicroFlowControl(SicomeParser.MicroFlowControlContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SicomeParser#microFlowControl}.
-	 * @param ctx the parse tree
-	 */
-	void exitMicroFlowControl(SicomeParser.MicroFlowControlContext ctx);
 }

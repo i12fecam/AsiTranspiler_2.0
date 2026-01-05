@@ -1,12 +1,13 @@
 package CodeGeneration.Micro;
 
 import Analisis.LogicException;
+import internals.MicroInstructionType;
 import internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import internals.FlagState;
 import internals.Micro.BifurcationLogic;
-import internals.MicroInstruction;
+import internals.MicroInstructionEnum;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
@@ -88,42 +89,32 @@ public class MicroCodeGenerator extends SicomeBaseListener {
         int id_func = _ids.get(ctx.getParent());
         int id_step = _ids.get(ctx);
 
-        //Se asocian las micro instrucciones
-        for(var mInstrToken:ctx.instr){
-            MicroInstruction mi = MicroInstruction.valueOfInput(mInstrToken.getText());
-            if(mi==null) throw new LogicException("Microinstruccion no reconocida",mInstrToken);
+        //We associate the bifurcation logic
+        var bifLogic = _symbols.getBifurcationLogic(ctx.biflogic.getText());
+        if (bifLogic == null) throw new RuntimeException("La lógica de bifurcación no estaba definida anteriormente");
+        if (bifLogic.needsArg() && ctx.arg == null) throw new RuntimeException("la logica de bifurcación necesita de un argumento");
+        repository.associateControlFlow(id_func,id_step, bifLogic.getId());
+        if(ctx.arg != null){
+            int value = parseNumber(ctx.arg.getText(),null);
+            repository.associateBifValue(id_func,id_step,value);
+        }
+
+        //We associate the microInstructions
+        for(var mInstr:ctx.instr ){
+            MicroInstructionEnum mi = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
+            if(mi==null) throw new LogicException("Microinstruccion no reconocida",mInstr.MICRO_INSTR().getSymbol());
+            if(mi.getType() == MicroInstructionType.cable) throw new RuntimeException("Instrucción solo se puede utlizar en modo cambleado");
             repository.associateMicroInstruction(id_func,id_step,mi);
+            if(mi.needsArgument && mInstr.arg == null) throw new RuntimeException("La instrucción necesita de argumento");
+            if(!mi.needsArgument && mInstr.arg != null) throw new RuntimeException("La instrucción no necesita de argumento");
+
+            if(mi.needsArgument){
+                var argNumber = parseNumber(mInstr.arg.getText(),null);
+                repository.associateSCvalue(id_func,id_step,argNumber);
+            }
         }
 
-        //Se asocian las instrucciones relacionadas con SC y la lógica de bifurcación
-        boolean usedArg = false;//TODO por que hice esto
-        for(var flowControl:ctx.flow){
-           switch (flowControl.action.getText()){
-               case "LOAD_SC":
-                   usedArg=true;
-                   repository.associateMicroInstruction(id_func,id_step,MicroInstruction.load_sc);
-                   Integer sc_value = parseNumber(flowControl.value.getText(),null);
-                   repository.associateSCvalue(id_func,id_step,sc_value);
-                   break;
-               case "SC-1->SC":
-                   repository.associateMicroInstruction(id_func,id_step,MicroInstruction.sc_minus_to_sc);
-                   break;
-               default:
-                   BifurcationLogic bifLogic =_symbols.getBifurcationLogic(flowControl.action.getText());
-                   if(bifLogic == null) throw new LogicException("La lógica de bifurcación no ha sido definida anteriormente", flowControl.action);
-                   if(bifLogic.needsArg() && flowControl.value==null ){
-                       throw new LogicException("La logica de bifurcación necesita de un argumento", flowControl.action);
-                   }
-                   repository.associateControlFlow(id_func,id_step, bifLogic.getId());
-                   if(flowControl.value!=null){
-                       int value = parseNumber(flowControl.value.getText(),null);
-                       repository.associateBifValue(id_func,id_step,value);
-                   }
 
-                   break;
-
-           }
-        }
 
     }
 }

@@ -5,14 +5,8 @@ cableInstructionBlock: '@cableado' 'instrucciones''{' cableInstruction+ '}';
 
 cableInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' cableStep* '}';
 
-cableStep: '[' cableFlowControl*']' instr+=MICRO_INSTR* ';'  #simpleCableStep
+cableStep: '[' linstr=microIntr']' rinstr+=microIntr* ';'  #simpleCableStep
     | '{'conditionalCableStep+ '}'                         #conditionalCableStepBlock
     ;
 
-conditionalCableStep: flags+=FLAG (',' flags+=FLAG)* ':' '[' cableFlowControl+ ']' instr+=MICRO_INSTR* ';' ;
-
-cableFlowControl: type=LOAD_SC '('value=NUMBER ')'
-          | type=LOAD_SR '(' value=(NUMBER | 'START') ')'
-          | type=SR_INCREMENT
-          | type=SC_DECREMENT
-          ;
+conditionalCableStep: flags+=FLAG (',' flags+=FLAG)* ':' '[' linstr=microIntr ']' rinstr+=microIntr* ';' ;

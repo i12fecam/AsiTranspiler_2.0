@@ -2,8 +2,8 @@ package CodeGeneration.Micro;
 
 import internals.SymbolTable;
 import internals.Instruction;
-import internals.InstructionArg;
-import internals.MicroInstruction;
+import internals.InstructionArgumentType;
+import internals.MicroInstructionEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,39 +11,45 @@ import java.util.Map;
 
 public class MicroRepositoryHelper {
 
-    private Map<Integer,ArrayList<Integer>> repo = new HashMap<>();
+    private Map<Integer,ArrayList<Double>> repo = new HashMap<>();
 
-    private SymbolTable _symbols;
+    private final SymbolTable _symbols;
     MicroRepositoryHelper(SymbolTable symbolTable){
         _symbols=symbolTable;
         var functions = _symbols.getFunctions();
         for(var func:functions){
-            repo.put(func.getId(),new ArrayList<Integer>(func.getNSteps()));
+            repo.put(func.getId(),new ArrayList<Double>(func.getNSteps()));
             for(int i=0;i<func.getNSteps();i++){
-                repo.get(func.getId()).add(0);
+                repo.get(func.getId()).add((double) 0L);
             }
         }
     }
     public void associateControlFlow(int functionId, int stepId, int controlFlowIdentifier){
-        int num = repo.get(functionId).get(stepId);
+        double num = repo.get(functionId).get(stepId);
         num+=controlFlowIdentifier*Math.pow(2,8);
         repo.get(functionId).set(stepId,num);
 
     }
-    public void associateMicroInstruction(int functionId, int stepId, MicroInstruction microInstruction){
-        int num = repo.get(functionId).get(stepId);
+    public void associateMicroInstruction(int functionId, int stepId, MicroInstructionEnum microInstruction){
+        double num = repo.get(functionId).get(stepId);
         num+=microInstruction.microCode;
         repo.get(functionId).set(stepId,num);
 
     }
     public void associateSCvalue(int functionId, int stepId,int value){
-        int num = repo.get(functionId).get(stepId);
+        double num = repo.get(functionId).get(stepId);
+        num+=value;
+        repo.get(functionId).set(stepId,num);
+
+    }
+    public void associateCROMvalue(int functionId, int stepId,int value){
+        double num = repo.get(functionId).get(stepId);
         num+=value;
         repo.get(functionId).set(stepId,num);
 
     }
     public void associateBifValue(int functionId,int stepId,int value){
-        int num = repo.get(functionId).get(stepId);
+        double num = repo.get(functionId).get(stepId);
         num+=value;
         repo.get(functionId).set(stepId,num);
     }
@@ -62,21 +68,21 @@ public class MicroRepositoryHelper {
             builder.append(fun.getName()).append(" ");
 
 
-            if(fun.getParam().equals(InstructionArg.None)){
+            if(fun.getParam().equals(InstructionArgumentType.None)){
                 builder.append("false");
             }else{
                 builder.append("true");
             }
 
 
-            if(entry.getValue().size() == 0){
+            if(entry.getValue().isEmpty()){
                 builder.append(" ");
                 builder.append("0");
             }
             else{
                 for(var StepCode:entry.getValue()){
                     builder.append(" ");
-                    builder.append(Integer.toHexString(StepCode).toUpperCase());
+                    builder.append(Double.toHexString(StepCode).toUpperCase());
 
                 }
             }

@@ -50,7 +50,7 @@ public class SymbolTable {
      * @param InstructionName the name of the instruction
      * @return type of argument
      */
-    public InstructionArg getArgument(String InstructionName){
+    public InstructionArgumentType getArgument(String InstructionName){
         for(Instruction fun: instructions){
             if(fun.getName().equals(InstructionName)){
                 return fun.getParam();

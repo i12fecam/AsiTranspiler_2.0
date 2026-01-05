@@ -1,13 +1,12 @@
 package CodeGeneration.Cable;
 
 import Analisis.LogicException;
+import internals.MicroInstruction;
 import internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.Cableado.ControlAction;
-import internals.Cableado.ControlEnum;
 import internals.FlagState;
-import internals.MicroInstruction;
+import internals.MicroInstructionEnum;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
@@ -43,63 +42,36 @@ public class CableCodeGenerator extends SicomeBaseListener {
     public void exitSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) {
         int id_func = _ids.get(ctx.getParent());
         int id_step = _ids.get(ctx);
-
-        //Añadir todas las instruciones
-        for ( Token mInstr: ctx.instr) {
-            MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
-            if(mi== null) throw new LogicException("Microinstrucción no reconocida",mInstr);
-            logic.addMicroInstructionUse(mi, id_func, id_step,  null);
+        //TODO gestionar cuando se le pasa argumento cuando no se debe
+        //Process left instruction
+        var lmInstrEnum = MicroInstructionEnum.valueOfInput(ctx.linstr.getText());
+        switch (lmInstrEnum){
+            case sr_plus_to_sr -> {
+                logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,null), id_func, id_step,  null);
+            }
+            case load_sr -> {
+                //TODO gestionar que el valor no sea superior a un limite definido
+                var argValue = parseNumber(ctx.linstr.arg.getText(),null);
+                logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
+            }
+            case null -> throw new RuntimeException("Instrucción no reconocida");
+            default -> //TODO manejar bien
+                    throw new RuntimeException("Instrucción invalida entre brackets");
 
         }
 
-        //Se gestiona los control flow
 
-
-        //Si no hay nada se asume que se quiere decir SR+1->SR
-        if(ctx.cableFlowControl().size()==0){
-            logic.addControlActionUse(new ControlAction(ControlEnum.SR_PLUS, null),
-                    id_func,
-                    id_step,
-                    null);
-            return;
-        }
-
-        boolean found_SR_Cable_Flow = false;
-
-        for(SicomeParser.CableFlowControlContext cf: ctx.cableFlowControl()) {
-            String type = cf.type.getText();
-            String valueString = cf.value == null ? "" : cf.value.getText();
-            Integer value = null;
-            ControlEnum ce = ControlEnum.valueOfInput(type);
-
-            switch (ce){
-                case LOAD_SC -> {
-                    value = parseNumber(cf.value.getText(),null);
-
-                }
-                case LOAD_SR -> {
-                    if(found_SR_Cable_Flow) throw new LogicException("No puede haber dos controles de tipo SR en el mismo paso", cf.type);
-                    found_SR_Cable_Flow = true;
-
-                    if(valueString.equals("START")){
-                        value = null;
-                    } else value = parseNumber(cf.value.getText(),null);
-                }
-
-                case SR_PLUS, SC_MINUS -> {
-                    if(found_SR_Cable_Flow) throw new LogicException("No puede haber dos controles de tipo SR en el mismo paso", cf.type);
-                    found_SR_Cable_Flow = true;
-                }
-
+        //Process right instruction
+        for (var mInstr: ctx.rinstr) {
+            var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
+            switch (rmIntrEnum){
+                case sr_plus_to_sr,load_sr ->  throw new RuntimeException("Instrucción invalida entre brackets");
+                case null -> throw new RuntimeException("Instrucción no reconocida");
                 default -> {
-                    System.out.println("Error al leer la microinstrucción");
+                    var argValue = parseNumber(mInstr.arg.getText(),null);
+                    logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
                 }
             }
-
-            logic.addControlActionUse(new ControlAction(ce, value),
-                    id_func,
-                    id_step,
-                    null);
 
 
         }
@@ -111,7 +83,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
         int id_step = _ids.get(ctx.getParent());
 
 
-        //Procesar las flags
+        //Process flags
         List<FlagState> flags = new ArrayList<>();
         for( Token flag: ctx.flags){
             FlagState newFlag = FlagState.ValueOfInput(flag.getText());
@@ -119,52 +91,35 @@ public class CableCodeGenerator extends SicomeBaseListener {
             flags.add(newFlag);
 
         }
-
-
-        for (Token mInstr : ctx.instr) {
-            MicroInstruction mi = MicroInstruction.valueOfInput(mInstr.getText());
-            if(mi== null) throw new LogicException("Microinstrucción no reconocida",mInstr);
-            logic.addMicroInstructionUse(mi, id_func, id_step, flags);
+        //Process left instruction
+        var lmInstrEnum = MicroInstructionEnum.valueOfInput(ctx.linstr.MICRO_INSTR().getText());
+        switch (lmInstrEnum){
+            case sr_plus_to_sr -> {
+                logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,null), id_func, id_step,  flags);
+            }
+            case load_sr -> {
+                //TODO gestionar que el valor no sea superior a un limite definido
+                var argValue = parseNumber(ctx.linstr.arg.getText(),null);
+                logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
+            }
+            case null -> throw new RuntimeException("Instrucción no reconocida");
+            default -> throw new RuntimeException("Instrucción invalida entre brackets");
 
         }
 
-        boolean found_SR_Cable_Flow = false;
 
-        for(SicomeParser.CableFlowControlContext cf: ctx.cableFlowControl()) {
-            String type = cf.type.getText();
-            String valueString = cf.value == null ? "" : cf.value.getText();
-            Integer value = null;
-            ControlEnum ce = ControlEnum.valueOfInput(type);
-
-            switch (ce){
-                case LOAD_SC -> {
-                    value = parseNumber(cf.value.getText(),null);
-                }
-                case LOAD_SR -> {
-                    if(found_SR_Cable_Flow) throw new LogicException("No puede haber dos controles de tipo SR en el mismo paso", cf.type);
-                    found_SR_Cable_Flow = true;
-
-                    if(valueString.equals("START")){
-                        value = null;
-                    } else value = parseNumber(cf.value.getText(),null);
-                }
-
-                case SR_PLUS, SC_MINUS -> {
-                    if(found_SR_Cable_Flow) throw new LogicException("No puede haber dos controles de tipo SR en el mismo paso", cf.type);
-                    found_SR_Cable_Flow = true;
-                }
-
+        //Process right instruction
+        for ( var mInstr: ctx.rinstr) {
+            var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.getText());
+            switch (rmIntrEnum){
+                case sr_plus_to_sr,load_sr ->  throw new RuntimeException("Instrucción invalida entre brackets");
+                case null -> throw new RuntimeException("Instrucción no reconocida");
                 default -> {
-                    System.out.println("Error al leer la microinstrucción");
+                    var argValue = parseNumber(mInstr.arg.getText(),null);
+                    logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
                 }
             }
-
-            logic.addControlActionUse(new ControlAction(ce, value),
-                    id_func,
-                    id_step,
-                    flags);
-
-
         }
+
     }
 }
