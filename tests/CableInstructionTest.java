@@ -113,45 +113,14 @@ public class CableInstructionTest {
         assertCableLogic(helper.getLogicText(),outputLogicText);
 
     }
-    @Test
-    public void mustAssumeSrPlusWhenOmitted(){
-        String inputText = "@cableado\n" +
-                "instrucciones {\n" +
-                "    instruccion1(){\n" +
-                "     [] PC+1->PC;\n" +
-                "    }" +
-                "}" +
-                "variables{}" +
-                "programa{}";
 
-        String outputRepositoryText = "halt false 0 q0\ninstruccion1 false 1 q1\n";
-
-        String outputLogicText = """
-                $
-                M->GPR:t1
-                GPR(OP)->OPR:t2
-                PC->MAR:t0
-                GPR(AD)->MAR:t2
-                PC+1->PC:t1 + t3·q1
-                $
-                SR+1->SR:t0 + t1 + t2 + t3·q1
-                $
-                """;
-
-        Runner helper = new Runner();
-        helper.run(inputText);
-
-        assertEquals(outputRepositoryText,helper.getRepositoryText());
-        assertCableLogic(helper.getLogicText(),outputLogicText);
-    }
-    //TODO no estoy segura de como debe ser esto
     @Test
     public void mustHandleLoadSRStart(){
         String inputText = """
                 @cableado
                 instrucciones {
                     instruccion1(){
-                     [] PC+1->PC;
+                     [SR+1->SR] PC+1->PC;
                      [LOAD_SR(START)] GPR->PC;
                     }
                 }
@@ -185,12 +154,53 @@ public class CableInstructionTest {
     }
 
     @Test
-    public void mustHandleSRPlusAndLoadSC(){
+    public void mustProhibitInvalidMicroInstructionsBetweeenBrackets(){
+        String inputText = """
+                @cableadoSR+1->SR
+                instrucciones {
+                    instruccion1(){
+                     [PC+1->PC] PC+1->PC;
+                     [LOAD_SR(START)] GPR->PC;
+                    }
+                }
+                variables{}
+                programa{}
+                """;
+
+        String outputRepositoryText = "halt false 0 q0\ninstruccion1 false 2 q1\n";
+
+        String outputLogicText = """
+                $
+                M->GPR:t1
+                GPR(OP)->OPR:t2
+                PC->MAR:t0
+                GPR(AD)->MAR:t2
+                PC+1->PC:t1 + t3·q1
+                GPR->PC:t4·q1
+                $
+                SR+1->SR:t0 + t1 + t2 + t3·q1
+                LOAD SR:t4·q1-0
+                $
+                """;
+
+        Runner helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText);
+        });
+
+        System.out.println(helper.getLogicText());
+
+        assertEquals(outputRepositoryText,helper.getRepositoryText());
+        assertCableLogic(helper.getLogicText(),outputLogicText);
+    }
+
+    @Test
+    public void mustHandleLoadSC(){
         String inputText = """
                 @cableado
                 instrucciones {
                     instruccion1(){
-                     [SR+1->SR LOAD_SC(8)] PC+1->PC;
+                     [SR+1->SR] LOAD_SC(8) PC+1->PC;
                      [LOAD_SR(START)] GPR->PC;
                     }
                 }
@@ -218,6 +228,7 @@ public class CableInstructionTest {
         Runner helper = new Runner();
         helper.run(inputText);
 
+
         System.out.println(helper.getLogicText());
 
         assertEquals(outputRepositoryText,helper.getRepositoryText());
@@ -225,86 +236,9 @@ public class CableInstructionTest {
     }
 
 
-    @Test
-    public void mustProhibitSRPlusAndLoadSR(){
-        String inputText = """
-                @cableado
-                instrucciones {
-                    instruccion1(){
-                     [SR+1->SR LOAD_SR(8)] PC+1->PC;
-                     [LOAD_SR(START)] GPR->PC;
-                    }
-                }
-                variables{}
-                programa{}
-                """;
 
-        String outputRepositoryText = "halt false 0 q0\ninstruccion1 false 2 q1\n";
 
-        String outputLogicText = """
-                $
-                M->GPR:t1
-                GPR(OP)->OPR:t2
-                PC->MAR:t0
-                GPR(AD)->MAR:t2
-                PC+1->PC:t1 + t3·q1
-                GPR->PC:t4·q1
-                $
-                SR+1->SR:t0 + t1 + t2 + t3·q1
-                LOAD SR:t4·q1-3
-                LOAD SC:t3·q1-8
-                $
-                """;
 
-        Runner helper = new Runner();
-        assertThrows(LogicException.class , () -> helper.run(inputText));
-
-        //System.out.println(helper.getLogicText());
-
-        //assertEquals(outputRepositoryText,helper.getRepositoryText());
-        //assertCableLogic(helper.getLogicText(),outputLogicText);
-    }
-
-    @Test
-    public void mustProhibitSCMinusAndLoadSR(){
-        String inputText = """
-                @cableado
-                instrucciones {
-                    instruccion1(){
-                     [SC-1->SC LOAD_SR(8)] PC+1->PC;
-                     [LOAD_SR(START)] GPR->PC;
-                    }
-                }
-                variables{}
-                programa{}
-                """;
-
-        String outputRepositoryText = "halt false 0 q0\ninstruccion1 false 2 q1\n";
-
-        String outputLogicText = """
-                $
-                M->GPR:t1
-                GPR(OP)->OPR:t2
-                PC->MAR:t0
-                GPR(AD)->MAR:t2
-                PC+1->PC:t1 + t3·q1
-                GPR->PC:t4·q1
-                $
-                SR+1->SR:t0 + t1 + t2
-                LOAD SR:t4·q1-3
-                LOAD SC:t3·q1-8
-                SC-1->t3·q1
-                $
-                """;
-
-        Runner helper = new Runner();
-        assertThrows(LogicException.class , () -> helper.run(inputText));
-
-        //System.out.println(helper.getLogicText());
-
-        //assertEquals(outputRepositoryText,helper.getRepositoryText());
-        //assertCableLogic(helper.getLogicText(),outputLogicText);
-    }
 
     @Test
     public void mustProcessComplexStep(){
@@ -314,7 +248,7 @@ public class CableInstructionTest {
                     instruccion1(){
                         {
                             X : [SR+1->SR ] PC+1->PC;
-                            As: [SR+1->SR LOAD_SC(3)]  0->ACC;
+                            As: [SR+1->SR ] LOAD_SC(3) 0->ACC;
                         }
                         [LOAD_SR(START)] !ACC->ACC;
                     }
