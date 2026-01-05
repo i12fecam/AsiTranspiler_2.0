@@ -1,14 +1,14 @@
 package CodeGeneration;
 
-import Analisis.SymbolTable;
+import internals.SymbolTable;
 import internals.Variable;
 
-public class ProgramGeneratorHelper {
+public class ProgramCodeGeneratorHelper {
 
     private SymbolTable _symbols;
 
     private StringBuilder InstructionBuilder= new StringBuilder();
-    public ProgramGeneratorHelper(SymbolTable symbols){
+    public ProgramCodeGeneratorHelper(SymbolTable symbols){
         _symbols =symbols;
     }
     /*

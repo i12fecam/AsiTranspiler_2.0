@@ -6,10 +6,10 @@ import internals.FlagState;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FlagCompletnessCheck {
+public class FlagExhaustivenessHelper {
 
     public static void main(String[] args) {
-        FlagCompletnessCheck fc = new FlagCompletnessCheck();
+        FlagExhaustivenessHelper fc = new FlagExhaustivenessHelper();
         fc.addNewFlagCombination(List.of(new FlagState(Flag.As,true)
                                         ,new FlagState(Flag.Bs,null)
         ));

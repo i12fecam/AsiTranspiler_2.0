@@ -1,6 +1,6 @@
 package internals;
 
-public enum FunctionArg {
+public enum InstructionArg {
     Dir,
     Value,
     Var,

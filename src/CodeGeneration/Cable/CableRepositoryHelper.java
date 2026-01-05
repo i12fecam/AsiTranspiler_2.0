@@ -1,7 +1,7 @@
 package CodeGeneration.Cable;
 
-import Analisis.SymbolTable;
-import internals.Function;
+import internals.SymbolTable;
+import internals.Instruction;
 
 public class CableRepositoryHelper {
     SymbolTable _symbols;
@@ -21,7 +21,7 @@ public class CableRepositoryHelper {
      */
     public String getText(){
         StringBuilder builder = new StringBuilder();
-        for(Function func: _symbols.getFunctions()){
+        for(Instruction func: _symbols.getFunctions()){
             builder.append(func.getName());
             builder.append(" ");
             builder.append(func.getBooleanParam().toString());

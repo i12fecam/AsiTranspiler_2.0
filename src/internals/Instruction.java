@@ -1,13 +1,11 @@
 package internals;
 
-import internals.FunctionArg;
-
-public class Function {
+public class Instruction {
 
 
     private final String _functionName;
     private final int _id;
-    private FunctionArg _params;
+    private InstructionArg _params;
     private int _nSteps=0;
     /**
      *
@@ -15,14 +13,14 @@ public class Function {
      * @param functionArg Can be "value","dir","var" or ""
      * @return FunctionNumber
      */
-    public Function(String functionName,String functionArg,int nSteps ,int id){
+    public Instruction(String functionName, String functionArg, int nSteps , int id){
         this._functionName = functionName;
         switch (functionArg){
-            case "dir": _params= FunctionArg.Dir; break;
-            case "value": _params= FunctionArg.Value; break;
-            case "var" : _params=FunctionArg.Var;break;
-            case "" : _params= FunctionArg.None; break;
-            default: _params=FunctionArg.None;break;
+            case "dir": _params= InstructionArg.Dir; break;
+            case "value": _params= InstructionArg.Value; break;
+            case "var" : _params= InstructionArg.Var;break;
+            case "" : _params= InstructionArg.None; break;
+            default: _params= InstructionArg.None;break;
         }//TODO meter esto dentro del enum?
         _id=id;
         _nSteps=nSteps;
@@ -37,14 +35,14 @@ public class Function {
     }
 
     public Boolean getBooleanParam(){
-        if(_params.equals(FunctionArg.None)){
+        if(_params.equals(InstructionArg.None)){
             return Boolean.FALSE;
         }else{
             return Boolean.TRUE;
         }
     }
 
-    public FunctionArg getParam(){
+    public InstructionArg getParam(){
         return _params;
     }
 

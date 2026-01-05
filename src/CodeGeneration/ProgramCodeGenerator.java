@@ -1,10 +1,10 @@
 package CodeGeneration;
 
 import Analisis.LogicException;
-import Analisis.SymbolTable;
+import internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.FunctionArg;
+import internals.InstructionArg;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
@@ -16,12 +16,12 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
      public ProgramCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st){
         _ids = ids;
         _symbols = st;
-        program = new ProgramGeneratorHelper(_symbols);
+        program = new ProgramCodeGeneratorHelper(_symbols);
     }
 
 
 
-     ProgramGeneratorHelper program;
+     ProgramCodeGeneratorHelper program;
 
 
 
@@ -33,7 +33,7 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
     public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
         Token instrName =ctx.name;
         SicomeParser.InstructionUseArgumentContext arg =ctx.instructionUseArgument();
-        FunctionArg expectedArg =_symbols.getArgument(instrName.getText());
+        InstructionArg expectedArg =_symbols.getArgument(instrName.getText());
         if(expectedArg == null){
             throw new LogicException("La Instrucción no está definida",instrName);
         }

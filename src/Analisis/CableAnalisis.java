@@ -2,6 +2,7 @@ package Analisis;
 
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
+import internals.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.List;

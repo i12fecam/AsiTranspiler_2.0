@@ -1,8 +1,8 @@
 package CodeGeneration.Micro;
 
-import Analisis.SymbolTable;
-import internals.Function;
-import internals.FunctionArg;
+import internals.SymbolTable;
+import internals.Instruction;
+import internals.InstructionArg;
 import internals.MicroInstruction;
 
 import java.util.ArrayList;
@@ -58,11 +58,11 @@ public class MicroRepositoryHelper {
                 "$\n");
         for(var entry:repo.entrySet()){
             int functionId =entry.getKey();
-            Function fun =_symbols.getFunctionByName(functionId);
+            Instruction fun =_symbols.getFunctionByName(functionId);
             builder.append(fun.getName()).append(" ");
 
 
-            if(fun.getParam().equals(FunctionArg.None)){
+            if(fun.getParam().equals(InstructionArg.None)){
                 builder.append("false");
             }else{
                 builder.append("true");

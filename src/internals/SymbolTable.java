@@ -1,9 +1,6 @@
-package Analisis;
+package internals;
 
-import internals.Function;
-import internals.FunctionArg;
 import internals.Micro.BifurcationLogic;
-import internals.Variable;
 
 import java.util.*;
 
@@ -11,7 +8,7 @@ public class SymbolTable {
     /*-------------------------------------------------------------------
         functions
      */
-    private final Vector<Function> functions = new Vector<>();
+    private final Vector<Instruction> instructions = new Vector<>();
 
     /**
      * Registers a new function
@@ -21,13 +18,13 @@ public class SymbolTable {
      * @return the id of the registered function
      */
     public int addFunction(String functionName,String functionArg,int steps) throws RuntimeException {
-        for(Function fun:functions){
+        for(Instruction fun: instructions){
             if(Objects.equals(fun.getName(), functionName)){
                 throw new RuntimeException("Ya existe una función con este nombre");
             }
         }
-        functions.add(new Function(functionName,functionArg,steps,functions.size()));
-        return functions.size()-1;
+        instructions.add(new Instruction(functionName,functionArg,steps, instructions.size()));
+        return instructions.size()-1;
     }
 
 
@@ -37,15 +34,15 @@ public class SymbolTable {
      * @return the number of steps
      */
     public int getSteps(int idFunction) {
-        return functions.elementAt(idFunction).getNSteps();
+        return instructions.elementAt(idFunction).getNSteps();
     }
 
     /**
      * Gets all the function defined
      * @return The functions
      */
-    public  Vector<Function> getFunctions(){
-        return functions;
+    public  Vector<Instruction> getFunctions(){
+        return instructions;
     }
 
     /**
@@ -53,8 +50,8 @@ public class SymbolTable {
      * @param InstructionName the name of the instruction
      * @return type of argument
      */
-    public FunctionArg getArgument(String InstructionName){
-        for(Function fun: functions){
+    public InstructionArg getArgument(String InstructionName){
+        for(Instruction fun: instructions){
             if(fun.getName().equals(InstructionName)){
                 return fun.getParam();
             }
@@ -62,8 +59,8 @@ public class SymbolTable {
         return null;
     }
 
-    public Function getFunctionByName(int id){
-        for(Function fun: functions){
+    public Instruction getFunctionByName(int id){
+        for(Instruction fun: instructions){
             if(fun.getId()==id){
                 return fun;
             }

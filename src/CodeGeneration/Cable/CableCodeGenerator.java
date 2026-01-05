@@ -1,8 +1,7 @@
 package CodeGeneration.Cable;
 
 import Analisis.LogicException;
-import Analisis.SymbolTable;
-import CodeGeneration.ProgramCodeGenerator;
+import internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import internals.Cableado.ControlAction;

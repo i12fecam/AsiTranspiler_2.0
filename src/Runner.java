@@ -4,11 +4,11 @@ import CodeGeneration.Cable.CableCodeGenerator;
 import CodeGeneration.Micro.MicroCodeGenerator;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
+import internals.SymbolTable;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.antlr.v4.runtime.Token;
 
 import java.nio.file.Path;
 
