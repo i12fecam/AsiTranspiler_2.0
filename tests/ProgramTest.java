@@ -1,11 +1,10 @@
 import Analisis.LogicException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class programTest {
+public class ProgramTest {
 
     @Test
     void oneInstructionProgram(){
@@ -383,7 +382,7 @@ public class programTest {
         //assertEquals(outputProgramText,helper.getProgramText());
     }
     @Test
-    void usingLiteralArgument(){
+    void usingValueArgument(){
         String inputText = """
                 @cableado
                 instrucciones {
@@ -418,6 +417,27 @@ public class programTest {
 
         assertEquals(outputProgramText,helper.getProgramText());
     }
+
+    void usingValueArgumentWhenValue(){}
+    void usingVarArgumentWhenValue(){}
+    void usingDirArgumentWhenValue(){}
+    void usingNoneArgumentWhenValue(){}
+
+    void usingValueArgumentWhenVar(){}
+    void usingVarArgumentWhenVar(){}
+    void usingDirArgumentWhenVar(){}
+    void usingNoneArgumentWhenVar(){}
+
+    void usingValueArgumentWhenDir(){}
+    void usingVarArgumentWhenDir(){}
+    void usingDirArgumentWhenDir(){}
+    void usingNoneArgumentWhenDir(){}
+
+    void usingValueArgumentWhenNone(){}
+    void usingVarArgumentWhenNone(){}
+    void usingDirArgumentWhenNone(){}
+    void usingNoneArgumentWhenNone(){}
+
 
     @Test
     void usingMarks(){

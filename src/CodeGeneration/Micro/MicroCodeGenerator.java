@@ -5,92 +5,32 @@ import internals.MicroInstructionType;
 import internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.FlagState;
-import internals.Micro.BifurcationLogic;
+
 import internals.MicroInstructionEnum;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
-import java.util.ArrayList;
 
 import static Analisis.HelperFunctions.parseNumber;
 
 public class MicroCodeGenerator extends SicomeBaseListener {
 
-    private SymbolTable _symbols;
-    private ParseTreeProperty<Integer> _ids;
-
-    private MicroLogicHelper logic = new MicroLogicHelper();
-
-    private MicroRepositoryHelper repository;
+    private final SymbolTable symbols;
+    private final ParseTreeProperty<Integer> ids;
+    private final MicroRepositoryHelper repository;
 
     public MicroCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st) {
-        this._ids = ids;
-        this._symbols = st;
+        this.ids = ids;
+        this.symbols = st;
         repository = new MicroRepositoryHelper(st);
-    }
-
-    public String getLogicFileString(){
-        return logic.getString();
-    }
-
-    public String getRepositoryFileString(){
-        return repository.getText();
-    }
-
-    @Override
-    public void enterSimpleStatusLogic(SicomeParser.SimpleStatusLogicContext ctx) {
-        String name = ctx.name.getText();
-        BifurcationLogic bifLogic = _symbols.getBifurcationLogic(name);
-        boolean inc = false;
-        boolean bif = false;
-        boolean ret = false;
-        switch (ctx.option.getText()){
-            case "BIF":bif=true; break;
-            case "INCR":inc=true;break;
-            case "RET":ret=true;break;
-        }
-        boolean enable = true;
-        if(ctx.disable!=null) enable=false;
-
-        logic.addStatusLogic(bifLogic.getId(),new ArrayList<>(){},inc,bif,ret,enable);
-    }
-
-    @Override
-    public void enterComplexStatusLogic(SicomeParser.ComplexStatusLogicContext ctx) {
-        String name = ctx.name.getText();
-
-
-        for(var optionCtx:ctx.statusLogicOption()){
-            //Se registra flags
-            ArrayList<FlagState> flags = new ArrayList<>();
-            for(var flagToken:optionCtx.flags){
-                FlagState flag = FlagState.ValueOfInput(flagToken.getText());
-                if(flag==null) throw new LogicException("Flag no reconocida",flagToken);
-                flags.add(flag);
-            }
-            BifurcationLogic bifLogic = _symbols.getBifurcationLogic(name);
-            boolean inc = false;
-            boolean bif = false;
-            boolean ret = false;
-            switch (optionCtx.option.getText()){
-                case "BIF":bif=true; break;
-                case "INCR":inc=true;break;
-                case "RET":ret=true;break;
-            }
-            boolean enable = true;
-            if(optionCtx.disable!=null) enable=false;
-
-            logic.addStatusLogic(bifLogic.getId(),flags,inc,bif,ret,enable);
-        }
     }
 
     @Override
     public void enterMicroStep(SicomeParser.MicroStepContext ctx) {
-        int id_func = _ids.get(ctx.getParent());
-        int id_step = _ids.get(ctx);
+        int id_func = ids.get(ctx.getParent());
+        int id_step = ids.get(ctx);
 
         //We associate the bifurcation logic
-        var bifLogic = _symbols.getBifurcationLogic(ctx.biflogic.getText());
+        var bifLogic = symbols.getBifurcationLogic(ctx.biflogic.getText());
         if (bifLogic == null) throw new RuntimeException("La lógica de bifurcación no estaba definida anteriormente");
         if (bifLogic.needsArg() && ctx.arg == null) throw new RuntimeException("la logica de bifurcación necesita de un argumento");
         repository.associateControlFlow(id_func,id_step, bifLogic.getId());

@@ -9,14 +9,15 @@ public class CableInstructionTest {
     //TODO hacer tests que comprueben warnings de que le faltan contenido a las funciones
     @Test
     public void mustHaveArgumentIfIsValue(){
-    String inputText = "@cableado\n" +
-            "instrucciones {\n" +
-            "    instruccion1(value){\n" +
-            "     \n" +
-            "    }" +
-            "}" +
-            "variables{}" +
-            "programa{}";
+    String inputText = """
+            @cableado
+            instrucciones {
+                instruccion1(value){
+                \s
+                }\
+            }\
+            variables{}\
+            programa{}""";
 
     String outputRepositoryText = "halt false 0 q0\ninstruccion1 true 0 q1\n";
 
@@ -27,14 +28,15 @@ public class CableInstructionTest {
     }
     @Test
     public void mustHaveArgumentIfIsDir(){
-        String inputText = "@cableado\n" +
-                "instrucciones {\n" +
-                "    instruccion1(dir){\n" +
-                "     \n" +
-                "    }" +
-                "}" +
-                "variables{}" +
-                "programa{}";
+        String inputText = """
+                @cableado
+                instrucciones {
+                    instruccion1(dir){
+                    \s
+                    }\
+                }\
+                variables{}\
+                programa{}""";
 
         String outputRepositoryText = "halt false 0 q0\ninstruccion1 true 0 q1\n";
 
@@ -46,14 +48,15 @@ public class CableInstructionTest {
 
     @Test
     public void mustHaveArgumentIfIsVar(){
-        String inputText = "@cableado\n" +
-                "instrucciones {\n" +
-                "    instruccion1(var){\n" +
-                "     \n" +
-                "    }" +
-                "}" +
-                "variables{}" +
-                "programa{}";
+        String inputText = """
+                @cableado
+                instrucciones {
+                    instruccion1(var){
+                    \s
+                    }\
+                }\
+                variables{}\
+                programa{}""";
 
         String outputRepositoryText = "halt false 0 q0\ninstruccion1 true 0 q1\n";
 
@@ -64,14 +67,15 @@ public class CableInstructionTest {
     }
     @Test
     public void musntHaveArgumentIfIsNone(){
-        String inputText = "@cableado\n" +
-                "instrucciones {\n" +
-                "    instruccion1(){\n" +
-                "     \n" +
-                "    }" +
-                "}" +
-                "variables{}" +
-                "programa{}";
+        String inputText = """
+                @cableado
+                instrucciones {
+                    instruccion1(){
+                    \s
+                    }\
+                }\
+                variables{}\
+                programa{}""";
 
         String outputRepositoryText = "halt false 0 q0\ninstruccion1 false 0 q1\n";
 
@@ -83,14 +87,15 @@ public class CableInstructionTest {
 
     @Test
     public void mustProcessSimpleStep(){
-        String inputText = "@cableado\n" +
-                "instrucciones {\n" +
-                "    instruccion1(){\n" +
-                "     [SR+1->SR] PC+1->PC;\n" +
-                "    }" +
-                "}" +
-                "variables{}" +
-                "programa{}";
+        String inputText = """
+                @cableado
+                instrucciones {
+                    instruccion1(){
+                     [SR+1->SR] PC+1->PC;
+                    }\
+                }\
+                variables{}\
+                programa{}""";
 
         String outputRepositoryText = "halt false 0 q0\ninstruccion1 false 1 q1\n";
 
@@ -114,6 +119,15 @@ public class CableInstructionTest {
 
     }
 
+    public void mustAllowMicroInstructionsWithArguments(){}
+
+    public void mustProhibitMaxValueMicroInstructionWithArguments(){}
+
+    public void mustProhibitMicroInstructionsWithArgumentsDontNeeded(){}
+
+    public void mustProhibitSameMicroInstructionInSameStep(){}
+
+    public void mustHandleMicroInstructionInCorrectSection(){}
     @Test
     public void mustHandleLoadSRStart(){
         String inputText = """
@@ -235,13 +249,6 @@ public class CableInstructionTest {
         assertCableLogic(helper.getLogicText(),outputLogicText);
     }
 
-    //TODO test de comprobar que no se pase argumento a quien no necesita
-    //TODO test de comprobar que se pase argumento a quien lo necesita
-    //TODO test que no se pueda utilizar instrucciones de tipo cable en microprogramado
-    //TODO Comprobar que no haya la misma microinstrucciones en el mismo paso tanto en cableado como micro
-    //TODO test que se pone bien cada cosa en su sección en la salida
-    //TODO hacer test que compruebe que en microprogramado no se pueda hacer que haya una instrucción con bif con valor además de una instrucción con argumento
-    //TODO hacer comprobraciones de valor máximo de arguumento de load sc y de arg de bif
     @Test
     public void mustProcessComplexStep(){
         String inputText = """

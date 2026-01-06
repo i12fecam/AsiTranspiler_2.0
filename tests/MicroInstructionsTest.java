@@ -195,18 +195,102 @@ public class MicroInstructionsTest {
 
 
         Runner helper = new Runner();
-        try {
-            helper.run(inputText);
-        }catch (LogicException e){
-            System.out.println(e.getMessage());
-            System.out.println(e.getToken());
-        }
+
+        helper.run(inputText);
+
 
 
 
         assertEquals(outputRepositoryText,helper.getRepositoryText());
         assertEquals(outputLogicText,helper.getLogicText());
     }
+
+    void mustHaveArgumentIfisVar(){
+        String inputText = """
+                estados{
+                 nop -> INCR DISABLE
+                 inc ->  INCR
+                 bif ->  BIF
+                 ret -> RET
+                 
+                 
+                 
+                }
+                
+                @microinstruccion
+                instrucciones {
+                    instruccion1(var){
+                    
+                    }
+                    instruccion2(value){
+                    
+                    }
+                    instruccion3(dir){
+                    
+                    }
+                    instruccion4(){
+                    
+                    }
+                }
+                variables{}
+                programa{}
+                """;
+
+        String outputRepositoryText = """
+                $
+                CB 4000100
+                CB 0201100
+                CB B000300
+                $
+                halt false 0
+                instruccion1 true 0
+                instruccion2 true 0
+                instruccion3
+                """;
+
+        String outputLogicText = """
+                B3 B2 B1 B0 F Zb Za Zac Zsc X Qn Qn1 As Qs Bs N I B R E
+                0  0  0  0  X X  X  X   X   X X  X   X  X  X  X 1 0 0 0
+                0  0  0  1  X X  X  X   X   X X  X   X  X  X  X 1 0 0 1
+                0  0  1  0  X X  X  X   X   X X  X   X  X  X  X 0 1 0 1
+                0  0  1  1  X X  X  X   X   X X  X   X  X  X  X 0 0 1 1
+                """;
+
+
+        Runner helper = new Runner();
+
+        helper.run(inputText);
+
+
+
+
+        assertEquals(outputRepositoryText,helper.getRepositoryText());
+        assertEquals(outputLogicText,helper.getLogicText());
+    }
+    void mustHaveArgumentIfisValue(){}
+    void mustHaveArgumentIfisDir(){}
+    void mustNotHaveArgumentIfisNone(){}
+
+    public void mustAllowMicroInstructionsWithArguments(){}
+
+    public void mustProhibitMaxValueMicroInstructionWithArguments(){}
+
+    public void mustProhibitMicroInstructionsWithArgumentsDontNeeded(){}
+
+    public void mustProhibitSameMicroInstructionInSameStep(){}
+
+    public void mustProhibitMicroInstructionSameGroup(){}
+
+    public void mustProhibitMicroInstructionOfTypeCable1(){}
+
+    public void mustProhibitMicroInstructionOfTypeCable2(){}
+
+    public void mustProhibitBifLogicWithArgumentDontNeed(){}
+    public void mustAllowBifLogicWithArgument(){}
+    public void mustProhibitBifLogicWithArgumentMaxValue1(){}
+    public void mustProhibitBifLogicWithArgumentMaxValue2(){}
+
+    public void mustProhibitBifWithArgumentAndMicroInstructionInSameStep(){}
     @Test
     void p2(){
         String inputText = """
