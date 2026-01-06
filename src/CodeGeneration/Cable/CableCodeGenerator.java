@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static Analisis.HelperFunctions.parseNumber;
 
@@ -44,14 +45,19 @@ public class CableCodeGenerator extends SicomeBaseListener {
         int id_step = _ids.get(ctx);
         //TODO gestionar cuando se le pasa argumento cuando no se debe
         //Process left instruction
-        var lmInstrEnum = MicroInstructionEnum.valueOfInput(ctx.linstr.getText());
+        var lmInstrEnum = MicroInstructionEnum.valueOfInput(ctx.linstr.MICRO_INSTR().getText());
         switch (lmInstrEnum){
             case sr_plus_to_sr -> {
                 logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,null), id_func, id_step,  null);
             }
             case load_sr -> {
                 //TODO gestionar que el valor no sea superior a un limite definido
-                var argValue = parseNumber(ctx.linstr.arg.getText(),null);
+                Integer argValue = null;
+                if (ctx.linstr.arg != null && ctx.linstr.arg.getText().equals( "START")){
+                   argValue = null;
+                }else if(ctx.linstr.arg != null){
+                    argValue = parseNumber(ctx.linstr.arg.getText(),null);
+                }
                 logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
             }
             case null -> throw new RuntimeException("Instrucción no reconocida");
@@ -68,8 +74,11 @@ public class CableCodeGenerator extends SicomeBaseListener {
                 case sr_plus_to_sr,load_sr ->  throw new RuntimeException("Instrucción invalida entre brackets");
                 case null -> throw new RuntimeException("Instrucción no reconocida");
                 default -> {
-                    var argValue = parseNumber(mInstr.arg.getText(),null);
-                    logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
+                    Integer argValue = null;
+                    if (mInstr.arg != null){
+                        argValue = parseNumber(mInstr.arg.getText(),null);
+                    }
+                    logic.addMicroInstructionUse(new MicroInstruction(rmIntrEnum,argValue), id_func, id_step,  null);
                 }
             }
 
@@ -99,8 +108,13 @@ public class CableCodeGenerator extends SicomeBaseListener {
             }
             case load_sr -> {
                 //TODO gestionar que el valor no sea superior a un limite definido
-                var argValue = parseNumber(ctx.linstr.arg.getText(),null);
-                logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
+                Integer argValue = null;
+                if (ctx.linstr.arg != null && ctx.linstr.arg.getText().equals( "START")) {
+                    argValue = null;
+                }else if(ctx.linstr.arg != null ){
+                    argValue = parseNumber(ctx.linstr.arg.getText(),null);
+                }
+                logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  flags);
             }
             case null -> throw new RuntimeException("Instrucción no reconocida");
             default -> throw new RuntimeException("Instrucción invalida entre brackets");
@@ -110,13 +124,16 @@ public class CableCodeGenerator extends SicomeBaseListener {
 
         //Process right instruction
         for ( var mInstr: ctx.rinstr) {
-            var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.getText());
+            var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
             switch (rmIntrEnum){
                 case sr_plus_to_sr,load_sr ->  throw new RuntimeException("Instrucción invalida entre brackets");
                 case null -> throw new RuntimeException("Instrucción no reconocida");
                 default -> {
-                    var argValue = parseNumber(mInstr.arg.getText(),null);
-                    logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
+                    Integer argValue = null;
+                    if(mInstr.arg != null){
+                        argValue = parseNumber(mInstr.arg.getText(),null);
+                    }
+                    logic.addMicroInstructionUse(new MicroInstruction(rmIntrEnum,argValue), id_func, id_step,  flags);
                 }
             }
         }

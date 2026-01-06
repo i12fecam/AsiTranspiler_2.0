@@ -93,7 +93,6 @@ public class Runner {
                 }
             }
             case INSTRUCTION_SET -> {
-                //TODO implement
                 switch (restTree){
                     case SicomeParser.MicroProgramableProgramContext ctx -> {
                         var analysisMicrocodeLogicPass = new MicrocodeLogicAnalisis(symbols);

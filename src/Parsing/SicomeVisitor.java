@@ -116,6 +116,12 @@ public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMicroIntr(SicomeParser.MicroIntrContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SicomeParser#specialMicroIntr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSpecialMicroIntr(SicomeParser.SpecialMicroIntrContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SicomeParser#statusLogicBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

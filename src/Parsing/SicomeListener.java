@@ -186,6 +186,16 @@ public interface SicomeListener extends ParseTreeListener {
 	 */
 	void exitMicroIntr(SicomeParser.MicroIntrContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SicomeParser#specialMicroIntr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSpecialMicroIntr(SicomeParser.SpecialMicroIntrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#specialMicroIntr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSpecialMicroIntr(SicomeParser.SpecialMicroIntrContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SicomeParser#statusLogicBlock}.
 	 * @param ctx the parse tree
 	 */

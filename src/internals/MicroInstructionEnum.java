@@ -14,7 +14,7 @@ public enum MicroInstructionEnum {
     gpr_to_pc("GPR->PC","GPR->PC",2*Math.pow(2,21)),
     sp_plus_to_pc("SP+1->SP","SP+1->SP",3*Math.pow(2,21)),
     sp_minus_to_pc("SP-1->SP","SP-1->SP",4*Math.pow(2,21)),
-    load_sc("LOAD_SC","LOAD_SC",5*Math.pow(2,21),true),
+    load_sc("LOAD_SC","LOAD SC",5*Math.pow(2,21),true),
     sc_minus_to_sc("SC-1->SC","SC-1->SC",6*Math.pow(2,21)),
     //GPR
     m_to_gpr("M->GPR","M->GPR",1*Math.pow(2,12)),
@@ -66,7 +66,7 @@ public enum MicroInstructionEnum {
     e_to_ovf("E->OVF","E->OVF",39*Math.pow(2,15)),
     //cable
     sr_plus_to_sr("SR+1->SR","SR+1->SR",0),
-    load_sr("LOAD_SR","LOAD_SR",0,true);
+    load_sr("LOAD_SR","LOAD SR",0,true);
     public final String inputName;
 
     public final String outputName;

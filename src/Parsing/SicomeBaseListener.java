@@ -209,6 +209,18 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSpecialMicroIntr(SicomeParser.SpecialMicroIntrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSpecialMicroIntr(SicomeParser.SpecialMicroIntrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterStatusLogicBlock(SicomeParser.StatusLogicBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}

@@ -80,9 +80,21 @@ class CableLogicHelper {
             }
         }
 
-        if(mi.arg != null){
-            builder.append("-").append(mi.arg);
+        switch (mi.mInstr){
+            case load_sr -> {
+                if( mi.arg == null){
+                    builder.append("-").append(0);
+                }else{
+                    builder.append("-").append(mi.arg+2);
+                }
+            }
+            default -> {
+                if(mi.arg != null){
+                    builder.append("-").append(mi.arg);
+                }
+            }
         }
+
 
         section.put(mi.mInstr, builder.toString());
 
