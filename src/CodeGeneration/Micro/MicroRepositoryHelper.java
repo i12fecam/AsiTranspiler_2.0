@@ -11,45 +11,45 @@ import java.util.Map;
 
 public class MicroRepositoryHelper {
 
-    private Map<Integer,ArrayList<Double>> repo = new HashMap<>();
+    private final Map<Integer,ArrayList<Integer>> repo = new HashMap<>();
 
     private final SymbolTable _symbols;
     MicroRepositoryHelper(SymbolTable symbolTable){
         _symbols=symbolTable;
         var functions = _symbols.getFunctions();
         for(var func:functions){
-            repo.put(func.getId(),new ArrayList<Double>(func.getNSteps()));
+            repo.put(func.getId(),new ArrayList<>(func.getNSteps()));
             for(int i=0;i<func.getNSteps();i++){
-                repo.get(func.getId()).add((double) 0L);
+                repo.get(func.getId()).add(0);
             }
         }
     }
     public void associateControlFlow(int functionId, int stepId, int controlFlowIdentifier){
-        double num = repo.get(functionId).get(stepId);
+        int num = repo.get(functionId).get(stepId);
         num+=controlFlowIdentifier*Math.pow(2,8);
         repo.get(functionId).set(stepId,num);
 
     }
     public void associateMicroInstruction(int functionId, int stepId, MicroInstructionEnum microInstruction){
-        double num = repo.get(functionId).get(stepId);
+        int num = repo.get(functionId).get(stepId);
         num+=microInstruction.microCode;
         repo.get(functionId).set(stepId,num);
 
     }
     public void associateSCvalue(int functionId, int stepId,int value){
-        double num = repo.get(functionId).get(stepId);
+        int num = repo.get(functionId).get(stepId);
         num+=value;
         repo.get(functionId).set(stepId,num);
 
     }
     public void associateCROMvalue(int functionId, int stepId,int value){
-        double num = repo.get(functionId).get(stepId);
+        int num = repo.get(functionId).get(stepId);
         num+=value;
         repo.get(functionId).set(stepId,num);
 
     }
     public void associateBifValue(int functionId,int stepId,int value){
-        double num = repo.get(functionId).get(stepId);
+        int num = repo.get(functionId).get(stepId);
         num+=value;
         repo.get(functionId).set(stepId,num);
     }
@@ -82,7 +82,7 @@ public class MicroRepositoryHelper {
             else{
                 for(var StepCode:entry.getValue()){
                     builder.append(" ");
-                    builder.append(Double.toHexString(StepCode).toUpperCase());
+                    builder.append(Integer.toHexString(StepCode).toUpperCase());
 
                 }
             }
