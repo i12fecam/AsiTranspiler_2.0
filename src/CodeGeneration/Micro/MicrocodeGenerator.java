@@ -12,13 +12,13 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import static Analisis.HelperFunctions.parseNumber;
 
-public class MicroCodeGenerator extends SicomeBaseListener {
+public class MicrocodeGenerator extends SicomeBaseListener {
 
     private final SymbolTable symbols;
     private final ParseTreeProperty<Integer> ids;
     private final MicroRepositoryHelper repository;
 
-    public MicroCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st) {
+    public MicrocodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st) {
         this.ids = ids;
         this.symbols = st;
         repository = new MicroRepositoryHelper(st);
@@ -56,5 +56,9 @@ public class MicroCodeGenerator extends SicomeBaseListener {
 
 
 
+    }
+
+    public String getRepositoryFileString() {
+        return repository.getText();
     }
 }

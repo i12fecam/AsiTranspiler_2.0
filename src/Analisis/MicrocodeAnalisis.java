@@ -6,12 +6,12 @@ import internals.SymbolTable;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
-public class MicroAnalisis extends SicomeBaseListener {
+public class MicrocodeAnalisis extends SicomeBaseListener {
     public ParseTreeProperty<Integer> ids = new ParseTreeProperty<>();
     public SymbolTable symbolTable = new SymbolTable();
 
 
-    public MicroAnalisis(ParseTreeProperty<Integer> ids, SymbolTable symbolTable) {
+    public MicrocodeAnalisis(ParseTreeProperty<Integer> ids, SymbolTable symbolTable) {
         this.ids = ids;
         this.symbolTable = symbolTable;
     }

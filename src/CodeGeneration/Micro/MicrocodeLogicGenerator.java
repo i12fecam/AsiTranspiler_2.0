@@ -9,17 +9,16 @@ import internals.SymbolTable;
 
 import java.util.ArrayList;
 
-public class MicroLogicCodeGenerator extends SicomeBaseListener {
+public class MicrocodeLogicGenerator extends SicomeBaseListener {
 
     private final SymbolTable symbols;
     //private ParseTreeProperty<Integer> ids;
 
-    private final MicroLogicHelper logic;
+    private final MicroLogicHelper logic = new MicroLogicHelper();
 
 
-    public MicroLogicCodeGenerator(SymbolTable st, MicroLogicHelper logic) {
+    public MicrocodeLogicGenerator(SymbolTable st) {
         this.symbols = st;
-        this.logic = logic;
     }
 
 
@@ -70,4 +69,7 @@ public class MicroLogicCodeGenerator extends SicomeBaseListener {
         }
     }
 
+    public String getLogicFileString() {
+        return logic.getString();
+    }
 }

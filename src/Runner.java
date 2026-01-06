@@ -1,7 +1,8 @@
 import Analisis.*;
+import CodeGeneration.Micro.MicrocodeLogicGenerator;
 import CodeGeneration.ProgramCodeGenerator;
 import CodeGeneration.Cable.CableCodeGenerator;
-import CodeGeneration.Micro.MicroCodeGenerator;
+import CodeGeneration.Micro.MicrocodeGenerator;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
 import internals.SymbolTable;
@@ -71,52 +72,89 @@ public class Runner {
             case LOGIC -> {
                 switch (restTree){
                     case SicomeParser.MicroProgramableLogicContext ctx ->{
+                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalisis(symbols);
+                        walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
 
-                        var analysisMicroLogicPass = new MicroLogicAnalisis(symbols);
-                        walker.walk(analysisMicroLogicPass, ctx.statusLogicBlock());
+                        var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols);
+                        walker.walk(microcodeLogicCodeGeneratorPass, restTree);
 
-                        var microCodeGeneratorPass = new MicroCodeGenerator(ids, symbols);
-                        walker.walk(microCodeGeneratorPass, restTree);
-
-                        logicText = microCodeGeneratorPass.getLogicFileString();
+                        logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
                     }
                     case SicomeParser.MicroProgramableProgramContext ctx ->{
-                        var analysisMicroLogicPass = new MicroLogicAnalisis(symbols);
-                        walker.walk(analysisMicroLogicPass, ctx.statusLogicBlock());
+                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalisis(symbols);
+                        walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
 
-                        var microCodeGeneratorPass = new MicroCodeGenerator(ids, symbols);
-                        walker.walk(microCodeGeneratorPass, restTree);
-                        logicText = microCodeGeneratorPass.getLogicFileString();
+                        var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols);
+                        walker.walk(microcodeLogicCodeGeneratorPass, restTree);
+
+                        logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
                     }
-                    default -> throw new RuntimeException("No existe el bloque correcto");
+                    default -> throw new RuntimeException("No existe el bloque necesario");
                 }
             }
             case INSTRUCTION_SET -> {
-                //Por hacer
+                //TODO implement
+                switch (restTree){
+                    case SicomeParser.MicroProgramableProgramContext ctx -> {
+                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalisis(symbols);
+                        walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
+
+                        var analysisMicroPass = new MicrocodeAnalisis(ids,symbols);
+                        walker.walk(analysisMicroPass,ctx.microInstructionBlock());
+
+
+                        //Code generation
+                        var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols);
+                        walker.walk(microcodeLogicCodeGeneratorPass, restTree);
+
+                        logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
+
+                        var microCodeGeneratorPass = new MicrocodeGenerator(ids, symbols);
+                        walker.walk(microCodeGeneratorPass, restTree);
+
+                        repositoryText = microCodeGeneratorPass.getRepositoryFileString();
+                    }
+                    case SicomeParser.CableProgramContext ctx-> {
+                        var cableAnalysisPass = new CableAnalisis(ids,symbols);
+                        walker.walk(cableAnalysisPass, restTree);
+
+                        var cableCodeGeneratorPass = new CableCodeGenerator(ids, symbols);
+                        walker.walk(cableCodeGeneratorPass, restTree);
+
+                        logicText = cableCodeGeneratorPass.getLogicFileString();
+                        repositoryText = cableCodeGeneratorPass.getRepositoryFileString();
+
+                    }
+                    default -> throw new RuntimeException("No existe el bloque necesario");
+                }
 
             }
             case ALL -> {
-                //Hacer fase de analisis
 
                 switch (restTree) {
                     case SicomeParser.MicroProgramableLogicContext ctx -> {
-                        throw new RuntimeException("No se puede compilar");
+                        throw new RuntimeException("No existe los bloques necesarios");
                     }
                     case SicomeParser.MicroProgramableProgramContext ctx -> {
+                        //analisis
+                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalisis(symbols);
+                        walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
 
-                        var analysisMicroLogicPass = new MicroLogicAnalisis(symbols);
-                        walker.walk(analysisMicroLogicPass, ctx.statusLogicBlock());
-
-                        var analysisMicroPass = new MicroAnalisis(ids,symbols);
+                        var analysisMicroPass = new MicrocodeAnalisis(ids,symbols);
                         walker.walk(analysisMicroPass,ctx.microInstructionBlock());
 
                         var analysisProgram = new ProgramAnalysis(symbols,ids);
                         walker.walk(analysisProgram,programTree);
 
-                        var microCodeGeneratorPass = new MicroCodeGenerator(ids, symbols);
+                        //Code generation
+                        var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols);
+                        walker.walk(microcodeLogicCodeGeneratorPass, restTree);
+
+                        logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
+
+                        var microCodeGeneratorPass = new MicrocodeGenerator(ids, symbols);
                         walker.walk(microCodeGeneratorPass, restTree);
 
-                        logicText = microCodeGeneratorPass.getLogicFileString();
                         repositoryText = microCodeGeneratorPass.getRepositoryFileString();
 
                         var codeGenerationProgramPass = new ProgramCodeGenerator(ids,symbols);
