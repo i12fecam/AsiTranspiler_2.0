@@ -1,6 +1,6 @@
-package internals;
+package Internals;
 
-import internals.Micro.BifurcationLogic;
+import Internals.Micro.BifurcationLogic;
 
 import java.util.*;
 

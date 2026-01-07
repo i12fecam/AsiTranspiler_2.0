@@ -1,7 +1,7 @@
 package CodeGeneration;
 
-import internals.SymbolTable;
-import internals.Variable;
+import Internals.SymbolTable;
+import Internals.Variable;
 
 public class ProgramCodeGeneratorHelper {
 

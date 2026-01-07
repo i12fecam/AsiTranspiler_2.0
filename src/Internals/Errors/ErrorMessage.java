@@ -1,4 +1,4 @@
-package internals.errors;
+package Internals.Errors;
 
 import org.antlr.v4.runtime.Token;
 

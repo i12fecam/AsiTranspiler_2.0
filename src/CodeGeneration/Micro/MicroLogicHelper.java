@@ -1,7 +1,7 @@
 package CodeGeneration.Micro;
 
-import internals.Flag;
-import internals.FlagState;
+import Internals.Flag;
+import Internals.FlagState;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package CodeGeneration.Cable;
 
-import internals.SymbolTable;
-import internals.Instruction;
+import Internals.SymbolTable;
+import Internals.Instruction;
 
 public class CableRepositoryHelper {
     SymbolTable _symbols;

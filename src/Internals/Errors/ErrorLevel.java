@@ -1,4 +1,4 @@
-package internals.errors;
+package Internals.Errors;
 
 public enum ErrorLevel {
     WARNING,

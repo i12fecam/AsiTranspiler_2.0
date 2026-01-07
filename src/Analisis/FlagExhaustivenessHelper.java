@@ -1,7 +1,7 @@
 package Analisis;
 
-import internals.Flag;
-import internals.FlagState;
+import Internals.Flag;
+import Internals.FlagState;
 
 import java.util.*;
 import java.util.stream.Collectors;

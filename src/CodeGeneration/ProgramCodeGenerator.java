@@ -1,10 +1,10 @@
 package CodeGeneration;
 
 import Analisis.LogicException;
-import internals.SymbolTable;
+import Internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.InstructionArgumentType;
+import Internals.InstructionArgumentType;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 

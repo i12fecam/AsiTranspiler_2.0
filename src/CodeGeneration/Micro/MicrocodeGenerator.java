@@ -1,12 +1,12 @@
 package CodeGeneration.Micro;
 
 import Analisis.LogicException;
-import internals.MicroInstructionType;
-import internals.SymbolTable;
+import Internals.MicroInstructionType;
+import Internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 
-import internals.MicroInstructionEnum;
+import Internals.MicroInstructionEnum;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 

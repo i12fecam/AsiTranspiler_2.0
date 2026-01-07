@@ -3,9 +3,9 @@ package CodeGeneration.Micro;
 import Analisis.LogicException;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.FlagState;
-import internals.Micro.BifurcationLogic;
-import internals.SymbolTable;
+import Internals.FlagState;
+import Internals.Micro.BifurcationLogic;
+import Internals.SymbolTable;
 
 import java.util.ArrayList;
 

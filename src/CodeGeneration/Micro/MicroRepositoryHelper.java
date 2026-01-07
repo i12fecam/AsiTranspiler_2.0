@@ -1,9 +1,9 @@
 package CodeGeneration.Micro;
 
-import internals.SymbolTable;
-import internals.Instruction;
-import internals.InstructionArgumentType;
-import internals.MicroInstructionEnum;
+import Internals.SymbolTable;
+import Internals.Instruction;
+import Internals.InstructionArgumentType;
+import Internals.MicroInstructionEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;

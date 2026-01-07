@@ -1,6 +1,6 @@
-import internals.errors.ErrorEnum;
-import internals.errors.ErrorLevel;
-import internals.errors.ErrorMessage;
+import Internals.Errors.ErrorEnum;
+import Internals.Errors.ErrorLevel;
+import Internals.Errors.ErrorMessage;
 import org.antlr.v4.runtime.Token;
 
 import java.util.ArrayList;

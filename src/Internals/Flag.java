@@ -1,4 +1,4 @@
-package internals;
+package Internals;
 
 public enum Flag {
     Zb("Zb","Zb"), //micro, cable

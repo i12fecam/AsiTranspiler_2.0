@@ -1,18 +1,17 @@
 package CodeGeneration.Cable;
 
 import Analisis.LogicException;
-import internals.MicroInstruction;
-import internals.SymbolTable;
+import Internals.MicroInstruction;
+import Internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.FlagState;
-import internals.MicroInstructionEnum;
+import Internals.FlagState;
+import Internals.MicroInstructionEnum;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static Analisis.HelperFunctions.parseNumber;
 

@@ -1,4 +1,4 @@
-package internals;
+package Internals;
 
 public class MicroInstruction {
     public MicroInstructionEnum mInstr;

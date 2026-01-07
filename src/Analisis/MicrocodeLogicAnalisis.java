@@ -2,7 +2,7 @@ package Analisis;
 
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.SymbolTable;
+import Internals.SymbolTable;
 
 public class MicrocodeLogicAnalisis extends SicomeBaseListener {
     public SymbolTable symbolTable = new SymbolTable();

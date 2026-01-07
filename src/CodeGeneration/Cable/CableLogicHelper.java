@@ -1,9 +1,9 @@
 package CodeGeneration.Cable;
 
 
-import internals.FlagState;
-import internals.MicroInstruction;
-import internals.MicroInstructionEnum;
+import Internals.FlagState;
+import Internals.MicroInstruction;
+import Internals.MicroInstructionEnum;
 
 import java.util.HashMap;
 import java.util.List;

@@ -5,7 +5,7 @@ import CodeGeneration.Cable.CableCodeGenerator;
 import CodeGeneration.Micro.MicrocodeGenerator;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
-import internals.SymbolTable;
+import Internals.SymbolTable;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;

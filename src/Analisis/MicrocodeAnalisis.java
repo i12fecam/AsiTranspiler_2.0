@@ -2,7 +2,7 @@ package Analisis;
 
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import internals.SymbolTable;
+import Internals.SymbolTable;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 

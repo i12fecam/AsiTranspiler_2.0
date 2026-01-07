@@ -1,4 +1,4 @@
-package internals;
+package Internals;
 
 public enum MicroInstructionType {
     mar,
