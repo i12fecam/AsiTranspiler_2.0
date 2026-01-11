@@ -107,20 +107,20 @@ public enum MicroInstructionEnum {
         }
         return null;
     }
-    public MicroInstructionType getType(){
+    public MicroInstructionTypeEnum getType(){
         if( ordinal()<= 2){
-             return MicroInstructionType.mar;
+             return MicroInstructionTypeEnum.mar;
         } else if (ordinal() <= 5) {
-             return MicroInstructionType.opr;
+             return MicroInstructionTypeEnum.opr;
         } else if (ordinal() <= 11) {
-            return MicroInstructionType.pc_sp_sc;
+            return MicroInstructionTypeEnum.pc_sp_sc;
         } else if (ordinal() <= 18) {
-            return MicroInstructionType.gpr;
+            return MicroInstructionTypeEnum.gpr;
         } else if (ordinal() <= 57) {
-            return MicroInstructionType.alu;
+            return MicroInstructionTypeEnum.alu;
         }
         else{
-            return MicroInstructionType.cable;
+            return MicroInstructionTypeEnum.cable;
         }
     }
 

@@ -1,7 +1,7 @@
 package CodeGeneration.Micro;
 
 import Analysis.LogicException;
-import Internals.MicroInstructionType;
+import Internals.MicroInstructionTypeEnum;
 import Internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
@@ -43,7 +43,7 @@ public class MicrocodeGenerator extends SicomeBaseListener {
         for(var mInstr:ctx.instr ){
             MicroInstructionEnum mi = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
             if(mi==null) throw new LogicException("Microinstruccion no reconocida",mInstr.MICRO_INSTR().getSymbol());
-            if(mi.getType() == MicroInstructionType.cable) throw new RuntimeException("Instrucción solo se puede utlizar en modo cambleado");
+            if(mi.getType() == MicroInstructionTypeEnum.cable) throw new RuntimeException("Instrucción solo se puede utlizar en modo cambleado");
             repository.associateMicroInstruction(id_func,id_step,mi);
             if(mi.needsArgument && mInstr.arg == null) throw new RuntimeException("La instrucción necesita de argumento");
             if(!mi.needsArgument && mInstr.arg != null) throw new RuntimeException("La instrucción no necesita de argumento");

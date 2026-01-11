@@ -1,6 +1,6 @@
 package Internals;
 
-public enum MicroInstructionType {
+public enum MicroInstructionTypeEnum {
     mar,
     opr,
     pc_sp_sc,
