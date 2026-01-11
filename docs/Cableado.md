@@ -16,7 +16,7 @@ Un step simple se vería así:
 
 También se permite hacer steps complejos que consiste en que un step ejecuta unas microinstrucciones diferentes dependiendo de las flags activadas por el sistema en ese momento.
 
-Para escribir un step complejo se abre unas `{}` que representaran el step, a continuacion se pondra la flag correspondiente que podra ser negada con `!`,  el simbolo `:` y después como si fuera una instrucción simple.
+Para escribir un step complejo se abre unas `{}` que representaran el step, a continuacion se pondra la flagEnum correspondiente que podra ser negada con `!`,  el simbolo `:` y después como si fuera una instrucción simple.
 
 ```
 [SR+1->SR] GPR+ACC->GPR, 0->F ;

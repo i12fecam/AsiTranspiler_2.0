@@ -1,6 +1,6 @@
 package Internals;
 
-public enum Flag {
+public enum FlagEnum {
     Zb("Zb","Zb"), //micro, cable
     Za("Za","Za"), //micro ,cable
     Zac("Zac","Zac"), //micro, cable
@@ -20,8 +20,8 @@ public enum Flag {
 
     public final String inputName;
 
-    public static Flag ValueofInput(String input){
-        for (Flag e : values()) {
+    public static FlagEnum ValueofInput(String input){
+        for (FlagEnum e : values()) {
             if (e.inputName.equals(input)) {
                 return e;
             }
@@ -29,8 +29,8 @@ public enum Flag {
         return null;
     }
 
-    public static Flag ValueofOutput(String output){
-        for (Flag e : values()) {
+    public static FlagEnum ValueofOutput(String output){
+        for (FlagEnum e : values()) {
             if (e.outputName.equals(output)) {
                 return e;
             }
@@ -39,7 +39,7 @@ public enum Flag {
     }
 
 
-    private Flag(String inputName, String outputName){
+    private FlagEnum(String inputName, String outputName){
         this.outputName = outputName;
         this.inputName = inputName;
     }

@@ -1,6 +1,6 @@
 package CodeGeneration.Micro;
 
-import Internals.Flag;
+import Internals.FlagEnum;
 import Internals.FlagState;
 
 import java.util.List;
@@ -30,18 +30,18 @@ public class MicroLogicHelper {
             builder.append("  ");
         }
 
-        processFlag(flags,Flag.F);
-        processFlag(flags,Flag.Zb);
-        processFlag(flags,Flag.Za);
-        processFlag(flags,Flag.Zac);
-        processFlag(flags,Flag.Zsc);
-        processFlag(flags,Flag.X);
-        processFlag(flags,Flag.Qn);
-        processFlag(flags,Flag.Qn1);
-        processFlag(flags,Flag.As);
-        processFlag(flags,Flag.Qs);
-        processFlag(flags,Flag.Bs);
-        processFlag(flags,Flag.N);
+        processFlag(flags, FlagEnum.F);
+        processFlag(flags, FlagEnum.Zb);
+        processFlag(flags, FlagEnum.Za);
+        processFlag(flags, FlagEnum.Zac);
+        processFlag(flags, FlagEnum.Zsc);
+        processFlag(flags, FlagEnum.X);
+        processFlag(flags, FlagEnum.Qn);
+        processFlag(flags, FlagEnum.Qn1);
+        processFlag(flags, FlagEnum.As);
+        processFlag(flags, FlagEnum.Qs);
+        processFlag(flags, FlagEnum.Bs);
+        processFlag(flags, FlagEnum.N);
 
         if(inc){
             builder.append("1");
@@ -76,17 +76,17 @@ public class MicroLogicHelper {
         builder.append("\n");
     }
 
-    private Boolean checkFlag(List<FlagState> flags, Flag flag){//TODO reformular?
+    private Boolean checkFlag(List<FlagState> flags, FlagEnum flagEnum){//TODO reformular?
         for (var i:flags){
-            if(i.getFlag().equals(flag)){
+            if(i.getFlag().equals(flagEnum)){
                 return  i.getState();
             }
         }
         return null;
     }
 
-    private void processFlag(List<FlagState> flags, Flag flag){
-        Boolean FlagStatus = checkFlag(flags,flag);
+    private void processFlag(List<FlagState> flags, FlagEnum flagEnum){
+        Boolean FlagStatus = checkFlag(flags, flagEnum);
         if(FlagStatus==null){
             builder.append("X");
         } else if (FlagStatus) {
@@ -94,7 +94,7 @@ public class MicroLogicHelper {
         }else {
             builder.append("0");
         }
-        for(int i = 0; i<flag.toString().length(); i++){
+        for(int i = 0; i< flagEnum.toString().length(); i++){
             builder.append(" ");
         }
 

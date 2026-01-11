@@ -6,40 +6,40 @@ public class FlagState implements Comparable {
 
 
 
-    private final Flag flag;
+    private final FlagEnum flagEnum;
     private final Boolean activated;
 
-    public FlagState(Flag flag, Boolean activated) {
-        this.flag = flag;
+    public FlagState(FlagEnum flagEnum, Boolean activated) {
+        this.flagEnum = flagEnum;
         this.activated = activated;
     }
 
     public static FlagState ValueOfInput(String input){
-        Flag flag = null;
+        FlagEnum flagEnum = null;
         if(input.startsWith("!")){
-            flag = Flag.ValueofInput(input.substring(1));
-            if(flag == null) return null;
-            return new FlagState(flag, false);
+            flagEnum = FlagEnum.ValueofInput(input.substring(1));
+            if(flagEnum == null) return null;
+            return new FlagState(flagEnum, false);
         }
-        flag = Flag.ValueofInput(input);
-        if(flag == null) return null;
-        return new FlagState(flag,true);
+        flagEnum = FlagEnum.ValueofInput(input);
+        if(flagEnum == null) return null;
+        return new FlagState(flagEnum,true);
     }
 
     public String getOutputName(){
         String res = new String();
-        if(activated) return flag.outputName;
-        else return flag.outputName +"'";
+        if(activated) return flagEnum.outputName;
+        else return flagEnum.outputName +"'";
     }
 
     public String getInputName(){
         String res = new String();
-        if(activated) return flag.outputName;
-        else return "!" + flag.outputName;
+        if(activated) return flagEnum.outputName;
+        else return "!" + flagEnum.outputName;
     }
 
-    public Flag getFlag() {
-        return flag;
+    public FlagEnum getFlag() {
+        return flagEnum;
     }
 
     public boolean isStateDefined(){return activated != null;}
@@ -51,7 +51,7 @@ public class FlagState implements Comparable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FlagState flagState = (FlagState) o;
-        return activated == flagState.activated && flag == flagState.flag;
+        return activated == flagState.activated && flagEnum == flagState.flagEnum;
     }
 
 
@@ -59,13 +59,13 @@ public class FlagState implements Comparable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(flag, activated);
+        return Objects.hash(flagEnum, activated);
     }
 
     @Override
     public int compareTo(Object o) {
         var other = (FlagState) o;
-        var cmp = Integer.compare(this.flag.ordinal(),other.flag.ordinal() );
+        var cmp = Integer.compare(this.flagEnum.ordinal(),other.flagEnum.ordinal() );
         switch (cmp){
             case 0 :
                 if(this.activated == other.activated) return 0;

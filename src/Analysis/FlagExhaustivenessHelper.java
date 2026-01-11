@@ -1,6 +1,6 @@
 package Analysis;
 
-import Internals.Flag;
+import Internals.FlagEnum;
 import Internals.FlagState;
 
 import java.util.*;
@@ -10,18 +10,18 @@ public class FlagExhaustivenessHelper {
 
     public static void main(String[] args) {
         FlagExhaustivenessHelper fc = new FlagExhaustivenessHelper();
-        fc.addNewFlagCombination(List.of(new FlagState(Flag.As,true)
-                                        ,new FlagState(Flag.Bs,null)
+        fc.addNewFlagCombination(List.of(new FlagState(FlagEnum.As,true)
+                                        ,new FlagState(FlagEnum.Bs,null)
         ));
-        fc.addNewFlagCombination(List.of(new FlagState(Flag.As,true)
-                                        ,new FlagState(Flag.Bs,false)
+        fc.addNewFlagCombination(List.of(new FlagState(FlagEnum.As,true)
+                                        ,new FlagState(FlagEnum.Bs,false)
         ));
         fc.checkCompletness();
     }
     private FlagTree tree = new FlagTree(null,null);
 
 
-    private Set<Flag> flagsObserved = null;
+    private Set<FlagEnum> flagsObserved = null;
 
 
 
