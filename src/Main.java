@@ -134,7 +134,7 @@ static class AsiTranspiler implements Callable<Integer> {
 
 
 //    public static void main(String[] args){
-//        var errController = new ErrorController();
+//        var errController = new Internals.Errors.ErrorController();
 //        VerbConfig verb;
 //        ObjetiveConfig obj;
 //        Path inputFilePath;

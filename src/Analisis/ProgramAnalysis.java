@@ -1,8 +1,12 @@
 package Analisis;
 
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
+import Internals.Errors.EspecificationException;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.SymbolTable;
+import jline.internal.Log;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +40,8 @@ public class ProgramAnalysis extends SicomeBaseListener {
         //TODO comprobar maximo de tamaño
         try {
             symbolTable.addSimpleVariable(id, value);
-        } catch (RuntimeException e){
-            throw new LogicException(e.getMessage(),ctx.id);
+        } catch (EspecificationException e){
+            ErrorController.getInstance().addNewError(ErrorEnum.VARIABLE_MISMO_NOMBRE,List.of(ctx.id.getText()),ctx.id);
         }
     }
     /**
@@ -49,23 +53,23 @@ public class ProgramAnalysis extends SicomeBaseListener {
 
         String id = ctx.id.getText();
         int size = parseNumber(ctx.size.getText(),null);
-        List<Integer> values= new ArrayList<Integer>();
+        List<Integer> values= new ArrayList<>();
         ctx.value.forEach(token -> {
             values.add(parseNumber(token.getText(),null));
         });
 
         try {
             if (size <= 1) {
-                throw new LogicException("El tamaño del vector no puede ser menor que 2",ctx.size );
+                ErrorController.getInstance().addNewError(ErrorEnum.TAMANYO_VECTOR_INVALIDO,List.of(ctx.size + "< 2"),ctx.size);
             } else if (values.size() == 1) {
                 symbolTable.addVectorVariable(id, size, values.get(0));
             } else if (size == values.size()) {
                 symbolTable.addVectorVariable(id, size, values);
             } else {
-                throw new LogicException("El numero de valores inicializados no coinciden con el tamaño del vector",ctx.size);
+                ErrorController.getInstance().addNewError(ErrorEnum.INICIALIZACION_VECTOR_INVALIDA,null,ctx.size);
             }
-        }catch (RuntimeException e){
-            throw new LogicException(e.getMessage(),ctx.id);
+        }catch (EspecificationException e){
+            ErrorController.getInstance().addNewError(ErrorEnum.VARIABLE_MISMO_NOMBRE,List.of(id), ctx.id);
         }
     }
 
@@ -88,8 +92,8 @@ public class ProgramAnalysis extends SicomeBaseListener {
     public void exitMarkUse(SicomeParser.MarkUseContext ctx) {
         try {
             symbolTable.addLabel(ctx.label.getText(), ProgramLine);
-        } catch (RuntimeException e ){
-            throw new LogicException(e.getMessage(),ctx.label);
+        } catch (EspecificationException e ){
+            ErrorController.getInstance().addNewError(ErrorEnum.ETIQUETA_MISMO_NOMBRE,List.of(ctx.label.getText()), ctx.label);
         }
     }
 

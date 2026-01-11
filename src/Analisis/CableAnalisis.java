@@ -1,10 +1,11 @@
 package Analisis;
 
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-
 import java.util.List;
 
 public class CableAnalisis extends SicomeBaseListener {
@@ -28,11 +29,11 @@ public class CableAnalisis extends SicomeBaseListener {
         if(ctx.arg!= null)  args =ctx.arg.getText();
 
         List<SicomeParser.CableStepContext> steps =ctx.cableStep();
-        int instr_id;
+        int instr_id = -1;
         try {
-            instr_id = symbolTable.addFunction(functionName, args, steps.size());
+            instr_id = symbolTable.addInstruction(functionName, args, steps.size());
         }catch (RuntimeException e){
-            throw new LogicException(e.getMessage(),ctx.IDENTIFIER().getSymbol());
+            ErrorController.getInstance().addNewError(ErrorEnum.INSTRUCCION_MISMO_NOMBRE, List.of(ctx.IDENTIFIER().getText()), ctx.IDENTIFIER().getSymbol());
         }
         ids.put(ctx,instr_id);
         int step_id = 0 ;
@@ -44,6 +45,6 @@ public class CableAnalisis extends SicomeBaseListener {
 
     @Override
     public void enterCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx) {
-        symbolTable.addFunction("halt","",0);
+        symbolTable.addInstruction("halt","",0);
     }
 }

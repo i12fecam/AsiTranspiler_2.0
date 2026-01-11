@@ -1,5 +1,6 @@
 package Internals;
 
+import Internals.Errors.EspecificationException;
 import Internals.Micro.BifurcationLogic;
 
 import java.util.*;
@@ -17,7 +18,7 @@ public class SymbolTable {
      * @param steps the number of steps of the function
      * @return the id of the registered function
      */
-    public int addFunction(String functionName,String functionArg,int steps) throws RuntimeException {
+    public int addInstruction(String functionName, String functionArg, int steps) throws RuntimeException {
         for(Instruction fun: instructions){
             if(Objects.equals(fun.getName(), functionName)){
                 throw new RuntimeException("Ya existe una función con este nombre");
@@ -97,7 +98,7 @@ public class SymbolTable {
      */
     public void addSimpleVariable(String variableName, int initializedValue ) throws RuntimeException {
         if(isVariable(variableName) || isLabel(variableName)){
-            throw new RuntimeException("Ya existe una variable o label con el mismo nombre");
+            throw new EspecificationException("Ya existe una variable o label con el mismo nombre");
         }
         List<Integer> value = new ArrayList<>();
         value.add(initializedValue);
@@ -126,7 +127,7 @@ public class SymbolTable {
      */
     public void addVectorVariable(String variableName, int reservedSpace, List<Integer> initializedValues) throws RuntimeException {
         if(isVariable(variableName) || isLabel(variableName)){
-            throw new RuntimeException("Ya existe una variable o label con el mismo nombre");
+            throw new EspecificationException("Ya existe una variable o label con el mismo nombre");
         }
         variables.add(new Variable(variableName, getNextAvailablePos(),reservedSpace,initializedValues));
     }
@@ -230,7 +231,7 @@ public class SymbolTable {
      */
     public void addLabel(String label,int pos){
         if(isVariable(label) || isLabel(label)){
-            throw new RuntimeException("Ya existe una variable o label con el mismo nombre");
+            throw new EspecificationException("Ya existe una variable o label con el mismo nombre");
         }
 
         labels.put(label,pos);

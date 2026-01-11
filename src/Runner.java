@@ -3,6 +3,8 @@ import CodeGeneration.Micro.MicrocodeLogicGenerator;
 import CodeGeneration.ProgramCodeGenerator;
 import CodeGeneration.Cable.CableCodeGenerator;
 import CodeGeneration.Micro.MicrocodeGenerator;
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
 import Internals.SymbolTable;
@@ -12,6 +14,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.nio.file.Path;
+import java.util.List;
 
 enum  ObjetiveConfig{
     LOGIC,
@@ -89,7 +92,7 @@ public class Runner {
 
                         logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
                     }
-                    default -> throw new RuntimeException("No existe el bloque necesario");
+                    default -> ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de lógica de control de bifurcación"), restTree.getStart());
                 }
             }
             case INSTRUCTION_SET -> {
@@ -124,7 +127,7 @@ public class Runner {
                         repositoryText = cableCodeGeneratorPass.getRepositoryFileString();
 
                     }
-                    default -> throw new RuntimeException("No existe el bloque necesario");
+                    default -> ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de repertorio de instrucciones"),restTree.getStart());
                 }
 
             }
@@ -132,9 +135,12 @@ public class Runner {
 
                 switch (restTree) {
                     case SicomeParser.MicroProgramableLogicContext ctx -> {
-                        throw new RuntimeException("No existe los bloques necesarios");
+                        ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de repertorio de instrucciones, Bloque de variables, Bloque de programa"),ctx.getStart());
                     }
                     case SicomeParser.MicroProgramableProgramContext ctx -> {
+                        if (ctx.programBlock() == null || ctx.variablesBlock() == null){
+                            ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de variables, Bloque de programa"),ctx.getStart());
+                        }
                         //analisis
                         var analysisMicrocodeLogicPass = new MicrocodeLogicAnalisis(symbols);
                         walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
@@ -162,7 +168,9 @@ public class Runner {
                         programText = codeGenerationProgramPass.getProgramFileString();
                     }
                     case SicomeParser.CableProgramContext ctx -> {
-
+                        if (ctx.programBlock() == null || ctx.variablesBlock() == null){
+                            ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de variables, Bloque de programa"),ctx.getStart());
+                        }
                         var cableAnalysisPass = new CableAnalisis(ids,symbols);
                         walker.walk(cableAnalysisPass, restTree);
 

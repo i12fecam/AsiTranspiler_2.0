@@ -7,36 +7,30 @@ import java.util.ResourceBundle;
 
 
 public class ErrorMessage {
-    ErrorLevel level;
-    ErrorEnum id;
+    ErrorEnum errorEnum;
     Token token;
     List<Object> arguments;
 
-    ErrorMessage(ErrorLevel level, ErrorEnum id, Token token){
-        this.level = level;
-        this.id = id;
-        this.token = token;
-    }
 
-    public ErrorMessage(ErrorLevel level, ErrorEnum id, List<Object> args, Token token){
-        this.level = level;
-        this.id = id;
+
+    public ErrorMessage(ErrorEnum errorEnum, List<Object> args, Token token){
+        this.errorEnum = errorEnum;
         this.token = token;
         this.arguments = args;
     }
 
-    public String toString(ResourceBundle errorTranslations,boolean terminalColors){
+    public String toString(boolean terminalColors){
         String res = "";
 
 
         //ANSI_RED[AVISO] linea 4: DATO_ERRONEO_BIF, El valor del bif no puede ser repetido
-        String levelText = switch (level) {
+        String levelText = switch (errorEnum.level) {
             case WARNING -> "Aviso";
             case FATAL_ERROR-> "Error";
         };
 
         String errorExplanation = String.format(
-                errorTranslations.getString(id.name()),
+                errorEnum.msgFormat,
                 arguments.toArray()
         );
 
@@ -45,7 +39,7 @@ public class ErrorMessage {
         res = String.format("[%s] linea %s:%s, %s",
                 levelText,
                 token.getLine(),
-                id.name(),
+                errorEnum.name(),
                 errorExplanation
                 );
 
@@ -53,7 +47,7 @@ public class ErrorMessage {
             String ANSI_RED = "\u001B[31m";
             String ANSI_YELLOW = "\u001B[0;33m";
             String ANSI_RESET = "\u001B[0m";
-            res = switch (level){
+            res = switch (errorEnum.level){
                 case WARNING -> ANSI_YELLOW + res + ANSI_RESET;
                 case FATAL_ERROR -> ANSI_RED + res + ANSI_RESET;
             };

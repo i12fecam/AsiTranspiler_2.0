@@ -18,7 +18,7 @@ public class MicrocodeAnalisis extends SicomeBaseListener {
 
     @Override
     public void enterMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx) {
-        symbolTable.addFunction("halt","",0);
+        symbolTable.addInstruction("halt","",0);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MicrocodeAnalisis extends SicomeBaseListener {
 
         int instrId = -1;
         try {
-            instrId = symbolTable.addFunction(identifier.getText(), argString, size);
+            instrId = symbolTable.addInstruction(identifier.getText(), argString, size);
         }catch (RuntimeException e){
             throw new LogicException(e.getMessage(),identifier);
         }

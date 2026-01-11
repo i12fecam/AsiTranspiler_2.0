@@ -1,6 +1,8 @@
 package CodeGeneration.Cable;
 
 import Analisis.LogicException;
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
 import Internals.MicroInstruction;
 import Internals.SymbolTable;
 import Parsing.SicomeBaseListener;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static Analisis.HelperFunctions.parseNumber;
+import static Internals.MicroInstructionEnum.load_sr;
+import static Internals.MicroInstructionEnum.sr_plus_to_sr;
 
 public class CableCodeGenerator extends SicomeBaseListener {
 
@@ -59,9 +63,10 @@ public class CableCodeGenerator extends SicomeBaseListener {
                 }
                 logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
             }
-            case null -> throw new RuntimeException("Instrucción no reconocida");
-            default -> //TODO manejar bien
-                    throw new RuntimeException("Instrucción invalida entre brackets");
+            case null -> ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
+
+            default ->
+                    ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_INVALIDA,List.of("Entre brackets solo está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
 
         }
 
@@ -70,8 +75,8 @@ public class CableCodeGenerator extends SicomeBaseListener {
         for (var mInstr: ctx.rinstr) {
             var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
             switch (rmIntrEnum){
-                case sr_plus_to_sr,load_sr ->  throw new RuntimeException("Instrucción invalida entre brackets");
-                case null -> throw new RuntimeException("Instrucción no reconocida");
+                case sr_plus_to_sr,load_sr -> ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_INVALIDA,List.of("Fuera de brackets no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                case null -> ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
                 default -> {
                     Integer argValue = null;
                     if (mInstr.arg != null){
@@ -95,7 +100,9 @@ public class CableCodeGenerator extends SicomeBaseListener {
         List<FlagState> flags = new ArrayList<>();
         for( Token flag: ctx.flags){
             FlagState newFlag = FlagState.ValueOfInput(flag.getText());
-            if(newFlag == null) throw new LogicException("Bandera no reconocida",flag);
+            if(newFlag == null){
+                ErrorController.getInstance().addNewError(ErrorEnum.BANDERA_NO_RECONOCIDA,List.of(flag.getText()),flag);
+            }
             flags.add(newFlag);
 
         }
