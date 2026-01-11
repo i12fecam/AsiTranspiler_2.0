@@ -9,7 +9,7 @@ public class MicroLogicHelper {
 
     private StringBuilder builder= new StringBuilder("B3 B2 B1 B0 F Zb Za Zac Zsc X Qn Qn1 As Qs Bs N I B R E\n");
 
-    public String getString(){
+    public String getText(){
         return builder.toString();
     }
     public void addStatusLogic(int id, List<FlagState> flags, boolean inc, boolean bif, boolean ret, boolean enable){

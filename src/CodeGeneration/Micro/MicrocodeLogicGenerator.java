@@ -70,6 +70,6 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
     }
 
     public String getLogicFileString() {
-        return logic.getString();
+        return logic.getText();
     }
 }

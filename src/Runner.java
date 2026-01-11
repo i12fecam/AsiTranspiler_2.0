@@ -75,7 +75,7 @@ public class Runner {
             case LOGIC -> {
                 switch (restTree){
                     case SicomeParser.MicroProgramableLogicContext ctx ->{
-                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalisis(symbols);
+                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalysis(symbols);
                         walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
 
                         var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols);
@@ -84,7 +84,7 @@ public class Runner {
                         logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
                     }
                     case SicomeParser.MicroProgramableProgramContext ctx ->{
-                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalisis(symbols);
+                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalysis(symbols);
                         walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
 
                         var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols);
@@ -98,10 +98,10 @@ public class Runner {
             case INSTRUCTION_SET -> {
                 switch (restTree){
                     case SicomeParser.MicroProgramableProgramContext ctx -> {
-                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalisis(symbols);
+                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalysis(symbols);
                         walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
 
-                        var analysisMicroPass = new MicrocodeAnalisis(ids,symbols);
+                        var analysisMicroPass = new MicrocodeAnalysis(ids,symbols);
                         walker.walk(analysisMicroPass,ctx.microInstructionBlock());
 
 
@@ -117,7 +117,7 @@ public class Runner {
                         repositoryText = microCodeGeneratorPass.getRepositoryFileString();
                     }
                     case SicomeParser.CableProgramContext ctx-> {
-                        var cableAnalysisPass = new CableAnalisis(ids,symbols);
+                        var cableAnalysisPass = new CableAnalysis(ids,symbols);
                         walker.walk(cableAnalysisPass, restTree);
 
                         var cableCodeGeneratorPass = new CableCodeGenerator(ids, symbols);
@@ -142,10 +142,10 @@ public class Runner {
                             ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de variables, Bloque de programa"),ctx.getStart());
                         }
                         //analisis
-                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalisis(symbols);
+                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalysis(symbols);
                         walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
 
-                        var analysisMicroPass = new MicrocodeAnalisis(ids,symbols);
+                        var analysisMicroPass = new MicrocodeAnalysis(ids,symbols);
                         walker.walk(analysisMicroPass,ctx.microInstructionBlock());
 
                         var analysisProgram = new ProgramAnalysis(symbols,ids);
@@ -171,7 +171,7 @@ public class Runner {
                         if (ctx.programBlock() == null || ctx.variablesBlock() == null){
                             ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de variables, Bloque de programa"),ctx.getStart());
                         }
-                        var cableAnalysisPass = new CableAnalisis(ids,symbols);
+                        var cableAnalysisPass = new CableAnalysis(ids,symbols);
                         walker.walk(cableAnalysisPass, restTree);
 
                         var programAnalysisPass = new ProgramAnalysis(symbols,ids);

@@ -4,10 +4,10 @@ import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.SymbolTable;
 
-public class MicrocodeLogicAnalisis extends SicomeBaseListener {
+public class MicrocodeLogicAnalysis extends SicomeBaseListener {
     public SymbolTable symbolTable = new SymbolTable();
 
-    public MicrocodeLogicAnalisis(SymbolTable symbolTable) {
+    public MicrocodeLogicAnalysis(SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
     }
 

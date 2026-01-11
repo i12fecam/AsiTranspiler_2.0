@@ -33,7 +33,7 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
     public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
         Token instrName =ctx.name;
         SicomeParser.InstructionUseArgumentContext arg =ctx.instructionUseArgument();
-        InstructionArgumentTypeEnum expectedArg = symbols.getArgument(instrName.getText());
+        InstructionArgumentTypeEnum expectedArg = symbols.getArgumentType(instrName.getText());
         if(expectedArg == null){
             throw new LogicException("La Instrucción no está definida",instrName);
         }

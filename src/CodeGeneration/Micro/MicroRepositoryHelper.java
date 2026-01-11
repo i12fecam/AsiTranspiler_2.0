@@ -11,47 +11,47 @@ import java.util.Map;
 
 public class MicroRepositoryHelper {
 
-    private final Map<Integer,ArrayList<Integer>> repo = new HashMap<>();
+    private final Map<Integer,ArrayList<Integer>> table = new HashMap<>();
 
     private final SymbolTable _symbols;
     MicroRepositoryHelper(SymbolTable symbolTable){
         _symbols=symbolTable;
         var functions = _symbols.getFunctions();
         for(var func:functions){
-            repo.put(func.getId(),new ArrayList<>(func.getNSteps()));
+            table.put(func.getId(),new ArrayList<>(func.getNSteps()));
             for(int i=0;i<func.getNSteps();i++){
-                repo.get(func.getId()).add(0);
+                table.get(func.getId()).add(0);
             }
         }
     }
     public void associateControlFlow(int functionId, int stepId, int controlFlowIdentifier){
-        int num = repo.get(functionId).get(stepId);
+        int num = table.get(functionId).get(stepId);
         num+=controlFlowIdentifier*Math.pow(2,8);
-        repo.get(functionId).set(stepId,num);
+        table.get(functionId).set(stepId,num);
 
     }
     public void associateMicroInstruction(int functionId, int stepId, MicroInstructionEnum microInstruction){
-        int num = repo.get(functionId).get(stepId);
+        int num = table.get(functionId).get(stepId);
         num+=microInstruction.microCode;
-        repo.get(functionId).set(stepId,num);
+        table.get(functionId).set(stepId,num);
 
     }
     public void associateSCvalue(int functionId, int stepId,int value){
-        int num = repo.get(functionId).get(stepId);
+        int num = table.get(functionId).get(stepId);
         num+=value;
-        repo.get(functionId).set(stepId,num);
+        table.get(functionId).set(stepId,num);
 
     }
     public void associateCROMvalue(int functionId, int stepId,int value){
-        int num = repo.get(functionId).get(stepId);
+        int num = table.get(functionId).get(stepId);
         num+=value;
-        repo.get(functionId).set(stepId,num);
+        table.get(functionId).set(stepId,num);
 
     }
     public void associateBifValue(int functionId,int stepId,int value){
-        int num = repo.get(functionId).get(stepId);
+        int num = table.get(functionId).get(stepId);
         num+=value;
-        repo.get(functionId).set(stepId,num);
+        table.get(functionId).set(stepId,num);
     }
 
     public String getText(){
@@ -62,7 +62,7 @@ public class MicroRepositoryHelper {
                 "CB 0201100\n" +
                 "CB B000300\n" +
                 "$\n");
-        for(var entry:repo.entrySet()){
+        for(var entry: table.entrySet()){
             int functionId =entry.getKey();
             Instruction fun =_symbols.getFunctionByName(functionId);
             builder.append(fun.getName()).append(" ");
