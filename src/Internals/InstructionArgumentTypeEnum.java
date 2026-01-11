@@ -1,6 +1,6 @@
 package Internals;
 
-public enum InstructionArgumentType {
+public enum InstructionArgumentTypeEnum {
     Dir,
     Value,
     Var,

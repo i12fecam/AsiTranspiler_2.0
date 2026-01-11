@@ -4,7 +4,7 @@ import Analysis.LogicException;
 import Internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
-import Internals.InstructionArgumentType;
+import Internals.InstructionArgumentTypeEnum;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
@@ -33,7 +33,7 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
     public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
         Token instrName =ctx.name;
         SicomeParser.InstructionUseArgumentContext arg =ctx.instructionUseArgument();
-        InstructionArgumentType expectedArg = symbols.getArgument(instrName.getText());
+        InstructionArgumentTypeEnum expectedArg = symbols.getArgument(instrName.getText());
         if(expectedArg == null){
             throw new LogicException("La Instrucción no está definida",instrName);
         }

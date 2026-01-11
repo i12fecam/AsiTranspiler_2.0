@@ -2,7 +2,7 @@ package CodeGeneration.Micro;
 
 import Internals.SymbolTable;
 import Internals.Instruction;
-import Internals.InstructionArgumentType;
+import Internals.InstructionArgumentTypeEnum;
 import Internals.MicroInstructionEnum;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class MicroRepositoryHelper {
             builder.append(fun.getName()).append(" ");
 
 
-            if(fun.getParam().equals(InstructionArgumentType.None)){
+            if(fun.getParam().equals(InstructionArgumentTypeEnum.None)){
                 builder.append("false");
             }else{
                 builder.append("true");
