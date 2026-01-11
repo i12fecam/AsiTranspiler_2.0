@@ -1,5 +1,5 @@
 package Internals.Errors;
-import static Internals.Errors.ErrorLevel.*;
+import static Internals.Errors.ErrorLevelEnum.*;
 public enum ErrorEnum {
     FALTA_BLOQUE_NECESARIO(FATAL_ERROR,"Falta bloque/s necesarios para el objetivo definido (%s)"),
     INSTRUCCION_MISMO_NOMBRE(FATAL_ERROR,"Ya existe otra instrucción con el mismo nombre (%s)"),
@@ -10,9 +10,9 @@ public enum ErrorEnum {
     MICROINSTRUCCION_NO_RECONOCIDA(FATAL_ERROR,"No se ha podido reconocer la instrucción (%s)"),
     MICROINSTRUCCION_INVALIDA(FATAL_ERROR,"La microinstrucción utilizada es inválida en este contexto (%s)"),
     BANDERA_NO_RECONOCIDA(FATAL_ERROR,"No se ha podido reconocer la bandera (%s)");
-    public final ErrorLevel level;
+    public final ErrorLevelEnum level;
     public final String msgFormat;
-    ErrorEnum(ErrorLevel level, String msg){
+    ErrorEnum(ErrorLevelEnum level, String msg){
         this.level = level;
         this.msgFormat = msg;
     }

@@ -4,7 +4,7 @@ import Analysis.LogicException;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.FlagState;
-import Internals.Micro.BifurcationLogic;
+import Internals.BifurcationLogic;
 import Internals.SymbolTable;
 
 import java.util.ArrayList;

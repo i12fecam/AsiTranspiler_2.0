@@ -1,6 +1,6 @@
 package Internals.Errors;
 
-public enum ErrorLevel {
+public enum ErrorLevelEnum {
     WARNING,
     FATAL_ERROR
 }

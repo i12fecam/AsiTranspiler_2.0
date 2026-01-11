@@ -1,7 +1,6 @@
 package Internals;
 
 import Internals.Errors.EspecificationException;
-import Internals.Micro.BifurcationLogic;
 
 import java.util.*;
 

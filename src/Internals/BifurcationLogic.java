@@ -1,4 +1,4 @@
-package Internals.Micro;
+package Internals;
 
 public class BifurcationLogic {
     private int id;
