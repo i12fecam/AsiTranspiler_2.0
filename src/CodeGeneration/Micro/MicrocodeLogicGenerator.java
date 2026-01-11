@@ -1,6 +1,6 @@
 package CodeGeneration.Micro;
 
-import Analisis.LogicException;
+import Analysis.LogicException;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.FlagState;

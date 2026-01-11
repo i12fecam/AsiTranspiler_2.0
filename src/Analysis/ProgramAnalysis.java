@@ -1,4 +1,4 @@
-package Analisis;
+package Analysis;
 
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
@@ -6,12 +6,11 @@ import Internals.Errors.EspecificationException;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.SymbolTable;
-import jline.internal.Log;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Analisis.HelperFunctions.parseNumber;
+import static Analysis.HelperFunctions.parseNumber;
 
 /**
  * Anotates the tree in functions and steps with their number

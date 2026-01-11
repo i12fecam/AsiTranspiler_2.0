@@ -1,4 +1,3 @@
-import Analisis.LogicException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

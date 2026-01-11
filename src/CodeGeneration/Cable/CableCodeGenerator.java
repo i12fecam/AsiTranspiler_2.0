@@ -1,6 +1,5 @@
 package CodeGeneration.Cable;
 
-import Analisis.LogicException;
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
 import Internals.MicroInstruction;
@@ -15,7 +14,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Analisis.HelperFunctions.parseNumber;
+import static Analysis.HelperFunctions.parseNumber;
 import static Internals.MicroInstructionEnum.load_sr;
 import static Internals.MicroInstructionEnum.sr_plus_to_sr;
 

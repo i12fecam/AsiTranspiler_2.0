@@ -1,4 +1,4 @@
-package Analisis;
+package Analysis;
 
 import org.antlr.v4.runtime.Token;
 

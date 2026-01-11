@@ -1,4 +1,4 @@
-package Analisis;
+package Analysis;
 
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;

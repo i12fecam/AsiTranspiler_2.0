@@ -1,6 +1,6 @@
 package CodeGeneration.Micro;
 
-import Analisis.LogicException;
+import Analysis.LogicException;
 import Internals.MicroInstructionType;
 import Internals.SymbolTable;
 import Parsing.SicomeBaseListener;
@@ -10,7 +10,7 @@ import Internals.MicroInstructionEnum;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 
-import static Analisis.HelperFunctions.parseNumber;
+import static Analysis.HelperFunctions.parseNumber;
 
 public class MicrocodeGenerator extends SicomeBaseListener {
 

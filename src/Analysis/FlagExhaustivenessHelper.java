@@ -1,4 +1,4 @@
-package Analisis;
+package Analysis;
 
 import Internals.Flag;
 import Internals.FlagState;

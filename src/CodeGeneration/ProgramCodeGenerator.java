@@ -1,6 +1,6 @@
 package CodeGeneration;
 
-import Analisis.LogicException;
+import Analysis.LogicException;
 import Internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
@@ -8,7 +8,7 @@ import Internals.InstructionArgumentType;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
-import static Analisis.HelperFunctions.parseNumber;
+import static Analysis.HelperFunctions.parseNumber;
 
 public class ProgramCodeGenerator extends SicomeBaseListener {
     protected ParseTreeProperty<Integer> ids = null;

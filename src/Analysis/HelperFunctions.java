@@ -1,4 +1,4 @@
-package Analisis;
+package Analysis;
 
  public class HelperFunctions {
     public static Integer  parseNumber(String num, Integer maxNum){

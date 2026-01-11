@@ -1,4 +1,4 @@
-package Analisis;
+package Analysis;
 
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;

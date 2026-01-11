@@ -1,4 +1,4 @@
-import Analisis.*;
+import Analysis.*;
 import CodeGeneration.Micro.MicrocodeLogicGenerator;
 import CodeGeneration.ProgramCodeGenerator;
 import CodeGeneration.Cable.CableCodeGenerator;
