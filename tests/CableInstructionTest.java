@@ -1,11 +1,40 @@
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
+import Runner.Runner;
 import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CableInstructionTest {
-    //TODO hacer tests que comprueben warnings de que le faltan contenido a las funciones
+    @Test
+    public void instruccionMismoNombre(){
+
+
+        String inputText = """
+            @cableado
+            instrucciones {
+                instruccion1(value){
+            
+                }
+                instruccion1(var){
+            
+                }
+            }\
+            variables{}\
+            programa{}""";
+
+
+
+        Runner helper = new Runner();
+        var ex = assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText);
+        });
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
+
+    }
+
     @Test
     public void mustHaveArgumentIfIsValue(){
     String inputText = """

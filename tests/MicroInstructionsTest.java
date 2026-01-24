@@ -1,9 +1,49 @@
 import Analysis.LogicException;
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
+import Runner.Runner;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MicroInstructionsTest {
+
+    @Test
+    public void instruccionMismoNombre(){
+
+
+        String inputText = """
+            estados{
+                 inc ->  INCR
+            }
+            
+            @microinstruccion
+            instrucciones {
+                instruccion1(value){
+            
+                }
+                instruccion1(var){
+            
+                }
+            }\
+            variables{}\
+            programa{}""";
+
+
+
+        Runner helper = new Runner();
+        var ex = assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText);
+        });
+        //ErrorController.getInstance().printToConsole(false);
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
+
+    }
+    @Test
+    void MICROINSTRUCCION_NO_RECONOCIDA(){
+
+    }
     @Test
     void emptyProgram(){
         String inputText = """

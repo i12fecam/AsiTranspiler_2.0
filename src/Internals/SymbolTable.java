@@ -253,8 +253,7 @@ public class SymbolTable {
      */
 
     public boolean isLabel(String labelName) {
-        if(labels.get(labelName) == null) return false;
-        return true;
+        return labels.get(labelName) != null;
     }
 
 

@@ -9,7 +9,8 @@ public class ErrorController {
 
     private static ErrorController instance;
 
-    private final List<ErrorMessage> msgs = new ArrayList<>();
+    //private final List<ErrorMessage> msgs = new ArrayList<>();
+    private final ThreadLocal<List<ErrorMessage>> msgs = ThreadLocal.withInitial(ArrayList::new);
 
     public static synchronized ErrorController getInstance() {
         if (instance == null) {
@@ -19,7 +20,11 @@ public class ErrorController {
     }
 
     public void printToConsole(boolean terminalColors){
-        msgs.forEach(msg -> System.out.println(msg.toString(terminalColors)));
+        msgs.get().forEach(msg -> System.out.println(msg.toString(terminalColors)));
+    }
+
+    public boolean containsErrorEnum(ErrorEnum errorEnum){
+        return msgs.get().stream().anyMatch(errorMsg -> errorMsg.errorEnum == errorEnum );
     }
     public void addNewError(ErrorEnum id,List<Object> args, Token token ){
         ErrorMessage msg = new ErrorMessage(
@@ -32,7 +37,7 @@ public class ErrorController {
     }
 
     private void addNewErrorMsg(ErrorMessage msg){
-        msgs.add(msg);
+        msgs.get().add(msg);
     }
 
 

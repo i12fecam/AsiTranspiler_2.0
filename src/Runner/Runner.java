@@ -1,3 +1,5 @@
+package Runner;
+
 import Analysis.*;
 import CodeGeneration.Micro.MicrocodeLogicGenerator;
 import CodeGeneration.ProgramCodeGenerator;
@@ -16,15 +18,6 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import java.nio.file.Path;
 import java.util.List;
 
-enum  ObjetiveConfig{
-    LOGIC,
-    INSTRUCTION_SET,
-    ALL
-}
-enum VerbConfig{
-    ANALYZE,
-    COMPILE
-}
 record Config(
     VerbConfig verb,
     ObjetiveConfig obj,

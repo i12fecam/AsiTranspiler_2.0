@@ -1,3 +1,7 @@
+import Runner.ObjetiveConfig;
+import Runner.VerbConfig;
+
+import Runner.Runner;
 import picocli.CommandLine;
 import picocli.CommandLine.*;
 
@@ -133,8 +137,8 @@ static class AsiTranspiler implements Callable<Integer> {
 
 //    public static void main(String[] args){
 //        var errController = new Internals.Errors.ErrorController();
-//        VerbConfig verb;
-//        ObjetiveConfig obj;
+//        Runner.VerbConfig verb;
+//        Runner.ObjetiveConfig obj;
 //        Path inputFilePath;
 //        Path outputPath;
 //        String outputName;
@@ -142,23 +146,23 @@ static class AsiTranspiler implements Callable<Integer> {
 //
 //        switch (args[0]){
 //            case "analizar":
-//                verb = VerbConfig.ANALYZE;
+//                verb = Runner.VerbConfig.ANALYZE;
 //                break;
 //            case "compilar":
-//                verb = VerbConfig.COMPILE;
+//                verb = Runner.VerbConfig.COMPILE;
 //
 //            case null,default:
 //                throw new RuntimeException("Error detecting verb");
 //        }
 //
 //        obj = switch (args[1]) {
-//            case "logica" -> ObjetiveConfig.LOGIC;
-//            case "repertorio" -> ObjetiveConfig.INSTRUCTION_SET;
-//            case "todo" -> ObjetiveConfig.ALL;
+//            case "logica" -> Runner.ObjetiveConfig.LOGIC;
+//            case "repertorio" -> Runner.ObjetiveConfig.INSTRUCTION_SET;
+//            case "todo" -> Runner.ObjetiveConfig.ALL;
 //            case null, default -> throw new RuntimeException("Error detecting objetive");
 //        };
 //
-//        //var config = new Config()
+//        //var config = new Runner.Config()
 //
 //    }
 
