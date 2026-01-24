@@ -1,12 +1,17 @@
 package CodeGeneration;
 
 import Analysis.LogicException;
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
+import Internals.Instruction;
 import Internals.SymbolTable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.InstructionArgumentTypeEnum;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
+
+import java.util.List;
 
 import static Analysis.HelperFunctions.parseNumber;
 
@@ -35,7 +40,8 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
         SicomeParser.InstructionUseArgumentContext arg =ctx.instructionUseArgument();
         InstructionArgumentTypeEnum expectedArg = symbols.getArgumentType(instrName.getText());
         if(expectedArg == null){
-            throw new LogicException("La Instrucción no está definida",instrName);
+            ErrorController.getInstance()
+                    .addNewError(ErrorEnum.INSTRUCCION_NO_DEFINIDA, List.of(instrName),ctx.name);
         }
 
         Integer paramNumber =null;
@@ -46,7 +52,8 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
                     paramNumber = parseNumber(arg.num.getText(),null);
                 }
                 else{
-                    throw new LogicException("Argumento de tipo valor no encontrado",instrName);
+                    ErrorController.getInstance()
+                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO, List.of(instrName, "\" \""),ctx.name);
                 }
             }
             case Var -> {

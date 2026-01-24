@@ -1,10 +1,14 @@
 package Analysis;
 
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.SymbolTable;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
+
+import java.util.List;
 
 public class MicrocodeAnalysis extends SicomeBaseListener {
     public ParseTreeProperty<Integer> ids = new ParseTreeProperty<>();
@@ -34,7 +38,8 @@ public class MicrocodeAnalysis extends SicomeBaseListener {
         try {
             instrId = symbolTable.addInstruction(identifier.getText(), argString, size);
         }catch (RuntimeException e){
-            throw new LogicException(e.getMessage(),identifier);
+            ErrorController.getInstance().addNewError(ErrorEnum.INSTRUCCION_MISMO_NOMBRE, List.of(ctx.IDENTIFIER().getText()), ctx.IDENTIFIER().getSymbol());
+
         }
 
         //Se anota en el arbol las IDs

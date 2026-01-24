@@ -1,3 +1,5 @@
+package ProgramTests;
+
 import Analysis.LogicException;
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;

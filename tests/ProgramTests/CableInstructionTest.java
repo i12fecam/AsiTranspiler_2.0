@@ -1,3 +1,5 @@
+package ProgramTests;
+
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
 import Runner.Runner;

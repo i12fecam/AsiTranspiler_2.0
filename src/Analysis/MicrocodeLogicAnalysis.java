@@ -1,8 +1,14 @@
 package Analysis;
 
+import Internals.Errors.ErrorController;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.SymbolTable;
+
+import java.util.List;
+
+import static Internals.Errors.ErrorEnum.LOGICA_BIFURCACION_MISMO_NOMBRE;
+import static Internals.Errors.ErrorEnum.NUMERO_LOGICA_BIFURCACION_SUPERADO;
 
 public class MicrocodeLogicAnalysis extends SicomeBaseListener {
     public SymbolTable symbolTable = new SymbolTable();
@@ -19,11 +25,16 @@ public class MicrocodeLogicAnalysis extends SicomeBaseListener {
             needsArg = true;
         }
 
-        try {
-            symbolTable.addBifurcationLogic(name,needsArg);
-        }catch (RuntimeException e){
-            throw new LogicException(e.getMessage(),ctx.name);
+
+        var resadd = symbolTable.addBifurcationLogic(name,needsArg);
+
+        if(resadd == -1){
+            ErrorController.getInstance().addNewError(NUMERO_LOGICA_BIFURCACION_SUPERADO,null, ctx.name);
+        }else if (resadd == -2){
+            ErrorController.getInstance().addNewError(LOGICA_BIFURCACION_MISMO_NOMBRE, List.of(ctx.name.getText()), ctx.name);
+
         }
+
 
     }
 

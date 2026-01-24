@@ -214,5 +214,40 @@ public class CableInstructionTest {
         assertDoesNotThrow(() -> helper.run(inputText,INSTRUCTION_SET,null));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"", " ()","( )"})
+    @DisplayName("Comprueba que las microinstrucciones que necesiten de argumento, lo reciban")
+    void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(String argument){
+        String inputText = String.format("""
+            @cableado
+            instrucciones {
+                instruccion1(value){
+                [SR+1->SR] LOAD_SC%s;
+                }
+            }\
+            """,argument);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
+    }
+
+    //TODO Test sobre posible argumentos???
+
+    @ParameterizedTest
+    @ValueSource(strings = {"(0)", "(1)","( )"})
+    void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(String argument){
+        String inputText = String.format("""
+            @cableado
+            instrucciones {
+                instruccion1(value){
+                [SR+1->SR] GPR->PC%s;
+                }
+            }\
+            """,argument);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
+    }
+
 
 }

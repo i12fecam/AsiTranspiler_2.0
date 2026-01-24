@@ -1,8 +1,7 @@
+package ProgramTests;
+
 import Analysis.LogicException;
-import Internals.Errors.ErrorController;
-import Internals.Errors.ErrorEnum;
 import Runner.Runner;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

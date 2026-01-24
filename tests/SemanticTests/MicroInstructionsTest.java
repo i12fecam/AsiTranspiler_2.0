@@ -14,6 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -233,6 +234,66 @@ public class MicroInstructionsTest {
         assertDoesNotThrow(() -> helper.run(inputText,INSTRUCTION_SET,null));
     }
 
+    @Test
+    @DisplayName("Comprueba que las lógicas de bifurcacion que necesiten de argumento, lo tengan")
+    void ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO(){
+        String inputText = """
+            estados{
+                 inc ->  INCR
+                 bif -> BIF
+            }
+            @microinstruccion
+            instrucciones {
+                instruccion1(value){
+                [bif] GPR->PC;
+                }
+            }\
+            """;
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO));
+    }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"", " ()","( )"})
+    @DisplayName("Comprueba que las microinstrucciones que necesiten de argumento, lo reciban")
+    void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(String argument){
+        String inputText = String.format("""
+            estados{
+                 inc ->  INCR
+            }
+            @microinstruccion
+            instrucciones {
+                instruccion1(value){
+                [inc] LOAD_SC%s;
+                }
+            }\
+            """,argument);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
+    }
+
+    //TODO Test sobre posible argumentos???
+
+    @ParameterizedTest
+    @ValueSource(strings = {"(0)", "(1)","( )"})
+    @DisplayName("Comprueba que las microinstrucciones que no necesiten de argumento,no lo reciban")
+    void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(String argument){
+        String inputText = String.format("""
+            estados{
+                 inc ->  INCR
+            }
+            @microinstruccion
+            instrucciones {
+                instruccion1(value){
+                [inc] GPR->PC%s;
+                }
+            }\
+            """,argument);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
+    }
 
 }

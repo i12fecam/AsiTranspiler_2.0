@@ -263,11 +263,13 @@ public class SymbolTable {
     private Vector<BifurcationLogic> bifurcationLogics = new Vector<>();
     public int addBifurcationLogic(String name,boolean needsArg) throws RuntimeException {
         if(bifurcationLogics.size()==16){
-            throw new RuntimeException("El número de reglas de bifurcación tiene un máximo de 16");
+            return -1;
+            //throw new RuntimeException("El número de reglas de bifurcación tiene un máximo de 16");
         }
         for(var bifLogic:bifurcationLogics){
             if(bifLogic.getName().equals(name)){
-                throw new RuntimeException("Ya existe una regla de bifurcacion con el mismo nombre");
+                return -2;
+                //throw new RuntimeException("Ya existe una regla de bifurcacion con el mismo nombre");
             }
         }
 
