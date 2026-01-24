@@ -112,7 +112,7 @@ public class CableInstructionTest {
             @cableado
             instrucciones {
                 instruccion1(value){
-                [inc] %s %s;
+                [SR+1->SR] %s %s;
                 }
             }\
             """,microinstruccion1,microinstruccion2);
@@ -180,16 +180,15 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que señala correctamente cuando la bandera no este escrita correctamente")
     void BANDERA_NO_RECONOCIDA1(){
         String inputText = """
-            estados{
-                 inc ->  INCR
-                 bif_if_flag -> {
-                    A : BIF
-                    A : INCR
-                 }
-            }
-            @microinstruccion
+            
+            @cableado
             instrucciones {
-                instruccion1(value){}
+                instruccion1(value){
+                   {
+                     A: [SR+1->SR] GPR->PC;
+                     !A: [SR+1->SR] GPR->PC;
+                   }
+                }
             }\
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
@@ -202,16 +201,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que todas las banderas se recnozcan de forma correcta")
     void BANDERA_NO_RECONOCIDA2(String flag){
         String inputText = String.format("""
-            estados{
-                 inc ->  INCR
-                 bif_if_flag -> {
-                    %s: BIF
-                    !%s: INCR
-                 }
-            }
-            @microinstruccion
+            @cableado
             instrucciones {
-                instruccion1(value){}
+                instruccion1(value){
+                    {
+                     %s: [SR+1->SR] GPR->PC;
+                     !%s: [SR+1->SR] GPR->PC;
+                    }
+                }
             }\
             """,flag,flag);
         assertDoesNotThrow(() -> helper.run(inputText,INSTRUCTION_SET,null));
