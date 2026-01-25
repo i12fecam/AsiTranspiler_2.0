@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProgramTest {
 
-    private final Runner helper = new Runner();
+    //private final Runner helper = new Runner();
     @Test
     @DisplayName("Comprueba que se pueda definir vectores de tamaño 1")
     void VARIABLE_MISMO_NOMBRE(){
@@ -47,7 +47,7 @@ public class ProgramTest {
         instruccion1(){}
         }
         variables{
-        vector[0] = {1};
+        vector(0) = { 1 };
         }
         programa{
         instruccion1;
@@ -71,7 +71,7 @@ public class ProgramTest {
         instruccion1(){}
         }
         variables{
-        vector[1] = {1};
+        vector(1) = { 1 };
         }
         programa{
         instruccion1;
@@ -94,7 +94,7 @@ public class ProgramTest {
         instruccion1(){}
         }
         variables{
-        vector[3] = {2,2};
+        vector(3) = {2,2};
         }
         programa{
         instruccion1;
@@ -149,9 +149,10 @@ public class ProgramTest {
                 variables{
                 }
                 programa{
-                    instruccion2
+                    instruccion2;
                 }
                """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
@@ -165,7 +166,7 @@ public class ProgramTest {
         String inputText = """
                estados{
                  inc ->  INCR
-                }
+               }
                @microinstruccion
                 instrucciones {
                     instruccion1(){}
@@ -173,9 +174,11 @@ public class ProgramTest {
                 variables{
                 }
                 programa{
-                    instruccion2
+                    instruccion2;
                 }
                """;
+        var helper = new Runner();
+
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
@@ -184,7 +187,7 @@ public class ProgramTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "","etiqueta1","variable1","vector1[1]"})
+    @ValueSource(strings = {"", "","etiqueta1","variable1","vector1(1)"})
     @DisplayName("Comprueba que las llamadas a funciones de tipo value solo reciban valores literales")
     void ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO(String argument){
         String inputText = String.format("""
@@ -194,13 +197,14 @@ public class ProgramTest {
                 }
                 variables{
                     variable1 = 1;
-                    vector1[2] = {1};
+                    vector1(2) = { 1 };
                 }
                 programa{
                     MARK etiqueta1;
                     instruccion1 %s;
                 }
                """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
@@ -219,13 +223,14 @@ public class ProgramTest {
                 }
                 variables{
                     variable1 = 1;
-                    vector1[2] = {1};
+                    vector1(2) = {1 };
                 }
                 programa{
                     MARK etiqueta1;
                     instruccion1 %s;
                 }
                """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
@@ -234,7 +239,7 @@ public class ProgramTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"","variable1","vector1[1]","(5)"})
+    @ValueSource(strings = {"","variable1","vector1(1)","5"})
     @DisplayName("Comprueba que las llamadas a funciones de tipo direccion solo reciban etiquetas")
     void ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO(String argument){
         String inputText = String.format("""
@@ -244,13 +249,14 @@ public class ProgramTest {
                 }
                 variables{
                     variable1 = 1;
-                    vector1[2] = { 1 };
+                    vector1(2) = { 1 };
                 }
                 programa{
                     MARK etiqueta1;
                     instruccion1 %s;
                 }
                """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
@@ -261,23 +267,24 @@ public class ProgramTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = {"","variable1","vector1[1]","5"})
+    @ValueSource(strings = {"variable1","vector1(1)","5"})
     @DisplayName("Comprueba que las llamadas a funciones que no necesiten de argumento, no se le pase")
     void ARGUMENTO_INSTRUCCION_INNECESARIO(String argument){
         String inputText = String.format("""
                @cableado
                 instrucciones {
-                    instruccion1(dir){}
+                    instruccion1(){}
                 }
                 variables{
                     variable1 = 1;
-                    vector1[2] = { 1 };
+                    vector1(2) = { 1 };
                 }
                 programa{
                     MARK etiqueta1;
                     instruccion1 %s;
                 }
                """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
@@ -286,7 +293,7 @@ public class ProgramTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"variable2","vector1[0]"})
+    @ValueSource(strings = {"variable2","vector2(0)"})
     @DisplayName("Comprueba que las variables usadas estén definidas")
     void VARIABLE_NO_DEFINIDA(String argument){
         String inputText = String.format("""
@@ -296,13 +303,13 @@ public class ProgramTest {
                 }
                 variables{
                     variable1 = 1;
-                    vector[2] = {1};
                 }
                 programa{
                     MARK etiqueta1;
-                    instruccion1 variable2;
+                    instruccion1 %s;
                 }
                """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
@@ -311,7 +318,7 @@ public class ProgramTest {
     }
 
     @Test
-    @DisplayName("Comprueba que las variables usadas estén definidas")
+    @DisplayName("Comprueba que las etiquetas usadas estén definidas")
     void ETIQUETA_NO_DEFINIDA(){
         String inputText = """
                @cableado
@@ -325,6 +332,7 @@ public class ProgramTest {
                     MARK etiqueta2;
                 }
                """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
@@ -341,12 +349,13 @@ public class ProgramTest {
                     instruccion1(var){}
                 }
                 variables{
-                    vector[4] = {1};
+                    vector(4) = { 1 };
                 }
                 programa{
-                    instruccion1 vector[%s];
+                    instruccion1 vector(%s);
                 }
                """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });

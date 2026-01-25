@@ -143,7 +143,7 @@ public class SymbolTable {
      * Gets the postion of the variable in memory
      * @param variableName the name of the variable
      * @param offset 0 if simple value or the index in case it is a vector
-     * @return the position in memory
+     * @return the position in memory, -1 in case of error
      */
     public Integer getPosFromVariable(String variableName, int offset){
         for(Variable var:variables){
@@ -239,10 +239,10 @@ public class SymbolTable {
     /**
      * Gets the position in memory the label is referring to, taking to account the reserved positions of the variables
      * @param label
-     * @return
+     * @return position that the label refers, or -1 in case of error
      */
     public int getPosFromLabel(String label){
-        if(labels.get(label) == null) throw new RuntimeException("El label al que se refiere no existe");
+        if(labels.get(label) == null) return -1;
         return labels.get(label) + getStartOfInstruction();
     }
 

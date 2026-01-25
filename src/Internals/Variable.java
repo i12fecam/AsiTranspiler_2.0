@@ -34,7 +34,7 @@ public class Variable {
 
     public int getPosition(int offset) throws RuntimeException {
         if(offset >= capacity() || offset < 0){
-            throw new RuntimeException("El index que desea se encuentra fuera del rango del vector");
+            return -1;
         }
         return startPosition +offset;
     }

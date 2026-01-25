@@ -1,4 +1,4 @@
-package ProgramTests;
+package FullProgramTests;
 
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;

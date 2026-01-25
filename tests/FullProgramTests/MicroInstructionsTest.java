@@ -1,4 +1,4 @@
-package ProgramTests;
+package FullProgramTests;
 
 import Analysis.LogicException;
 import Internals.Errors.ErrorController;

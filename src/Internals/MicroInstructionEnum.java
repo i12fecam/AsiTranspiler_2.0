@@ -3,12 +3,12 @@ package Internals;
 public enum MicroInstructionEnum {
     //Mar
     pc_to_mar("PC->MAR","PC->MAR",1*Math.pow(2,26)),
-    gpr_ad_to_mar("GPR{AD}->MAR","GPR(AD)->MAR",2*Math.pow(2,26)),//No sale en cableado
+    gpr_ad_to_mar("GPR[AD]->MAR","GPR(AD)->MAR",2*Math.pow(2,26)),//No sale en cableado
     sp_to_mar("SP->MAR","SP->MAR",3*Math.pow(2,26)),
     //OPR
     gpr_to_m("GPR->M","GPR->M",1*Math.pow(2,24)),
     qr_to_m("QR->M","QR->M",2*Math.pow(2,24)),
-    gpr_op_to_opr("GPR{OP}->OPR","GPR(OP)->OPR",3*Math.pow(2,24)),
+    gpr_op_to_opr("GPR[OP]->OPR","GPR(OP)->OPR",3*Math.pow(2,24)),
     //PC,SP,SC
     pc_plus_to_pc("PC+1->PC","PC+1->PC",1*Math.pow(2,21)),
     gpr_to_pc("GPR->PC","GPR->PC",2*Math.pow(2,21)),
