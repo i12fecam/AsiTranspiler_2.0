@@ -1,5 +1,6 @@
 package CodeGeneration.Cable;
 
+import Analysis.HelperFunctions;
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
 import Internals.MicroInstruction;
@@ -12,9 +13,12 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static Analysis.HelperFunctions.parseNumber;
+import static Internals.Errors.ErrorEnum.*;
 import static Internals.MicroInstructionEnum.load_sr;
 import static Internals.MicroInstructionEnum.sr_plus_to_sr;
 
@@ -53,34 +57,64 @@ public class CableCodeGenerator extends SicomeBaseListener {
                 logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,null), id_func, id_step,  null);
             }
             case load_sr -> {
-                //TODO gestionar que el valor no sea superior a un limite definido
-                Integer argValue = null;
-                if (ctx.linstr.arg != null && ctx.linstr.arg.getText().equals( "START")){
-                   argValue = null;
-                }else if(ctx.linstr.arg != null){
-                    argValue = parseNumber(ctx.linstr.arg.getText(),null);
-                }
-                logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
-            }
-            case null -> ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
 
-            default ->
-                    ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_INVALIDA,List.of("Entre brackets solo está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                if(ctx.linstr.arg == null){
+                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,List.of(load_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                }
+                //TODO gestionar que el valor no sea superior a un limite definido
+
+                Integer argValue = null;
+                if(ctx.linstr.arg.getText().equals("START")){
+                     argValue = null;
+                }
+                else {
+                    argValue = parseNumber(ctx.linstr.arg.getText(), null);
+                }
+
+                logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
+
+            }
+            case null -> {
+                ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
+            }
+
+            default ->{
+                ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("En el lado izquierdo solo está permitido las instrucciones "+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+            }
 
         }
 
+        Set<MicroInstructionEnum> seenMicroInstruction = new HashSet<>();
 
         //Process right instruction
         for (var mInstr: ctx.rinstr) {
             var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
             switch (rmIntrEnum){
-                case sr_plus_to_sr,load_sr -> ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_INVALIDA,List.of("Fuera de brackets no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
-                case null -> ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
+                case sr_plus_to_sr,load_sr -> {
+                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("En lado derecho no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                }
+                case null -> {
+                    ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
+                }
                 default -> {
-                    Integer argValue = null;
-                    if (mInstr.arg != null){
-                        argValue = parseNumber(mInstr.arg.getText(),null);
+
+                    if (!seenMicroInstruction.add(rmIntrEnum)) {
+                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA, List.of("No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
                     }
+                    if (rmIntrEnum.needsArgument && mInstr.arg == null) {
+                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO, List.of(rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
+                    }
+
+                    if (!rmIntrEnum.needsArgument && mInstr.arg != null){
+                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO, List.of(rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
+                    }
+
+
+                    Integer argValue = null;
+                    if (mInstr.arg != null) {
+                        argValue = HelperFunctions.parseNumber(mInstr.arg.getText(),null);
+                    }
+
                     logic.addMicroInstructionUse(new MicroInstruction(rmIntrEnum,argValue), id_func, id_step,  null);
                 }
             }
@@ -112,32 +146,57 @@ public class CableCodeGenerator extends SicomeBaseListener {
                 logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,null), id_func, id_step,  flags);
             }
             case load_sr -> {
+
+                if(ctx.linstr.arg == null){
+                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,List.of(load_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                }
                 //TODO gestionar que el valor no sea superior a un limite definido
+
                 Integer argValue = null;
-                if (ctx.linstr.arg != null && ctx.linstr.arg.getText().equals( "START")) {
+                if(ctx.linstr.arg.getText().equals("START")){
                     argValue = null;
-                }else if(ctx.linstr.arg != null ){
-                    argValue = parseNumber(ctx.linstr.arg.getText(),null);
+                }
+                else {
+                    argValue = parseNumber(ctx.linstr.arg.getText(), null);
                 }
                 logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  flags);
             }
-            case null -> throw new RuntimeException("Instrucción no reconocida");
-            default -> throw new RuntimeException("Instrucción invalida entre brackets");
+            case null -> ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
+            default -> ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("En el lado izquierdo solo está permitido las instrucciones "+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
 
         }
 
+        Set<MicroInstructionEnum> seenMicroInstruction = new HashSet<>();
 
         //Process right instruction
         for ( var mInstr: ctx.rinstr) {
             var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
             switch (rmIntrEnum){
-                case sr_plus_to_sr,load_sr ->  throw new RuntimeException("Instrucción invalida entre brackets");
-                case null -> throw new RuntimeException("Instrucción no reconocida");
+                case sr_plus_to_sr,load_sr ->   {
+                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("En lado derecho no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                }
+                case null ->{
+                    ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
+                }
                 default -> {
-                    Integer argValue = null;
-                    if(mInstr.arg != null){
-                        argValue = parseNumber(mInstr.arg.getText(),null);
+
+                    if (!seenMicroInstruction.add(rmIntrEnum)) {
+                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName),mInstr.MICRO_INSTR().getSymbol());
                     }
+
+                    if (rmIntrEnum.needsArgument && mInstr.arg == null) {
+                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO, List.of(rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
+                    }
+
+                    if (!rmIntrEnum.needsArgument && mInstr.arg != null){
+                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO, List.of(rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
+                    }
+
+                    Integer argValue = null;
+                    if (mInstr.arg != null) {
+                        argValue = HelperFunctions.parseNumber(mInstr.arg.getText(),null);
+                    }
+
                     logic.addMicroInstructionUse(new MicroInstruction(rmIntrEnum,argValue), id_func, id_step,  flags);
                 }
             }

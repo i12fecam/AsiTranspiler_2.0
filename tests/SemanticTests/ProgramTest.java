@@ -113,12 +113,9 @@ public class ProgramTest {
         String inputText = """
                @cableado
                 instrucciones {
-                    instruccion1(){
-                    
-                    }
+                    instruccion1(){}
                 }
-                variables{
-                }
+                variables{}
                 programa{
                 MARK label1;
                 instruccion1;
@@ -142,9 +139,7 @@ public class ProgramTest {
         String inputText = """
                @cableado
                 instrucciones {
-                    instruccion1(){
-                    
-                    }
+                    instruccion1(){}
                 }
                 variables{
                 }
@@ -171,8 +166,7 @@ public class ProgramTest {
                 instrucciones {
                     instruccion1(){}
                 }
-                variables{
-                }
+                variables{}
                 programa{
                     instruccion2;
                 }
@@ -197,7 +191,7 @@ public class ProgramTest {
                 }
                 variables{
                     variable1 = 1;
-                    vector1(2) = { 1 };
+                    vector1(2) = {1};
                 }
                 programa{
                     MARK etiqueta1;
@@ -223,7 +217,7 @@ public class ProgramTest {
                 }
                 variables{
                     variable1 = 1;
-                    vector1(2) = {1 };
+                    vector1(2) = {1};
                 }
                 programa{
                     MARK etiqueta1;
@@ -249,7 +243,7 @@ public class ProgramTest {
                 }
                 variables{
                     variable1 = 1;
-                    vector1(2) = { 1 };
+                    vector1(2) = {1};
                 }
                 programa{
                     MARK etiqueta1;
@@ -277,7 +271,7 @@ public class ProgramTest {
                 }
                 variables{
                     variable1 = 1;
-                    vector1(2) = { 1 };
+                    vector1(2) = {1};
                 }
                 programa{
                     MARK etiqueta1;
@@ -349,7 +343,7 @@ public class ProgramTest {
                     instruccion1(var){}
                 }
                 variables{
-                    vector(4) = { 1 };
+                    vector(4) = {1};
                 }
                 programa{
                     instruccion1 vector(%s);

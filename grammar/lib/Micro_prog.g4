@@ -20,4 +20,4 @@ microInstructionBlock : '@microinstruccion' 'instrucciones''{' microInstruction+
 
 microInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' microStep* '}';
 
-microStep:  '[' biflogic=IDENTIFIER ('(' arg=NUMBER ')')?']' instr+=microIntr* ';';
+microStep: '|' biflogic=IDENTIFIER ('(' arg=NUMBER ')')? '|' instr+=microIntr* ';';

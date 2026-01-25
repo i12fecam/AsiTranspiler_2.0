@@ -10,7 +10,7 @@ NUMBER: HEXNUMBER|BINNUMBER|DECNUMBER;
 
 FLAG: [!]?[A-Z][a-z]?[a-z+1]?;
 IDENTIFIER: [a-z][a-zA-Z0-9_]*; //debe empezar por minuscula
-MICRO_INSTR: [A-Z!01][a-zA-Z0-9+\->_@{}!]+;
+MICRO_INSTR: [A-Z!01][a-zA-Z0-9+\-[\]>_@!]+;
 microIntr: MICRO_INSTR ('(' arg=NUMBER ')')?;
 specialMicroIntr: MICRO_INSTR ('(' arg=(NUMBER|'START') ')')?;
 

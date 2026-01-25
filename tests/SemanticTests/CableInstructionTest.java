@@ -53,13 +53,32 @@ public class CableInstructionTest {
     }
 
     @Test
-    @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no esté escrita correctamente")
+    @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no esté escrita correctamente en un paso simple")
     void MICROINSTRUCCION_NO_RECONOCIDA1(){
         String inputText = """
             @cableado
             instrucciones {
                 instruccion1(value){
-                [SR+1->SR] GOR->PC;
+                |SR+1->SR| GOR->PC;
+                }
+            }\
+            """;
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA));
+    }
+
+    @Test
+    @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no esté escrita correctamente en un paso complejo")
+    void MICROINSTRUCCION_NO_RECONOCIDA2(){
+        String inputText = """
+            @cableado
+            instrucciones {
+                instruccion1(value){
+                {
+                    F: |SR+1->SR| GOR->PC;
+                    !F: |SR+1->SR|;
+                }
                 }
             }\
             """;
@@ -82,12 +101,12 @@ public class CableInstructionTest {
     @ParameterizedTest
     @DisplayName("comprueba que todas las microinstrucciones válidas sean reconocidas correctamente")
     @MethodSource("provideValidMicroInstructions")
-    void MICROINSTRUCCION_NO_RECONOCIDA2(String microinstruction){
+    void MICROINSTRUCCION_NO_RECONOCIDA3(String microinstruction){
         String inputText = String.format("""
             @cableado
             instrucciones {
                 instruccion1(value){
-                [SR+1->SR] %s;
+                |SR+1->SR| %s;
                 }
             }\
             """,microinstruction);
@@ -106,13 +125,33 @@ public class CableInstructionTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidMicroInstructionCombination")
-    @DisplayName("Comprueba que no haya dos microinstrucciones iguales en el mismo paso")
+    @DisplayName("Comprueba que no haya dos microinstrucciones iguales en el mismo paso simple")
     void MICROINSTRUCCION_INVALIDA1(String microinstruccion1,String microinstruccion2){
         String inputText = String.format("""
             @cableado
             instrucciones {
                 instruccion1(value){
-                [SR+1->SR] %s %s;
+                |SR+1->SR| %s %s;
+                }
+            }\
+            """,microinstruccion1,microinstruccion2);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidMicroInstructionCombination")
+    @DisplayName("Comprueba que no haya dos microinstrucciones iguales en el mismo paso complejo")
+    void MICROINSTRUCCION_INVALIDA2(String microinstruccion1,String microinstruccion2){
+        String inputText = String.format("""
+            @cableado
+            instrucciones {
+                instruccion1(value){
+                {
+                    F: |SR+1->SR| %s %s;
+                    !F: |SR+1->SR|;
+                }
                 }
             }\
             """,microinstruccion1,microinstruccion2);
@@ -138,13 +177,33 @@ public class CableInstructionTest {
     }
     @ParameterizedTest
     @MethodSource("provideCableMicroInstructions")
-    @DisplayName("Comprueba que no haya instrucciones de tipo cable en la parte derecha del paso")
-    void MICROINSTRUCCION_INVALIDA2(String microinstruccion){
+    @DisplayName("Comprueba que no haya instrucciones de tipo cable en la parte derecha del paso simple")
+    void MICROINSTRUCCION_INVALIDA3(String microinstruccion){
         String inputText = String.format("""
             @cableado
             instrucciones {
                 instruccion1(value){
-                [SR+1->SR] %s;
+                |SR+1->SR| %s;
+                }
+            }\
+            """,microinstruccion);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideCableMicroInstructions")
+    @DisplayName("Comprueba que no haya instrucciones de tipo cable en la parte derecha del paso complejo")
+    void MICROINSTRUCCION_INVALIDA4(String microinstruccion){
+        String inputText = String.format("""
+            @cableado
+            instrucciones {
+                instruccion1(value){
+                    {
+                        F: |SR+1->SR| %s;
+                        !F: |SR+1->SR|;
+                    }
                 }
             }\
             """,microinstruccion);
@@ -155,13 +214,32 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @MethodSource("provideNotCableMicroInstructions")
-    @DisplayName("Comprueba que no haya instrucciones de tipo no cable en la parte izquierda del paso")
-    void MICROINSTRUCCION_INVALIDA3(String microinstruccion){
+    @DisplayName("Comprueba que no haya instrucciones de tipo no cable en la parte izquierda del paso simple")
+    void MICROINSTRUCCION_INVALIDA5(String microinstruccion){
         String inputText = String.format("""
             @cableado
             instrucciones {
                 instruccion1(value){
-                [%s] ;
+                |%s| ;
+                }
+            }\
+            """,microinstruccion);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
+    }
+    @ParameterizedTest
+    @MethodSource("provideNotCableMicroInstructions")
+    @DisplayName("Comprueba que no haya instrucciones de tipo no cable en la parte izquierda del paso complejo")
+    void MICROINSTRUCCION_INVALIDA6(String microinstruccion){
+        String inputText = String.format("""
+            @cableado
+            instrucciones {
+                instruccion1(value){
+                    {
+                        F: |%s|;
+                        !F: |SR+1->SR|;
+                    }
                 }
             }\
             """,microinstruccion);
@@ -185,8 +263,8 @@ public class CableInstructionTest {
             instrucciones {
                 instruccion1(value){
                    {
-                     A: [SR+1->SR] GPR->PC;
-                     !A: [SR+1->SR] GPR->PC;
+                     A: |SR+1->SR| GPR->PC;
+                     !A: |SR+1->SR| GPR->PC;
                    }
                 }
             }\
@@ -198,15 +276,15 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @MethodSource("provideValidFlags")
-    @DisplayName("Comprueba que todas las banderas se recnozcan de forma correcta")
+    @DisplayName("Comprueba que todas las banderas se reconozcan de forma correcta")
     void BANDERA_NO_RECONOCIDA2(String flag){
         String inputText = String.format("""
             @cableado
             instrucciones {
                 instruccion1(value){
                     {
-                     %s: [SR+1->SR] GPR->PC;
-                     !%s: [SR+1->SR] GPR->PC;
+                     %s: |SR+1->SR| GPR->PC;
+                     !%s: |SR+1->SR| GPR->PC;
                     }
                 }
             }\
@@ -216,13 +294,33 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", " ()","( )"})
-    @DisplayName("Comprueba que las microinstrucciones que necesiten de argumento, lo reciban")
+    @DisplayName("Comprueba que las microinstrucciones en pasos simples que necesiten de argumento, lo reciban")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(String argument){
         String inputText = String.format("""
             @cableado
             instrucciones {
                 instruccion1(value){
-                [SR+1->SR] LOAD_SC%s;
+                |SR+1->SR| LOAD_SC%s;
+                }
+            }\
+            """,argument);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", " ()","( )"})
+    @DisplayName("Comprueba que las microinstrucciones en pasos complejos que necesiten de argumento, lo reciban")
+    void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO2(String argument){
+        String inputText = String.format("""
+            @cableado
+            instrucciones {
+                instruccion1(value){
+                {
+                    F: |SR+1->SR| LOAD_SC%s;
+                    !F: |SR+1->SR| GPR->PC;
+                }
                 }
             }\
             """,argument);
@@ -235,12 +333,33 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"(0)", "(1)","( )"})
+    @DisplayName("Comprueba que las microinstrucciones en pasos simples que no necesitan de argumento no lo reciban")
     void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(String argument){
         String inputText = String.format("""
             @cableado
             instrucciones {
                 instruccion1(value){
-                [SR+1->SR] GPR->PC%s;
+                |SR+1->SR| GPR->PC%s;
+                }
+            }\
+            """,argument);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"(0)", "(1)","( )"})
+    @DisplayName("Comprueba que las microinstrucciones en pasos complejos que no necesitan de argumento no lo reciban")
+    void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO2(String argument){
+        String inputText = String.format("""
+            @cableado
+            instrucciones {
+                instruccion1(value){
+                {
+                F: |SR+1->SR| GPR->PC%s;
+                !F: |SR+1->SR| GPR->PC;
+                }
                 }
             }\
             """,argument);
