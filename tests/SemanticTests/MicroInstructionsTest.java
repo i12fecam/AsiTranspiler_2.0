@@ -24,7 +24,7 @@ import static Runner.ObjetiveConfig.INSTRUCTION_SET;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MicroInstructionsTest {
-    private final Runner helper = new Runner();
+    //private final Runner helper = new Runner();
     @Test
     @DisplayName("Comprueba que no haya dos instrucciones de mismo argumento con el mismo nombre")
     public void INSTRUCCION_MISMO_NOMBRE(){
@@ -38,6 +38,7 @@ public class MicroInstructionsTest {
                 instruccion1(value){}
             }\
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
@@ -55,6 +56,7 @@ public class MicroInstructionsTest {
                 instruccion1(var){}
             }\
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
@@ -70,13 +72,14 @@ public class MicroInstructionsTest {
             @microinstruccion
             instrucciones {
                 instruccion1(value){
-                [inc] GOR->PC;
+                |inc| GOR->PC;
                 }
             }\
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
         assertTrue(ErrorController.getInstance()
-                .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA));
     }
 
     private static Stream<String> provideValidMicroInstructions() {
@@ -101,10 +104,11 @@ public class MicroInstructionsTest {
             @microinstruccion
             instrucciones {
                 instruccion1(value){
-                [inc] %s;
+                |inc| %s;
                 }
             }\
             """,microinstruction);
+        var helper = new Runner();
         assertDoesNotThrow(() -> helper.run(inputText,INSTRUCTION_SET,null));
 
     }
@@ -131,10 +135,11 @@ public class MicroInstructionsTest {
             @microinstruccion
             instrucciones {
                 instruccion1(value){
-                [inc] %s %s;
+                |inc| %s %s;
                 }
             }\
             """,microinstruccion1,microinstruccion2);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
@@ -158,10 +163,11 @@ public class MicroInstructionsTest {
             @microinstruccion
             instrucciones {
                 instruccion1(value){
-                [inc] %s;
+                |inc| %s;
                 }
             }\
             """,microinstruccion);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
@@ -178,61 +184,18 @@ public class MicroInstructionsTest {
             @microinstruccion
             instrucciones {
                 instruccion1(value){
-                [bif(0)] LOAD_SC(5);
+                |bif(0)| LOAD_SC(5);
                 }
             }\
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
 
-    private static Stream<String> provideValidFlags() {
-        return Arrays.stream(FlagEnum.values())
-                .map(flag ->
-                        flag.inputName);
 
-    }
-    @Test
-    @DisplayName("Comprueba que señala correctamente cuando la bandera no este escrita correctamente")
-    void BANDERA_NO_RECONOCIDA1(){
-        String inputText = """
-            estados{
-                 inc ->  INCR
-                 bif_if_flag -> {
-                    A : BIF
-                    A : INCR
-                 }
-            }
-            @microinstruccion
-            instrucciones {
-                instruccion1(value){}
-            }\
-            """;
-        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        assertTrue(ErrorController.getInstance()
-                .containsErrorEnum(ErrorEnum.BANDERA_NO_RECONOCIDA));
-    }
 
-    @ParameterizedTest
-    @MethodSource("provideValidFlags")
-    @DisplayName("Comprueba que todas las banderas se recnozcan de forma correcta")
-    void BANDERA_NO_RECONOCIDA2(String flag){
-        String inputText = String.format("""
-            estados{
-                 inc ->  INCR
-                 bif_if_flag -> {
-                    %s: BIF
-                    !%s: INCR
-                 }
-            }
-            @microinstruccion
-            instrucciones {
-                instruccion1(value){}
-            }\
-            """,flag,flag);
-        assertDoesNotThrow(() -> helper.run(inputText,INSTRUCTION_SET,null));
-    }
 
     @Test
     @DisplayName("Comprueba que las lógicas de bifurcacion que necesiten de argumento, lo tengan")
@@ -245,10 +208,11 @@ public class MicroInstructionsTest {
             @microinstruccion
             instrucciones {
                 instruccion1(value){
-                [bif] GPR->PC;
+                |bif| GPR->PC;
                 }
             }\
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO));
@@ -265,10 +229,11 @@ public class MicroInstructionsTest {
             @microinstruccion
             instrucciones {
                 instruccion1(value){
-                [inc] LOAD_SC%s;
+                |inc| LOAD_SC%s;
                 }
             }\
             """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
@@ -287,10 +252,11 @@ public class MicroInstructionsTest {
             @microinstruccion
             instrucciones {
                 instruccion1(value){
-                [inc] GPR->PC%s;
+                |inc| GPR->PC%s;
                 }
             }\
             """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));

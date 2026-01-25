@@ -8,14 +8,14 @@ public enum ErrorEnum {
     INICIALIZACION_VECTOR_INVALIDA(FATAL_ERROR,"El numero de valores inicializados no coinciden con el tamaño del vector"),
     ETIQUETA_MISMO_NOMBRE(FATAL_ERROR,"Ya existe otra etiqueta con el mismo nombre (%s)"),
     MICROINSTRUCCION_NO_RECONOCIDA(FATAL_ERROR,"No se ha podido reconocer la instrucción (%s)"),
-    MICROINSTRUCCION_INVALIDA(FATAL_ERROR,"La microinstrucción utilizada es inválida en este contexto (%s)"),
+    MICROINSTRUCCION_INVALIDA(FATAL_ERROR,"La microinstrucción %s utilizada es inválida en este contexto (%s)"),
     BANDERA_NO_RECONOCIDA(FATAL_ERROR,"No se ha podido reconocer la bandera (%s)"),
     NUMERO_LOGICA_BIFURCACION_SUPERADO(FATAL_ERROR,"Se ha superado el número máximo de lógicas de bifurcacion permitida por la arquitectura (16)"),
     LOGICA_BIFURCACION_MISMO_NOMBRE(FATAL_ERROR,"Ya existe otra lógica de bifurcación con el mismo nombre (%s)"),
     LOGICA_BIFURCACION_NO_DEFINIDA(FATAL_ERROR,"Se ha querido utilizar una lógica de bifurcación que no se encuentra definida (%s)"),
-    //Hacer tb control de que se le pasa de max a logica de bifurcacion
+    //TODO Hacer tb control de que se le pasa de max a logica de bifurcacion
     ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO(FATAL_ERROR,"La lógica de bifurcación (%s) esperaba un argumento"),
-    //Hacer errores para para load_sr y load_sc especificamente
+    //TODO Hacer errores para para load_sr y load_sc especificamente
     MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(FATAL_ERROR,"La microinstruccion  %s necesita de un argumento valido"),
     MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(FATAL_ERROR,"La microinstrucción %s tiene un argumento no necesario"),
     INSTRUCCION_NO_DEFINIDA(FATAL_ERROR,"La instrucción %s no se encuentra definida"),

@@ -2,14 +2,19 @@ package SemanticTests;
 
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
+import Internals.FlagEnum;
 import Runner.Runner;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static Runner.ObjetiveConfig.INSTRUCTION_SET;
 import static Runner.ObjetiveConfig.LOGIC;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MicroLogicInstructionTest {
     private final Runner helper = new Runner();
@@ -53,6 +58,56 @@ public class MicroLogicInstructionTest {
         assertThrows(RuntimeException.class, () -> helper.run(inputText,LOGIC,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.NUMERO_LOGICA_BIFURCACION_SUPERADO));
+    }
+
+    @Test
+    @DisplayName("Comprueba que señala correctamente cuando la bandera no este escrita correctamente")
+    void BANDERA_NO_RECONOCIDA1(){
+        String inputText = """
+            estados{
+                 inc ->  INCR
+                 bif_if_flag -> {
+                    A : BIF
+                    A : INCR
+                 }
+            }
+            @microinstruccion
+            instrucciones {
+                instruccion1(value){}
+            }\
+            """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.BANDERA_NO_RECONOCIDA));
+    }
+
+    private static Stream<String> provideValidFlags() {
+        return Arrays.stream(FlagEnum.values())
+                .map(flag ->
+                        flag.inputName);
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideValidFlags")
+    @DisplayName("Comprueba que todas las banderas se recnozcan de forma correcta")
+    void BANDERA_NO_RECONOCIDA2(String flag){
+        String inputText = String.format("""
+            estados{
+                 inc ->  INCR
+                 bif_if_flag -> {
+                    %s: BIF
+                    !%s: INCR
+                 }
+            }
+            @microinstruccion
+            instrucciones {
+                instruccion1(value){}
+            }\
+            """,flag,flag);
+        var helper = new Runner();
+        assertDoesNotThrow(() -> helper.run(inputText,INSTRUCTION_SET,null));
     }
 
 
