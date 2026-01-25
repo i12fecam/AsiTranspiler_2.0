@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MicroLogicInstructionTest {
     private final Runner helper = new Runner();
     @Test
-    @DisplayName("Comprueba que no haya dos logicas de bifurcación con el mismo nombre")
+    @DisplayName("Comprueba que no haya dos lógicas de bifurcación con el mismo nombre.")
     public void LOGICA_BIFURCACION_MISMO_NOMBRE(){
         String inputText = """
             estados{
@@ -32,7 +32,7 @@ public class MicroLogicInstructionTest {
                 .containsErrorEnum(ErrorEnum.LOGICA_BIFURCACION_MISMO_NOMBRE));
     }
     @Test
-    @DisplayName("Comprueba que no se ha superado el número máximo de lógicas de bifurcacion permitida por la arquitectura (16)")
+    @DisplayName("Comprueba que no se ha superado el número máximo de lógicas de bifurcación permitida por la arquitectura (16).")
     public void NUMERO_LOGICA_BIFURCACION_SUPERADO(){
         String inputText = """
             estados{
@@ -61,7 +61,7 @@ public class MicroLogicInstructionTest {
     }
 
     @Test
-    @DisplayName("Comprueba que señala correctamente cuando la bandera no este escrita correctamente")
+    @DisplayName("Comprueba que señala correctamente cuando la bandera no este escrita correctamente.")
     void BANDERA_NO_RECONOCIDA1(){
         String inputText = """
             estados{
@@ -91,7 +91,7 @@ public class MicroLogicInstructionTest {
 
     @ParameterizedTest
     @MethodSource("provideValidFlags")
-    @DisplayName("Comprueba que todas las banderas se recnozcan de forma correcta")
+    @DisplayName("Comprueba que todas las banderas se reconozcan de forma correcta.")
     void BANDERA_NO_RECONOCIDA2(String flag){
         String inputText = String.format("""
             estados{

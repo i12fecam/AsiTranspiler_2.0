@@ -23,7 +23,7 @@ public class CableInstructionTest {
 
     private final Runner helper = new Runner();
     @Test
-    @DisplayName("Comprueba que no haya dos instrucciones de distinto argumento con el mismo nombre")
+    @DisplayName("Comprueba que no haya dos instrucciones de distinto argumento con el mismo nombre.")
     public void INSTRUCCION_MISMO_NOMBRE(){
         String inputText = """
             @cableado
@@ -38,7 +38,7 @@ public class CableInstructionTest {
     }
 
     @Test
-    @DisplayName("Comprueba que no haya dos instrucciones de mismo argumento con el mismo nombre")
+    @DisplayName("Comprueba que no haya dos instrucciones de mismo argumento con el mismo nombre.")
     public void INSTRUCCION_MISMO_NOMBRE2(){
         String inputText = """
             @cableado
@@ -53,7 +53,7 @@ public class CableInstructionTest {
     }
 
     @Test
-    @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no esté escrita correctamente en un paso simple")
+    @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no está escrita correctamente en un paso simple.")
     void MICROINSTRUCCION_NO_RECONOCIDA1(){
         String inputText = """
             @cableado
@@ -69,7 +69,7 @@ public class CableInstructionTest {
     }
 
     @Test
-    @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no esté escrita correctamente en un paso complejo")
+    @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no está escrita correctamente en un paso complejo.")
     void MICROINSTRUCCION_NO_RECONOCIDA2(){
         String inputText = """
             @cableado
@@ -99,7 +99,7 @@ public class CableInstructionTest {
 
 
     @ParameterizedTest
-    @DisplayName("comprueba que todas las microinstrucciones válidas sean reconocidas correctamente")
+    @DisplayName("Comprueba que todas las microinstrucciones válidas sean reconocidas correctamente.")
     @MethodSource("provideValidMicroInstructions")
     void MICROINSTRUCCION_NO_RECONOCIDA3(String microinstruction){
         String inputText = String.format("""
@@ -125,7 +125,7 @@ public class CableInstructionTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidMicroInstructionCombination")
-    @DisplayName("Comprueba que no haya dos microinstrucciones iguales en el mismo paso simple")
+    @DisplayName("Comprueba que no haya dos microinstrucciones iguales en el mismo paso simple.")
     void MICROINSTRUCCION_INVALIDA1(String microinstruccion1,String microinstruccion2){
         String inputText = String.format("""
             @cableado
@@ -142,7 +142,7 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidMicroInstructionCombination")
-    @DisplayName("Comprueba que no haya dos microinstrucciones iguales en el mismo paso complejo")
+    @DisplayName("Comprueba que no haya dos microinstrucciones iguales en el mismo paso complejo.")
     void MICROINSTRUCCION_INVALIDA2(String microinstruccion1,String microinstruccion2){
         String inputText = String.format("""
             @cableado
@@ -177,7 +177,7 @@ public class CableInstructionTest {
     }
     @ParameterizedTest
     @MethodSource("provideCableMicroInstructions")
-    @DisplayName("Comprueba que no haya instrucciones de tipo cable en la parte derecha del paso simple")
+    @DisplayName("Comprueba que no haya instrucciones de tipo cable en la parte derecha del paso simple.")
     void MICROINSTRUCCION_INVALIDA3(String microinstruccion){
         String inputText = String.format("""
             @cableado
@@ -194,7 +194,7 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @MethodSource("provideCableMicroInstructions")
-    @DisplayName("Comprueba que no haya instrucciones de tipo cable en la parte derecha del paso complejo")
+    @DisplayName("Comprueba que no haya instrucciones de tipo cable en la parte derecha del paso complejo.")
     void MICROINSTRUCCION_INVALIDA4(String microinstruccion){
         String inputText = String.format("""
             @cableado
@@ -214,7 +214,7 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @MethodSource("provideNotCableMicroInstructions")
-    @DisplayName("Comprueba que no haya instrucciones de tipo no cable en la parte izquierda del paso simple")
+    @DisplayName("Comprueba que no haya instrucciones de tipo no cable en la parte izquierda del paso simple.")
     void MICROINSTRUCCION_INVALIDA5(String microinstruccion){
         String inputText = String.format("""
             @cableado
@@ -230,7 +230,7 @@ public class CableInstructionTest {
     }
     @ParameterizedTest
     @MethodSource("provideNotCableMicroInstructions")
-    @DisplayName("Comprueba que no haya instrucciones de tipo no cable en la parte izquierda del paso complejo")
+    @DisplayName("Comprueba que no haya instrucciones de tipo no cable en la parte izquierda del paso complejo.")
     void MICROINSTRUCCION_INVALIDA6(String microinstruccion){
         String inputText = String.format("""
             @cableado
@@ -255,7 +255,7 @@ public class CableInstructionTest {
 
     }
     @Test
-    @DisplayName("Comprueba que señala correctamente cuando la bandera no este escrita correctamente")
+    @DisplayName("Comprueba que señala correctamente cuando la bandera no esté escrita correctamente.")
     void BANDERA_NO_RECONOCIDA1(){
         String inputText = """
             
@@ -276,7 +276,7 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @MethodSource("provideValidFlags")
-    @DisplayName("Comprueba que todas las banderas se reconozcan de forma correcta")
+    @DisplayName("Comprueba que todas las banderas se reconozcan de forma correcta.")
     void BANDERA_NO_RECONOCIDA2(String flag){
         String inputText = String.format("""
             @cableado
@@ -294,7 +294,7 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", " ()","( )"})
-    @DisplayName("Comprueba que las microinstrucciones en pasos simples que necesiten de argumento, lo reciban")
+    @DisplayName("Comprueba que las microinstrucciones en pasos simples que necesiten de argumento, lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(String argument){
         String inputText = String.format("""
             @cableado
@@ -311,7 +311,7 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", " ()","( )"})
-    @DisplayName("Comprueba que las microinstrucciones en pasos complejos que necesiten de argumento, lo reciban")
+    @DisplayName("Comprueba que las microinstrucciones en pasos complejos que necesiten de argumento, lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO2(String argument){
         String inputText = String.format("""
             @cableado
@@ -333,7 +333,7 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"(0)", "(1)","( )"})
-    @DisplayName("Comprueba que las microinstrucciones en pasos simples que no necesitan de argumento no lo reciban")
+    @DisplayName("Comprueba que las microinstrucciones en pasos simples que no necesitan de argumento, no lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(String argument){
         String inputText = String.format("""
             @cableado
@@ -350,7 +350,7 @@ public class CableInstructionTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"(0)", "(1)","( )"})
-    @DisplayName("Comprueba que las microinstrucciones en pasos complejos que no necesitan de argumento no lo reciban")
+    @DisplayName("Comprueba que las microinstrucciones en pasos complejos que no necesitan de argumento, no lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO2(String argument){
         String inputText = String.format("""
             @cableado

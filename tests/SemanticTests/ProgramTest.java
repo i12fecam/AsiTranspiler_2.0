@@ -16,7 +16,7 @@ public class ProgramTest {
 
     //private final Runner helper = new Runner();
     @Test
-    @DisplayName("Comprueba que se pueda definir vectores de tamaño 1")
+    @DisplayName("Comprueba que no se pueda definir dos variables con el mismo nombre.")
     void VARIABLE_MISMO_NOMBRE(){
         String inputText = """
         @cableado
@@ -39,7 +39,7 @@ public class ProgramTest {
 
     }
     @Test
-    @DisplayName("Comprueba que no se pueda definir vectores de tamaño 0")
+    @DisplayName("Comprueba que no se pueda definir vectores de tamaño 0.")
     void TAMANYO_VECTOR_INVALIDO1(){
         String inputText = """
         @cableado
@@ -63,7 +63,7 @@ public class ProgramTest {
 
 
     @Test
-    @DisplayName("Comprueba que no se pueda definir vectores de tamaño 1")
+    @DisplayName("Comprueba que no se pueda definir vectores de tamaño 1.")
     void TAMANYO_VECTOR_INVALIDO2(){
         String inputText = """
         @cableado
@@ -86,7 +86,7 @@ public class ProgramTest {
     }
 
     @Test
-    @DisplayName("Comprueba que no se pueda incializar el vector con un número diferente")
+    @DisplayName("Comprueba que no se pueda inicializar el vector con un número diferente de valores al tamaño del vector.")
     void INICIALIZACION_VECTOR_INVALIDA1(){
         String inputText = """
         @cableado
@@ -108,7 +108,7 @@ public class ProgramTest {
 
     }
     @Test
-    @DisplayName("Comprueba que no se pueda escribir dos etiquetas con el mismo nombre")
+    @DisplayName("Comprueba que no se pueda escribir dos etiquetas con el mismo nombre.")
     void ETIQUETA_MISMO_NOMBRE(){
         String inputText = """
                @cableado
@@ -134,7 +134,7 @@ public class ProgramTest {
     }
 
     @Test
-    @DisplayName("Comprueba si la instrucción no está definida en cableado")
+    @DisplayName("Comprueba si la instrucción no está definida en cableado.")
     void INSTRUCCION_NO_DEFINIDA1(){
         String inputText = """
                @cableado
@@ -156,7 +156,7 @@ public class ProgramTest {
     }
 
     @Test
-    @DisplayName("Comprueba si la instrucción no está definida en microprogramado")
+    @DisplayName("Comprueba si la instrucción no está definida en microprogramado.")
     void INSTRUCCION_NO_DEFINIDA2(){
         String inputText = """
                estados{
@@ -182,7 +182,7 @@ public class ProgramTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", "","etiqueta1","variable1","vector1(1)"})
-    @DisplayName("Comprueba que las llamadas a funciones de tipo value solo reciban valores literales")
+    @DisplayName("Comprueba que las llamadas a funciones de tipo value solo reciban valores literales.")
     void ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO(String argument){
         String inputText = String.format("""
                @cableado
@@ -208,7 +208,7 @@ public class ProgramTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"","etiqueta1","5"})
-    @DisplayName("Comprueba que las llamadas a funciones de tipo variable solo reciban variables")
+    @DisplayName("Comprueba que las llamadas a funciones de tipo variable solo reciban variables.")
     void ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO(String argument){
         String inputText = String.format("""
                @cableado
@@ -234,7 +234,7 @@ public class ProgramTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"","variable1","vector1(1)","5"})
-    @DisplayName("Comprueba que las llamadas a funciones de tipo direccion solo reciban etiquetas")
+    @DisplayName("Comprueba que las llamadas a funciones de tipo dirección solo reciban etiquetas.")
     void ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO(String argument){
         String inputText = String.format("""
                @cableado
@@ -262,7 +262,7 @@ public class ProgramTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"variable1","vector1(1)","5"})
-    @DisplayName("Comprueba que las llamadas a funciones que no necesiten de argumento, no se le pase")
+    @DisplayName("Comprueba que las llamadas a funciones que no necesiten de argumento, no se le pase.")
     void ARGUMENTO_INSTRUCCION_INNECESARIO(String argument){
         String inputText = String.format("""
                @cableado
@@ -288,7 +288,7 @@ public class ProgramTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"variable2","vector2(0)"})
-    @DisplayName("Comprueba que las variables usadas estén definidas")
+    @DisplayName("Comprueba que las variables usadas estén definidas.")
     void VARIABLE_NO_DEFINIDA(String argument){
         String inputText = String.format("""
                @cableado
@@ -312,7 +312,7 @@ public class ProgramTest {
     }
 
     @Test
-    @DisplayName("Comprueba que las etiquetas usadas estén definidas")
+    @DisplayName("Comprueba que las etiquetas usadas estén definidas.")
     void ETIQUETA_NO_DEFINIDA(){
         String inputText = """
                @cableado
@@ -335,7 +335,7 @@ public class ProgramTest {
     }
     @ParameterizedTest
     @ValueSource(strings = {"4","5"})
-    @DisplayName("Comprueba que el indice del vector utilizado es menor que el tamaño del vector")
+    @DisplayName("Comprueba que el índice del vector utilizado no supere el tamaño del vector.")
     void INDICE_ARGUMENTO_VECTOR_INVALIDO(String argument){
         String inputText = String.format("""
                @cableado

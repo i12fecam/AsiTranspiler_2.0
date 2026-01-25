@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MicroInstructionsTest {
     //private final Runner helper = new Runner();
     @Test
-    @DisplayName("Comprueba que no haya dos instrucciones de mismo argumento con el mismo nombre")
+    @DisplayName("Comprueba que no haya dos instrucciones de mismo argumento con el mismo nombre.")
     public void INSTRUCCION_MISMO_NOMBRE(){
         String inputText = """
             estados{
@@ -44,7 +44,7 @@ public class MicroInstructionsTest {
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
     }
     @Test
-    @DisplayName("Comprueba que no haya dos instrucciones de diferente argumento con el mismo nombre")
+    @DisplayName("Comprueba que no haya dos instrucciones de diferente argumento con el mismo nombre.")
     void INSTRUCCION_MISMO_NOMBRE2(){
         String inputText = """
             estados{
@@ -63,7 +63,7 @@ public class MicroInstructionsTest {
     }
 
     @Test
-    @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no esté escrita correctamente")
+    @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no está escrita correctamente.")
     void MICROINSTRUCCION_NO_RECONOCIDA1(){
         String inputText = """
             estados{
@@ -94,7 +94,7 @@ public class MicroInstructionsTest {
 
 
     @ParameterizedTest
-    @DisplayName("comprueba que todas las microinstrucciones válidas sean reconocidas correctamente")
+    @DisplayName("Comprueba que todas las microinstrucciones válidas sean reconocidas correctamente.")
     @MethodSource("provideValidMicroInstructions")
     void MICROINSTRUCCION_NO_RECONOCIDA2(String microinstruction){
         String inputText = String.format("""
@@ -126,7 +126,7 @@ public class MicroInstructionsTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidMicroInstructionCombination")
-    @DisplayName("Comprueba que no haya dos microinstrucciones del mismo tipo en el mismo paso")
+    @DisplayName("Comprueba que no haya dos microinstrucciones del mismo tipo en el mismo paso.")
     void MICROINSTRUCCION_INVALIDA1(String microinstruccion1,String microinstruccion2){
         String inputText = String.format("""
             estados{
@@ -154,7 +154,7 @@ public class MicroInstructionsTest {
     }
     @ParameterizedTest
     @MethodSource("provideInvalidValidMicroInstructions")
-    @DisplayName("Comprueba que no haya instrucciones de tipo cable")
+    @DisplayName("Comprueba que no haya microinstrucciones de tipo cable.")
     void MICROINSTRUCCION_INVALIDA2(String microinstruccion){
         String inputText = String.format("""
             estados{
@@ -174,7 +174,7 @@ public class MicroInstructionsTest {
     }
 
     @Test
-    @DisplayName("Comprueba que no haya instrucciones con argumentos a la vez de una lógica de bifurcación que requiera argumento")
+    @DisplayName("Comprueba que no haya instrucciones con argumentos a la vez que una lógica de bifurcación que requiera argumento.")
     void MICROINSTRUCCION_INVALIDA3(){
         String inputText = """
             estados{
@@ -198,7 +198,7 @@ public class MicroInstructionsTest {
 
 
     @Test
-    @DisplayName("Comprueba que las lógicas de bifurcacion que necesiten de argumento, lo tengan")
+    @DisplayName("Comprueba que las lógicas de bifurcacion que necesiten de argumento, lo tengan.")
     void ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO(){
         String inputText = """
             estados{
@@ -220,7 +220,7 @@ public class MicroInstructionsTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", " ()","( )"})
-    @DisplayName("Comprueba que las microinstrucciones que necesiten de argumento, lo reciban")
+    @DisplayName("Comprueba que las microinstrucciones que necesiten de argumento, lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(String argument){
         String inputText = String.format("""
             estados{
@@ -243,7 +243,7 @@ public class MicroInstructionsTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"(0)", "(1)","( )"})
-    @DisplayName("Comprueba que las microinstrucciones que no necesiten de argumento,no lo reciban")
+    @DisplayName("Comprueba que las microinstrucciones que no necesiten de argumento,no lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(String argument){
         String inputText = String.format("""
             estados{
