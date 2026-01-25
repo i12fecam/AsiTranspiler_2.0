@@ -1,6 +1,8 @@
 package CodeGeneration.Micro;
 
 import Analysis.LogicException;
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.FlagState;
@@ -8,6 +10,9 @@ import Internals.BifurcationLogic;
 import Internals.SymbolTable;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static Internals.Errors.ErrorEnum.BANDERA_NO_RECONOCIDA;
 
 public class MicrocodeLogicGenerator extends SicomeBaseListener {
 
@@ -50,7 +55,12 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
             ArrayList<FlagState> flags = new ArrayList<>();
             for(var flagToken:optionCtx.flags){
                 FlagState flag = FlagState.ValueOfInput(flagToken.getText());
-                if(flag==null) throw new LogicException("Flag no reconocida",flagToken);
+                if(flag==null) {
+                    ErrorController.getInstance()
+                            .addNewError(BANDERA_NO_RECONOCIDA,
+                                    List.of(flagToken.getText()),
+                                    flagToken);
+                }
                 flags.add(flag);
             }
             BifurcationLogic bifLogic = symbols.getBifurcationLogic(name);
