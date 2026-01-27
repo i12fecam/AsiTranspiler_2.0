@@ -16,7 +16,7 @@ public class MicroRepositoryHelper {
     private final SymbolTable _symbols;
     MicroRepositoryHelper(SymbolTable symbolTable){
         _symbols=symbolTable;
-        var functions = _symbols.getFunctions();
+        var functions = _symbols.getInstructions();
         for(var func:functions){
             table.put(func.getId(),new ArrayList<>(func.getNSteps()));
             for(int i=0;i<func.getNSteps();i++){

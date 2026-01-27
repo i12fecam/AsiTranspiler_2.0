@@ -289,4 +289,28 @@ public interface SicomeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMicroStep(SicomeParser.MicroStepContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code instructionBifLogicArgument}
+	 * labeled alternative in {@link SicomeParser#bifLogicArgument}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstructionBifLogicArgument(SicomeParser.InstructionBifLogicArgumentContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code instructionBifLogicArgument}
+	 * labeled alternative in {@link SicomeParser#bifLogicArgument}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstructionBifLogicArgument(SicomeParser.InstructionBifLogicArgumentContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code startBifLogicArgument}
+	 * labeled alternative in {@link SicomeParser#bifLogicArgument}.
+	 * @param ctx the parse tree
+	 */
+	void enterStartBifLogicArgument(SicomeParser.StartBifLogicArgumentContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code startBifLogicArgument}
+	 * labeled alternative in {@link SicomeParser#bifLogicArgument}.
+	 * @param ctx the parse tree
+	 */
+	void exitStartBifLogicArgument(SicomeParser.StartBifLogicArgumentContext ctx);
 }

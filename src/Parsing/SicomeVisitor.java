@@ -177,4 +177,18 @@ public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMicroStep(SicomeParser.MicroStepContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code instructionBifLogicArgument}
+	 * labeled alternative in {@link SicomeParser#bifLogicArgument}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstructionBifLogicArgument(SicomeParser.InstructionBifLogicArgumentContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code startBifLogicArgument}
+	 * labeled alternative in {@link SicomeParser#bifLogicArgument}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStartBifLogicArgument(SicomeParser.StartBifLogicArgumentContext ctx);
 }

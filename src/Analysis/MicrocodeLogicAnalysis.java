@@ -21,7 +21,7 @@ public class MicrocodeLogicAnalysis extends SicomeBaseListener {
     public void enterSimpleStatusLogic(SicomeParser.SimpleStatusLogicContext ctx) {
         String name = ctx.name.getText();
         boolean needsArg = false;
-        if(ctx.option.getText().equals("BIF")){//TODO reformular para no poner literales
+        if(ctx.option != null && ctx.option.getText().equals("BIF")){//TODO reformular para no poner literales
             needsArg = true;
         }
 

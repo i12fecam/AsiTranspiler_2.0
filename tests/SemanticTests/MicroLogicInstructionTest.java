@@ -73,14 +73,11 @@ public class MicroLogicInstructionTest {
                     A : BIF
                     A : INCR
                  }
+                 rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                instruccion1(value){}
-            }\
             """;
         var helper = new Runner();
-        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,LOGIC,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.BANDERA_NO_RECONOCIDA));
     }
@@ -103,14 +100,12 @@ public class MicroLogicInstructionTest {
                     %s: BIF
                     !%s: INCR
                  }
+                 rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                instruccion1(value){}
-            }\
+            
             """,flag,flag);
         var helper = new Runner();
-        assertDoesNotThrow(() -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertDoesNotThrow(() -> helper.run(inputText,LOGIC,null));
     }
 
 

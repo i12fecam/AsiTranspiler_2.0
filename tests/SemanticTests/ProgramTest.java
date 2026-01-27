@@ -21,6 +21,11 @@ public class ProgramTest {
         String inputText = """
         @cableado
         instrucciones {
+        fetch {
+            |SR+1->SR| PC->MAR;
+            |SR+1->SR| M->GPR PC+1->PC;
+            |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+        }
         instruccion1(){}
         }
         variables{
@@ -44,6 +49,11 @@ public class ProgramTest {
         String inputText = """
         @cableado
         instrucciones {
+        fetch {
+            |SR+1->SR| PC->MAR;
+            |SR+1->SR| M->GPR PC+1->PC;
+            |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+        }
         instruccion1(){}
         }
         variables{
@@ -68,6 +78,11 @@ public class ProgramTest {
         String inputText = """
         @cableado
         instrucciones {
+        fetch {
+            |SR+1->SR| PC->MAR;
+            |SR+1->SR| M->GPR PC+1->PC;
+            |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+        }
         instruccion1(){}
         }
         variables{
@@ -91,6 +106,11 @@ public class ProgramTest {
         String inputText = """
         @cableado
         instrucciones {
+        fetch {
+            |SR+1->SR| PC->MAR;
+            |SR+1->SR| M->GPR PC+1->PC;
+            |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+        }
         instruccion1(){}
         }
         variables{
@@ -113,6 +133,11 @@ public class ProgramTest {
         String inputText = """
                @cableado
                 instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
                     instruccion1(){}
                 }
                 variables{}
@@ -139,6 +164,11 @@ public class ProgramTest {
         String inputText = """
                @cableado
                 instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
                     instruccion1(){}
                 }
                 variables{
@@ -161,9 +191,15 @@ public class ProgramTest {
         String inputText = """
                estados{
                  inc ->  INCR
+                 rtn -> RTN
                }
                @microinstruccion
                 instrucciones {
+                    fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
                     instruccion1(){}
                 }
                 variables{}
@@ -187,6 +223,11 @@ public class ProgramTest {
         String inputText = String.format("""
                @cableado
                 instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
                     instruccion1(value){}
                 }
                 variables{
@@ -213,6 +254,11 @@ public class ProgramTest {
         String inputText = String.format("""
                @cableado
                 instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
                     instruccion1(var){}
                 }
                 variables{
@@ -239,6 +285,11 @@ public class ProgramTest {
         String inputText = String.format("""
                @cableado
                 instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
                     instruccion1(dir){}
                 }
                 variables{
@@ -267,6 +318,11 @@ public class ProgramTest {
         String inputText = String.format("""
                @cableado
                 instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
                     instruccion1(){}
                 }
                 variables{
@@ -293,6 +349,11 @@ public class ProgramTest {
         String inputText = String.format("""
                @cableado
                 instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
                     instruccion1(var){}
                 }
                 variables{
@@ -317,6 +378,11 @@ public class ProgramTest {
         String inputText = """
                @cableado
                 instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
                     instruccion1(dir){}
                 }
                 variables{}
@@ -340,6 +406,11 @@ public class ProgramTest {
         String inputText = String.format("""
                @cableado
                 instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
                     instruccion1(var){}
                 }
                 variables{

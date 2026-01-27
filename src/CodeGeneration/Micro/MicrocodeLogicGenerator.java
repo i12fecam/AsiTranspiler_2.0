@@ -34,10 +34,18 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
         boolean inc = false;
         boolean bif = false;
         boolean ret = false;
-        switch (ctx.option.getText()){
-            case "BIF":bif=true; break;
-            case "INCR":inc=true;break;
-            case "RTN":ret=true;break;
+        if(ctx.option != null) {
+            switch (ctx.option.getText()) {
+                case "BIF":
+                    bif = true;
+                    break;
+                case "INCR":
+                    inc = true;
+                    break;
+                case "RTN":
+                    ret = true;
+                    break;
+            }
         }
         boolean enable = true;
         if(ctx.disable!=null) enable=false;
@@ -67,10 +75,19 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
             boolean inc = false;
             boolean bif = false;
             boolean ret = false;
-            switch (optionCtx.option.getText()){
-                case "BIF":bif=true; break;
-                case "INCR":inc=true;break;
-                case "RTN":ret=true;break;
+            if(optionCtx.option != null) {
+                switch (optionCtx.option.getText()) {
+                    case "BIF":
+                        bif = true;
+                        break;
+                    case "INCR":
+                        inc = true;
+                        break;
+                    case "RTN":
+                        ret = true;
+                        break;
+
+                }
             }
             boolean enable = true;
             if(optionCtx.disable!=null) enable=false;

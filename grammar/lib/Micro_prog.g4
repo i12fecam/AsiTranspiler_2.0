@@ -5,11 +5,11 @@ import Base;
 
 statusLogicBlock: 'estados' '{' statusLogic+ '}' ;
 
-statusLogic: name=IDENTIFIER '->' option=('INCR'|'BIF'|'RTN') disable='DISABLE'? #simpleStatusLogic
+statusLogic: name=IDENTIFIER '->' option=('INCR'|'BIF'|'RTN')? disable='DISABLE'? #simpleStatusLogic
            | name=IDENTIFIER '->' '{' statusLogicOption+ '}' #complexStatusLogic
            ;
 
-statusLogicOption : flags+=FLAG (',' flags+=FLAG)* ':' option=('INCR'|'BIF'|'RET') disable='DISABLE'? ;
+statusLogicOption : flags+=FLAG (',' flags+=FLAG)* ':' option=('INCR'|'BIF'|'RTN')? disable='DISABLE'? ;
 
 
 
@@ -22,4 +22,8 @@ fetchMicroInstruction: 'fetch' '{' microStep* '}';
 
 microInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' microStep* '}';
 
-microStep: '|' biflogic=IDENTIFIER ('(' arg=NUMBER ')')? '|' instr+=microIntr* ';';
+microStep: '|' biflogic=IDENTIFIER ('(' bifLogicArgument ')')? '|' instr+=microIntr* ';';
+
+bifLogicArgument: instr=IDENTIFIER '~' arg=NUMBER #instructionBifLogicArgument
+                | 'START' #startBifLogicArgument
+                ;

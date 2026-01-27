@@ -28,6 +28,11 @@ public class CableInstructionTest {
         String inputText = """
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){}
                 instruccion1(var){}
             }
@@ -43,6 +48,11 @@ public class CableInstructionTest {
         String inputText = """
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){}
                 instruccion1(var){}
             }
@@ -58,6 +68,11 @@ public class CableInstructionTest {
         String inputText = """
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |SR+1->SR| GOR->PC;
                 }
@@ -74,6 +89,11 @@ public class CableInstructionTest {
         String inputText = """
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 {
                     F: |SR+1->SR| GOR->PC;
@@ -105,6 +125,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |SR+1->SR| %s;
                 }
@@ -130,6 +155,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |SR+1->SR| %s %s;
                 }
@@ -147,6 +177,12 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+            
                 instruccion1(value){
                 {
                     F: |SR+1->SR| %s %s;
@@ -182,6 +218,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |SR+1->SR| %s;
                 }
@@ -199,6 +240,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                     {
                         F: |SR+1->SR| %s;
@@ -219,6 +265,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |%s| ;
                 }
@@ -235,6 +286,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                     {
                         F: |%s|;
@@ -261,6 +317,11 @@ public class CableInstructionTest {
             
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                    {
                      A: |SR+1->SR| GPR->PC;
@@ -281,6 +342,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                     {
                      %s: |SR+1->SR| GPR->PC;
@@ -299,6 +365,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |SR+1->SR| LOAD_SC%s;
                 }
@@ -316,6 +387,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 {
                     F: |SR+1->SR| LOAD_SC%s;
@@ -338,6 +414,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |SR+1->SR| GPR->PC%s;
                 }
@@ -355,6 +436,11 @@ public class CableInstructionTest {
         String inputText = String.format("""
             @cableado
             instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 {
                 F: |SR+1->SR| GPR->PC%s;

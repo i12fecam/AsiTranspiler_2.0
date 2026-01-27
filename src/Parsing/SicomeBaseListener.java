@@ -324,6 +324,30 @@ public class SicomeBaseListener implements SicomeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMicroStep(SicomeParser.MicroStepContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstructionBifLogicArgument(SicomeParser.InstructionBifLogicArgumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstructionBifLogicArgument(SicomeParser.InstructionBifLogicArgumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStartBifLogicArgument(SicomeParser.StartBifLogicArgumentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStartBifLogicArgument(SicomeParser.StartBifLogicArgumentContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -21,7 +21,7 @@ public class CableRepositoryHelper {
      */
     public String getText(){
         StringBuilder builder = new StringBuilder();
-        for(Instruction func: _symbols.getFunctions()){
+        for(Instruction func: _symbols.getInstructions()){
             builder.append(func.getName());
             builder.append(" ");
             builder.append(func.getBooleanParam().toString());

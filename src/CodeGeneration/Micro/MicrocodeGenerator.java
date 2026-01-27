@@ -1,8 +1,7 @@
 package CodeGeneration.Micro;
 
-import Analysis.LogicException;
 import Internals.Errors.ErrorController;
-import Internals.Errors.ErrorEnum;
+import Internals.Instruction;
 import Internals.MicroInstructionTypeEnum;
 import Internals.SymbolTable;
 import Parsing.SicomeBaseListener;
@@ -42,16 +41,45 @@ public class MicrocodeGenerator extends SicomeBaseListener {
         if (bifLogic == null) {
             ErrorController.getInstance().addNewError(LOGICA_BIFURCACION_NO_DEFINIDA, List.of(ctx.biflogic.getText()), ctx.biflogic);
         }
-        if (bifLogic.needsArg() && ctx.arg == null) {
+        if (bifLogic.needsArg() && ctx.bifLogicArgument() == null) {
             ErrorController.getInstance()
                     .addNewError(ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO, List.of(ctx.biflogic.getText()), ctx.biflogic);
         }
+
         repository.associateControlFlow(id_func,id_step, bifLogic.getId());
 
-        if(ctx.arg != null){
-            int value = parseNumber(ctx.arg.getText(),null);
-            repository.associateBifValue(id_func,id_step,value);
+        if( ctx.bifLogicArgument() != null){
+            switch (ctx.bifLogicArgument()){
+                case SicomeParser.InstructionBifLogicArgumentContext  ArgCtx ->{
+                    var instruction = symbols.getFunctionByName(ArgCtx.instr.getText());
+                    if(instruction == null){
+                        ErrorController.getInstance()
+                                .addNewError(INSTRUCCION_NO_DEFINIDA, List.of(ArgCtx.arg.getText()),ArgCtx.arg);
+                    }
+                    var offset = parseNumber(ArgCtx.arg.getText(),null);
+
+                    if(offset >= instruction.getNSteps()){
+                        ErrorController.getInstance()
+                                .addNewError(ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO, List.of(ArgCtx.arg.getText()),ArgCtx.arg);
+                    }
+
+                    var pos = symbols.getInstructions()
+                            .stream()
+                            .filter(i -> i.getId() < instruction.getId() )
+                            .map(Instruction::getNSteps)
+                            .reduce(0 , Integer::sum);
+                    pos = pos + offset;
+                    repository.associateBifValue(id_func,id_step,pos);
+                }
+                case SicomeParser.StartBifLogicArgumentContext ArgCtx ->{
+                    repository.associateBifValue(id_func,id_step,0);
+                }
+                default ->{}
+            }
+
         }
+
+
         Set<MicroInstructionTypeEnum> MicroInstructionTypeSeen = new HashSet<>();
         //We associate the microInstructions
         for(var mInstr:ctx.instr ){

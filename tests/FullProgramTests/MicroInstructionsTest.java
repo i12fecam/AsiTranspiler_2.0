@@ -6,6 +6,7 @@ import Internals.Errors.ErrorEnum;
 import Runner.Runner;
 import org.junit.jupiter.api.Test;
 
+import static Runner.ObjetiveConfig.INSTRUCTION_SET;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MicroInstructionsTest {
@@ -472,7 +473,7 @@ public class MicroInstructionsTest {
                     push(value){
                           |inc| M->GPR SP-1->SP ;
                           |inc| SP->MAR;
-                          |bif(0)| GPR->M;
+                          |bif(START)| GPR->M;
                     }
                 }
                 variables{}
@@ -507,5 +508,61 @@ public class MicroInstructionsTest {
 
         assertEquals(outputRepositoryText,helper.getRepositoryText());
         assertEquals(outputLogicText,helper.getLogicText());
+    }
+
+
+    @Test
+    void testArgumentoBifUso(){
+        String inputText = """
+            estados{
+                 nop ->
+                 inc -> INCR
+                 bif -> BIF
+                 rtn -> RTN
+            }
+            @microinstruccion
+            instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                halt(){
+                    |nop|;
+                }
+                instruccion1(value){
+                |inc| GPR->PC;
+                |bif ( instruccion2 ~ 0)| GPR->PC;
+                }
+                instruccion2(value){
+                |inc| GPR->PC;
+                |bif(instruccion3 ~ 1)| GPR->PC;
+                }
+                instruccion3(value){
+                |inc| GPR->PC;
+                |bif(instruccion1 ~ 0)| GPR->PC;
+                }
+                instruccion4(value){
+                |inc| GPR->PC;
+                |bif(START)| GPR->PC;
+                }
+            }\
+            """;
+        String outputRepositoryText = """
+                $
+                CB 4000100
+                CB 201100
+                CB B000300
+                $
+                halt false 0
+                instruccion1 true 400100 400206
+                instruccion2 true 400100 400209
+                instruccion3 true 400100 400204
+                instruccion4 true 400100 400200
+                """;
+        var helper = new Runner();
+        helper.run(inputText,INSTRUCTION_SET,null);
+        assertEquals(outputRepositoryText,helper.getRepositoryText());
+
     }
 }

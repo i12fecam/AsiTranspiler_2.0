@@ -31,9 +31,15 @@ public class MicroInstructionsTest {
         String inputText = """
             estados{
                  inc ->  INCR
+                 rtn -> RTN
             }
             @microinstruccion
             instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){}
                 instruccion1(value){}
             }\
@@ -49,9 +55,16 @@ public class MicroInstructionsTest {
         String inputText = """
             estados{
                  inc ->  INCR
+                 rtn -> RTN
+
             }
             @microinstruccion
             instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){}
                 instruccion1(var){}
             }\
@@ -68,9 +81,15 @@ public class MicroInstructionsTest {
         String inputText = """
             estados{
                  inc ->  INCR
+                 rtn -> RTN
             }
             @microinstruccion
             instrucciones {
+            fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |inc| GOR->PC;
                 }
@@ -100,9 +119,15 @@ public class MicroInstructionsTest {
         String inputText = String.format("""
             estados{
                  inc ->  INCR
+                 rtn -> RTN
             }
             @microinstruccion
             instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |inc| %s;
                 }
@@ -131,9 +156,15 @@ public class MicroInstructionsTest {
         String inputText = String.format("""
             estados{
                  inc ->  INCR
+                 rtn -> RTN
             }
             @microinstruccion
             instrucciones {
+                fetch {
+                    |inc| PC->MAR;
+                    |inc| M->GPR PC+1->PC;
+                    |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |inc| %s %s;
                 }
@@ -159,9 +190,15 @@ public class MicroInstructionsTest {
         String inputText = String.format("""
             estados{
                  inc ->  INCR
+                 rtn -> RTN
             }
             @microinstruccion
             instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |inc| %s;
                 }
@@ -180,9 +217,15 @@ public class MicroInstructionsTest {
             estados{
                  inc ->  INCR
                  bif -> BIF
+                 rtn -> RTN
             }
             @microinstruccion
             instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |bif(0)| LOAD_SC(5);
                 }
@@ -204,9 +247,15 @@ public class MicroInstructionsTest {
             estados{
                  inc ->  INCR
                  bif -> BIF
+                 rtn -> RTN
             }
             @microinstruccion
             instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |bif| GPR->PC;
                 }
@@ -218,6 +267,79 @@ public class MicroInstructionsTest {
                 .containsErrorEnum(ErrorEnum.ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO));
     }
 
+    @Test
+    @DisplayName("Comprueba que las lógicas de bifurcaciónes que tengan como argumento, una instrucción y un offset, no tenga un offset mayor que el nº de pasos de la instrucción.")
+    void ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO2(){
+        String inputText = """
+            estados{
+                 inc -> INCR
+                 bif -> BIF
+                 rtn -> RTN
+            }
+            @microinstruccion
+            instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(value){
+                |inc| GPR->PC;
+                |bif(instruccion2 ~ 0)| GPR->PC;
+                }
+                instruccion2(value){
+                |inc| GPR->PC;
+                |bif(instruccion3 ~ 2)| GPR->PC; //instruccion 2 solo tiene dos pasos
+                }
+                instruccion3(value){
+                |inc| GPR->PC;
+                |bif(instruccion1 ~ 0)| GPR->PC;
+                }
+            }\
+            """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO));
+    }
+
+    @Test
+    @DisplayName("Comprueba que las lógicas de bifurcaciónes que tengan como argumento, una instrucción y un offset, se refieran a instrucciones definidas.")
+    void INSTRUCCION_NO_DEFINIDA(){
+        String inputText = """
+            estados{
+                 inc -> INCR
+                 bif -> BIF
+                 rtn -> RTN
+            }
+            @microinstruccion
+            instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(value){
+                |inc| GPR->PC;
+                |bif(instruccion2 ~ 0)| GPR->PC;
+                }
+                instruccion2(value){
+                |inc| GPR->PC;
+                |bif(instruccion4 ~ 2)| GPR->PC; //instruccion 4 no existe
+                }
+                instruccion3(value){
+                |inc| GPR->PC;
+                |bif(instruccion1 ~ 0)| GPR->PC;
+                }
+            }\
+            """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.INSTRUCCION_NO_DEFINIDA));
+    }
+
+
     @ParameterizedTest
     @ValueSource(strings = {"", " ()","( )"})
     @DisplayName("Comprueba que las microinstrucciones que necesiten de argumento, lo reciban.")
@@ -225,9 +347,15 @@ public class MicroInstructionsTest {
         String inputText = String.format("""
             estados{
                  inc ->  INCR
+                 rtn -> RTN
             }
             @microinstruccion
             instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |inc| LOAD_SC%s;
                 }
@@ -248,9 +376,15 @@ public class MicroInstructionsTest {
         String inputText = String.format("""
             estados{
                  inc ->  INCR
+                 rtn -> RTN
             }
             @microinstruccion
             instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
                 instruccion1(value){
                 |inc| GPR->PC%s;
                 }
@@ -261,5 +395,6 @@ public class MicroInstructionsTest {
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
     }
+
 
 }

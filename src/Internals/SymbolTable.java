@@ -30,18 +30,18 @@ public class SymbolTable {
 
     /**
      * Gets the number of steps of the given function
-     * @param idFunction the fuction we are referring
+     * @param idInstruction the fuction we are referring
      * @return the number of steps
      */
-    public int getSteps(int idFunction) {
-        return instructions.elementAt(idFunction).getNSteps();
+    public int getSteps(int idInstruction) {
+        return instructions.elementAt(idInstruction).getNSteps();
     }
 
     /**
      * Gets all the function defined
      * @return The functions
      */
-    public  Vector<Instruction> getFunctions(){
+    public  Vector<Instruction> getInstructions(){
         return instructions;
     }
 
@@ -62,6 +62,15 @@ public class SymbolTable {
     public Instruction getFunctionById(int id){
         for(Instruction fun: instructions){
             if(fun.getId()==id){
+                return fun;
+            }
+        }
+        return null;
+    }
+
+    public Instruction getFunctionByName(String name){
+        for(Instruction fun: instructions){
+            if(Objects.equals(fun.getName(), name)){
                 return fun;
             }
         }
