@@ -158,44 +158,7 @@ public class CableInstructionTest {
     public void mustProhibitSameMicroInstructionInSameStep(){}
 
     public void mustHandleMicroInstructionInCorrectSection(){}
-    @Test
-    public void mustHandleLoadSRStart(){
-        String inputText = """
-                @cableado
-                instrucciones {
-                    instruccion1(){
-                     [SR+1->SR] PC+1->PC;
-                     [LOAD_SR (START)] GPR->PC;
-                    }
-                }
-                variables{}
-                programa{}
-                """;
 
-        String outputRepositoryText = "halt false 0 q0\ninstruccion1 false 2 q1\n";
-
-        String outputLogicText = """
-                $
-                M->GPR:t1
-                GPR(OP)->OPR:t2
-                PC->MAR:t0
-                GPR(AD)->MAR:t2
-                PC+1->PC:t1 + t3·q1
-                GPR->PC:t4·q1
-                $
-                SR+1->SR:t0 + t1 + t2 + t3·q1
-                LOAD SR:t4·q1-0
-                $
-                """;
-
-        Runner helper = new Runner();
-        helper.run(inputText);
-
-        System.out.println(helper.getLogicText());
-
-        assertEquals(outputRepositoryText,helper.getRepositoryText());
-        assertCableLogic(helper.getLogicText(),outputLogicText);
-    }
 
     @Test
     public void mustProhibitInvalidMicroInstructionsBetweeenBrackets(){
@@ -323,6 +286,62 @@ public class CableInstructionTest {
         assertEquals(outputRepositoryText,helper.getRepositoryText());
         assertCableLogic(outputLogicText,helper.getLogicText());
     }
+
+
+    @Test
+    public void fetchTest(){
+        String inputText = """
+                @cableado
+                instrucciones {
+                    fetch{
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
+                    
+                    instruccion1(){
+                     |SR+1->SR| PC+1->PC;
+                     |LOAD_SR (START)| GPR->PC;
+                    }
+                }
+                variables{}
+                programa{}
+                """;
+
+        String outputRepositoryText = "instruccion1 false 2 q0\n";
+
+        String outputLogicText = """
+                $
+                M->GPR:t1
+                GPR(OP)->OPR:t2
+                PC->MAR:t0
+                GPR(AD)->MAR:t2
+                PC+1->PC:t1 + t3·q0
+                GPR->PC:t4·q0
+                $
+                SR+1->SR:t0 + t1 + t2 + t3·q0
+                LOAD SR:t4·q0-0
+                $
+                """;
+
+        Runner helper = new Runner();
+        helper.run(inputText);
+
+        System.out.println(helper.getLogicText());
+        assertCableLogic(helper.getLogicText(),outputLogicText);
+
+        assertEquals(outputRepositoryText,helper.getRepositoryText());
+    }
+
+
+
+
+
+
+
+
+
+
     public void assertCableLogic(String received, String expected){
         String[] receivedSection = received.split("$");
         String[] expectedSection = expected.split("$");

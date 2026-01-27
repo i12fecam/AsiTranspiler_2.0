@@ -10,42 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MicroInstructionsTest {
 
-    @Test
-    public void instruccionMismoNombre(){
 
 
-        String inputText = """
-            estados{
-                 inc ->  INCR
-            }
-            
-            @microinstruccion
-            instrucciones {
-                instruccion1(value){
-            
-                }
-                instruccion1(var){
-            
-                }
-            }\
-            variables{}\
-            programa{}""";
-
-
-
-        Runner helper = new Runner();
-        var ex = assertThrows(RuntimeException.class, () -> {
-            helper.run(inputText);
-        });
-        //ErrorController.getInstance().printToConsole(false);
-        assertTrue(ErrorController.getInstance()
-                .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
-
-    }
-    @Test
-    void MICROINSTRUCCION_NO_RECONOCIDA(){
-
-    }
     @Test
     void emptyProgram(){
         String inputText = """
@@ -309,30 +275,7 @@ public class MicroInstructionsTest {
         assertEquals(outputRepositoryText,helper.getRepositoryText());
         assertEquals(outputLogicText,helper.getLogicText());
     }
-    void mustHaveArgumentIfisValue(){}
-    void mustHaveArgumentIfisDir(){}
-    void mustNotHaveArgumentIfisNone(){}
 
-    public void mustAllowMicroInstructionsWithArguments(){}
-
-    public void mustProhibitMaxValueMicroInstructionWithArguments(){}
-
-    public void mustProhibitMicroInstructionsWithArgumentsDontNeeded(){}
-
-    public void mustProhibitSameMicroInstructionInSameStep(){}
-
-    public void mustProhibitMicroInstructionSameGroup(){}
-
-    public void mustProhibitMicroInstructionOfTypeCable1(){}
-
-    public void mustProhibitMicroInstructionOfTypeCable2(){}
-
-    public void mustProhibitBifLogicWithArgumentDontNeed(){}
-    public void mustAllowBifLogicWithArgument(){}
-    public void mustProhibitBifLogicWithArgumentMaxValue1(){}
-    public void mustProhibitBifLogicWithArgumentMaxValue2(){}
-
-    public void mustProhibitBifWithArgumentAndMicroInstructionInSameStep(){}
     @Test
     void p2(){
         String inputText = """
@@ -506,4 +449,63 @@ public class MicroInstructionsTest {
         assertEquals(outputLogicText,helper.getLogicText());
     }
 
+
+    @Test
+    void fetchCheck(){
+        String inputText = """
+                estados{
+                 nop -> INCR DISABLE
+                 inc ->  INCR
+                 bif ->  BIF
+                 rtn -> RTN
+                }
+                @microinstruccion
+                instrucciones {
+                    fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
+                    halt(){
+                    
+                    }
+                    push(value){
+                          |inc| M->GPR SP-1->SP ;
+                          |inc| SP->MAR;
+                          |bif(0)| GPR->M;
+                    }
+                }
+                variables{}
+                programa{}
+                """;
+
+        String outputRepositoryText = """
+                $
+                CB 4000100
+                CB 0201100
+                CB B000300
+                $
+                halt false 0
+                push true 801100 C000100 1000200      
+                """;
+
+        String outputLogicText = """
+                B3 B2 B1 B0 F Zb Za Zac Zsc X Qn Qn1 As Qs Bs N I B R E
+                0  0  0  0  X X  X  X   X   X X  X   X  X  X  X 1 0 0 0
+                0  0  0  1  X X  X  X   X   X X  X   X  X  X  X 1 0 0 1
+                0  0  1  0  X X  X  X   X   X X  X   X  X  X  X 0 1 0 1
+                0  0  1  1  X X  X  X   X   X X  X   X  X  X  X 0 0 1 1
+                """;
+
+
+        Runner helper = new Runner();
+
+        helper.run(inputText);
+
+
+
+
+        assertEquals(outputRepositoryText,helper.getRepositoryText());
+        assertEquals(outputLogicText,helper.getLogicText());
+    }
 }

@@ -57,11 +57,14 @@ public class MicroRepositoryHelper {
     public String getText(){
         StringBuilder builder = new StringBuilder();
 
-        builder.append("$\n" +
-                "CB 4000100\n" +
-                "CB 0201100\n" +
-                "CB B000300\n" +
-                "$\n");
+
+        var fetchInstruction = table.get(-1);
+        builder.append("$\n");
+        for (var stepCode: fetchInstruction){
+            builder.append("CB ").append(Integer.toHexString(stepCode).toUpperCase());
+        }
+        builder.append("$\n");
+
         for(var entry: table.entrySet()){
             int functionId =entry.getKey();
             Instruction fun =_symbols.getFunctionByName(functionId);

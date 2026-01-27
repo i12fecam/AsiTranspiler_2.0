@@ -90,6 +90,12 @@ public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCableInstruction(SicomeParser.CableInstructionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SicomeParser#fetchCableInstruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code simpleCableStep}
 	 * labeled alternative in {@link SicomeParser#cableStep}.
 	 * @param ctx the parse tree
@@ -153,6 +159,12 @@ public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SicomeParser#fetchMicroInstruction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SicomeParser#microInstruction}.
 	 * @param ctx the parse tree

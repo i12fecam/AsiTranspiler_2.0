@@ -19,17 +19,6 @@ class CableLogicHelper {
      * Initializes the generator adding manually the microinstructions referring to the fetch functionality
      */
     public CableLogicHelper(){
-        //Se añade las instrucciones correspondientes al fetch
-        addMicroInstructionUse( new MicroInstruction(MicroInstructionEnum.pc_to_mar,null) ,null,0,null);
-        addMicroInstructionUse(new MicroInstruction(MicroInstructionEnum.sr_plus_to_sr,null),null,0,null);
-
-        addMicroInstructionUse( new MicroInstruction(MicroInstructionEnum.pc_plus_to_pc,null),null,1,null);
-        addMicroInstructionUse(new MicroInstruction(MicroInstructionEnum.m_to_gpr,null),null,1,null);
-        addMicroInstructionUse(new MicroInstruction(MicroInstructionEnum.sr_plus_to_sr,null),null,1,null);
-
-        addMicroInstructionUse(new MicroInstruction(MicroInstructionEnum.gpr_ad_to_mar,null),null,2,null);
-        addMicroInstructionUse(new MicroInstruction(MicroInstructionEnum.gpr_op_to_opr,null),null,2,null);
-        addMicroInstructionUse(new MicroInstruction(MicroInstructionEnum.sr_plus_to_sr,null),null,2,null);
 
     }
 

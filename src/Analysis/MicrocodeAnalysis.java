@@ -20,10 +20,7 @@ public class MicrocodeAnalysis extends SicomeBaseListener {
         this.symbolTable = symbolTable;
     }
 
-    @Override
-    public void enterMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx) {
-        symbolTable.addInstruction("halt","",0);
-    }
+
 
     @Override
     public void enterMicroInstruction(SicomeParser.MicroInstructionContext ctx) {
@@ -49,6 +46,19 @@ public class MicrocodeAnalysis extends SicomeBaseListener {
             ids.put(step,stepId);
             stepId++;
         }
+    }
+
+    @Override
+    public void enterFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx){
+        //we annotates the fetch with the special value -1
+        ids.put(ctx,-1);
+
+        int stepId = 0 ;
+        for(var step:ctx.microStep()){
+            ids.put(step,stepId);
+            stepId++;
+        }
+        symbolTable.addInstruction("FETCH","",ctx.microStep().size());
     }
 
 }

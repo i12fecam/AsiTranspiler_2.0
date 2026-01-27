@@ -18,7 +18,7 @@ public class CableAnalysis extends SicomeBaseListener {
     }
 
     /**
-     * Anotates the tree with the ids of the steps and the id of the function
+     * Annotates the tree with the ids of the steps and the id of the function
      * Also adds to the symbol table the function definition
      * @param ctx the parse tree
      */
@@ -42,9 +42,14 @@ public class CableAnalysis extends SicomeBaseListener {
             step_id++;
         }
     }
-
     @Override
-    public void enterCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx) {
-        symbolTable.addInstruction("halt","",0);
+    public void enterFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx) {
+        ids.put(ctx,null);
+        int step_id = 0 ;
+        for(var step : ctx.cableStep()){
+            ids.put(step,step_id);
+            step_id++;
+        }
     }
+
 }

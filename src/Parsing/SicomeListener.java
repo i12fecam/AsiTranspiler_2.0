@@ -142,6 +142,16 @@ public interface SicomeListener extends ParseTreeListener {
 	 */
 	void exitCableInstruction(SicomeParser.CableInstructionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SicomeParser#fetchCableInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#fetchCableInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code simpleCableStep}
 	 * labeled alternative in {@link SicomeParser#cableStep}.
 	 * @param ctx the parse tree
@@ -249,6 +259,16 @@ public interface SicomeListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SicomeParser#fetchMicroInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void enterFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SicomeParser#fetchMicroInstruction}.
+	 * @param ctx the parse tree
+	 */
+	void exitFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SicomeParser#microInstruction}.
 	 * @param ctx the parse tree

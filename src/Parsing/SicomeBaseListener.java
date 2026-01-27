@@ -161,6 +161,18 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -276,6 +288,18 @@ public class SicomeBaseListener implements SicomeListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

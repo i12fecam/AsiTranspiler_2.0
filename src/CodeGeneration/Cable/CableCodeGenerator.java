@@ -47,7 +47,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
     //To build the repository and logic
     @Override
     public void exitSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) {
-        int id_func = _ids.get(ctx.getParent());
+        Integer id_func = _ids.get(ctx.getParent());
         int id_step = _ids.get(ctx);
         //TODO gestionar cuando se le pasa argumento cuando no se debe
         //Process left instruction
@@ -161,8 +161,12 @@ public class CableCodeGenerator extends SicomeBaseListener {
                 }
                 logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  flags);
             }
-            case null -> ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
-            default -> ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("En el lado izquierdo solo está permitido las instrucciones "+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+            case null -> {
+                ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
+            }
+            default -> {
+                ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("En el lado izquierdo solo está permitido las instrucciones "+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+            }
 
         }
 
