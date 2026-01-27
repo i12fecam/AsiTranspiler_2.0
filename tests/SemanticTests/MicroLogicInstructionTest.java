@@ -37,12 +37,12 @@ public class MicroLogicInstructionTest {
         String inputText = """
             estados{
                  inc ->  INCR
-                 inc2 -> INCR
+                 inc2 -> RTN
                  inc3 -> INCR
                  inc4 -> INCR
                  inc5 -> INCR
                  inc6 -> INCR
-                 inc7 -> INCR
+                 inc7 -> BIF
                  inc8 -> INCR
                  inc9 -> INCR
                  inc10 -> INCR
@@ -52,7 +52,10 @@ public class MicroLogicInstructionTest {
                  inc14 -> INCR
                  inc15 -> INCR
                  inc16 -> INCR
-                 inc17 -> INCR
+                 bif -> {
+                    F : BIF
+                    !F : INCR
+                 }
             }
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,LOGIC,null));

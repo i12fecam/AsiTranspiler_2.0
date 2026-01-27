@@ -37,7 +37,7 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
         switch (ctx.option.getText()){
             case "BIF":bif=true; break;
             case "INCR":inc=true;break;
-            case "RET":ret=true;break;
+            case "RTN":ret=true;break;
         }
         boolean enable = true;
         if(ctx.disable!=null) enable=false;
@@ -70,7 +70,7 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
             switch (optionCtx.option.getText()){
                 case "BIF":bif=true; break;
                 case "INCR":inc=true;break;
-                case "RET":ret=true;break;
+                case "RTN":ret=true;break;
             }
             boolean enable = true;
             if(optionCtx.disable!=null) enable=false;

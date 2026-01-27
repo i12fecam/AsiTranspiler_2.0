@@ -5,7 +5,7 @@ import Base;
 
 statusLogicBlock: 'estados' '{' statusLogic+ '}' ;
 
-statusLogic: name=IDENTIFIER '->' option=('INCR'|'BIF'|'RET') disable='DISABLE'? #simpleStatusLogic
+statusLogic: name=IDENTIFIER '->' option=('INCR'|'BIF'|'RTN') disable='DISABLE'? #simpleStatusLogic
            | name=IDENTIFIER '->' '{' statusLogicOption+ '}' #complexStatusLogic
            ;
 

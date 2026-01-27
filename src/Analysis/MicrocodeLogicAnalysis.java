@@ -49,11 +49,15 @@ public class MicrocodeLogicAnalysis extends SicomeBaseListener {
             }
         }
 
-        try {
-            symbolTable.addBifurcationLogic(name,needsArg);
-        }catch (RuntimeException e){
-            throw new LogicException(e.getMessage(),ctx.name);
+
+        var resadd = symbolTable.addBifurcationLogic(name,needsArg);
+        if(resadd == -1){
+            ErrorController.getInstance().addNewError(NUMERO_LOGICA_BIFURCACION_SUPERADO,null, ctx.name);
+        }else if (resadd == -2){
+            ErrorController.getInstance().addNewError(LOGICA_BIFURCACION_MISMO_NOMBRE, List.of(ctx.name.getText()), ctx.name);
+
         }
+
 
     }
 }

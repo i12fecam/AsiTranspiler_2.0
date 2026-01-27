@@ -125,8 +125,7 @@ public class PrintDocumentation {
                     .sorted((m1, m2) -> {
                         return m1.getName().compareTo(m2.getName());
 
-                        //return Integer.compare(test.getDeclaredMethods().indexOf(m1),
-                        //                                test.getDeclaredMethods().indexOf(m2));
+
                     })
                     .map(m ->{
                         var description = (m.isAnnotationPresent(DisplayName.class))
