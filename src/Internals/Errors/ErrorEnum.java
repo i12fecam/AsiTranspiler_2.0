@@ -13,9 +13,7 @@ public enum ErrorEnum {
     NUMERO_LOGICA_BIFURCACION_SUPERADO(FATAL_ERROR,"Se ha superado el número máximo de lógicas de bifurcacion permitida por la arquitectura (16)"),
     LOGICA_BIFURCACION_MISMO_NOMBRE(FATAL_ERROR,"Ya existe otra lógica de bifurcación con el mismo nombre (%s)"),
     LOGICA_BIFURCACION_NO_DEFINIDA(FATAL_ERROR,"Se ha querido utilizar una lógica de bifurcación que no se encuentra definida (%s)"),
-    //TODO Hacer tb control de que se le pasa de max a logica de bifurcacion
     ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO(FATAL_ERROR,"La lógica de bifurcación (%s) esperaba un argumento"),
-    //TODO Hacer errores para para load_sr y load_sc especificamente
     MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(FATAL_ERROR,"La microinstruccion  %s necesita de un argumento valido"),
     MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(FATAL_ERROR,"La microinstrucción %s tiene un argumento no necesario"),
     INSTRUCCION_NO_DEFINIDA(FATAL_ERROR,"La instrucción %s no se encuentra definida"),
@@ -28,9 +26,13 @@ public enum ErrorEnum {
     ETIQUETA_NO_DEFINIDA(FATAL_ERROR,"La etqueta %s no se encuentra definida"),
     LOGICA_CONTROL_NO_EXHAUSTIVA(FATAL_ERROR,"La combinación de banderas definidas  en la lógica %s deja sin definir cierto número de combinaciones."),
     PASO_COMPLEJO_NO_EXHAUSTIVO(FATAL_ERROR,"La combinación de banderas definidas  en el paso nº%s deja sin definir cierto número de combinaciones."),
-    ESPACIO_MEMORIA_MAXIMO(FATAL_ERROR,"La definición del programa (variables + llamadas a instrucciones) supera el máximo de espacio de memoria de la computadora."),
-    VALOR_VARIABLE_NO_VALIDO(FATAL_ERROR,"El valor de la variables supera el tamaño máximo de la celda de memoria.");
+    ESPACIO_MEMORIA_SUPERADO(FATAL_ERROR,"La definición del programa (variables + llamadas a instrucciones) supera el máximo de espacio de memoria de la computadora."),
+    VALOR_VARIABLE_NO_VALIDO(FATAL_ERROR,"El valor de la variables supera el tamaño máximo de la celda de memoria (15bits)."),
+    VALOR_ARGUMENTO_LITERAL_NO_VALIDO(FATAL_ERROR,"El valor del argumento literal pasado supera el tamaño máximo de la celda de memoria (11bits)."),
 
+    DEFINICION_INSTRUCCION_VACIA(WARNING,"La instrucción no tiene definido ningun paso"),
+    TAMANYO_ROM_SUPERADO(FATAL_ERROR,"El uso de la rom por parte de los pasos de las instrucciones se ha superado (256 lineas)"),
+    NUMERO_INSTRUCCIONES_SUPERADO(FATAL_ERROR,"El número de instrucciones máximo se ha superado de 32, por el tamaño dedicado a instrucciones en la celdas de memoria (5 bits) ");
     public final ErrorLevelEnum level;
     public final String msgFormat;
     ErrorEnum(ErrorLevelEnum level, String msg){

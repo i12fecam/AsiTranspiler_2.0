@@ -14,6 +14,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static Runner.ObjetiveConfig.INSTRUCTION_SET;
@@ -452,6 +453,141 @@ public class CableInstructionTest {
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
+    }
+    @ParameterizedTest
+    @ValueSource(strings = {"256", "0x100","0b1.0000.0000"})
+    @DisplayName("Comprueba que el argumento pasado a LOAD SC no supere el límite de 8 bits en paso simple")
+    void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO3(String argument){
+        String inputText = String.format("""
+            @cableado
+            instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(value){
+                    |SR+1->SR| LOAD_SC(%s);
+                }
+            }\
+            """,argument);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"256", "0x100","0b1.0000.0000"})
+    @DisplayName("Comprueba que el argumento pasado a LOAD SC no supere el límite de 8 bits en paso complejo")
+    void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO4(String argument){
+        String inputText = String.format("""
+            @cableado
+            instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(value){
+                    {
+                        F: |SR+1->SR| LOAD_SC(%s);
+                        !F: |SR+1->SR|;
+                    }
+                }
+            }\
+            """,argument);
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
+    }
+
+
+    @Test
+    @DisplayName("Comprueba que el argumento pasado a LOAD SR no supere el límite de pasos de la instrucción en la que está en paso simple")
+    void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO5(){
+        String inputText ="""
+            @cableado
+            instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(value){
+                    |SR+1->SR| GPR->PC;
+                    |SR+1->SR| GPR->PC;
+                    |LOAD_SR(7)|; //el valor que se podrá poner sera 0 al 6 al tener 7 pasos
+                    |SR+1->SR| GPR->PC;
+                    |SR+1->SR| GPR->PC;
+                    |SR+1->SR| GPR->PC;
+                    |SR+1->SR| GPR->PC;
+                }
+            }\
+            """;
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
+    }
+
+    @Test
+    @DisplayName("Comprueba que el argumento pasado a LOAD SR no supere el límite de pasos de la instrucción en la que está en paso complejo")
+    void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO6(){
+        String inputText ="""
+            @cableado
+            instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(value){
+                    |SR+1->SR| GPR->PC;
+                    |SR+1->SR| GPR->PC;
+                    {
+                        F:  |LOAD_SR(7)|; //el valor que se podrá poner sera 0 al 6 al tener 7 pasos
+                        !F |SR+1->SR|;
+                    }
+                    |SR+1->SR| GPR->PC;
+                    |SR+1->SR| GPR->PC;
+                    |SR+1->SR| GPR->PC;
+                    |SR+1->SR| GPR->PC;
+                }
+            }\
+            """;
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
+    }
+
+    @Test
+    @DisplayName("Comprueba que el número de instrucciones no supere a 32, por el tamaño dedicado a instrucciones en la celdas de memoria (5 bits).")
+    void NUMERO_INSTRUCCIONES_SUPERADO(){
+        //
+        String instrucciones = IntStream.range(0, 32-1)
+                .mapToObj(i -> String.format("""
+                        instruccion%s(value){
+                            |SR+1->SR| GPR->PC;
+                        }
+                        """,i))
+                .reduce("",String::concat);
+
+        String inputText = String.format("""
+
+            @cableado
+            instrucciones {
+                fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                %s
+            }\
+            """,instrucciones);
+        var helper = new Runner();
+
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO));
     }
 
 

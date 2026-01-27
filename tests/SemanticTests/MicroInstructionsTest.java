@@ -18,6 +18,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static Runner.ObjetiveConfig.INSTRUCTION_SET;
@@ -396,5 +397,99 @@ public class MicroInstructionsTest {
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"256", "0x100","0b1.0000.0000"})
+    @DisplayName("Comprueba que el argumento pasado a LOAD SC no supere el límite de 8 bits")
+    void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO3(String argument){
+        String inputText = String.format("""
+            estados{
+                inc -> INCR
+                rtn -> RTN
+            }
+            @microinstruccion
+            instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(value){
+                    |inc| LOAD_SC(%s);
+                }
+            }\
+            """,argument);
+        var helper = new Runner();
 
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
+    }
+
+    @Test
+    @DisplayName("Comprueba que el uso de la rom por parte de los pasos de las instrucciones se ha superado (256 lineas)")
+    void TAMANYO_ROM_SUPERADO(){
+        //256 - 3 -1
+        String instrucciones = IntStream.range(0, 252)
+                .mapToObj(i -> """
+                       |inc| GPR->PC;
+                       """)
+                .reduce("",String::concat);
+
+        String inputText = String.format("""
+            estados{
+                inc -> INCR
+                rtn -> RTN
+            }
+            @microinstruccion
+            instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(value){
+                    %s
+                }
+            }\
+            """,instrucciones);
+        var helper = new Runner();
+
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.TAMANYO_ROM_SUPERADO));
+    }
+
+    @Test
+    @DisplayName("Comprueba que el número de instrucciones no supere a 32, por el tamaño dedicado a instrucciones en la celdas de memoria (5 bits).")
+    void NUMERO_INSTRUCCIONES_SUPERADO(){
+        //
+        String instrucciones = IntStream.range(0, 32-1)
+                .mapToObj(i -> String.format("""
+                        instruccion%s(value){
+                            |inc| GPR->PC;
+                        }
+                        """,i))
+                .reduce("",String::concat);
+
+        String inputText = String.format("""
+            estados{
+                inc -> INCR
+                rtn -> RTN
+            }
+            @microinstruccion
+            instrucciones {
+                fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                %s
+            }\
+            """,instrucciones);
+        var helper = new Runner();
+
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO));
+    }
 }

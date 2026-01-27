@@ -18,7 +18,7 @@ statusLogicOption : flags+=FLAG (',' flags+=FLAG)* ':' option=('INCR'|'BIF'|'RTN
 
 microInstructionBlock : '@microinstruccion' 'instrucciones''{' fetchMicroInstruction microInstruction+ '}';
 
-fetchMicroInstruction: 'fetch' '{' microStep* '}';
+fetchMicroInstruction: 'fetch' '{' microStep+ '}';
 
 microInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' microStep* '}';
 

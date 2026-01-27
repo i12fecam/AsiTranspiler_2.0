@@ -427,6 +427,92 @@ public class ProgramTest {
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INDICE_ARGUMENTO_VECTOR_INVALIDO));
     }
+    @Test
+    @DisplayName("Comprueba si el espacio ocupado por las variables y las instrucciones no supere 2048")
+    void ESPACIO_MEMORIA_SUPERADO(){
+
+        String inputText = """
+               @cableado
+                instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
+                    instruccion1(var){}
+                }
+                variables{
+                    vector(2047) = {0};
+                }
+                programa{
+                    instruccion1 vector(5);
+                    instruccion1 vector(200);
+
+                }
+               """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText);
+        });
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.ESPACIO_MEMORIA_SUPERADO));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"65535","0x10000","0b1.0000.0000.0000.0000"})
+    @DisplayName("Comprueba si el valor de la variable supera el límite válido (15bits)")
+    void VALOR_VARIABLE_NO_VALIDO(){
+        String inputText = """
+               @cableado
+                instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
+                    instruccion1(var){}
+                }
+                variables{
+                   variable = %s;
+                }
+                programa{
+                }
+               """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText);
+        });
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.VALOR_VARIABLE_NO_VALIDO));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"2048","0x800","0b1000.0000.0000"})
+    @DisplayName("Comprueba si el valor de la variable supera el límite válido (10bits)")
+    void VALOR_ARGUMENTO_LITERAL_NO_VALIDO(){
+        String inputText = """
+               @cableado
+                instrucciones {
+                    fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
+                    instruccion1(val){}
+                }
+                variables{
+                }
+                programa{
+                instruccion1 %s
+                }
+               """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText);
+        });
+        assertTrue(ErrorController.getInstance()
+                .containsErrorEnum(ErrorEnum.VALOR_ARGUMENTO_LITERAL_NO_VALIDO));
+    }
 
 
 
