@@ -482,7 +482,7 @@ public class MicroInstructionsTest {
         String outputRepositoryText = """
                 $
                 CB 4000100
-                CB 0201100
+                CB 201100
                 CB B000300
                 $
                 halt false 0

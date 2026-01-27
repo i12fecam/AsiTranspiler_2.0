@@ -51,14 +51,15 @@ public class MicrocodeAnalysis extends SicomeBaseListener {
     @Override
     public void enterFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx){
         //we annotates the fetch with the special value -1
-        ids.put(ctx,-1);
+        var instrId = symbolTable.addInstruction("FETCH","",ctx.microStep().size());
+
+        ids.put(ctx,instrId);
 
         int stepId = 0 ;
         for(var step:ctx.microStep()){
             ids.put(step,stepId);
             stepId++;
         }
-        symbolTable.addInstruction("FETCH","",ctx.microStep().size());
     }
 
 }

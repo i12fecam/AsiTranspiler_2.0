@@ -58,16 +58,22 @@ public class MicroRepositoryHelper {
         StringBuilder builder = new StringBuilder();
 
 
-        var fetchInstruction = table.get(-1);
+        var fetchInstruction = table.get(0);
         builder.append("$\n");
         for (var stepCode: fetchInstruction){
-            builder.append("CB ").append(Integer.toHexString(stepCode).toUpperCase());
+            builder.append("CB ").append(Integer.toHexString(stepCode).toUpperCase()).append("\n");
         }
         builder.append("$\n");
 
         for(var entry: table.entrySet()){
             int functionId =entry.getKey();
-            Instruction fun =_symbols.getFunctionByName(functionId);
+
+            //ignorar el ciclo de fetch guardado como primera instrucción
+            if(functionId == 0){
+                continue;
+            }
+
+            Instruction fun =_symbols.getFunctionById(functionId);
             builder.append(fun.getName()).append(" ");
 
 

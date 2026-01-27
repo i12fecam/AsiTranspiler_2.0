@@ -59,7 +59,7 @@ public class SymbolTable {
         return null;
     }
 
-    public Instruction getFunctionByName(int id){
+    public Instruction getFunctionById(int id){
         for(Instruction fun: instructions){
             if(fun.getId()==id){
                 return fun;
