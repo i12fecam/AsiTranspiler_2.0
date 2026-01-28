@@ -28,6 +28,7 @@ public class MicroLogicInstructionTest {
             }
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,LOGIC,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.LOGICA_BIFURCACION_MISMO_NOMBRE));
     }
@@ -59,6 +60,7 @@ public class MicroLogicInstructionTest {
             }
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,LOGIC,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.NUMERO_LOGICA_BIFURCACION_SUPERADO));
     }
@@ -78,6 +80,7 @@ public class MicroLogicInstructionTest {
             """;
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,LOGIC,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.BANDERA_NO_RECONOCIDA));
     }

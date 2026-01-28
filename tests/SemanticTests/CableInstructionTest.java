@@ -39,6 +39,8 @@ public class CableInstructionTest {
             }
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
+
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
     }
@@ -59,6 +61,7 @@ public class CableInstructionTest {
             }
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
     }
@@ -80,6 +83,7 @@ public class CableInstructionTest {
             }\
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA));
     }
@@ -104,6 +108,7 @@ public class CableInstructionTest {
             }\
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA));
     }
@@ -167,6 +172,7 @@ public class CableInstructionTest {
             }\
             """,microinstruccion1,microinstruccion2);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        //ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
@@ -193,6 +199,7 @@ public class CableInstructionTest {
             }\
             """,microinstruccion1,microinstruccion2);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
@@ -230,6 +237,7 @@ public class CableInstructionTest {
             }\
             """,microinstruccion);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
@@ -255,6 +263,7 @@ public class CableInstructionTest {
             }\
             """,microinstruccion);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
@@ -277,6 +286,7 @@ public class CableInstructionTest {
             }\
             """,microinstruccion);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
@@ -301,6 +311,7 @@ public class CableInstructionTest {
             }\
             """,microinstruccion);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
@@ -332,6 +343,7 @@ public class CableInstructionTest {
             }\
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.BANDERA_NO_RECONOCIDA));
     }
@@ -377,6 +389,7 @@ public class CableInstructionTest {
             }\
             """,argument);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
@@ -402,6 +415,7 @@ public class CableInstructionTest {
             }\
             """,argument);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
@@ -426,6 +440,7 @@ public class CableInstructionTest {
             }\
             """,argument);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
     }
@@ -451,6 +466,7 @@ public class CableInstructionTest {
             }\
             """,argument);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
     }
@@ -472,6 +488,7 @@ public class CableInstructionTest {
             }\
             """,argument);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
@@ -497,6 +514,7 @@ public class CableInstructionTest {
             }\
             """,argument);
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
@@ -525,6 +543,7 @@ public class CableInstructionTest {
             }\
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
@@ -545,7 +564,7 @@ public class CableInstructionTest {
                     |SR+1->SR| GPR->PC;
                     {
                         F:  |LOAD_SR(7)|; //el valor que se podrá poner sera 0 al 6 al tener 7 pasos
-                        !F |SR+1->SR|;
+                        !F: |SR+1->SR|;
                     }
                     |SR+1->SR| GPR->PC;
                     |SR+1->SR| GPR->PC;
@@ -555,6 +574,7 @@ public class CableInstructionTest {
             }\
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
@@ -586,6 +606,7 @@ public class CableInstructionTest {
         var helper = new Runner();
 
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO));
     }

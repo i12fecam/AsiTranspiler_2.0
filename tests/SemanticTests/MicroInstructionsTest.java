@@ -47,6 +47,7 @@ public class MicroInstructionsTest {
             """;
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
     }
@@ -72,6 +73,7 @@ public class MicroInstructionsTest {
             """;
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
     }
@@ -98,6 +100,7 @@ public class MicroInstructionsTest {
             """;
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA));
     }
@@ -173,6 +176,7 @@ public class MicroInstructionsTest {
             """,microinstruccion1,microinstruccion2);
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
@@ -207,6 +211,7 @@ public class MicroInstructionsTest {
             """,microinstruccion);
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
@@ -234,6 +239,7 @@ public class MicroInstructionsTest {
             """;
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
@@ -264,6 +270,7 @@ public class MicroInstructionsTest {
             """;
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO));
     }
@@ -300,6 +307,7 @@ public class MicroInstructionsTest {
             """;
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO));
     }
@@ -336,6 +344,7 @@ public class MicroInstructionsTest {
             """;
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_NO_DEFINIDA));
     }
@@ -364,6 +373,7 @@ public class MicroInstructionsTest {
             """,argument);
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
@@ -393,6 +403,7 @@ public class MicroInstructionsTest {
             """,argument);
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
     }
@@ -421,6 +432,7 @@ public class MicroInstructionsTest {
         var helper = new Runner();
 
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
@@ -455,6 +467,7 @@ public class MicroInstructionsTest {
         var helper = new Runner();
 
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.TAMANYO_ROM_SUPERADO));
     }
@@ -489,6 +502,7 @@ public class MicroInstructionsTest {
         var helper = new Runner();
 
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO));
     }

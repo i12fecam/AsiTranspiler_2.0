@@ -39,6 +39,7 @@ public class ProgramTest {
 
         Runner helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
         .containsErrorEnum(ErrorEnum.VARIABLE_MISMO_NOMBRE));
 
@@ -66,6 +67,7 @@ public class ProgramTest {
 
         Runner helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.TAMANYO_VECTOR_INVALIDO));
 
@@ -95,6 +97,7 @@ public class ProgramTest {
 
         Runner helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.TAMANYO_VECTOR_INVALIDO));
 
@@ -123,6 +126,7 @@ public class ProgramTest {
 
         Runner helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText));
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INICIALIZACION_VECTOR_INVALIDA));
 
@@ -153,6 +157,7 @@ public class ProgramTest {
         var ex = assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ETIQUETA_MISMO_NOMBRE));
 
@@ -181,6 +186,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_NO_DEFINIDA));
     }
@@ -212,6 +218,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_NO_DEFINIDA));
     }
@@ -243,6 +250,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO));
     }
@@ -274,6 +282,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO));
     }
@@ -305,6 +314,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO));
     }
@@ -338,6 +348,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ARGUMENTO_INSTRUCCION_INNECESARIO));
     }
@@ -368,6 +379,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.VARIABLE_NO_DEFINIDA));
     }
@@ -396,6 +408,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ETIQUETA_NO_DEFINIDA));
     }
@@ -424,6 +437,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.INDICE_ARGUMENTO_VECTOR_INVALIDO));
     }
@@ -454,6 +468,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ESPACIO_MEMORIA_SUPERADO));
     }
@@ -482,6 +497,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.VALOR_VARIABLE_NO_VALIDO));
     }
@@ -510,6 +526,7 @@ public class ProgramTest {
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
+        ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.VALOR_ARGUMENTO_LITERAL_NO_VALIDO));
     }

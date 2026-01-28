@@ -20,7 +20,7 @@ public class ErrorController {
     }
 
     public void printToConsole(boolean terminalColors){
-        msgs.get().forEach(msg -> System.out.println(msg.toString(terminalColors)));
+        msgs.get().forEach(msg -> System.err.println(msg.toString(terminalColors)));
     }
 
     public boolean containsErrorEnum(ErrorEnum errorEnum){

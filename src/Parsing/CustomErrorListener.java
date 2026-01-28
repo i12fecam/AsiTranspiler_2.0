@@ -2,10 +2,8 @@ package Parsing;
 
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
-import org.antlr.v4.runtime.BaseErrorListener;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.Interval;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +21,19 @@ public class CustomErrorListener extends BaseErrorListener {
 //        System.err.println("rule stack: "+stack);
 //        System.err.println("line "+line+":"+charPositionInLine+" at "+
 //                offendingSymbol+": "+msg);
-        ErrorController.getInstance().addNewError(ErrorEnum.ANTLR4,List.of(msg), e.getOffendingToken());
+        var token = offendingSymbol;
+        var msgFinal = msg;
+        if (e instanceof LexerNoViableAltException) {
+            LexerNoViableAltException lexerEx = (LexerNoViableAltException) e;
+            CharStream input = lexerEx.getInputStream();
+            // Get the index where the error started
+            int startIndex = lexerEx.getStartIndex();
+            // Extract the offending text from the stream
+            String offendingText = input.getText(Interval.of(startIndex, startIndex));
+            token = new CustomToken(line, charPositionInLine, offendingText);
+            msgFinal = "Carácter no reconocido '" + offendingText + "'";
+        }
+
+            ErrorController.getInstance().addNewError(ErrorEnum.ANTLR4,List.of(msgFinal), (Token) token);
     }
 }

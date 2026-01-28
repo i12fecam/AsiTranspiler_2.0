@@ -124,14 +124,12 @@ public class TranslatedDefaultErrorStrategy implements ANTLRErrorStrategy {
             input = "<Token desconocido>";
         }
 
-        //String msg = "no viable alternative at input " + this.escapeWSAndQuote(input);
         String msg = "No se ha podido reconocer correctamente la gramática a partir de "+ this.escapeWSAndQuote(input);
         recognizer.notifyErrorListeners(e.getOffendingToken(), msg, e);
     }
 
     protected void reportInputMismatch(Parser recognizer, InputMismatchException e) {
         String msg = "Se encontró un elemento inesperado "+ this.getTokenErrorDisplay(e.getOffendingToken()) + ", se esperaba " + e.getExpectedTokens().toString(recognizer.getVocabulary());
-        //String msg = "mismatched input " + this.getTokenErrorDisplay(e.getOffendingToken()) + " expecting " + e.getExpectedTokens().toString(recognizer.getVocabulary());
         recognizer.notifyErrorListeners(e.getOffendingToken(), msg, e);
     }
 
