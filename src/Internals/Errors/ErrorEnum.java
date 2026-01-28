@@ -32,7 +32,8 @@ public enum ErrorEnum {
 
     DEFINICION_INSTRUCCION_VACIA(WARNING,"La instrucción no tiene definido ningun paso"),
     TAMANYO_ROM_SUPERADO(FATAL_ERROR,"El uso de la rom por parte de los pasos de las instrucciones se ha superado (256 lineas)"),
-    NUMERO_INSTRUCCIONES_SUPERADO(FATAL_ERROR,"El número de instrucciones máximo se ha superado de 32, por el tamaño dedicado a instrucciones en la celdas de memoria (5 bits) ");
+    NUMERO_INSTRUCCIONES_SUPERADO(FATAL_ERROR,"El número de instrucciones máximo se ha superado de 32, por el tamaño dedicado a instrucciones en la celdas de memoria (5 bits) "),
+    ANTLR4(WARNING,"%s");
     public final ErrorLevelEnum level;
     public final String msgFormat;
     ErrorEnum(ErrorLevelEnum level, String msg){

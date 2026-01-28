@@ -36,6 +36,10 @@ public class ErrorController {
         throw new RuntimeException("Falta Error");
     }
 
+    private void addNewANTLRError(){
+
+    }
+
     private void addNewErrorMsg(ErrorMessage msg){
         msgs.get().add(msg);
     }

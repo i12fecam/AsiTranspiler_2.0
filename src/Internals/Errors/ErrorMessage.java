@@ -36,9 +36,10 @@ public class ErrorMessage {
 
 
 
-        res = String.format("[%s] linea %s:%s, %s",
+        res = String.format("[%s] linea %s, caracter %s:%s, %s",
                 levelText,
                 token.getLine(),
+                token.getCharPositionInLine(),
                 errorEnum.name(),
                 errorExplanation
                 );

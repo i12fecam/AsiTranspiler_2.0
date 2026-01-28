@@ -116,20 +116,22 @@ public class TranslatedDefaultErrorStrategy implements ANTLRErrorStrategy {
         String input;
         if (tokens != null) {
             if (e.getStartToken().getType() == -1) {
-                input = "<EOF>";
+                input = "<Final del archivo>";
             } else {
                 input = tokens.getText(e.getStartToken(), e.getOffendingToken());
             }
         } else {
-            input = "<unknown input>";
+            input = "<Token desconocido>";
         }
 
-        String msg = "no viable alternative at input " + this.escapeWSAndQuote(input);
+        //String msg = "no viable alternative at input " + this.escapeWSAndQuote(input);
+        String msg = "No se ha podido reconocer correctamente la gramática a partir de "+ this.escapeWSAndQuote(input);
         recognizer.notifyErrorListeners(e.getOffendingToken(), msg, e);
     }
 
     protected void reportInputMismatch(Parser recognizer, InputMismatchException e) {
-        String msg = "mismatched input " + this.getTokenErrorDisplay(e.getOffendingToken()) + " expecting " + e.getExpectedTokens().toString(recognizer.getVocabulary());
+        String msg = "Se encontró un elemento inesperado "+ this.getTokenErrorDisplay(e.getOffendingToken()) + ", se esperaba " + e.getExpectedTokens().toString(recognizer.getVocabulary());
+        //String msg = "mismatched input " + this.getTokenErrorDisplay(e.getOffendingToken()) + " expecting " + e.getExpectedTokens().toString(recognizer.getVocabulary());
         recognizer.notifyErrorListeners(e.getOffendingToken(), msg, e);
     }
 
@@ -145,7 +147,8 @@ public class TranslatedDefaultErrorStrategy implements ANTLRErrorStrategy {
             Token t = recognizer.getCurrentToken();
             String tokenName = this.getTokenErrorDisplay(t);
             IntervalSet expecting = this.getExpectedTokens(recognizer);
-            String msg = "extraneous input " + tokenName + " expecting " + expecting.toString(recognizer.getVocabulary());
+
+            String msg = "Se encontró un elemento inesperado " + tokenName + " se esperaba " + expecting.toString(recognizer.getVocabulary());
             recognizer.notifyErrorListeners(t, msg, (RecognitionException)null);
         }
     }
@@ -155,7 +158,7 @@ public class TranslatedDefaultErrorStrategy implements ANTLRErrorStrategy {
             this.beginErrorCondition(recognizer);
             Token t = recognizer.getCurrentToken();
             IntervalSet expecting = this.getExpectedTokens(recognizer);
-            String msg = "missing " + expecting.toString(recognizer.getVocabulary()) + " at " + this.getTokenErrorDisplay(t);
+            String msg = "Falta un elemento " + expecting.toString(recognizer.getVocabulary()) + " en " + this.getTokenErrorDisplay(t);
             recognizer.notifyErrorListeners(t, msg, (RecognitionException)null);
         }
     }

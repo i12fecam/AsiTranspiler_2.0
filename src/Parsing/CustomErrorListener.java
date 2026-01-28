@@ -1,5 +1,7 @@
 package Parsing;
 
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
@@ -16,10 +18,11 @@ public class CustomErrorListener extends BaseErrorListener {
                             String msg,
                             RecognitionException e)
     {
-        List<String> stack = ((Parser)recognizer).getRuleInvocationStack();
-        Collections.reverse(stack);
-        System.err.println("rule stack: "+stack);
-        System.err.println("line "+line+":"+charPositionInLine+" at "+
-                offendingSymbol+": "+msg);
+//        List<String> stack = ((Parser)recognizer).getRuleInvocationStack();
+//        Collections.reverse(stack);
+//        System.err.println("rule stack: "+stack);
+//        System.err.println("line "+line+":"+charPositionInLine+" at "+
+//                offendingSymbol+": "+msg);
+        ErrorController.getInstance().addNewError(ErrorEnum.ANTLR4,List.of(msg), e.getOffendingToken());
     }
 }

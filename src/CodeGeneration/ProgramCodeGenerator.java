@@ -41,7 +41,7 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
         InstructionArgumentTypeEnum expectedArg = symbols.getArgumentType(instrName.getText());
         if(expectedArg == null){
             ErrorController.getInstance()
-                    .addNewError(ErrorEnum.INSTRUCCION_NO_DEFINIDA, List.of(instrName),ctx.name);
+                    .addNewError(ErrorEnum.INSTRUCCION_NO_DEFINIDA, List.of(instrName.getText()),ctx.name);
         }
         assert expectedArg != null;
         Integer paramNumber =null;
@@ -53,14 +53,14 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
                 }
                 else{
                     ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO, List.of(instrName, "\" \""),ctx.name);
+                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
             }
             case Var -> {
 
                 if(arg.var == null){
                     ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO, List.of(instrName, "\" \""),ctx.name);
+                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
 
@@ -71,12 +71,12 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
 
                 if(symbols.isLabel(variable_name)){
                     ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO, List.of(instrName, "\" \""),ctx.name);
+                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
                 if(!symbols.isVariable(variable_name)){
                     ErrorController.getInstance()
-                            .addNewError(ErrorEnum.VARIABLE_NO_DEFINIDA, List.of(instrName, "\" \""),ctx.name);
+                            .addNewError(ErrorEnum.VARIABLE_NO_DEFINIDA, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
                 paramNumber = symbols.getPosFromVariable(variable_name,offset_value);
@@ -91,18 +91,18 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
 
                 if(arg.var == null){
                     ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO, List.of(instrName, "\" \""),ctx.name);
+                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
                 var dir_name = arg.var.getText();
 
                 if(symbols.isVariable(dir_name)){
                     ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO, List.of(instrName, "\" \""),ctx.name);
+                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
                 if(!symbols.isLabel(dir_name)){
                     ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ETIQUETA_NO_DEFINIDA, List.of(instrName, "\" \""),ctx.name);
+                            .addNewError(ErrorEnum.ETIQUETA_NO_DEFINIDA, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
                 paramNumber = symbols.getPosFromLabel(dir_name);
@@ -113,7 +113,7 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
             case None -> {
                 if(arg.var!= null || arg.num!= null || arg.offset!=null){
                     ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_INSTRUCCION_INNECESARIO, List.of(instrName, "\" \""),ctx.name);
+                            .addNewError(ErrorEnum.ARGUMENTO_INSTRUCCION_INNECESARIO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
             }
         }

@@ -7,9 +7,11 @@ import CodeGeneration.Cable.CableCodeGenerator;
 import CodeGeneration.Micro.MicrocodeGenerator;
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
+import Parsing.CustomErrorListener;
 import Parsing.SicomeLexer;
 import Parsing.SicomeParser;
 import Internals.SymbolTable;
+import Parsing.TranslatedDefaultErrorStrategy;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -46,15 +48,29 @@ public class Runner {
         SicomeParser.ProgContext restTree = null;
 
         SicomeLexer lexerFile = new SicomeLexer(CharStreams.fromString(fileContent));
+        lexerFile.removeErrorListeners();
+        lexerFile.addErrorListener(new CustomErrorListener());
+
         var tokensFile = new CommonTokenStream(lexerFile);
         SicomeParser parserFile = new SicomeParser(tokensFile);
+        parserFile.removeErrorListeners();
+        parserFile.addErrorListener(new CustomErrorListener());
+        parserFile.setErrorHandler( new TranslatedDefaultErrorStrategy());
+
         programTree = parserFile.prog();
         restTree = programTree;
 
         if(includeFileContent != null){
             SicomeLexer lexerFile2 = new SicomeLexer(CharStreams.fromString(includeFileContent));
+            lexerFile2.removeErrorListeners();
+            lexerFile2.addErrorListener(new CustomErrorListener());
+
+
             var tokensFile2 = new CommonTokenStream(lexerFile2);
             SicomeParser parserFile2 = new SicomeParser(tokensFile2);
+            parserFile2.removeErrorListeners();
+            parserFile2.addErrorListener(new CustomErrorListener());
+            parserFile2.setErrorHandler( new TranslatedDefaultErrorStrategy());
             restTree = parserFile2.prog();
         }
 
