@@ -476,8 +476,8 @@ public class ProgramTest {
     @ParameterizedTest
     @ValueSource(strings = {"65535","0x10000","0b1.0000.0000.0000.0000"})
     @DisplayName("Comprueba si el valor de la variable supera el límite válido (15bits)")
-    void VALOR_VARIABLE_NO_VALIDO(){
-        String inputText = """
+    void VALOR_VARIABLE_NO_VALIDO(String valorVariable){
+        String inputText = String.format( """
                @cableado
                 instrucciones {
                     fetch {
@@ -492,7 +492,7 @@ public class ProgramTest {
                 }
                 programa{
                 }
-               """;
+               """,valorVariable);
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);

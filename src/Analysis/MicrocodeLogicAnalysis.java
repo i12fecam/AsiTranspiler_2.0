@@ -29,7 +29,7 @@ public class MicrocodeLogicAnalysis extends SicomeBaseListener {
         var resadd = symbolTable.addBifurcationLogic(name,needsArg);
 
         if(resadd == -1){
-            ErrorController.getInstance().addNewError(NUMERO_LOGICA_BIFURCACION_SUPERADO,null, ctx.name);
+            ErrorController.getInstance().addNewError(NUMERO_LOGICA_BIFURCACION_SUPERADO,List.of(), ctx.name);
         }else if (resadd == -2){
             ErrorController.getInstance().addNewError(LOGICA_BIFURCACION_MISMO_NOMBRE, List.of(ctx.name.getText()), ctx.name);
 
@@ -52,7 +52,7 @@ public class MicrocodeLogicAnalysis extends SicomeBaseListener {
 
         var resadd = symbolTable.addBifurcationLogic(name,needsArg);
         if(resadd == -1){
-            ErrorController.getInstance().addNewError(NUMERO_LOGICA_BIFURCACION_SUPERADO,null, ctx.name);
+            ErrorController.getInstance().addNewError(NUMERO_LOGICA_BIFURCACION_SUPERADO,List.of(), ctx.name);
         }else if (resadd == -2){
             ErrorController.getInstance().addNewError(LOGICA_BIFURCACION_MISMO_NOMBRE, List.of(ctx.name.getText()), ctx.name);
 

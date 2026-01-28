@@ -79,7 +79,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
             }
 
             default ->{
-                ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("En el lado izquierdo solo está permitido las instrucciones "+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of(ctx.linstr.MICRO_INSTR().getText(),"En el lado izquierdo solo está permitido las instrucciones "+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
             }
 
         }
@@ -91,7 +91,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
             var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
             switch (rmIntrEnum){
                 case sr_plus_to_sr,load_sr -> {
-                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("En lado derecho no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of(ctx.linstr.MICRO_INSTR().getText(),"En lado derecho no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
                 }
                 case null -> {
                     ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
@@ -99,7 +99,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
                 default -> {
 
                     if (!seenMicroInstruction.add(rmIntrEnum)) {
-                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA, List.of("No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
+                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA, List.of(ctx.linstr.MICRO_INSTR().getText(),"No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
                     }
                     if (rmIntrEnum.needsArgument && mInstr.arg == null) {
                         ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO, List.of(rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
@@ -165,7 +165,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
                 ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
             }
             default -> {
-                ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("En el lado izquierdo solo está permitido las instrucciones "+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of(ctx.linstr.MICRO_INSTR().getText(),"En el lado izquierdo solo está permitido las instrucciones "+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
             }
 
         }
@@ -177,7 +177,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
             var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
             switch (rmIntrEnum){
                 case sr_plus_to_sr,load_sr ->   {
-                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("En lado derecho no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of(ctx.linstr.MICRO_INSTR().getText(),"En lado derecho no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
                 }
                 case null ->{
                     ErrorController.getInstance().addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
@@ -185,7 +185,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
                 default -> {
 
                     if (!seenMicroInstruction.add(rmIntrEnum)) {
-                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of("No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName),mInstr.MICRO_INSTR().getSymbol());
+                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA,List.of(ctx.linstr.MICRO_INSTR().getText(),"No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName),mInstr.MICRO_INSTR().getSymbol());
                     }
 
                     if (rmIntrEnum.needsArgument && mInstr.arg == null) {

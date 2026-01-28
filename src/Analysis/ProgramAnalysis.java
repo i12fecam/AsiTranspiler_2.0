@@ -65,7 +65,7 @@ public class ProgramAnalysis extends SicomeBaseListener {
             } else if (size == values.size()) {
                 symbolTable.addVectorVariable(id, size, values);
             } else {
-                ErrorController.getInstance().addNewError(ErrorEnum.INICIALIZACION_VECTOR_INVALIDA,null,ctx.size);
+                ErrorController.getInstance().addNewError(ErrorEnum.INICIALIZACION_VECTOR_INVALIDA,List.of(),ctx.size);
             }
         }catch (EspecificationException e){
             ErrorController.getInstance().addNewError(ErrorEnum.VARIABLE_MISMO_NOMBRE,List.of(id), ctx.id);
