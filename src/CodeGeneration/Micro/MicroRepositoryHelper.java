@@ -73,7 +73,7 @@ public class MicroRepositoryHelper {
                 continue;
             }
 
-            Instruction fun =_symbols.getFunctionById(functionId);
+            Instruction fun =_symbols.getInstructionById(functionId);
             builder.append(fun.getName()).append(" ");
 
 

@@ -19,8 +19,7 @@ import java.util.Set;
 
 import static Analysis.HelperFunctions.parseNumber;
 import static Internals.Errors.ErrorEnum.*;
-import static Internals.MicroInstructionEnum.load_sr;
-import static Internals.MicroInstructionEnum.sr_plus_to_sr;
+import static Internals.MicroInstructionEnum.*;
 
 public class CableCodeGenerator extends SicomeBaseListener {
 
@@ -29,11 +28,13 @@ public class CableCodeGenerator extends SicomeBaseListener {
     protected CableRepositoryHelper repository;
 
     protected ParseTreeProperty<Integer> _ids = null;
+    protected SymbolTable symbols;
 
     public CableCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st) {
         _ids = ids;
         logic = new CableLogicHelper();
         repository = new CableRepositoryHelper(st);
+        symbols = st;
     }
 
     public String getLogicFileString(){
@@ -59,7 +60,10 @@ public class CableCodeGenerator extends SicomeBaseListener {
             case load_sr -> {
 
                 if(ctx.linstr.arg == null){
-                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,List.of(load_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                    ErrorController.getInstance()
+                            .addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
+                                    List.of(load_sr.inputName,"La instrucción necesita de argumento"),
+                                    ctx.linstr.MICRO_INSTR().getSymbol());
                 }
                 //TODO gestionar que el valor no sea superior a un limite definido
 
@@ -69,7 +73,17 @@ public class CableCodeGenerator extends SicomeBaseListener {
                 }
                 else {
                     argValue = parseNumber(ctx.linstr.arg.getText(), null);
+
+                    var stepsInInstrucction = symbols.getInstructionById(id_func).getNSteps();
+                    if(argValue >= stepsInInstrucction ){
+                        ErrorController.getInstance()
+                                .addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
+                                        List.of(lmInstrEnum.inputName,"El valor no puede superar el número de pasos en la que se encuentra"),
+                                        ctx.linstr.MICRO_INSTR().getSymbol());
+                    }
                 }
+
+
 
                 logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  null);
 
@@ -102,7 +116,9 @@ public class CableCodeGenerator extends SicomeBaseListener {
                         ErrorController.getInstance().addNewError(MICROINSTRUCCION_INVALIDA, List.of(ctx.linstr.MICRO_INSTR().getText(),"No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
                     }
                     if (rmIntrEnum.needsArgument && mInstr.arg == null) {
-                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO, List.of(rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
+                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
+                                List.of(rmIntrEnum.inputName,"La instrucción necesita de argumento"),
+                                mInstr.MICRO_INSTR().getSymbol());
                     }
 
                     if (!rmIntrEnum.needsArgument && mInstr.arg != null){
@@ -113,6 +129,13 @@ public class CableCodeGenerator extends SicomeBaseListener {
                     Integer argValue = null;
                     if (mInstr.arg != null) {
                         argValue = HelperFunctions.parseNumber(mInstr.arg.getText(),null);
+
+                        if(rmIntrEnum == load_sc && argValue >= 256){
+                            ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
+                                    List.of(rmIntrEnum.inputName,"La instrucción no puede superar el tamaño de 8 bits"),
+                                    mInstr.MICRO_INSTR().getSymbol());
+
+                        }
                     }
 
                     logic.addMicroInstructionUse(new MicroInstruction(rmIntrEnum,argValue), id_func, id_step,  null);
@@ -148,9 +171,10 @@ public class CableCodeGenerator extends SicomeBaseListener {
             case load_sr -> {
 
                 if(ctx.linstr.arg == null){
-                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,List.of(load_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
+                            List.of(load_sr.inputName,"La instrucción necesita de argumento"),
+                            ctx.linstr.MICRO_INSTR().getSymbol());
                 }
-                //TODO gestionar que el valor no sea superior a un limite definido
 
                 Integer argValue = null;
                 if(ctx.linstr.arg.getText().equals("START")){
@@ -158,6 +182,14 @@ public class CableCodeGenerator extends SicomeBaseListener {
                 }
                 else {
                     argValue = parseNumber(ctx.linstr.arg.getText(), null);
+
+                    var stepsInInstrucction = symbols.getInstructionById(id_func).getNSteps();
+                    if(argValue >= stepsInInstrucction ){
+                        ErrorController.getInstance()
+                                .addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
+                                        List.of(lmInstrEnum.inputName,"El valor no puede superar el número de pasos en la que se encuentra"),
+                                        ctx.linstr.MICRO_INSTR().getSymbol());
+                    }
                 }
                 logic.addMicroInstructionUse(new MicroInstruction(lmInstrEnum,argValue), id_func, id_step,  flags);
             }
@@ -189,7 +221,9 @@ public class CableCodeGenerator extends SicomeBaseListener {
                     }
 
                     if (rmIntrEnum.needsArgument && mInstr.arg == null) {
-                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO, List.of(rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
+                        ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
+                                List.of(rmIntrEnum.inputName,"La instrucción necesita de argumento"),
+                                mInstr.MICRO_INSTR().getSymbol());
                     }
 
                     if (!rmIntrEnum.needsArgument && mInstr.arg != null){
@@ -199,6 +233,14 @@ public class CableCodeGenerator extends SicomeBaseListener {
                     Integer argValue = null;
                     if (mInstr.arg != null) {
                         argValue = HelperFunctions.parseNumber(mInstr.arg.getText(),null);
+
+                        if(rmIntrEnum == load_sc && argValue >= 256){
+                            ErrorController.getInstance()
+                                    .addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
+                                    List.of(rmIntrEnum.inputName,"La instrucción no puede superar el tamaño de 8 bits"),
+                                    mInstr.MICRO_INSTR().getSymbol());
+
+                        }
                     }
 
                     logic.addMicroInstructionUse(new MicroInstruction(rmIntrEnum,argValue), id_func, id_step,  flags);

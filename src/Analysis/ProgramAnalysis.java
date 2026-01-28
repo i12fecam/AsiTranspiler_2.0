@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static Analysis.HelperFunctions.parseNumber;
+import static Internals.Errors.ErrorEnum.VALOR_VARIABLE_NO_VALIDO;
 
 /**
  * Anotates the tree in functions and steps with their number
@@ -21,6 +22,8 @@ public class ProgramAnalysis extends SicomeBaseListener {
     public SymbolTable symbolTable = new SymbolTable();
     public ParseTreeProperty<Integer> ids = new ParseTreeProperty<>();
 
+    //max number value in a memory cell that occupies in 16 bits
+    private final int memoryCellMax = 131072;
     public ProgramAnalysis(SymbolTable symbolTable, ParseTreeProperty<Integer> ids){
         this.symbolTable = symbolTable;
         this.ids = ids;
@@ -36,7 +39,10 @@ public class ProgramAnalysis extends SicomeBaseListener {
         String id =ctx.id.getText();
 
         int value = parseNumber(ctx.value.getText(),null);
-        //TODO comprobar maximo de tamaño
+        if(value >= 65535){
+            ErrorController.getInstance()
+                    .addNewError(VALOR_VARIABLE_NO_VALIDO,List.of(ctx.id.getText()), ctx.id);
+        }
         try {
             symbolTable.addSimpleVariable(id, value);
         } catch (EspecificationException e){
@@ -54,7 +60,13 @@ public class ProgramAnalysis extends SicomeBaseListener {
         int size = parseNumber(ctx.size.getText(),null);
         List<Integer> values= new ArrayList<>();
         ctx.value.forEach(token -> {
-            values.add(parseNumber(token.getText(),null));
+            var valueNumber = parseNumber(token.getText(),null);
+            if(valueNumber >= 65535){
+                ErrorController.getInstance()
+                        .addNewError(VALOR_VARIABLE_NO_VALIDO,List.of(ctx.id.getText()), ctx.id);
+            }
+            values.add(valueNumber);
+
         });
 
         try {

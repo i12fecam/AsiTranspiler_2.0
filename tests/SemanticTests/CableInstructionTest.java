@@ -583,7 +583,7 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que el número de instrucciones no supere a 32, por el tamaño dedicado a instrucciones en la celdas de memoria (5 bits).")
     void NUMERO_INSTRUCCIONES_SUPERADO(){
         //
-        String instrucciones = IntStream.range(0, 32-1)
+        String instrucciones = IntStream.range(1, 33+1)
                 .mapToObj(i -> String.format("""
                         instruccion%s(value){
                             |SR+1->SR| GPR->PC;

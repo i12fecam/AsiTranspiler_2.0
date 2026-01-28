@@ -8,6 +8,8 @@ import Internals.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.List;
 
+import static Internals.Errors.ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO;
+
 public class CableAnalysis extends SicomeBaseListener {
     private final SymbolTable symbolTable;
     private final ParseTreeProperty<Integer> ids;
@@ -17,6 +19,14 @@ public class CableAnalysis extends SicomeBaseListener {
         this.symbolTable = symbolTable;
     }
 
+
+    @Override
+    public void enterCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx){
+        if(ctx.cableInstruction().size() > 32){
+            ErrorController.getInstance()
+                    .addNewError(NUMERO_INSTRUCCIONES_SUPERADO,List.of(),ctx.start);
+        }
+    }
     /**
      * Annotates the tree with the ids of the steps and the id of the function
      * Also adds to the symbol table the function definition

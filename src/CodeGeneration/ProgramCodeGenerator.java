@@ -5,6 +5,7 @@ import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
 import Internals.Instruction;
 import Internals.SymbolTable;
+import Internals.Variable;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.InstructionArgumentTypeEnum;
@@ -14,6 +15,8 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.List;
 
 import static Analysis.HelperFunctions.parseNumber;
+import static Internals.Errors.ErrorEnum.ESPACIO_MEMORIA_SUPERADO;
+import static Internals.InstructionArgumentTypeEnum.Var;
 
 public class ProgramCodeGenerator extends SicomeBaseListener {
     protected ParseTreeProperty<Integer> ids = null;
@@ -32,8 +35,19 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
 
     public String getProgramFileString() {return program.getText();}
 
-
-
+    @Override
+    public void enterProgramBlock(SicomeParser.ProgramBlockContext ctx){
+        var programLines = ctx.programLine().stream()
+                .filter(lineCtx -> lineCtx instanceof SicomeParser.InstructionUseContext)
+                .count();
+        var instructionSpace = symbols.getVariables().stream()
+                                        .mapToLong(Variable::capacity)
+                                        .sum();
+        if (programLines + instructionSpace >= 2048){
+            ErrorController.getInstance()
+                    .addNewError(ESPACIO_MEMORIA_SUPERADO,List.of(), ctx.getStart());
+        }
+    }
     @Override
     public void exitInstructionUse(SicomeParser.InstructionUseContext ctx) {
         Token instrName =ctx.name;
@@ -48,12 +62,17 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
 
         switch (expectedArg){
             case Value -> {
-                if(arg.num != null) {      //raw number
-                    paramNumber = parseNumber(arg.num.getText(),null);
-                }
-                else{
+                if(arg.num == null){
                     ErrorController.getInstance()
                             .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
+                }
+
+                paramNumber = parseNumber(arg.num.getText(),null);
+
+                if(paramNumber >= 2048){
+                    ErrorController.getInstance()
+                            .addNewError(ErrorEnum.VALOR_ARGUMENTO_LITERAL_NO_VALIDO, List.of(),arg.num);
+
                 }
             }
             case Var -> {

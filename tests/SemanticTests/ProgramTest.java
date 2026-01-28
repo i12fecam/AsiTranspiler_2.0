@@ -505,8 +505,8 @@ public class ProgramTest {
     @ParameterizedTest
     @ValueSource(strings = {"2048","0x800","0b1000.0000.0000"})
     @DisplayName("Comprueba si el valor de la variable supera el límite válido (10bits)")
-    void VALOR_ARGUMENTO_LITERAL_NO_VALIDO(){
-        String inputText = """
+    void VALOR_ARGUMENTO_LITERAL_NO_VALIDO(String value){
+        String inputText = String.format( """
                @cableado
                 instrucciones {
                     fetch {
@@ -514,14 +514,14 @@ public class ProgramTest {
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                    instruccion1(val){}
+                    instruccion1(value){}
                 }
                 variables{
                 }
                 programa{
-                instruccion1 %s
+                instruccion1 %s;
                 }
-               """;
+               """,value);
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);

@@ -176,7 +176,7 @@ public class MicroInstructionsTest {
             """,microinstruccion1,microinstruccion2);
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
+        //ErrorController.getInstance().printToConsole(true);
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
@@ -440,8 +440,8 @@ public class MicroInstructionsTest {
     @Test
     @DisplayName("Comprueba que el uso de la rom por parte de los pasos de las instrucciones se ha superado (256 lineas)")
     void TAMANYO_ROM_SUPERADO(){
-        //256 - 3 -1
-        String instrucciones = IntStream.range(0, 252)
+        //257
+        String instrucciones = IntStream.range(1, 257+1)
                 .mapToObj(i -> """
                        |inc| GPR->PC;
                        """)
@@ -473,10 +473,10 @@ public class MicroInstructionsTest {
     }
 
     @Test
-    @DisplayName("Comprueba que el número de instrucciones no supere a 32, por el tamaño dedicado a instrucciones en la celdas de memoria (5 bits).")
+    @DisplayName("Comprueba que el número de instrucciones no supere a 33, por el tamaño dedicado a instrucciones en la celdas de memoria (5 bits).")
     void NUMERO_INSTRUCCIONES_SUPERADO(){
-        //
-        String instrucciones = IntStream.range(0, 32-1)
+        //instrucciones del 1 al 33
+        String instrucciones = IntStream.range(1, 33+1)
                 .mapToObj(i -> String.format("""
                         instruccion%s(value){
                             |inc| GPR->PC;
