@@ -21,7 +21,7 @@ public class Instruction {
             case "var" : _params= InstructionArgumentTypeEnum.Var;break;
             case "" : _params= InstructionArgumentTypeEnum.None; break;
             default: _params= InstructionArgumentTypeEnum.None;break;
-        }//TODO meter esto dentro del enum?
+        }
         _id=id;
         _nSteps=nSteps;
     }

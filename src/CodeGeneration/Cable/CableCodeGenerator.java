@@ -51,7 +51,6 @@ public class CableCodeGenerator extends SicomeBaseListener {
     public void exitSimpleCableStep(SicomeParser.SimpleCableStepContext ctx) {
         Integer id_func = _ids.get(ctx.getParent());
         int id_step = _ids.get(ctx);
-        //TODO gestionar cuando se le pasa argumento cuando no se debe
         //Process left instruction
         var lmInstrEnum = MicroInstructionEnum.valueOfInput(ctx.linstr.MICRO_INSTR().getText());
         switch (lmInstrEnum){
@@ -66,7 +65,6 @@ public class CableCodeGenerator extends SicomeBaseListener {
                                     List.of(load_sr.inputName,"La instrucción necesita de argumento"),
                                     ctx.linstr.MICRO_INSTR().getSymbol());
                 }
-                //TODO gestionar que el valor no sea superior a un limite definido
 
                 Integer argValue = null;
                 if(ctx.linstr.arg.getText().equals("START")){

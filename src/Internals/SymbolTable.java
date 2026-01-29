@@ -105,7 +105,7 @@ public class SymbolTable {
      * @param initializedValue initial value
      */
     public void addSimpleVariable(String variableName, int initializedValue ) throws RuntimeException {
-        if(isVariable(variableName) || isLabel(variableName)){
+        if(isVariable(variableName)){
             throw new EspecificationException("Ya existe una variable o label con el mismo nombre");
         }
         List<Integer> value = new ArrayList<>();
@@ -120,7 +120,7 @@ public class SymbolTable {
      * @param initializedValue the value that all the vector spaces are initialized to
      */
     public void addVectorVariable(String variableName, int reservedSpace,int initializedValue) throws RuntimeException {
-        if(isVariable(variableName) || isLabel(variableName)){
+        if(isVariable(variableName)){
             throw new RuntimeException("Ya existe una variable o label con el mismo nombre");
         }
         List<Integer> values = new ArrayList<>(Collections.nCopies(reservedSpace, initializedValue));
@@ -134,7 +134,7 @@ public class SymbolTable {
      * @param initializedValues A list with the same size as the size of the vector, filled with the initialized value as the vector
      */
     public void addVectorVariable(String variableName, int reservedSpace, List<Integer> initializedValues) throws RuntimeException {
-        if(isVariable(variableName) || isLabel(variableName)){
+        if(isVariable(variableName)){
             throw new EspecificationException("Ya existe una variable o label con el mismo nombre");
         }
         variables.add(new Variable(variableName, getNextAvailablePos(),reservedSpace,initializedValues));
@@ -238,7 +238,7 @@ public class SymbolTable {
      * @param pos position in memory the label is referring to,Assummes the postion 0 refers to the first instruction
      */
     public void addLabel(String label,int pos){
-        if(isVariable(label) || isLabel(label)){
+        if(isLabel(label)){
             throw new EspecificationException("Ya existe una variable o label con el mismo nombre");
         }
 

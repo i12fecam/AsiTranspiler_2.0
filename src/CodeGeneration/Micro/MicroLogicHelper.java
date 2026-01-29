@@ -76,7 +76,7 @@ public class MicroLogicHelper {
         builder.append("\n");
     }
 
-    private Boolean checkFlag(List<FlagState> flags, FlagEnum flagEnum){//TODO reformular?
+    private Boolean checkFlag(List<FlagState> flags, FlagEnum flagEnum){
         for (var i:flags){
             if(i.getFlag().equals(flagEnum)){
                 return  i.getState();
