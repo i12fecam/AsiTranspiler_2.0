@@ -8,16 +8,16 @@ prog:   statusLogicBlock #microProgramableLogic
 
 
 variablesBlock: 'variables' '{' variableDeclaration* '}' ;
-variableDeclaration: id=IDENTIFIER '=' value=NUMBER              ';'  #simpleVariableDeclaration
-                   | id=IDENTIFIER '(' size=NUMBER ')'  '=' '{' value+=NUMBER (',' value+=NUMBER )* '}' ';' #vectorVariableDeclaration
+variableDeclaration: id=IDENTIFIER '=' value=MEMORYVALUE              ';'  #simpleVariableDeclaration
+                   | id=IDENTIFIER '(' size=DECNUMBER ')'  '=' '{' value+=MEMORYVALUE (',' value+=MEMORYVALUE )* '}' ';' #vectorVariableDeclaration
                    ;
 
 programBlock: 'programa' '{' programLine* '}' ;
 programLine: name=IDENTIFIER arg=instructionUseArgument ';'#instructionUse
             | 'MARK' label=IDENTIFIER  ';' #markUse
             ;
-instructionUseArgument: var=IDENTIFIER ('('offset=NUMBER')')?
-                      | num=NUMBER
+instructionUseArgument: var=IDENTIFIER ('('offset=DECNUMBER')')?
+                      | num=MEMORYVALUE
                       |
                       ;
 

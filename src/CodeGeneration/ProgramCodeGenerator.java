@@ -17,6 +17,7 @@ import java.util.List;
 import static Analysis.HelperFunctions.parseNumber;
 import static Internals.Errors.ErrorEnum.ESPACIO_MEMORIA_SUPERADO;
 import static Internals.InstructionArgumentTypeEnum.Var;
+import static java.lang.Integer.parseInt;
 
 public class ProgramCodeGenerator extends SicomeBaseListener {
     protected ParseTreeProperty<Integer> ids = null;
@@ -67,9 +68,9 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
                             .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
-                paramNumber = parseNumber(arg.num.getText(),null);
+                paramNumber = parseNumber(arg.num.getText(),11);
 
-                if(paramNumber >= 2048){
+                if(paramNumber == null){
                     ErrorController.getInstance()
                             .addNewError(ErrorEnum.VALOR_ARGUMENTO_LITERAL_NO_VALIDO, List.of(),arg.num);
 
@@ -85,7 +86,7 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
 
                 var variable_name = arg.var.getText();
                 var offset_value = (arg.offset != null)
-                    ? parseNumber(arg.offset.getText(),null)
+                    ? parseInt(arg.offset.getText(),10)
                     : 0;
 
                 if(symbols.isLabel(variable_name)){

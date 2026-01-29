@@ -12,6 +12,7 @@ import java.util.List;
 
 import static Analysis.HelperFunctions.parseNumber;
 import static Internals.Errors.ErrorEnum.VALOR_VARIABLE_NO_VALIDO;
+import static java.lang.Integer.parseInt;
 
 /**
  * Anotates the tree in functions and steps with their number
@@ -38,8 +39,8 @@ public class ProgramAnalysis extends SicomeBaseListener {
     public void exitSimpleVariableDeclaration(SicomeParser.SimpleVariableDeclarationContext ctx) {
         String id =ctx.id.getText();
 
-        int value = parseNumber(ctx.value.getText(),null);
-        if(value >= 65535){
+        Integer value = parseNumber(ctx.value.getText(),16);
+        if(value == null){
             ErrorController.getInstance()
                     .addNewError(VALOR_VARIABLE_NO_VALIDO,List.of(ctx.id.getText()), ctx.id);
         }
@@ -57,11 +58,11 @@ public class ProgramAnalysis extends SicomeBaseListener {
     public void exitVectorVariableDeclaration(SicomeParser.VectorVariableDeclarationContext ctx) {
 
         String id = ctx.id.getText();
-        int size = parseNumber(ctx.size.getText(),null);
+        int size = parseInt(ctx.size.getText(),10);
         List<Integer> values= new ArrayList<>();
         ctx.value.forEach(token -> {
-            var valueNumber = parseNumber(token.getText(),null);
-            if(valueNumber >= 65535){
+            var valueNumber = parseNumber(token.getText(),16);
+            if(valueNumber == null){
                 ErrorController.getInstance()
                         .addNewError(VALOR_VARIABLE_NO_VALIDO,List.of(ctx.id.getText()), ctx.id);
             }

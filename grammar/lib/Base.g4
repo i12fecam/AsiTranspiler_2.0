@@ -4,15 +4,17 @@ grammar Base;
 
 fragment HEXNUMBER: '0x'[0-9a-fA-F]+ ;
 fragment BINNUMBER: '0b'[01.]+;
-fragment DECNUMBER: [0-9]+;
-NUMBER: HEXNUMBER|BINNUMBER|DECNUMBER;
+fragment COMPLEMENT2NUMBER: '0c''-'?[0-9]+;
+fragment SINGNMAGNITUDENUMBER: '0s''-'?[0-9]+;
 
+MEMORYVALUE: HEXNUMBER|BINNUMBER|COMPLEMENT2NUMBER|SINGNMAGNITUDENUMBER;
+DECNUMBER:[0-9]+;
 
 FLAG: [!]?[A-Z][a-z]?[a-z+1]?;
 IDENTIFIER: [a-z][a-zA-Z0-9_]*; //debe empezar por minuscula
 MICRO_INSTR: [A-Z!01][a-zA-Z0-9+\-[\]>_@!]+;
-microIntr: MICRO_INSTR ('(' arg=NUMBER ')')?;
-specialMicroIntr: MICRO_INSTR ('(' arg=(NUMBER|'START') ')')?;
+microIntr: MICRO_INSTR ('(' arg=DECNUMBER ')')?;
+specialMicroIntr: MICRO_INSTR ('(' arg=(DECNUMBER|'START') ')')?;
 
 
 

@@ -29,8 +29,8 @@ public class ProgramTest {
         instruccion1(){}
         }
         variables{
-        variableRepetida = 0;
-        variableRepetida = 5;
+        variableRepetida = 0s0;
+        variableRepetida = 0s5;
         }
         programa{
         instruccion1;
@@ -58,7 +58,7 @@ public class ProgramTest {
         instruccion1(){}
         }
         variables{
-        vector(0) = { 1 };
+        vector(0) = { 0s1 };
         }
         programa{
         instruccion1;
@@ -88,7 +88,7 @@ public class ProgramTest {
         instruccion1(){}
         }
         variables{
-        vector(1) = { 1 };
+        vector(1) = { 0s1 };
         }
         programa{
         instruccion1;
@@ -117,7 +117,7 @@ public class ProgramTest {
         instruccion1(){}
         }
         variables{
-        vector(3) = {2,2};
+        vector(3) = {0s2,0s2};
         }
         programa{
         instruccion1;
@@ -238,8 +238,8 @@ public class ProgramTest {
                     instruccion1(value){}
                 }
                 variables{
-                    variable1 = 1;
-                    vector1(2) = {1};
+                    variable1 = 0s1;
+                    vector1(2) = {0s1};
                 }
                 programa{
                     MARK etiqueta1;
@@ -256,7 +256,7 @@ public class ProgramTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"","etiqueta1","5"})
+    @ValueSource(strings = {"","etiqueta1","0s5"})
     @DisplayName("Comprueba que las llamadas a funciones de tipo variable solo reciban variables.")
     void ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO(String argument){
         String inputText = String.format("""
@@ -270,8 +270,8 @@ public class ProgramTest {
                     instruccion1(var){}
                 }
                 variables{
-                    variable1 = 1;
-                    vector1(2) = {1};
+                    variable1 = 0s1;
+                    vector1(2) = {0s1};
                 }
                 programa{
                     MARK etiqueta1;
@@ -288,7 +288,7 @@ public class ProgramTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"","variable1","vector1(1)","5"})
+    @ValueSource(strings = {"","variable1","vector1(1)","0s5"})
     @DisplayName("Comprueba que las llamadas a funciones de tipo dirección solo reciban etiquetas.")
     void ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO(String argument){
         String inputText = String.format("""
@@ -302,8 +302,8 @@ public class ProgramTest {
                     instruccion1(dir){}
                 }
                 variables{
-                    variable1 = 1;
-                    vector1(2) = {1};
+                    variable1 = 0s1;
+                    vector1(2) = {0s1};
                 }
                 programa{
                     MARK etiqueta1;
@@ -322,7 +322,7 @@ public class ProgramTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = {"variable1","vector1(1)","5"})
+    @ValueSource(strings = {"variable1","vector1(1)","0s5"})
     @DisplayName("Comprueba que las llamadas a funciones que no necesiten de argumento, no se le pase.")
     void ARGUMENTO_INSTRUCCION_INNECESARIO(String argument){
         String inputText = String.format("""
@@ -336,8 +336,8 @@ public class ProgramTest {
                     instruccion1(){}
                 }
                 variables{
-                    variable1 = 1;
-                    vector1(2) = {1};
+                    variable1 = 0s1;
+                    vector1(2) = {0s1};
                 }
                 programa{
                     MARK etiqueta1;
@@ -368,7 +368,7 @@ public class ProgramTest {
                     instruccion1(var){}
                 }
                 variables{
-                    variable1 = 1;
+                    variable1 = 0s1;
                 }
                 programa{
                     MARK etiqueta1;
@@ -427,7 +427,7 @@ public class ProgramTest {
                     instruccion1(var){}
                 }
                 variables{
-                    vector(4) = {1};
+                    vector(4) = {0s1};
                 }
                 programa{
                     instruccion1 vector(%s);
@@ -456,7 +456,7 @@ public class ProgramTest {
                     instruccion1(var){}
                 }
                 variables{
-                    vector(2047) = {0};
+                    vector(2047) = {0s0};
                 }
                 programa{
                     instruccion1 vector(5);
@@ -472,10 +472,10 @@ public class ProgramTest {
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.ESPACIO_MEMORIA_SUPERADO));
     }
-
+    //TODO comprobar tb para complemento a 2
     @ParameterizedTest
-    @ValueSource(strings = {"65535","0x10000","0b1.0000.0000.0000.0000"})
-    @DisplayName("Comprueba si el valor de la variable supera el límite válido (15bits)")
+    @ValueSource(strings = {"0s65535","0x10000","0b10.0000.0000.0000.0000"})
+    @DisplayName("Comprueba si el valor de la variable supera el límite válido (16bits)")
     void VALOR_VARIABLE_NO_VALIDO(String valorVariable){
         String inputText = String.format( """
                @cableado
@@ -501,10 +501,10 @@ public class ProgramTest {
         assertTrue(ErrorController.getInstance()
                 .containsErrorEnum(ErrorEnum.VALOR_VARIABLE_NO_VALIDO));
     }
-
+    //TODO comprobar tb para complemento a 2
     @ParameterizedTest
-    @ValueSource(strings = {"2048","0x800","0b1000.0000.0000"})
-    @DisplayName("Comprueba si el valor de la variable supera el límite válido (10bits)")
+    @ValueSource(strings = {"0s2048","0x800","0b1000.0000.0000"})
+    @DisplayName("Comprueba si el valor de la variable supera el límite válido (11bits)")
     void VALOR_ARGUMENTO_LITERAL_NO_VALIDO(String value){
         String inputText = String.format( """
                @cableado

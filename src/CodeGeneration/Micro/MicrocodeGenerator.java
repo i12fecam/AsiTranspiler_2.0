@@ -18,6 +18,7 @@ import java.util.Set;
 import static Analysis.HelperFunctions.parseNumber;
 import static Internals.Errors.ErrorEnum.*;
 import static Internals.MicroInstructionEnum.load_sc;
+import static java.lang.Integer.parseInt;
 
 public class MicrocodeGenerator extends SicomeBaseListener {
 
@@ -74,7 +75,7 @@ public class MicrocodeGenerator extends SicomeBaseListener {
                         ErrorController.getInstance()
                                 .addNewError(INSTRUCCION_NO_DEFINIDA, List.of(ArgCtx.arg.getText()),ArgCtx.arg);
                     }
-                    var offset = parseNumber(ArgCtx.arg.getText(),null);
+                    var offset = parseInt(ArgCtx.arg.getText(),10);
 
                     if(offset >= instruction.getNSteps()){
                         ErrorController.getInstance()
@@ -152,7 +153,7 @@ public class MicrocodeGenerator extends SicomeBaseListener {
             }
 
             if(mi.needsArgument){
-                var argNumber = parseNumber(mInstr.arg.getText(),null);
+                var argNumber = parseInt(mInstr.arg.getText(),10);
                 if(mi == load_sc && argNumber >= 256){
                     ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
                             List.of(mi.inputName,"La instrucción no puede superar el tamaño de 8 bits"),

@@ -20,6 +20,7 @@ import java.util.Set;
 import static Analysis.HelperFunctions.parseNumber;
 import static Internals.Errors.ErrorEnum.*;
 import static Internals.MicroInstructionEnum.*;
+import static java.lang.Integer.parseInt;
 
 public class CableCodeGenerator extends SicomeBaseListener {
 
@@ -72,7 +73,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
                      argValue = null;
                 }
                 else {
-                    argValue = parseNumber(ctx.linstr.arg.getText(), null);
+                    argValue = parseInt(ctx.linstr.arg.getText(), 10);
 
                     var stepsInInstrucction = symbols.getInstructionById(id_func).getNSteps();
                     if(argValue >= stepsInInstrucction ){
@@ -128,7 +129,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
 
                     Integer argValue = null;
                     if (mInstr.arg != null) {
-                        argValue = HelperFunctions.parseNumber(mInstr.arg.getText(),null);
+                        argValue = parseInt(mInstr.arg.getText(),10);
 
                         if(rmIntrEnum == load_sc && argValue >= 256){
                             ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
@@ -181,7 +182,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
                     argValue = null;
                 }
                 else {
-                    argValue = parseNumber(ctx.linstr.arg.getText(), null);
+                    argValue = parseInt(ctx.linstr.arg.getText(), 10);
 
                     var stepsInInstrucction = symbols.getInstructionById(id_func).getNSteps();
                     if(argValue >= stepsInInstrucction ){
@@ -232,7 +233,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
 
                     Integer argValue = null;
                     if (mInstr.arg != null) {
-                        argValue = HelperFunctions.parseNumber(mInstr.arg.getText(),null);
+                        argValue = parseInt(mInstr.arg.getText(),10);
 
                         if(rmIntrEnum == load_sc && argValue >= 256){
                             ErrorController.getInstance()

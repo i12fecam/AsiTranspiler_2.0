@@ -24,6 +24,6 @@ microInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' microStep* '
 
 microStep: '|' biflogic=IDENTIFIER ('(' bifLogicArgument ')')? '|' instr+=microIntr* ';';
 
-bifLogicArgument: instr=IDENTIFIER '~' arg=NUMBER #instructionBifLogicArgument
+bifLogicArgument: instr=IDENTIFIER '~' arg=DECNUMBER #instructionBifLogicArgument
                 | 'START' #startBifLogicArgument
                 ;
