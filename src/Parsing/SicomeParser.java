@@ -44,10 +44,10 @@ public class SicomeParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'variables'", "'{'", "'}'", "'='", "';'", "'('", "')'", "','", 
-			"'programa'", "'MARK'", "'@cableado'", "'instrucciones'", "'value'", 
-			"'dir'", "'var'", "'fetch'", "'|'", "':'", "'START'", "'estados'", "'->'", 
-			"'INCR'", "'BIF'", "'RTN'", "'DISABLE'", "'@microinstruccion'", "'~'"
+			null, "'Variables'", "'{'", "'}'", "'='", "';'", "'('", "')'", "','", 
+			"'Programa'", "'MARK'", "'@Cable'", "'Instrucciones'", "'Value'", "'Dir'", 
+			"'Var'", "'Fetch'", "'|'", "':'", "'START'", "'L\\u00F3gica'", "'->'", 
+			"'INCR'", "'BIF'", "'RTN'", "'DISABLE'", "'@Micro'", "'~'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -2046,6 +2046,7 @@ public class SicomeParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class StartBifLogicArgumentContext extends BifLogicArgumentContext {
+		public TerminalNode DECNUMBER() { return getToken(SicomeParser.DECNUMBER, 0); }
 		public StartBifLogicArgumentContext(BifLogicArgumentContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -2081,12 +2082,12 @@ public class SicomeParser extends Parser {
 				((InstructionBifLogicArgumentContext)_localctx).arg = match(DECNUMBER);
 				}
 				break;
-			case T__18:
+			case DECNUMBER:
 				_localctx = new StartBifLogicArgumentContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(318);
-				match(T__18);
+				match(DECNUMBER);
 				}
 				break;
 			default:
@@ -2309,7 +2310,7 @@ public class SicomeParser extends Parser {
 		"\u0000\u0000\u0137\u0139\u0001\u0000\u0000\u0000\u0138\u0136\u0001\u0000"+
 		"\u0000\u0000\u0139\u013a\u0005\u0005\u0000\u0000\u013a\'\u0001\u0000\u0000"+
 		"\u0000\u013b\u013c\u0005\u001f\u0000\u0000\u013c\u013d\u0005\u001b\u0000"+
-		"\u0000\u013d\u0140\u0005\u001d\u0000\u0000\u013e\u0140\u0005\u0013\u0000"+
+		"\u0000\u013d\u0140\u0005\u001d\u0000\u0000\u013e\u0140\u0005\u001d\u0000"+
 		"\u0000\u013f\u013b\u0001\u0000\u0000\u0000\u013f\u013e\u0001\u0000\u0000"+
 		"\u0000\u0140)\u0001\u0000\u0000\u0000%2:BDK_dkw}\u0081\u008a\u0091\u0098"+
 		"\u00a2\u00ac\u00b5\u00b9\u00c0\u00ca\u00d3\u00d9\u00e0\u00e7\u00ea\u00f2"+

@@ -7,12 +7,12 @@ prog:   statusLogicBlock #microProgramableLogic
 
 
 
-variablesBlock: 'variables' '{' variableDeclaration* '}' ;
+variablesBlock: 'Variables' '{' variableDeclaration* '}' ;
 variableDeclaration: id=IDENTIFIER '=' value=MEMORYVALUE              ';'  #simpleVariableDeclaration
                    | id=IDENTIFIER '(' size=DECNUMBER ')'  '=' '{' value+=MEMORYVALUE (',' value+=MEMORYVALUE )* '}' ';' #vectorVariableDeclaration
                    ;
 
-programBlock: 'programa' '{' programLine* '}' ;
+programBlock: 'Programa' '{' programLine* '}' ;
 programLine: name=IDENTIFIER arg=instructionUseArgument ';'#instructionUse
             | 'MARK' label=IDENTIFIER  ';' #markUse
             ;

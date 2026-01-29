@@ -19,20 +19,20 @@ public class ProgramTest {
     @DisplayName("Comprueba que no se pueda definir dos variables con el mismo nombre.")
     void VARIABLE_MISMO_NOMBRE(){
         String inputText = """
-        @cableado
-        instrucciones {
-        fetch {
+        @Cable
+        Instrucciones {
+        Fetch {
             |SR+1->SR| PC->MAR;
             |SR+1->SR| M->GPR PC+1->PC;
             |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
         }
         instruccion1(){}
         }
-        variables{
+        Variables{
         variableRepetida = 0s0;
         variableRepetida = 0s5;
         }
-        programa{
+        Programa{
         instruccion1;
         }
         """;
@@ -48,19 +48,19 @@ public class ProgramTest {
     @DisplayName("Comprueba que no se pueda definir vectores de tamaño 0.")
     void TAMANYO_VECTOR_INVALIDO1(){
         String inputText = """
-        @cableado
-        instrucciones {
-        fetch {
+        @Cable
+        Instrucciones {
+        Fetch {
             |SR+1->SR| PC->MAR;
             |SR+1->SR| M->GPR PC+1->PC;
             |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
         }
         instruccion1(){}
         }
-        variables{
+        Variables{
         vector(0) = { 0s1 };
         }
-        programa{
+        Programa{
         instruccion1;
         }
         """;
@@ -78,19 +78,19 @@ public class ProgramTest {
     @DisplayName("Comprueba que no se pueda definir vectores de tamaño 1.")
     void TAMANYO_VECTOR_INVALIDO2(){
         String inputText = """
-        @cableado
-        instrucciones {
-        fetch {
+        @Cable
+        Instrucciones {
+        Fetch {
             |SR+1->SR| PC->MAR;
             |SR+1->SR| M->GPR PC+1->PC;
             |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
         }
         instruccion1(){}
         }
-        variables{
+        Variables{
         vector(1) = { 0s1 };
         }
-        programa{
+        Programa{
         instruccion1;
         }
         """;
@@ -107,19 +107,19 @@ public class ProgramTest {
     @DisplayName("Comprueba que no se pueda inicializar el vector con un número diferente de valores al tamaño del vector.")
     void INICIALIZACION_VECTOR_INVALIDA1(){
         String inputText = """
-        @cableado
-        instrucciones {
-        fetch {
+        @Cable
+        Instrucciones {
+        Fetch {
             |SR+1->SR| PC->MAR;
             |SR+1->SR| M->GPR PC+1->PC;
             |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
         }
         instruccion1(){}
         }
-        variables{
+        Variables{
         vector(3) = {0s2,0s2};
         }
-        programa{
+        Programa{
         instruccion1;
         }
         """;
@@ -135,17 +135,17 @@ public class ProgramTest {
     @DisplayName("Comprueba que no se pueda escribir dos etiquetas con el mismo nombre.")
     void ETIQUETA_MISMO_NOMBRE(){
         String inputText = """
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
                     instruccion1(){}
                 }
-                variables{}
-                programa{
+                Variables{}
+                Programa{
                 MARK label1;
                 instruccion1;
                 MARK label1;
@@ -167,18 +167,18 @@ public class ProgramTest {
     @DisplayName("Comprueba si la instrucción no está definida en cableado.")
     void INSTRUCCION_NO_DEFINIDA1(){
         String inputText = """
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
                     instruccion1(){}
                 }
-                variables{
+                Variables{
                 }
-                programa{
+                Programa{
                     instruccion2;
                 }
                """;
@@ -195,21 +195,21 @@ public class ProgramTest {
     @DisplayName("Comprueba si la instrucción no está definida en microprogramado.")
     void INSTRUCCION_NO_DEFINIDA2(){
         String inputText = """
-               estados{
+               Lógica{
                  inc ->  INCR
                  rtn -> RTN
                }
-               @microinstruccion
-                instrucciones {
-                    fetch {
+               @Micro
+                Instrucciones {
+                    Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                     }
                     instruccion1(){}
                 }
-                variables{}
-                programa{
+                Variables{}
+                Programa{
                     instruccion2;
                 }
                """;
@@ -228,20 +228,20 @@ public class ProgramTest {
     @DisplayName("Comprueba que las llamadas a funciones de tipo value solo reciban valores literales.")
     void ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO(String argument){
         String inputText = String.format("""
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                    instruccion1(value){}
+                    instruccion1(Value){}
                 }
-                variables{
+                Variables{
                     variable1 = 0s1;
                     vector1(2) = {0s1};
                 }
-                programa{
+                Programa{
                     MARK etiqueta1;
                     instruccion1 %s;
                 }
@@ -260,20 +260,20 @@ public class ProgramTest {
     @DisplayName("Comprueba que las llamadas a funciones de tipo variable solo reciban variables.")
     void ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO(String argument){
         String inputText = String.format("""
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                    instruccion1(var){}
+                    instruccion1(Var){}
                 }
-                variables{
+                Variables{
                     variable1 = 0s1;
                     vector1(2) = {0s1};
                 }
-                programa{
+                Programa{
                     MARK etiqueta1;
                     instruccion1 %s;
                 }
@@ -292,20 +292,20 @@ public class ProgramTest {
     @DisplayName("Comprueba que las llamadas a funciones de tipo dirección solo reciban etiquetas.")
     void ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO(String argument){
         String inputText = String.format("""
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                    instruccion1(dir){}
+                    instruccion1(Dir){}
                 }
-                variables{
+                Variables{
                     variable1 = 0s1;
                     vector1(2) = {0s1};
                 }
-                programa{
+                Programa{
                     MARK etiqueta1;
                     instruccion1 %s;
                 }
@@ -326,20 +326,20 @@ public class ProgramTest {
     @DisplayName("Comprueba que las llamadas a funciones que no necesiten de argumento, no se le pase.")
     void ARGUMENTO_INSTRUCCION_INNECESARIO(String argument){
         String inputText = String.format("""
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
                     instruccion1(){}
                 }
-                variables{
+                Variables{
                     variable1 = 0s1;
                     vector1(2) = {0s1};
                 }
-                programa{
+                Programa{
                     MARK etiqueta1;
                     instruccion1 %s;
                 }
@@ -358,19 +358,19 @@ public class ProgramTest {
     @DisplayName("Comprueba que las variables usadas estén definidas.")
     void VARIABLE_NO_DEFINIDA(String argument){
         String inputText = String.format("""
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                    instruccion1(var){}
+                    instruccion1(Var){}
                 }
-                variables{
+                Variables{
                     variable1 = 0s1;
                 }
-                programa{
+                Programa{
                     MARK etiqueta1;
                     instruccion1 %s;
                 }
@@ -388,17 +388,17 @@ public class ProgramTest {
     @DisplayName("Comprueba que las etiquetas usadas estén definidas.")
     void ETIQUETA_NO_DEFINIDA(){
         String inputText = """
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                    instruccion1(dir){}
+                    instruccion1(Dir){}
                 }
-                variables{}
-                programa{
+                Variables{}
+                Programa{
                     MARK etiqueta1;
                     instruccion1 etiqueta3;
                     MARK etiqueta2;
@@ -417,19 +417,19 @@ public class ProgramTest {
     @DisplayName("Comprueba que el índice del vector utilizado no supere el tamaño del vector.")
     void INDICE_ARGUMENTO_VECTOR_INVALIDO(String argument){
         String inputText = String.format("""
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                    instruccion1(var){}
+                    instruccion1(Var){}
                 }
-                variables{
+                Variables{
                     vector(4) = {0s1};
                 }
-                programa{
+                Programa{
                     instruccion1 vector(%s);
                 }
                """,argument);
@@ -446,19 +446,19 @@ public class ProgramTest {
     void ESPACIO_MEMORIA_SUPERADO(){
 
         String inputText = """
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                    instruccion1(var){}
+                    instruccion1(Var){}
                 }
-                variables{
+                Variables{
                     vector(2047) = {0s0};
                 }
-                programa{
+                Programa{
                     instruccion1 vector(5);
                     instruccion1 vector(200);
 
@@ -478,19 +478,19 @@ public class ProgramTest {
     @DisplayName("Comprueba si el valor de la variable supera el límite válido (16bits)")
     void VALOR_VARIABLE_NO_VALIDO(String valorVariable){
         String inputText = String.format( """
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                    instruccion1(var){}
+                    instruccion1(){}
                 }
-                variables{
+                Variables{
                    variable = %s;
                 }
-                programa{
+                Programa{
                 }
                """,valorVariable);
         var helper = new Runner();
@@ -507,18 +507,18 @@ public class ProgramTest {
     @DisplayName("Comprueba si el valor de la variable supera el límite válido (11bits)")
     void VALOR_ARGUMENTO_LITERAL_NO_VALIDO(String value){
         String inputText = String.format( """
-               @cableado
-                instrucciones {
-                    fetch {
+               @Cable
+                Instrucciones {
+                    Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                    instruccion1(value){}
+                    instruccion1(Value){}
                 }
-                variables{
+                Variables{
                 }
-                programa{
+                Programa{
                 instruccion1 %s;
                 }
                """,value);

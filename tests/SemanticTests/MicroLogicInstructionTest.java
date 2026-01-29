@@ -22,7 +22,7 @@ public class MicroLogicInstructionTest {
     @DisplayName("Comprueba que no haya dos lógicas de bifurcación con el mismo nombre.")
     public void LOGICA_BIFURCACION_MISMO_NOMBRE(){
         String inputText = """
-            estados{
+            Lógica{
                  inc ->  INCR
                  inc -> BIF
             }
@@ -36,7 +36,7 @@ public class MicroLogicInstructionTest {
     @DisplayName("Comprueba que no se ha superado el número máximo de lógicas de bifurcación permitida por la arquitectura (16).")
     public void NUMERO_LOGICA_BIFURCACION_SUPERADO(){
         String inputText = """
-            estados{
+            Lógica{
                  inc ->  INCR
                  inc2 -> RTN
                  inc3 -> INCR
@@ -69,7 +69,7 @@ public class MicroLogicInstructionTest {
     @DisplayName("Comprueba que señala correctamente cuando la bandera no este escrita correctamente.")
     void BANDERA_NO_RECONOCIDA1(){
         String inputText = """
-            estados{
+            Lógica{
                  inc ->  INCR
                  bif_if_flag -> {
                     A : BIF
@@ -97,7 +97,7 @@ public class MicroLogicInstructionTest {
     @DisplayName("Comprueba que todas las banderas se reconozcan de forma correcta.")
     void BANDERA_NO_RECONOCIDA2(String flag){
         String inputText = String.format("""
-            estados{
+            Lógica{
                  inc ->  INCR
                  bif_if_flag -> {
                     %s: BIF

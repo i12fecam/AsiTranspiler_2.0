@@ -16,9 +16,9 @@ public class Instruction {
     public Instruction(String functionName, String functionArg, int nSteps , int id){
         this._functionName = functionName;
         switch (functionArg){
-            case "dir": _params= InstructionArgumentTypeEnum.Dir; break;
-            case "value": _params= InstructionArgumentTypeEnum.Value; break;
-            case "var" : _params= InstructionArgumentTypeEnum.Var;break;
+            case "Dir": _params= InstructionArgumentTypeEnum.Dir; break;
+            case "Value": _params= InstructionArgumentTypeEnum.Value; break;
+            case "Var" : _params= InstructionArgumentTypeEnum.Var;break;
             case "" : _params= InstructionArgumentTypeEnum.None; break;
             default: _params= InstructionArgumentTypeEnum.None;break;
         }

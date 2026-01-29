@@ -2,6 +2,7 @@ package DocumentationPrinter;
 
 import Internals.FlagEnum;
 import Internals.MicroInstructionEnum;
+import Internals.MicroInstructionTypeEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.api.DisplayName;
@@ -12,25 +13,65 @@ import java.util.stream.Collectors;
 
 public class PrintDocumentation {
      public static void main(String[] args) {
-        //System.out.println(getMicroInstructionTable());
-         System.out.println(getTestTable());
+        System.out.println(getMicroInstructionTable());
+         //System.out.println(getTestTable());
     }
 
     public static String getMicroInstructionTable(){
          var res = new StringBuilder();
-         res.append("""
-                 \\begin{tabular}{|l|p{0.8\\textwidth}|}
-                 nombre | equivalente SICOME | Grupo \
-                 
+        res.append("""
+                \\begin{longtable}{|p{0.4\\textwidth}|p{0.6\\textwidth}|}
+                \\hline
+                 Nombre & Descripción \\\\
+                 \\hline
                  """);
-        Arrays.stream(MicroInstructionEnum.values()).forEach(microInstruction ->{
-            res
-            .append(microInstruction.inputName)
-            .append(" & ")
-            .append(microInstruction.outputName)
-            .append(" & ")
-            .append(microInstruction.getType().name())
-            .append("\n").append("\\\\").append("\\hline");
+        res.append("""
+        \\hline
+        \\multicolumn{2}{|c|}{MAR} \\\\ \n
+        \\hline
+        """);
+        res.append(getMicroInstructionType(MicroInstructionTypeEnum.mar));
+        res.append("""
+        \\hline
+        \\multicolumn{2}{|c|}{OPR} \\\\ \n
+        \\hline
+        """);
+        res.append(getMicroInstructionType(MicroInstructionTypeEnum.opr));
+        res.append("""
+        \\hline
+        \\multicolumn{2}{|c|}{PC, SP y SC} \\\\ \n
+        \\hline
+        """);
+        res.append(getMicroInstructionType(MicroInstructionTypeEnum.pc_sp_sc));
+        res.append("""
+        \\hline
+        \\multicolumn{2}{|c|}{GPR} \\\\ \n
+        \\hline
+        """);
+        res.append(getMicroInstructionType(MicroInstructionTypeEnum.gpr));
+        res.append("""
+        \\hline
+        \\multicolumn{2}{|c|}{ALU} \\\\ \n
+        \\hline
+        """);
+        res.append(getMicroInstructionType(MicroInstructionTypeEnum.alu));
+        res.append("\\end{longtable}");
+
+
+
+        return res.toString().replace("_","\\allowbreak\\_");
+    }
+
+    private static String getMicroInstructionType(MicroInstructionTypeEnum type){
+        var res = new StringBuilder();
+        Arrays.stream(MicroInstructionEnum.values())
+                .filter(m -> m.getType().equals(type))
+                .forEach(m ->{
+                    res.append(m.inputName).append(" & ");
+                    res.append(m.outputName).append(" \\\\");
+                    res.append("\\hline\n");
+
+
         });
         return res.toString();
     }

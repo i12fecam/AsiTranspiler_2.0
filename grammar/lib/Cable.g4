@@ -1,11 +1,11 @@
 grammar Cable;
 import Base;
 
-cableInstructionBlock: '@cableado' 'instrucciones''{' fetchCableInstruction cableInstruction+ '}';
+cableInstructionBlock: '@Cable' 'Instrucciones''{' fetchCableInstruction cableInstruction+ '}';
 
-cableInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' cableStep* '}';
+cableInstruction: IDENTIFIER '(' arg=('Value'|'Dir'|'Var')? ')' '{' cableStep* '}';
 
-fetchCableInstruction: 'fetch' '{' cableStep+ '}';
+fetchCableInstruction: 'Fetch' '{' cableStep+ '}';
 
 cableStep: '|' linstr=specialMicroIntr '|' rinstr+=microIntr* ';'  #simpleCableStep
     | '{'conditionalCableStep+ '}'                         #conditionalCableStepBlock

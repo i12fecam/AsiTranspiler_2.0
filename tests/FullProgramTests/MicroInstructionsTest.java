@@ -280,11 +280,11 @@ public class MicroInstructionsTest {
     @Test
     void p2(){
         String inputText = """
-                estados{
+                Lógica{
                  nop -> INCR DISABLE //0
                  inc ->  INCR //1
                  bif ->  BIF  //2
-                 ret -> RET //3
+                 ret -> RTN //3
                  jmp_if_Z -> { //4
                     !F:INCR
                      F:BIF
@@ -325,70 +325,76 @@ public class MicroInstructionsTest {
                  }
                 }
                 
-                @microinstruccion
-                instrucciones {
+                @Micro
+                Instrucciones {
+                    Fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |ret| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
+                
                     isz(value){
-                          [inc] M->GPR;
-                          [inc] GPR+1->GPR;
-                          [inc] GPR->M;
-                          [jmp_if_not_Zb(0)] ;
-                          [bif(0)] PC+1->PC;
+                          |inc| M->GPR;
+                          |inc| GPR+1->GPR;
+                          |inc| GPR->M;
+                          |jmp_if_not_Zb(0)| ;
+                          |bif(0)| PC+1->PC;
                     }
                     isz_r(value){
-                          [inc] M->GPR;
-                          [inc] GPR+1->GPR;
-                          [inc] GPR->M;
-                          [bif_and_disable_if_not_Zb(0)] PC+1->PC;
+                          |inc| M->GPR;
+                          |inc| GPR+1->GPR;
+                          |inc| GPR->M;
+                          |bif_and_disable_if_not_Zb(0)| PC+1->PC;
                     }
                     push(value){
-                        [inc] M->GPR SP-1->SP;
-                        [inc] SP->MAR;
-                        [bif(0)] GPR->M;
+                        |inc| M->GPR SP-1->SP;
+                        |inc| SP->MAR;
+                        |bif(0)| GPR->M;
                     }
                     pop(value){
-                        [inc] SP->MAR;
-                        [inc] M->QR SP+1->SP;
-                        [inc] GPR{AD}->MAR;
-                        [bif(0)] QR->M;
+                        |inc| SP->MAR;
+                        |inc| M->QR SP+1->SP;
+                        |inc| GPR[AD]->MAR;
+                        |bif(0)| QR->M;
                     }
                     push_i(value){
-                        [inc] M->GPR SP-1->SP;
-                        [inc] GPR{AD}->MAR;
-                        [inc] M->GPR;
-                        [inc] SP->MAR;
-                        [bif(0)] GPR->M;
+                        |inc| M->GPR SP-1->SP;
+                        |inc| GPR[AD]->MAR;
+                        |inc| M->GPR;
+                        |inc| SP->MAR;
+                        |bif(0)| GPR->M;
                     }
                     pop_i(value){
-                        [inc] SP->MAR;
-                        [inc] M->QR SP+1->SP;
-                        [inc] GPR{AD}->MAR;
-                        [inc] M->GPR;
-                        [inc] GPR{AD}->MAR;
-                        [bif(0)] QR->M;
+                        |inc| SP->MAR;
+                        |inc| M->QR SP+1->SP;
+                        |inc| GPR[AD]->MAR;
+                        |inc| M->GPR;
+                        |inc| GPR[AD]->MAR;
+                        |bif(0)| QR->M;
                     }
                     jazpn(){
-                        [jmp_and_disable_if_Zac(0)] PC+1->PC;
-                        [bifurcate_and_disable_if_not_As(0)] PC+1->PC;
+                        |jmp_and_disable_if_Zac(0)| PC+1->PC;
+                        |bifurcate_and_disable_if_not_As(0)| PC+1->PC;
                     }
                     jmpr(dir){
-                        [inc] GPR->QR SP-1->SP;
-                        [inc] ACC->GPR SP->MAR;
-                        [inc] GPR->M 0->ACC;
-                        [inc] QR->GPR !ACC->ACC;
-                        [inc] PC->GPR GPR->PC;
-                        [inc] GPR+ACC->ACC;
-                        [inc] PC->GPR;
-                        [inc] GPR+ACC->ACC;
-                        [inc] ACC->GPR;
-                        [inc] GPR->PC 0->ACC;
-                        [inc] M->GPR SP+1->SP;
-                        [bif(0)] GPR+ACC->ACC;
+                        |inc| GPR->QR SP-1->SP;
+                        |inc| ACC->GPR SP->MAR;
+                        |inc| GPR->M 0->ACC;
+                        |inc| QR->GPR !ACC->ACC;
+                        |inc| PC->GPR GPR->PC;
+                        |inc| GPR+ACC->ACC;
+                        |inc| PC->GPR;
+                        |inc| GPR+ACC->ACC;
+                        |inc| ACC->GPR;
+                        |inc| GPR->PC 0->ACC;
+                        |inc| M->GPR SP+1->SP;
+                        |bif(0)| GPR+ACC->ACC;
                     }
                     
                     
                 }
-                variables{}
-                programa{}
+                Variables{}
+                Programa{}
                 """;
 
         String outputRepositoryText = """
@@ -437,15 +443,12 @@ public class MicroInstructionsTest {
 
 
         Runner helper = new Runner();
-        try {
+
             helper.run(inputText);
-        }catch (LogicException e){
-            System.out.println(e.getMessage());
-            System.out.println(e.getToken());
-        }
 
 
 
+        ErrorController.getInstance().printToConsole(true);
         assertEquals(outputRepositoryText,helper.getRepositoryText());
         assertEquals(outputLogicText,helper.getLogicText());
     }
@@ -460,7 +463,7 @@ public class MicroInstructionsTest {
                  bif ->  BIF
                  rtn -> RTN
                 }
-                @microinstruccion
+                @Micro
                 instrucciones {
                     fetch {
                         |inc| PC->MAR;

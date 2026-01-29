@@ -3,7 +3,7 @@ import Base;
 
 
 
-statusLogicBlock: 'estados' '{' statusLogic+ '}' ;
+statusLogicBlock: 'Lógica' '{' statusLogic+ '}' ;
 
 statusLogic: name=IDENTIFIER '->' option=('INCR'|'BIF'|'RTN')? disable='DISABLE'? #simpleStatusLogic
            | name=IDENTIFIER '->' '{' statusLogicOption+ '}' #complexStatusLogic
@@ -16,14 +16,14 @@ statusLogicOption : flags+=FLAG (',' flags+=FLAG)* ':' option=('INCR'|'BIF'|'RTN
 
 
 
-microInstructionBlock : '@microinstruccion' 'instrucciones''{' fetchMicroInstruction microInstruction+ '}';
+microInstructionBlock : '@Micro' 'Instrucciones''{' fetchMicroInstruction microInstruction+ '}';
 
-fetchMicroInstruction: 'fetch' '{' microStep+ '}';
+fetchMicroInstruction: 'Fetch' '{' microStep+ '}';
 
-microInstruction: IDENTIFIER '(' arg=('value'|'dir'|'var')? ')' '{' microStep* '}';
+microInstruction: IDENTIFIER '(' arg=('Value'|'Dir'|'Var')? ')' '{' microStep* '}';
 
 microStep: '|' biflogic=IDENTIFIER ('(' bifLogicArgument ')')? '|' instr+=microIntr* ';';
 
 bifLogicArgument: instr=IDENTIFIER '~' arg=DECNUMBER #instructionBifLogicArgument
-                | 'START' #startBifLogicArgument
+                | DECNUMBER #startBifLogicArgument
                 ;

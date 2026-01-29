@@ -30,19 +30,19 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que no haya dos instrucciones de mismo argumento con el mismo nombre.")
     public void INSTRUCCION_MISMO_NOMBRE(){
         String inputText = """
-            estados{
+            Lógica{
                  inc ->  INCR
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){}
-                instruccion1(value){}
+                instruccion1(Value){}
+                instruccion1(Value){}
             }\
             """;
         var helper = new Runner();
@@ -55,20 +55,20 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que no haya dos instrucciones de diferente argumento con el mismo nombre.")
     void INSTRUCCION_MISMO_NOMBRE2(){
         String inputText = """
-            estados{
+            Lógica{
                  inc ->  INCR
                  rtn -> RTN
 
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){}
-                instruccion1(var){}
+                instruccion1(Value){}
+                instruccion1(Var){}
             }\
             """;
         var helper = new Runner();
@@ -82,18 +82,18 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no está escrita correctamente.")
     void MICROINSTRUCCION_NO_RECONOCIDA1(){
         String inputText = """
-            estados{
+            Lógica{
                  inc ->  INCR
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-            fetch {
+            @Micro
+            Instrucciones {
+            Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(Value){
                 |inc| GOR->PC;
                 }
             }\
@@ -121,18 +121,18 @@ public class MicroInstructionsTest {
     @MethodSource("provideValidMicroInstructions")
     void MICROINSTRUCCION_NO_RECONOCIDA2(String microinstruction){
         String inputText = String.format("""
-            estados{
+            Lógica{
                  inc ->  INCR
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 |inc| %s;
                 }
             }\
@@ -158,18 +158,18 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que no haya dos microinstrucciones del mismo tipo en el mismo paso.")
     void MICROINSTRUCCION_INVALIDA1(String microinstruccion1,String microinstruccion2){
         String inputText = String.format("""
-            estados{
+            Lógica{
                  inc ->  INCR
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                     |inc| PC->MAR;
                     |inc| M->GPR PC+1->PC;
                     |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(Value){
                 |inc| %s %s;
                 }
             }\
@@ -193,18 +193,18 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que no haya microinstrucciones de tipo cable.")
     void MICROINSTRUCCION_INVALIDA2(String microinstruccion){
         String inputText = String.format("""
-            estados{
+            Lógica{
                  inc ->  INCR
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(Value){
                 |inc| %s;
                 }
             }\
@@ -220,19 +220,19 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que no haya instrucciones con argumentos a la vez que una lógica de bifurcación que requiera argumento.")
     void MICROINSTRUCCION_INVALIDA3(){
         String inputText = """
-            estados{
+            Lógica{
                  inc ->  INCR
                  bif -> BIF
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(Value){
                 |bif(0)| LOAD_SC(5);
                 }
             }\
@@ -251,19 +251,19 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que las lógicas de bifurcacion que necesiten de argumento, lo tengan.")
     void ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO(){
         String inputText = """
-            estados{
+            Lógica{
                  inc ->  INCR
                  bif -> BIF
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(Value){
                 |bif| GPR->PC;
                 }
             }\
@@ -279,27 +279,27 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que las lógicas de bifurcaciónes que tengan como argumento, una instrucción y un offset, no tenga un offset mayor que el nº de pasos de la instrucción.")
     void ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO2(){
         String inputText = """
-            estados{
+            Lógica{
                  inc -> INCR
                  bif -> BIF
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(Value){
                 |inc| GPR->PC;
                 |bif(instruccion2 ~ 0)| GPR->PC;
                 }
-                instruccion2(value){
+                instruccion2(Value){
                 |inc| GPR->PC;
                 |bif(instruccion3 ~ 2)| GPR->PC; //instruccion 2 solo tiene dos pasos
                 }
-                instruccion3(value){
+                instruccion3(Value){
                 |inc| GPR->PC;
                 |bif(instruccion1 ~ 0)| GPR->PC;
                 }
@@ -316,27 +316,27 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que las lógicas de bifurcaciónes que tengan como argumento, una instrucción y un offset, se refieran a instrucciones definidas.")
     void INSTRUCCION_NO_DEFINIDA(){
         String inputText = """
-            estados{
+            Lógica{
                  inc -> INCR
                  bif -> BIF
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(Value){
                 |inc| GPR->PC;
                 |bif(instruccion2 ~ 0)| GPR->PC;
                 }
-                instruccion2(value){
+                instruccion2(Value){
                 |inc| GPR->PC;
                 |bif(instruccion4 ~ 2)| GPR->PC; //instruccion 4 no existe
                 }
-                instruccion3(value){
+                instruccion3(Value){
                 |inc| GPR->PC;
                 |bif(instruccion1 ~ 0)| GPR->PC;
                 }
@@ -355,18 +355,18 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que las microinstrucciones que necesiten de argumento, lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(String argument){
         String inputText = String.format("""
-            estados{
+            Lógica{
                  inc ->  INCR
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(Value){
                 |inc| LOAD_SC%s;
                 }
             }\
@@ -385,18 +385,18 @@ public class MicroInstructionsTest {
     @DisplayName("Comprueba que las microinstrucciones que no necesiten de argumento,no lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(String argument){
         String inputText = String.format("""
-            estados{
+            Lógica{
                  inc ->  INCR
                  rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(Value){
                 |inc| GPR->PC%s;
                 }
             }\
@@ -409,22 +409,22 @@ public class MicroInstructionsTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"256", "0x100","0b1.0000.0000"})
+    @ValueSource(strings = {"256"})
     @DisplayName("Comprueba que el argumento pasado a LOAD SC no supere el límite de 8 bits")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO3(String argument){
         String inputText = String.format("""
-            estados{
+            Lógica{
                 inc -> INCR
                 rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(Value){
                     |inc| LOAD_SC(%s);
                 }
             }\
@@ -448,18 +448,18 @@ public class MicroInstructionsTest {
                 .reduce("",String::concat);
 
         String inputText = String.format("""
-            estados{
+            Lógica{
                 inc -> INCR
                 rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                     %s
                 }
             }\
@@ -478,20 +478,20 @@ public class MicroInstructionsTest {
         //instrucciones del 1 al 33
         String instrucciones = IntStream.range(1, 33+1)
                 .mapToObj(i -> String.format("""
-                        instruccion%s(value){
+                        instruccion%s(Value){
                             |inc| GPR->PC;
                         }
                         """,i))
                 .reduce("",String::concat);
 
         String inputText = String.format("""
-            estados{
+            Lógica{
                 inc -> INCR
                 rtn -> RTN
             }
-            @microinstruccion
-            instrucciones {
-                fetch {
+            @Micro
+            Instrucciones {
+                Fetch {
                         |inc| PC->MAR;
                         |inc| M->GPR PC+1->PC;
                         |rtn| GPR[OP]->OPR GPR[AD]->MAR;

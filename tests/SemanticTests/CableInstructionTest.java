@@ -27,15 +27,15 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que no haya dos instrucciones de distinto argumento con el mismo nombre.")
     public void INSTRUCCION_MISMO_NOMBRE(){
         String inputText = """
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){}
-                instruccion1(var){}
+                instruccion1(){}
+                instruccion1(Var){}
             }
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
@@ -49,15 +49,15 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que no haya dos instrucciones de mismo argumento con el mismo nombre.")
     public void INSTRUCCION_MISMO_NOMBRE2(){
         String inputText = """
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){}
-                instruccion1(var){}
+                instruccion1(){}
+                instruccion1(){}
             }
             """;
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
@@ -70,14 +70,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no está escrita correctamente en un paso simple.")
     void MICROINSTRUCCION_NO_RECONOCIDA1(){
         String inputText = """
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 |SR+1->SR| GOR->PC;
                 }
             }\
@@ -92,14 +92,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que señala correctamente cuando la microinstrucción no está escrita correctamente en un paso complejo.")
     void MICROINSTRUCCION_NO_RECONOCIDA2(){
         String inputText = """
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 {
                     F: |SR+1->SR| GOR->PC;
                     !F: |SR+1->SR|;
@@ -129,14 +129,14 @@ public class CableInstructionTest {
     @MethodSource("provideValidMicroInstructions")
     void MICROINSTRUCCION_NO_RECONOCIDA3(String microinstruction){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 |SR+1->SR| %s;
                 }
             }\
@@ -159,14 +159,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que no haya dos microinstrucciones iguales en el mismo paso simple.")
     void MICROINSTRUCCION_INVALIDA1(String microinstruccion1,String microinstruccion2){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 |SR+1->SR| %s %s;
                 }
             }\
@@ -182,15 +182,15 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que no haya dos microinstrucciones iguales en el mismo paso complejo.")
     void MICROINSTRUCCION_INVALIDA2(String microinstruccion1,String microinstruccion2){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
             
-                instruccion1(value){
+                instruccion1(){
                 {
                     F: |SR+1->SR| %s %s;
                     !F: |SR+1->SR|;
@@ -224,14 +224,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que no haya instrucciones de tipo cable en la parte derecha del paso simple.")
     void MICROINSTRUCCION_INVALIDA3(String microinstruccion){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 |SR+1->SR| %s;
                 }
             }\
@@ -247,14 +247,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que no haya instrucciones de tipo cable en la parte derecha del paso complejo.")
     void MICROINSTRUCCION_INVALIDA4(String microinstruccion){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                     {
                         F: |SR+1->SR| %s;
                         !F: |SR+1->SR|;
@@ -273,14 +273,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que no haya instrucciones de tipo no cable en la parte izquierda del paso simple.")
     void MICROINSTRUCCION_INVALIDA5(String microinstruccion){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 |%s| ;
                 }
             }\
@@ -295,14 +295,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que no haya instrucciones de tipo no cable en la parte izquierda del paso complejo.")
     void MICROINSTRUCCION_INVALIDA6(String microinstruccion){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                     {
                         F: |%s|;
                         !F: |SR+1->SR|;
@@ -327,14 +327,14 @@ public class CableInstructionTest {
     void BANDERA_NO_RECONOCIDA1(){
         String inputText = """
             
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                    {
                      A: |SR+1->SR| GPR->PC;
                      !A: |SR+1->SR| GPR->PC;
@@ -353,14 +353,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que todas las banderas se reconozcan de forma correcta.")
     void BANDERA_NO_RECONOCIDA2(String flag){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                     {
                      %s: |SR+1->SR| GPR->PC;
                      !%s: |SR+1->SR| GPR->PC;
@@ -376,14 +376,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que las microinstrucciones en pasos simples que necesiten de argumento, lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(String argument){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 |SR+1->SR| LOAD_SC%s;
                 }
             }\
@@ -399,14 +399,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que las microinstrucciones en pasos complejos que necesiten de argumento, lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO2(String argument){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 {
                     F: |SR+1->SR| LOAD_SC%s;
                     !F: |SR+1->SR| GPR->PC;
@@ -427,14 +427,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que las microinstrucciones en pasos simples que no necesitan de argumento, no lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(String argument){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 |SR+1->SR| GPR->PC%s;
                 }
             }\
@@ -450,14 +450,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que las microinstrucciones en pasos complejos que no necesitan de argumento, no lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO2(String argument){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                 {
                 F: |SR+1->SR| GPR->PC%s;
                 !F: |SR+1->SR| GPR->PC;
@@ -475,14 +475,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que el argumento pasado a LOAD SC no supere el límite de 8 bits en paso simple")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO3(String argument){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                     |SR+1->SR| LOAD_SC(%s);
                 }
             }\
@@ -498,14 +498,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que el argumento pasado a LOAD SC no supere el límite de 8 bits en paso complejo")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO4(String argument){
         String inputText = String.format("""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                     {
                         F: |SR+1->SR| LOAD_SC(%s);
                         !F: |SR+1->SR|;
@@ -524,14 +524,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que el argumento pasado a LOAD SR no supere el límite de pasos de la instrucción en la que está en paso simple")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO5(){
         String inputText ="""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                     |SR+1->SR| GPR->PC;
                     |SR+1->SR| GPR->PC;
                     |LOAD_SR(7)|; //el valor que se podrá poner sera 0 al 6 al tener 7 pasos
@@ -552,14 +552,14 @@ public class CableInstructionTest {
     @DisplayName("Comprueba que el argumento pasado a LOAD SR no supere el límite de pasos de la instrucción en la que está en paso complejo")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO6(){
         String inputText ="""
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
                 }
-                instruccion1(value){
+                instruccion1(){
                     |SR+1->SR| GPR->PC;
                     |SR+1->SR| GPR->PC;
                     {
@@ -585,7 +585,7 @@ public class CableInstructionTest {
         //
         String instrucciones = IntStream.range(1, 33+1)
                 .mapToObj(i -> String.format("""
-                        instruccion%s(value){
+                        instruccion%s(){
                             |SR+1->SR| GPR->PC;
                         }
                         """,i))
@@ -593,9 +593,9 @@ public class CableInstructionTest {
 
         String inputText = String.format("""
 
-            @cableado
-            instrucciones {
-                fetch {
+            @Cable
+            Instrucciones {
+                Fetch {
                         |SR+1->SR| PC->MAR;
                         |SR+1->SR| M->GPR PC+1->PC;
                         |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
