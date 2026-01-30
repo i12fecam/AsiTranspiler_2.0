@@ -22,8 +22,8 @@ public class CableAnalysis extends SicomeBaseListener {
 
 
     @Override
-    public void enterCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx){
-        if(ctx.cableInstruction().size() > 32){
+    public void enterInstructionBlockCable(SicomeParser.InstructionBlockCableContext ctx){
+        if(ctx.instructionCable().size() > 32){
             err.addNewError(NUMERO_INSTRUCCIONES_SUPERADO,List.of(),ctx.start);
         }
     }
@@ -33,12 +33,12 @@ public class CableAnalysis extends SicomeBaseListener {
      * @param ctx the parse tree
      */
     @Override
-    public void enterCableInstruction(SicomeParser.CableInstructionContext ctx) {
+    public void enterInstructionCable(SicomeParser.InstructionCableContext ctx) {
         String functionName =ctx.IDENTIFIER().getText();
         String args = "";
         if(ctx.arg!= null)  args =ctx.arg.getText();
 
-        List<SicomeParser.CableStepContext> steps =ctx.cableStep();
+        List<SicomeParser.StepCableContext> steps =ctx.stepCable();
         int instr_id = -1;
         try {
             instr_id = symbolTable.addInstruction(functionName, args, steps.size());
@@ -47,16 +47,16 @@ public class CableAnalysis extends SicomeBaseListener {
         }
         ids.put(ctx,instr_id);
         int step_id = 0 ;
-        for(SicomeParser.CableStepContext step : steps){
+        for(var step : steps){
             ids.put(step,step_id);
             step_id++;
         }
     }
     @Override
-    public void enterFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx) {
+    public void enterFetchDefinitionCable(SicomeParser.FetchDefinitionCableContext ctx) {
         ids.put(ctx,null);
         int step_id = 0 ;
-        for(var step : ctx.cableStep()){
+        for(var step : ctx.stepCable()){
             ids.put(step,step_id);
             step_id++;
         }

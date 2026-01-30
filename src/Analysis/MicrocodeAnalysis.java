@@ -24,12 +24,12 @@ public class MicrocodeAnalysis extends SicomeBaseListener {
 
 
     @Override
-    public void enterMicroInstruction(SicomeParser.MicroInstructionContext ctx) {
+    public void enterInstructionMicro(SicomeParser.InstructionMicroContext ctx) {
         Token identifier = ctx.IDENTIFIER().getSymbol();
         Token arg = ctx.arg;
         String argString = "";
         if(arg!= null)  argString =ctx.arg.getText();
-        int size = ctx.microStep().size();
+        int size = ctx.stepMicro().size();
 
 
         int instrId = -1;
@@ -43,21 +43,21 @@ public class MicrocodeAnalysis extends SicomeBaseListener {
         //Se anota en el arbol las IDs
         ids.put(ctx,instrId);
         int stepId = 0 ;
-        for(var step:ctx.microStep()){
+        for(var step:ctx.stepMicro()){
             ids.put(step,stepId);
             stepId++;
         }
     }
 
     @Override
-    public void enterFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx){
+    public void enterFetchDefinitionMicro(SicomeParser.FetchDefinitionMicroContext ctx){
         //we annotates the fetch with the special value -1
-        var instrId = symbolTable.addInstruction("FETCH","",ctx.microStep().size());
+        var instrId = symbolTable.addInstruction("FETCH","",ctx.stepMicro().size());
 
         ids.put(ctx,instrId);
 
         int stepId = 0 ;
-        for(var step:ctx.microStep()){
+        for(var step:ctx.stepMicro()){
             ids.put(step,stepId);
             stepId++;
         }

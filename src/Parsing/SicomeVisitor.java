@@ -12,14 +12,14 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	/**
 	 * Visit a parse tree produced by the {@code cableProgram}
-	 * labeled alternative in {@link SicomeParser#prog}.
+	 * labeled alternative in {@link SicomeParser#program}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitCableProgram(SicomeParser.CableProgramContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code microProgram}
-	 * labeled alternative in {@link SicomeParser#prog}.
+	 * labeled alternative in {@link SicomeParser#program}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -71,43 +71,43 @@ public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstructionUseArgument(SicomeParser.InstructionUseArgumentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SicomeParser#cableInstructionBlock}.
+	 * Visit a parse tree produced by {@link SicomeParser#instructionBlockCable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx);
+	T visitInstructionBlockCable(SicomeParser.InstructionBlockCableContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SicomeParser#cableInstruction}.
+	 * Visit a parse tree produced by {@link SicomeParser#instructionCable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCableInstruction(SicomeParser.CableInstructionContext ctx);
+	T visitInstructionCable(SicomeParser.InstructionCableContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SicomeParser#fetchCableInstruction}.
+	 * Visit a parse tree produced by {@link SicomeParser#fetchDefinitionCable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx);
+	T visitFetchDefinitionCable(SicomeParser.FetchDefinitionCableContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code simpleCableStep}
-	 * labeled alternative in {@link SicomeParser#cableStep}.
+	 * labeled alternative in {@link SicomeParser#stepCable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSimpleCableStep(SicomeParser.SimpleCableStepContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code conditionalCableStepBlock}
-	 * labeled alternative in {@link SicomeParser#cableStep}.
+	 * labeled alternative in {@link SicomeParser#stepCable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitConditionalCableStepBlock(SicomeParser.ConditionalCableStepBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SicomeParser#conditionalCableStep}.
+	 * Visit a parse tree produced by {@link SicomeParser#conditionalStepCable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx);
+	T visitConditionalStepCable(SicomeParser.ConditionalStepCableContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SicomeParser#microIntr}.
 	 * @param ctx the parse tree
@@ -115,11 +115,11 @@ public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMicroIntr(SicomeParser.MicroIntrContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SicomeParser#specialMicroIntr}.
+	 * Visit a parse tree produced by {@link SicomeParser#permissibleLOADSRMicroIntr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSpecialMicroIntr(SicomeParser.SpecialMicroIntrContext ctx);
+	T visitPermissibleLOADSRMicroIntr(SicomeParser.PermissibleLOADSRMicroIntrContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SicomeParser#statusLogicBlock}.
 	 * @param ctx the parse tree
@@ -147,29 +147,29 @@ public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatusLogicOption(SicomeParser.StatusLogicOptionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SicomeParser#microInstructionBlock}.
+	 * Visit a parse tree produced by {@link SicomeParser#instructionBlockMicro}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx);
+	T visitInstructionBlockMicro(SicomeParser.InstructionBlockMicroContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SicomeParser#fetchMicroInstruction}.
+	 * Visit a parse tree produced by {@link SicomeParser#fetchDefinitionMicro}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx);
+	T visitFetchDefinitionMicro(SicomeParser.FetchDefinitionMicroContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SicomeParser#microInstruction}.
+	 * Visit a parse tree produced by {@link SicomeParser#instructionMicro}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMicroInstruction(SicomeParser.MicroInstructionContext ctx);
+	T visitInstructionMicro(SicomeParser.InstructionMicroContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SicomeParser#microStep}.
+	 * Visit a parse tree produced by {@link SicomeParser#stepMicro}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMicroStep(SicomeParser.MicroStepContext ctx);
+	T visitStepMicro(SicomeParser.StepMicroContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code instructionBifLogicArgument}
 	 * labeled alternative in {@link SicomeParser#bifLogicArgument}.

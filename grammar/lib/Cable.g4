@@ -1,14 +1,14 @@
 grammar Cable;
 import Base;
 
-cableInstructionBlock: '@Cable' 'Instrucciones''{' fetchCableInstruction cableInstruction+ '}';
+instructionBlockCable: '@Cable' 'Instrucciones''{' fetchDefinitionCable instructionCable+ '}';
 
-cableInstruction: IDENTIFIER '(' arg=('Value'|'Dir'|'Var')? ')' '{' cableStep* '}';
+instructionCable: IDENTIFIER '(' arg=('Value'|'Dir'|'Var')? ')' '{' stepCable* '}';
 
-fetchCableInstruction: 'Fetch' '{' cableStep+ '}';
+fetchDefinitionCable: 'Fetch' '{' stepCable+ '}';
 
-cableStep: '|' linstr=specialMicroIntr '|' rinstr+=microIntr* ';'  #simpleCableStep
-    | '{'conditionalCableStep+ '}'                         #conditionalCableStepBlock
+stepCable: '|' linstr=permissibleLOADSRMicroIntr '|' rinstr+=microIntr* ';'  #simpleCableStep
+    | '{'conditionalStepCable+ '}'                         #conditionalCableStepBlock
     ;
 
-conditionalCableStep: flags+=FLAG (',' flags+=FLAG)* ':' '|' linstr=specialMicroIntr '|' rinstr+=microIntr* ';' ;
+conditionalStepCable: flags+=FLAG (',' flags+=FLAG)* ':' '|' linstr=permissibleLOADSRMicroIntr '|' rinstr+=microIntr* ';' ;

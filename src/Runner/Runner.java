@@ -46,8 +46,8 @@ public class Runner {
     }
     public void run(String fileContent,ObjetiveConfig obj,String includeFileContent) {
 
-        SicomeParser.ProgContext programTree = null;
-        SicomeParser.ProgContext includeTree = null;
+        SicomeParser.ProgramContext programTree = null;
+        SicomeParser.ProgramContext includeTree = null;
 
         SicomeLexer lexerFile = new SicomeLexer(CharStreams.fromString(fileContent));
         lexerFile.removeErrorListeners();
@@ -59,7 +59,7 @@ public class Runner {
         parserFile.addErrorListener(new CustomErrorListener(err));
         parserFile.setErrorHandler( new TranslatedDefaultErrorStrategy());
 
-        programTree = parserFile.prog();
+        programTree = parserFile.program();
         includeTree = programTree;
 
         if(includeFileContent != null){
@@ -73,7 +73,7 @@ public class Runner {
             parserFile2.removeErrorListeners();
             parserFile2.addErrorListener(new CustomErrorListener(err));
             parserFile2.setErrorHandler( new TranslatedDefaultErrorStrategy());
-            includeTree = parserFile2.prog();
+            includeTree = parserFile2.program();
         }
 
 
@@ -95,12 +95,12 @@ public class Runner {
 
                 if (obj == ObjetiveConfig.INSTRUCTION_SET ||  obj == ObjetiveConfig.ALL){
 
-                    if(ctx.microInstructionBlock() == null){
+                    if(ctx.instructionBlockMicro() == null){
                         err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of(),ctx.start);
                     }
 
                     var analysisMicroPass = new MicrocodeAnalysis(ids,symbols,err);
-                    walker.walk(analysisMicroPass,ctx.microInstructionBlock());
+                    walker.walk(analysisMicroPass,ctx.instructionBlockMicro());
 
                     var microCodeGeneratorPass = new MicrocodeGenerator(ids, symbols,err);
                     walker.walk(microCodeGeneratorPass, includeTree);

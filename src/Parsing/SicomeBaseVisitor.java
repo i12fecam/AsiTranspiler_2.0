@@ -81,21 +81,21 @@ public class SicomeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstructionBlockCable(SicomeParser.InstructionBlockCableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCableInstruction(SicomeParser.CableInstructionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstructionCable(SicomeParser.InstructionCableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFetchDefinitionCable(SicomeParser.FetchDefinitionCableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -116,7 +116,7 @@ public class SicomeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConditionalStepCable(SicomeParser.ConditionalStepCableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -130,7 +130,7 @@ public class SicomeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSpecialMicroIntr(SicomeParser.SpecialMicroIntrContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPermissibleLOADSRMicroIntr(SicomeParser.PermissibleLOADSRMicroIntrContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -165,28 +165,28 @@ public class SicomeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstructionBlockMicro(SicomeParser.InstructionBlockMicroContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFetchDefinitionMicro(SicomeParser.FetchDefinitionMicroContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMicroInstruction(SicomeParser.MicroInstructionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstructionMicro(SicomeParser.InstructionMicroContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMicroStep(SicomeParser.MicroStepContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStepMicro(SicomeParser.StepMicroContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

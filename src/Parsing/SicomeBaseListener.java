@@ -125,37 +125,37 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx) { }
+	@Override public void enterInstructionBlockCable(SicomeParser.InstructionBlockCableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx) { }
+	@Override public void exitInstructionBlockCable(SicomeParser.InstructionBlockCableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCableInstruction(SicomeParser.CableInstructionContext ctx) { }
+	@Override public void enterInstructionCable(SicomeParser.InstructionCableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCableInstruction(SicomeParser.CableInstructionContext ctx) { }
+	@Override public void exitInstructionCable(SicomeParser.InstructionCableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx) { }
+	@Override public void enterFetchDefinitionCable(SicomeParser.FetchDefinitionCableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFetchCableInstruction(SicomeParser.FetchCableInstructionContext ctx) { }
+	@Override public void exitFetchDefinitionCable(SicomeParser.FetchDefinitionCableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -185,13 +185,13 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx) { }
+	@Override public void enterConditionalStepCable(SicomeParser.ConditionalStepCableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx) { }
+	@Override public void exitConditionalStepCable(SicomeParser.ConditionalStepCableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -209,13 +209,13 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSpecialMicroIntr(SicomeParser.SpecialMicroIntrContext ctx) { }
+	@Override public void enterPermissibleLOADSRMicroIntr(SicomeParser.PermissibleLOADSRMicroIntrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSpecialMicroIntr(SicomeParser.SpecialMicroIntrContext ctx) { }
+	@Override public void exitPermissibleLOADSRMicroIntr(SicomeParser.PermissibleLOADSRMicroIntrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -269,49 +269,49 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx) { }
+	@Override public void enterInstructionBlockMicro(SicomeParser.InstructionBlockMicroContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx) { }
+	@Override public void exitInstructionBlockMicro(SicomeParser.InstructionBlockMicroContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx) { }
+	@Override public void enterFetchDefinitionMicro(SicomeParser.FetchDefinitionMicroContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFetchMicroInstruction(SicomeParser.FetchMicroInstructionContext ctx) { }
+	@Override public void exitFetchDefinitionMicro(SicomeParser.FetchDefinitionMicroContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMicroInstruction(SicomeParser.MicroInstructionContext ctx) { }
+	@Override public void enterInstructionMicro(SicomeParser.InstructionMicroContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMicroInstruction(SicomeParser.MicroInstructionContext ctx) { }
+	@Override public void exitInstructionMicro(SicomeParser.InstructionMicroContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMicroStep(SicomeParser.MicroStepContext ctx) { }
+	@Override public void enterStepMicro(SicomeParser.StepMicroContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMicroStep(SicomeParser.MicroStepContext ctx) { }
+	@Override public void exitStepMicro(SicomeParser.StepMicroContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -143,7 +143,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
     }
 
     @Override
-    public void exitConditionalCableStep(SicomeParser.ConditionalCableStepContext ctx) {
+    public void exitConditionalStepCable(SicomeParser.ConditionalStepCableContext ctx) {
         int id_func = _ids.get(ctx.getParent().getParent());
         int id_step = _ids.get(ctx.getParent());
 

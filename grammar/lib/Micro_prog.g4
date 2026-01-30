@@ -9,20 +9,20 @@ statusLogic: name=IDENTIFIER '->' option=('INCR'|'BIF'|'RTN')? disable='DISABLE'
            | name=IDENTIFIER '->' '{' statusLogicOption+ '}' #complexStatusLogic
            ;
 
-statusLogicOption : flags+=FLAG (',' flags+=FLAG)* ':' option=('INCR'|'BIF'|'RTN')? disable='DISABLE'? ;
+statusLogicOption : flags+=FLAG+ ':' option=('INCR'|'BIF'|'RTN')? disable='DISABLE'? ;
 
 
 
 
 
 
-microInstructionBlock : '@Micro' 'Instrucciones''{' fetchMicroInstruction microInstruction+ '}';
+instructionBlockMicro : '@Micro' 'Instrucciones''{' fetchDefinitionMicro instructionMicro+ '}';
 
-fetchMicroInstruction: 'Fetch' '{' microStep+ '}';
+fetchDefinitionMicro: 'Fetch' '{' stepMicro+ '}';
 
-microInstruction: IDENTIFIER '(' arg=('Value'|'Dir'|'Var')? ')' '{' microStep* '}';
+instructionMicro: IDENTIFIER '(' arg=('Value'|'Dir'|'Var')? ')' '{' stepMicro* '}';
 
-microStep: '|' biflogic=IDENTIFIER ('(' bifLogicArgument ')')? '|' instr+=microIntr* ';';
+stepMicro: '|' biflogic=IDENTIFIER ('(' bifLogicArgument ')')? '|' instr+=microIntr* ';';
 
 bifLogicArgument: instr=IDENTIFIER '~' arg=DECNUMBER #instructionBifLogicArgument
                 | DECNUMBER #startBifLogicArgument

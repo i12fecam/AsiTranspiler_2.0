@@ -24,7 +24,7 @@ public class MicrocodeGenerator extends SicomeBaseListener {
     private final SymbolTable symbols;
     private final ParseTreeProperty<Integer> ids;
     private final MicroRepositoryHelper repository;
-    private ErrorController err;
+    private final ErrorController err;
 
     public MicrocodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st, ErrorController err) {
         this.ids = ids;
@@ -34,13 +34,13 @@ public class MicrocodeGenerator extends SicomeBaseListener {
     }
 
     @Override
-    public void enterMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx){
-        if(ctx.microInstruction().size() > 32){
+    public void enterInstructionBlockMicro(SicomeParser.InstructionBlockMicroContext ctx){
+        if(ctx.instructionMicro().size() > 32){
             err.addNewError(NUMERO_INSTRUCCIONES_SUPERADO,List.of(), ctx.start);
         }
-        var cromUsed = ctx.microInstruction().stream()
+        var cromUsed = ctx.instructionMicro().stream()
                 .mapToInt(i->{
-                    return i.microStep().size();
+                    return i.stepMicro().size();
                 })
                 .sum();
         if(cromUsed > 256){
@@ -49,7 +49,7 @@ public class MicrocodeGenerator extends SicomeBaseListener {
 
     }
     @Override
-    public void enterMicroStep(SicomeParser.MicroStepContext ctx) {
+    public void enterStepMicro(SicomeParser.StepMicroContext ctx) {
         int id_func = ids.get(ctx.getParent());
         int id_step = ids.get(ctx);
 
