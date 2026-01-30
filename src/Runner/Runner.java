@@ -83,7 +83,7 @@ public class Runner {
         ParseTreeWalker walker = new ParseTreeWalker();
         switch (includeTree){
 
-            case SicomeParser.MicroProgramableProgramContext ctx -> {
+            case SicomeParser.MicroProgramContext ctx -> {
 
                 var analysisMicrocodeLogicPass = new MicrocodeLogicAnalysis(symbols,err);
                 walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());

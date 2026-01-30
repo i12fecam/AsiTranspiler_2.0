@@ -8,18 +8,6 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface SicomeListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by the {@code microProgramableLogic}
-	 * labeled alternative in {@link SicomeParser#prog}.
-	 * @param ctx the parse tree
-	 */
-	void enterMicroProgramableLogic(SicomeParser.MicroProgramableLogicContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code microProgramableLogic}
-	 * labeled alternative in {@link SicomeParser#prog}.
-	 * @param ctx the parse tree
-	 */
-	void exitMicroProgramableLogic(SicomeParser.MicroProgramableLogicContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code cableProgram}
 	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
@@ -32,17 +20,17 @@ public interface SicomeListener extends ParseTreeListener {
 	 */
 	void exitCableProgram(SicomeParser.CableProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code microProgramableProgram}
+	 * Enter a parse tree produced by the {@code microProgram}
 	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
 	 */
-	void enterMicroProgramableProgram(SicomeParser.MicroProgramableProgramContext ctx);
+	void enterMicroProgram(SicomeParser.MicroProgramContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code microProgramableProgram}
+	 * Exit a parse tree produced by the {@code microProgram}
 	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
 	 */
-	void exitMicroProgramableProgram(SicomeParser.MicroProgramableProgramContext ctx);
+	void exitMicroProgram(SicomeParser.MicroProgramContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SicomeParser#variablesBlock}.
 	 * @param ctx the parse tree

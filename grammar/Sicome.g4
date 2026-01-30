@@ -1,8 +1,7 @@
 grammar Sicome;
 import Cable,Micro_prog;
-prog:   statusLogicBlock #microProgramableLogic
-    | cableInstructionBlock (variablesBlock programBlock | programBlock variablesBlock)? #cableProgram
-    | statusLogicBlock microInstructionBlock? (variablesBlock programBlock | programBlock variablesBlock)? #microProgramableProgram
+prog: cableInstructionBlock (variablesBlock programBlock | programBlock variablesBlock)? #cableProgram
+    | statusLogicBlock microInstructionBlock? (variablesBlock programBlock | programBlock variablesBlock)? #microProgram
     ;
 
 

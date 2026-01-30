@@ -5,7 +5,7 @@ package Analysis;
 
         Integer res = 0;
         if (num.startsWith("0x")) {
-            res = processHexadecimalNumber(num,bitsSizeContainer);
+            res = processHexadecimalNumber(num.substring(2),bitsSizeContainer);
         }else if(num.startsWith("0b")) {
             res = processBinaryNumber(num.substring(2),bitsSizeContainer);
         } else if(num.startsWith("0c")) {

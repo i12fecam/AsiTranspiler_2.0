@@ -17,18 +17,6 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMicroProgramableLogic(SicomeParser.MicroProgramableLogicContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMicroProgramableLogic(SicomeParser.MicroProgramableLogicContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterCableProgram(SicomeParser.CableProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -41,13 +29,13 @@ public class SicomeBaseListener implements SicomeListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMicroProgramableProgram(SicomeParser.MicroProgramableProgramContext ctx) { }
+	@Override public void enterMicroProgram(SicomeParser.MicroProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMicroProgramableProgram(SicomeParser.MicroProgramableProgramContext ctx) { }
+	@Override public void exitMicroProgram(SicomeParser.MicroProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

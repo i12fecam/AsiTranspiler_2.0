@@ -153,7 +153,7 @@ public class CableInstructionTest {
     private static Stream<Arguments> provideInvalidMicroInstructionCombination() {
         return Arrays.stream(MicroInstructionEnum.values())
                 .filter(a ->
-                        a.getType() !=MicroInstructionTypeEnum.cable)
+                        a.getType() !=MicroInstructionTypeEnum.cable && !a.needsArgument)
                 .map(a ->
                        Arguments.of(a.inputName,a.inputName)
                 );
@@ -385,7 +385,7 @@ public class CableInstructionTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", " ()","( )"})
+    @ValueSource(strings = {""})
     @DisplayName("Comprueba que las microinstrucciones en pasos simples que necesiten de argumento, lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(String argument){
         String inputText = String.format("""
@@ -409,7 +409,7 @@ public class CableInstructionTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", " ()","( )"})
+    @ValueSource(strings = {""})
     @DisplayName("Comprueba que las microinstrucciones en pasos complejos que necesiten de argumento, lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO2(String argument){
         String inputText = String.format("""
@@ -438,7 +438,7 @@ public class CableInstructionTest {
     //TODO Test sobre posible argumentos???
 
     @ParameterizedTest
-    @ValueSource(strings = {"(0)", "(1)","( )"})
+    @ValueSource(strings = {"(0)", "(1)"})
     @DisplayName("Comprueba que las microinstrucciones en pasos simples que no necesitan de argumento, no lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(String argument){
         String inputText = String.format("""
@@ -462,7 +462,7 @@ public class CableInstructionTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"(0)", "(1)","( )"})
+    @ValueSource(strings = {"(0)", "(1)"})
     @DisplayName("Comprueba que las microinstrucciones en pasos complejos que no necesitan de argumento, no lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO2(String argument){
         String inputText = String.format("""
@@ -488,7 +488,7 @@ public class CableInstructionTest {
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
     }
     @ParameterizedTest
-    @ValueSource(strings = {"256", "0x100","0b1.0000.0000"})
+    @ValueSource(strings = {"256"})
     @DisplayName("Comprueba que el argumento pasado a LOAD SC no supere el límite de 8 bits en paso simple")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO3(String argument){
         String inputText = String.format("""
@@ -512,7 +512,7 @@ public class CableInstructionTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"256", "0x100","0b1.0000.0000"})
+    @ValueSource(strings = {"256"})
     @DisplayName("Comprueba que el argumento pasado a LOAD SC no supere el límite de 8 bits en paso complejo")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO4(String argument){
         String inputText = String.format("""

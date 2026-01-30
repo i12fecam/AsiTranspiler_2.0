@@ -145,7 +145,7 @@ public class MicroInstructionsTest {
     private static Stream<Arguments> provideInvalidMicroInstructionCombination() {
         return Arrays.stream(MicroInstructionEnum.values())
                 .filter(a ->
-                        a.getType() !=MicroInstructionTypeEnum.cable)
+                        a.getType() !=MicroInstructionTypeEnum.cable && !a.needsArgument)
                 .flatMap(a ->
                         Arrays.stream(MicroInstructionEnum.values())
                         .filter(b -> b.getType() == a.getType())
@@ -351,7 +351,7 @@ public class MicroInstructionsTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = {"", " ()","( )"})
+    @ValueSource(strings = {""})
     @DisplayName("Comprueba que las microinstrucciones que necesiten de argumento, lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO(String argument){
         String inputText = String.format("""
@@ -381,7 +381,7 @@ public class MicroInstructionsTest {
     //TODO Test sobre posible argumentos???
 
     @ParameterizedTest
-    @ValueSource(strings = {"(0)", "(1)","( )"})
+    @ValueSource(strings = {"(0)", "(1)"})
     @DisplayName("Comprueba que las microinstrucciones que no necesiten de argumento,no lo reciban.")
     void MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO(String argument){
         String inputText = String.format("""

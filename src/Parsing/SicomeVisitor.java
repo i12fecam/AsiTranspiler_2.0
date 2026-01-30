@@ -11,13 +11,6 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by the {@code microProgramableLogic}
-	 * labeled alternative in {@link SicomeParser#prog}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMicroProgramableLogic(SicomeParser.MicroProgramableLogicContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code cableProgram}
 	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
@@ -25,12 +18,12 @@ public interface SicomeVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCableProgram(SicomeParser.CableProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code microProgramableProgram}
+	 * Visit a parse tree produced by the {@code microProgram}
 	 * labeled alternative in {@link SicomeParser#prog}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMicroProgramableProgram(SicomeParser.MicroProgramableProgramContext ctx);
+	T visitMicroProgram(SicomeParser.MicroProgramContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SicomeParser#variablesBlock}.
 	 * @param ctx the parse tree
