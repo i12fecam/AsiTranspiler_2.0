@@ -13,11 +13,12 @@ import java.util.List;
 public class MicrocodeAnalysis extends SicomeBaseListener {
     public ParseTreeProperty<Integer> ids = new ParseTreeProperty<>();
     public SymbolTable symbolTable = new SymbolTable();
+    private ErrorController err;
 
-
-    public MicrocodeAnalysis(ParseTreeProperty<Integer> ids, SymbolTable symbolTable) {
+    public MicrocodeAnalysis(ParseTreeProperty<Integer> ids, SymbolTable symbolTable, ErrorController err) {
         this.ids = ids;
         this.symbolTable = symbolTable;
+        this.err = err;
     }
 
 
@@ -35,7 +36,7 @@ public class MicrocodeAnalysis extends SicomeBaseListener {
         try {
             instrId = symbolTable.addInstruction(identifier.getText(), argString, size);
         }catch (RuntimeException e){
-            ErrorController.getInstance().addNewError(ErrorEnum.INSTRUCCION_MISMO_NOMBRE, List.of(ctx.IDENTIFIER().getText()), ctx.IDENTIFIER().getSymbol());
+            err.addNewError(ErrorEnum.INSTRUCCION_MISMO_NOMBRE, List.of(ctx.IDENTIFIER().getText()), ctx.IDENTIFIER().getSymbol());
 
         }
 

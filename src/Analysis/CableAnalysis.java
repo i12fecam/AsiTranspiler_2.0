@@ -13,18 +13,18 @@ import static Internals.Errors.ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO;
 public class CableAnalysis extends SicomeBaseListener {
     private final SymbolTable symbolTable;
     private final ParseTreeProperty<Integer> ids;
-
-    public CableAnalysis(ParseTreeProperty<Integer> ids, SymbolTable symbolTable) {
+    private final ErrorController err;
+    public CableAnalysis(ParseTreeProperty<Integer> ids, SymbolTable symbolTable, ErrorController err) {
         this.ids = ids;
         this.symbolTable = symbolTable;
+        this.err = err;
     }
 
 
     @Override
     public void enterCableInstructionBlock(SicomeParser.CableInstructionBlockContext ctx){
         if(ctx.cableInstruction().size() > 32){
-            ErrorController.getInstance()
-                    .addNewError(NUMERO_INSTRUCCIONES_SUPERADO,List.of(),ctx.start);
+            err.addNewError(NUMERO_INSTRUCCIONES_SUPERADO,List.of(),ctx.start);
         }
     }
     /**
@@ -43,7 +43,7 @@ public class CableAnalysis extends SicomeBaseListener {
         try {
             instr_id = symbolTable.addInstruction(functionName, args, steps.size());
         }catch (RuntimeException e){
-            ErrorController.getInstance().addNewError(ErrorEnum.INSTRUCCION_MISMO_NOMBRE, List.of(ctx.IDENTIFIER().getText()), ctx.IDENTIFIER().getSymbol());
+            err.addNewError(ErrorEnum.INSTRUCCION_MISMO_NOMBRE, List.of(ctx.IDENTIFIER().getText()), ctx.IDENTIFIER().getSymbol());
         }
         ids.put(ctx,instr_id);
         int step_id = 0 ;

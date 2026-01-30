@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static Analysis.HelperFunctions.parseNumber;
 import static Internals.Errors.ErrorEnum.*;
 import static Internals.MicroInstructionEnum.load_sc;
 import static java.lang.Integer.parseInt;
@@ -25,18 +24,19 @@ public class MicrocodeGenerator extends SicomeBaseListener {
     private final SymbolTable symbols;
     private final ParseTreeProperty<Integer> ids;
     private final MicroRepositoryHelper repository;
+    private ErrorController err;
 
-    public MicrocodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st) {
+    public MicrocodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st, ErrorController err) {
         this.ids = ids;
         this.symbols = st;
-        repository = new MicroRepositoryHelper(st);
+        this.err = err;
+        this.repository = new MicroRepositoryHelper(st);
     }
 
     @Override
     public void enterMicroInstructionBlock(SicomeParser.MicroInstructionBlockContext ctx){
         if(ctx.microInstruction().size() > 32){
-            ErrorController.getInstance()
-                    .addNewError(NUMERO_INSTRUCCIONES_SUPERADO,List.of(), ctx.start);
+            err.addNewError(NUMERO_INSTRUCCIONES_SUPERADO,List.of(), ctx.start);
         }
         var cromUsed = ctx.microInstruction().stream()
                 .mapToInt(i->{
@@ -44,8 +44,7 @@ public class MicrocodeGenerator extends SicomeBaseListener {
                 })
                 .sum();
         if(cromUsed > 256){
-            ErrorController.getInstance()
-                    .addNewError(TAMANYO_ROM_SUPERADO,List.of(), ctx.start);
+            err.addNewError(TAMANYO_ROM_SUPERADO,List.of(), ctx.start);
         }
 
     }
@@ -58,11 +57,14 @@ public class MicrocodeGenerator extends SicomeBaseListener {
         var bifLogic = symbols.getBifurcationLogic(ctx.biflogic.getText());
 
         if (bifLogic == null) {
-            ErrorController.getInstance().addNewError(LOGICA_BIFURCACION_NO_DEFINIDA, List.of(ctx.biflogic.getText()), ctx.biflogic);
+            err.addNewError(LOGICA_BIFURCACION_NO_DEFINIDA,
+                    List.of(ctx.biflogic.getText()),
+                    ctx.biflogic);
         }
         if (bifLogic.needsArg() && ctx.bifLogicArgument() == null) {
-            ErrorController.getInstance()
-                    .addNewError(ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO, List.of(ctx.biflogic.getText()), ctx.biflogic);
+            err.addNewError(ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO,
+                    List.of(ctx.biflogic.getText()),
+                    ctx.biflogic);
         }
 
         repository.associateControlFlow(id_func,id_step, bifLogic.getId());
@@ -72,14 +74,16 @@ public class MicrocodeGenerator extends SicomeBaseListener {
                 case SicomeParser.InstructionBifLogicArgumentContext  ArgCtx ->{
                     var instruction = symbols.getInstructionByName(ArgCtx.instr.getText());
                     if(instruction == null){
-                        ErrorController.getInstance()
-                                .addNewError(INSTRUCCION_NO_DEFINIDA, List.of(ArgCtx.arg.getText()),ArgCtx.arg);
+                        err.addNewError(INSTRUCCION_NO_DEFINIDA,
+                                List.of(ArgCtx.arg.getText()),
+                                ArgCtx.arg);
                     }
                     var offset = parseInt(ArgCtx.arg.getText(),10);
 
                     if(offset >= instruction.getNSteps()){
-                        ErrorController.getInstance()
-                                .addNewError(ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO, List.of(ArgCtx.arg.getText()),ArgCtx.arg);
+                        err.addNewError(ARGUMENTO_USO_LOGICA_BIFURCACION_INVALIDO,
+                                List.of(ArgCtx.arg.getText()),
+                                ArgCtx.arg);
                     }
 
                     var pos = symbols.getInstructions()
@@ -105,8 +109,7 @@ public class MicrocodeGenerator extends SicomeBaseListener {
             MicroInstructionEnum mi = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
 
             if(mi==null) {
-                ErrorController.getInstance()
-                        .addNewError(MICROINSTRUCCION_NO_RECONOCIDA,
+                err.addNewError(MICROINSTRUCCION_NO_RECONOCIDA,
                                 List.of(mInstr.MICRO_INSTR().getText()),
                                 mInstr.MICRO_INSTR().getSymbol());
             }
@@ -114,15 +117,13 @@ public class MicrocodeGenerator extends SicomeBaseListener {
 
 
             if(mi.getType() == MicroInstructionTypeEnum.cable){
-                ErrorController.getInstance()
-                        .addNewError(MICROINSTRUCCION_INVALIDA,
+                err.addNewError(MICROINSTRUCCION_INVALIDA,
                                 List.of(mInstr.MICRO_INSTR().getText(),"No puede haber instrucciones de tipo cable"),
                                 mInstr.MICRO_INSTR().getSymbol());
             }
 
             if (!MicroInstructionTypeSeen.add(mi.getType())) {
-                ErrorController.getInstance()
-                        .addNewError(MICROINSTRUCCION_INVALIDA,
+                err.addNewError(MICROINSTRUCCION_INVALIDA,
                                 List.of(mInstr.MICRO_INSTR().getText(),"No puede haber dos instrucciones del mismo grupo en el mismo paso"),
                                 mInstr.MICRO_INSTR().getSymbol());
             }
@@ -132,21 +133,18 @@ public class MicrocodeGenerator extends SicomeBaseListener {
             repository.associateMicroInstruction(id_func,id_step,mi);
 
             if(mi.needsArgument && mInstr.arg == null){
-                ErrorController.getInstance()
-                        .addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
+                err.addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
                                 List.of(mInstr.MICRO_INSTR().getText(),"La instrucción necesita de argumento"),
                                 mInstr.MICRO_INSTR().getSymbol());
             }
             if(!mi.needsArgument && mInstr.arg != null){
-                ErrorController.getInstance()
-                        .addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO,
+                err.addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO,
                                 List.of(mInstr.MICRO_INSTR().getText()),
                                 mInstr.MICRO_INSTR().getSymbol());
             }
 
             if(mi.needsArgument && bifLogic.needsArg()){
-                ErrorController.getInstance()
-                        .addNewError(MICROINSTRUCCION_INVALIDA,
+                err.addNewError(MICROINSTRUCCION_INVALIDA,
                                 List.of(mInstr.MICRO_INSTR().getText(),
                                     "No puede haber una microinstrucción que necesite de argumento a la vez que una lógica de bifurcación que también lo necesite"),
                                 mInstr.MICRO_INSTR().getSymbol());
@@ -155,7 +153,7 @@ public class MicrocodeGenerator extends SicomeBaseListener {
             if(mi.needsArgument){
                 var argNumber = parseInt(mInstr.arg.getText(),10);
                 if(mi == load_sc && argNumber >= 256){
-                    ErrorController.getInstance().addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
+                    err.addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
                             List.of(mi.inputName,"La instrucción no puede superar el tamaño de 8 bits"),
                             mInstr.MICRO_INSTR().getSymbol());
 

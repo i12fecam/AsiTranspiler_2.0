@@ -32,7 +32,7 @@ public class CableInstructionTest {
         var ex = assertThrows(RuntimeException.class, () -> {
             helper.run(inputText);
         });
-        assertTrue(ErrorController.getInstance()
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
 
     }

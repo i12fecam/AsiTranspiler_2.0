@@ -442,13 +442,13 @@ public class MicroInstructionsTest {
                 """;
 
 
-        Runner helper = new Runner();
+        var helper = new Runner();
 
             helper.run(inputText);
 
 
 
-        ErrorController.getInstance().printToConsole(true);
+        helper.printErrors(true);
         assertEquals(outputRepositoryText,helper.getRepositoryText());
         assertEquals(outputLogicText,helper.getLogicText());
     }

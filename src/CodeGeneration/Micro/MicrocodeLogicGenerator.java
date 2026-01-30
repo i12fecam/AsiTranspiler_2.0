@@ -1,8 +1,6 @@
 package CodeGeneration.Micro;
 
-import Analysis.LogicException;
 import Internals.Errors.ErrorController;
-import Internals.Errors.ErrorEnum;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
 import Internals.FlagState;
@@ -20,10 +18,11 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
     //private ParseTreeProperty<Integer> ids;
 
     private final MicroLogicHelper logic = new MicroLogicHelper();
+    private ErrorController err;
 
-
-    public MicrocodeLogicGenerator(SymbolTable st) {
+    public MicrocodeLogicGenerator(SymbolTable st, ErrorController err) {
         this.symbols = st;
+        this.err = err;
     }
 
 
@@ -64,8 +63,7 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
             for(var flagToken:optionCtx.flags){
                 FlagState flag = FlagState.ValueOfInput(flagToken.getText());
                 if(flag==null) {
-                    ErrorController.getInstance()
-                            .addNewError(BANDERA_NO_RECONOCIDA,
+                   err.addNewError(BANDERA_NO_RECONOCIDA,
                                     List.of(flagToken.getText()),
                                     flagToken);
                 }

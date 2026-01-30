@@ -16,7 +16,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
 import java.nio.file.Path;
 import java.util.List;
 
@@ -39,39 +38,42 @@ public class Runner {
     String logicText;
     String repositoryText;
     String programText;
+
+    ErrorController err = new ErrorController();
+
     public void run(String fileContent){
         run(fileContent,ObjetiveConfig.ALL,null);
     }
     public void run(String fileContent,ObjetiveConfig obj,String includeFileContent) {
 
         SicomeParser.ProgContext programTree = null;
-        SicomeParser.ProgContext restTree = null;
+        SicomeParser.ProgContext includeTree = null;
 
         SicomeLexer lexerFile = new SicomeLexer(CharStreams.fromString(fileContent));
         lexerFile.removeErrorListeners();
-        lexerFile.addErrorListener(new CustomErrorListener());
+        lexerFile.addErrorListener(new CustomErrorListener(err));
 
         var tokensFile = new CommonTokenStream(lexerFile);
         SicomeParser parserFile = new SicomeParser(tokensFile);
         parserFile.removeErrorListeners();
-        parserFile.addErrorListener(new CustomErrorListener());
+        parserFile.addErrorListener(new CustomErrorListener(err));
         parserFile.setErrorHandler( new TranslatedDefaultErrorStrategy());
 
         programTree = parserFile.prog();
-        restTree = programTree;
+        includeTree = programTree;
 
         if(includeFileContent != null){
             SicomeLexer lexerFile2 = new SicomeLexer(CharStreams.fromString(includeFileContent));
             lexerFile2.removeErrorListeners();
-            lexerFile2.addErrorListener(new CustomErrorListener());
+            lexerFile2.addErrorListener(new CustomErrorListener(err));
 
 
             var tokensFile2 = new CommonTokenStream(lexerFile2);
             SicomeParser parserFile2 = new SicomeParser(tokensFile2);
             parserFile2.removeErrorListeners();
-            parserFile2.addErrorListener(new CustomErrorListener());
+            parserFile2.addErrorListener(new CustomErrorListener(err));
             parserFile2.setErrorHandler( new TranslatedDefaultErrorStrategy());
-            restTree = parserFile2.prog();
+            includeTree = parserFile2.prog();
         }
 
 
@@ -79,134 +81,89 @@ public class Runner {
         var symbols = new SymbolTable();
         var ids = new ParseTreeProperty<Integer>();
         ParseTreeWalker walker = new ParseTreeWalker();
+        switch (includeTree){
 
-        switch (obj) {
-            case LOGIC -> {
-                switch (restTree){
-                    case SicomeParser.MicroProgramableLogicContext ctx ->{
-                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalysis(symbols);
-                        walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
+            case SicomeParser.MicroProgramableProgramContext ctx -> {
 
-                        var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols);
-                        walker.walk(microcodeLogicCodeGeneratorPass, restTree);
+                var analysisMicrocodeLogicPass = new MicrocodeLogicAnalysis(symbols,err);
+                walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
 
-                        logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
+                var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols,err);
+                walker.walk(microcodeLogicCodeGeneratorPass, includeTree);
+
+                logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
+
+                if (obj == ObjetiveConfig.INSTRUCTION_SET ||  obj == ObjetiveConfig.ALL){
+
+                    if(ctx.microInstructionBlock() == null){
+                        err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of(),ctx.start);
                     }
-                    case SicomeParser.MicroProgramableProgramContext ctx ->{
-                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalysis(symbols);
-                        walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
 
-                        var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols);
-                        walker.walk(microcodeLogicCodeGeneratorPass, restTree);
+                    var analysisMicroPass = new MicrocodeAnalysis(ids,symbols,err);
+                    walker.walk(analysisMicroPass,ctx.microInstructionBlock());
 
-                        logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
-                    }
-                    default -> ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de lógica de control de bifurcación"), restTree.getStart());
-                }
-            }
-            case INSTRUCTION_SET -> {
-                switch (restTree){
-                    case SicomeParser.MicroProgramableProgramContext ctx -> {
-                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalysis(symbols);
-                        walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
+                    var microCodeGeneratorPass = new MicrocodeGenerator(ids, symbols,err);
+                    walker.walk(microCodeGeneratorPass, includeTree);
 
-                        var analysisMicroPass = new MicrocodeAnalysis(ids,symbols);
-                        walker.walk(analysisMicroPass,ctx.microInstructionBlock());
+                    repositoryText = microCodeGeneratorPass.getRepositoryFileString();
 
-
-                        //Code generation
-                        var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols);
-                        walker.walk(microcodeLogicCodeGeneratorPass, restTree);
-
-                        logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
-
-                        var microCodeGeneratorPass = new MicrocodeGenerator(ids, symbols);
-                        walker.walk(microCodeGeneratorPass, restTree);
-
-                        repositoryText = microCodeGeneratorPass.getRepositoryFileString();
-                    }
-                    case SicomeParser.CableProgramContext ctx-> {
-                        var cableAnalysisPass = new CableAnalysis(ids,symbols);
-                        walker.walk(cableAnalysisPass, restTree);
-
-                        var cableCodeGeneratorPass = new CableCodeGenerator(ids, symbols);
-                        walker.walk(cableCodeGeneratorPass, restTree);
-
-                        logicText = cableCodeGeneratorPass.getLogicFileString();
-                        repositoryText = cableCodeGeneratorPass.getRepositoryFileString();
-
-                    }
-                    default -> ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de repertorio de instrucciones"),restTree.getStart());
                 }
 
-            }
-            case ALL -> {
+                if(obj == ObjetiveConfig.ALL){
 
-                switch (restTree) {
-                    case SicomeParser.MicroProgramableLogicContext ctx -> {
-                        ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de repertorio de instrucciones, Bloque de variables, Bloque de programa"),ctx.getStart());
-                    }
-                    case SicomeParser.MicroProgramableProgramContext ctx -> {
-                        if (ctx.programBlock() == null || ctx.variablesBlock() == null){
-                            ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de variables, Bloque de programa"),ctx.getStart());
-                        }
-                        //analisis
-                        var analysisMicrocodeLogicPass = new MicrocodeLogicAnalysis(symbols);
-                        walker.walk(analysisMicrocodeLogicPass, ctx.statusLogicBlock());
-
-                        var analysisMicroPass = new MicrocodeAnalysis(ids,symbols);
-                        walker.walk(analysisMicroPass,ctx.microInstructionBlock());
-
-                        var analysisProgram = new ProgramAnalysis(symbols,ids);
-                        walker.walk(analysisProgram,programTree);
-
-                        //Code generation
-                        var microcodeLogicCodeGeneratorPass = new MicrocodeLogicGenerator(symbols);
-                        walker.walk(microcodeLogicCodeGeneratorPass, restTree);
-
-                        logicText = microcodeLogicCodeGeneratorPass.getLogicFileString();
-
-                        var microCodeGeneratorPass = new MicrocodeGenerator(ids, symbols);
-                        walker.walk(microCodeGeneratorPass, restTree);
-
-                        repositoryText = microCodeGeneratorPass.getRepositoryFileString();
-
-                        var codeGenerationProgramPass = new ProgramCodeGenerator(ids,symbols);
-                        walker.walk(codeGenerationProgramPass,programTree);
-
-                        programText = codeGenerationProgramPass.getProgramFileString();
-                    }
-                    case SicomeParser.CableProgramContext ctx -> {
-                        if (ctx.programBlock() == null || ctx.variablesBlock() == null){
-                            ErrorController.getInstance().addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO, List.of("Bloque de variables, Bloque de programa"),ctx.getStart());
-                        }
-                        var cableAnalysisPass = new CableAnalysis(ids,symbols);
-                        walker.walk(cableAnalysisPass, restTree);
-
-                        var programAnalysisPass = new ProgramAnalysis(symbols,ids);
-                        walker.walk(programAnalysisPass,programTree);
-                        var cableCodeGeneratorPass = new CableCodeGenerator(ids, symbols);
-                        walker.walk(cableCodeGeneratorPass, restTree);
-
-                        logicText = cableCodeGeneratorPass.getLogicFileString();
-                        repositoryText = cableCodeGeneratorPass.getRepositoryFileString();
-
-                        var programCodeGenerationPass = new ProgramCodeGenerator(ids,symbols);
-                        walker.walk(programCodeGenerationPass,programTree);
-
-                        programText = programCodeGenerationPass.getProgramFileString();
-
+                    if(ctx.variablesBlock() == null || ctx.programBlock() == null){
+                        err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of(),ctx.start);
                     }
 
-                    default -> throw new IllegalStateException("Unexpected value: ");
+                    var analysisProgram = new ProgramAnalysis(symbols,ids,err);
+                    walker.walk(analysisProgram,programTree);
+
+                    var codeGenerationProgramPass = new ProgramCodeGenerator(ids,symbols,err);
+                    walker.walk(codeGenerationProgramPass,programTree);
+
+                    programText = codeGenerationProgramPass.getProgramFileString();
                 }
 
 
 
             }
 
+            case SicomeParser.CableProgramContext ctx -> {
 
+                if(obj == ObjetiveConfig.LOGIC){
+                    err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of(), ctx.getStart());
+                }
+
+                var cableAnalysisPass = new CableAnalysis(ids,symbols,err);
+                walker.walk(cableAnalysisPass, includeTree);
+
+                var cableCodeGeneratorPass = new CableCodeGenerator(ids, symbols,err);
+                walker.walk(cableCodeGeneratorPass, includeTree);
+
+                logicText = cableCodeGeneratorPass.getLogicFileString();
+                repositoryText = cableCodeGeneratorPass.getRepositoryFileString();
+
+                if (obj == ObjetiveConfig.ALL){
+
+                    if(ctx.variablesBlock() == null || ctx.programBlock() == null){
+                        err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of(),ctx.start);
+                    }
+
+                    var programAnalysisPass = new ProgramAnalysis(symbols,ids, err);
+                    walker.walk(programAnalysisPass,programTree);
+
+                    var programCodeGenerationPass = new ProgramCodeGenerator(ids,symbols,err);
+                    walker.walk(programCodeGenerationPass,programTree);
+
+                    programText = programCodeGenerationPass.getProgramFileString();
+                }
+
+            }
+            default -> {
+                //There is no other option
+            }
         }
+
 
 
     }
@@ -223,6 +180,13 @@ public class Runner {
         return programText;
     }
 
+    public void printErrors(boolean b){
+         err.printToConsole(b);
+    }
+
+    public boolean containsErrorEnum(ErrorEnum error){
+        return err.containsErrorEnum(error);
+    }
 //    public void printTokens(){
 //        tokens.fill();
 //        for (Token token : tokens.getTokens()) {

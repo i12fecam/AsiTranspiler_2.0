@@ -1,9 +1,7 @@
 package CodeGeneration;
 
-import Analysis.LogicException;
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
-import Internals.Instruction;
 import Internals.SymbolTable;
 import Internals.Variable;
 import Parsing.SicomeBaseListener;
@@ -16,15 +14,16 @@ import java.util.List;
 
 import static Analysis.HelperFunctions.parseNumber;
 import static Internals.Errors.ErrorEnum.ESPACIO_MEMORIA_SUPERADO;
-import static Internals.InstructionArgumentTypeEnum.Var;
 import static java.lang.Integer.parseInt;
 
 public class ProgramCodeGenerator extends SicomeBaseListener {
     protected ParseTreeProperty<Integer> ids = null;
     protected SymbolTable symbols = null;
-     public ProgramCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st){
+    private final ErrorController err;
+     public ProgramCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st, ErrorController err){
         this.ids = ids;
-        symbols = st;
+        this.symbols = st;
+        this.err = err;
         program = new ProgramCodeGeneratorHelper(symbols);
     }
 
@@ -45,8 +44,7 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
                                         .mapToLong(Variable::capacity)
                                         .sum();
         if (programLines + instructionSpace >= 2048){
-            ErrorController.getInstance()
-                    .addNewError(ESPACIO_MEMORIA_SUPERADO,List.of(), ctx.getStart());
+            err.addNewError(ESPACIO_MEMORIA_SUPERADO,List.of(), ctx.getStart());
         }
     }
     @Override
@@ -55,8 +53,7 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
         SicomeParser.InstructionUseArgumentContext arg =ctx.instructionUseArgument();
         InstructionArgumentTypeEnum expectedArg = symbols.getArgumentType(instrName.getText());
         if(expectedArg == null){
-            ErrorController.getInstance()
-                    .addNewError(ErrorEnum.INSTRUCCION_NO_DEFINIDA, List.of(instrName.getText()),ctx.name);
+            err.addNewError(ErrorEnum.INSTRUCCION_NO_DEFINIDA, List.of(instrName.getText()),ctx.name);
         }
         assert expectedArg != null;
         Integer paramNumber =null;
@@ -64,23 +61,20 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
         switch (expectedArg){
             case Value -> {
                 if(arg.num == null){
-                    ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
+                    err.addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VALOR_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
                 paramNumber = parseNumber(arg.num.getText(),11);
 
                 if(paramNumber == null){
-                    ErrorController.getInstance()
-                            .addNewError(ErrorEnum.VALOR_ARGUMENTO_LITERAL_NO_VALIDO, List.of(),arg.num);
+                    err.addNewError(ErrorEnum.VALOR_ARGUMENTO_LITERAL_NO_VALIDO, List.of(),arg.num);
 
                 }
             }
             case Var -> {
 
                 if(arg.var == null){
-                    ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
+                    err.addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
 
@@ -90,39 +84,33 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
                     : 0;
 
                 if(symbols.isLabel(variable_name)){
-                    ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
+                    err.addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_VARIABLE_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
                 if(!symbols.isVariable(variable_name)){
-                    ErrorController.getInstance()
-                            .addNewError(ErrorEnum.VARIABLE_NO_DEFINIDA, List.of(instrName.getText(), "\" \""),ctx.name);
+                    err.addNewError(ErrorEnum.VARIABLE_NO_DEFINIDA, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
                 paramNumber = symbols.getPosFromVariable(variable_name,offset_value);
 
                 if(paramNumber == -1){
-                    ErrorController.getInstance()
-                            .addNewError(ErrorEnum.INDICE_ARGUMENTO_VECTOR_INVALIDO, List.of(variable_name, "\" \""),ctx.name);
+                    err.addNewError(ErrorEnum.INDICE_ARGUMENTO_VECTOR_INVALIDO, List.of(variable_name, "\" \""),ctx.name);
                 }
 
             }
             case Dir -> {
 
                 if(arg.var == null){
-                    ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
+                    err.addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
                 var dir_name = arg.var.getText();
 
                 if(symbols.isVariable(dir_name)){
-                    ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
+                    err.addNewError(ErrorEnum.ARGUMENTO_DE_TIPO_DIRECCION_NO_ENCONTRADO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
                 if(!symbols.isLabel(dir_name)){
-                    ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ETIQUETA_NO_DEFINIDA, List.of(instrName.getText(), "\" \""),ctx.name);
+                    err.addNewError(ErrorEnum.ETIQUETA_NO_DEFINIDA, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
 
                 paramNumber = symbols.getPosFromLabel(dir_name);
@@ -132,8 +120,7 @@ public class ProgramCodeGenerator extends SicomeBaseListener {
 
             case None -> {
                 if(arg.var!= null || arg.num!= null || arg.offset!=null){
-                    ErrorController.getInstance()
-                            .addNewError(ErrorEnum.ARGUMENTO_INSTRUCCION_INNECESARIO, List.of(instrName.getText(), "\" \""),ctx.name);
+                    err.addNewError(ErrorEnum.ARGUMENTO_INSTRUCCION_INNECESARIO, List.of(instrName.getText(), "\" \""),ctx.name);
                 }
             }
         }

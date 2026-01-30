@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CableInstructionTest {
 
-    private final Runner helper = new Runner();
+    //private final Runner helper = new Runner();
     @Test
     @DisplayName("Comprueba que no haya dos instrucciones de distinto argumento con el mismo nombre.")
     public void INSTRUCCION_MISMO_NOMBRE(){
@@ -38,10 +38,11 @@ public class CableInstructionTest {
                 instruccion1(Var){}
             }
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
+        helper.printErrors(true);
 
-        assertTrue(ErrorController.getInstance()
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
     }
 
@@ -60,9 +61,10 @@ public class CableInstructionTest {
                 instruccion1(){}
             }
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.INSTRUCCION_MISMO_NOMBRE));
     }
 
@@ -82,9 +84,10 @@ public class CableInstructionTest {
                 }
             }\
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA));
     }
 
@@ -107,9 +110,10 @@ public class CableInstructionTest {
                 }
             }\
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA));
     }
 
@@ -141,6 +145,7 @@ public class CableInstructionTest {
                 }
             }\
             """,microinstruction);
+        var helper = new Runner();
         assertDoesNotThrow(() -> helper.run(inputText,INSTRUCTION_SET,null));
 
     }
@@ -171,9 +176,10 @@ public class CableInstructionTest {
                 }
             }\
             """,microinstruccion1,microinstruccion2);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        //ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        //helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
 
@@ -198,9 +204,10 @@ public class CableInstructionTest {
                 }
             }\
             """,microinstruccion1,microinstruccion2);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
     private static Stream<String> provideCableMicroInstructions() {
@@ -236,9 +243,10 @@ public class CableInstructionTest {
                 }
             }\
             """,microinstruccion);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
 
@@ -262,9 +270,10 @@ public class CableInstructionTest {
                 }
             }\
             """,microinstruccion);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
 
@@ -285,9 +294,10 @@ public class CableInstructionTest {
                 }
             }\
             """,microinstruccion);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
     @ParameterizedTest
@@ -310,9 +320,10 @@ public class CableInstructionTest {
                 }
             }\
             """,microinstruccion);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_INVALIDA));
     }
 
@@ -342,9 +353,10 @@ public class CableInstructionTest {
                 }
             }\
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.BANDERA_NO_RECONOCIDA));
     }
 
@@ -368,6 +380,7 @@ public class CableInstructionTest {
                 }
             }\
             """,flag,flag);
+        var helper = new Runner();
         assertDoesNotThrow(() -> helper.run(inputText,INSTRUCTION_SET,null));
     }
 
@@ -388,9 +401,10 @@ public class CableInstructionTest {
                 }
             }\
             """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
 
@@ -414,9 +428,10 @@ public class CableInstructionTest {
                 }
             }\
             """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
 
@@ -439,9 +454,10 @@ public class CableInstructionTest {
                 }
             }\
             """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
     }
 
@@ -465,9 +481,10 @@ public class CableInstructionTest {
                 }
             }\
             """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
     }
     @ParameterizedTest
@@ -487,9 +504,10 @@ public class CableInstructionTest {
                 }
             }\
             """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
 
@@ -513,9 +531,10 @@ public class CableInstructionTest {
                 }
             }\
             """,argument);
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
 
@@ -542,9 +561,10 @@ public class CableInstructionTest {
                 }
             }\
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
 
@@ -573,9 +593,10 @@ public class CableInstructionTest {
                 }
             }\
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO));
     }
 
@@ -606,8 +627,8 @@ public class CableInstructionTest {
         var helper = new Runner();
 
         assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO));
     }
 

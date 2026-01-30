@@ -22,12 +22,13 @@ public class ProgramAnalysis extends SicomeBaseListener {
 
     public SymbolTable symbolTable = new SymbolTable();
     public ParseTreeProperty<Integer> ids = new ParseTreeProperty<>();
-
+    private ErrorController err;
     //max number value in a memory cell that occupies in 16 bits
     private final int memoryCellMax = 131072;
-    public ProgramAnalysis(SymbolTable symbolTable, ParseTreeProperty<Integer> ids){
+    public ProgramAnalysis(SymbolTable symbolTable, ParseTreeProperty<Integer> ids, ErrorController err){
         this.symbolTable = symbolTable;
         this.ids = ids;
+        this.err = err;
     }
 
 
@@ -41,13 +42,12 @@ public class ProgramAnalysis extends SicomeBaseListener {
 
         Integer value = parseNumber(ctx.value.getText(),16);
         if(value == null){
-            ErrorController.getInstance()
-                    .addNewError(VALOR_VARIABLE_NO_VALIDO,List.of(ctx.id.getText()), ctx.id);
+            err.addNewError(VALOR_VARIABLE_NO_VALIDO,List.of(ctx.id.getText()), ctx.id);
         }
         try {
             symbolTable.addSimpleVariable(id, value);
         } catch (EspecificationException e){
-            ErrorController.getInstance().addNewError(ErrorEnum.VARIABLE_MISMO_NOMBRE,List.of(ctx.id.getText()),ctx.id);
+            err.addNewError(ErrorEnum.VARIABLE_MISMO_NOMBRE,List.of(ctx.id.getText()),ctx.id);
         }
     }
     /**
@@ -63,8 +63,7 @@ public class ProgramAnalysis extends SicomeBaseListener {
         ctx.value.forEach(token -> {
             var valueNumber = parseNumber(token.getText(),16);
             if(valueNumber == null){
-                ErrorController.getInstance()
-                        .addNewError(VALOR_VARIABLE_NO_VALIDO,List.of(ctx.id.getText()), ctx.id);
+                err.addNewError(VALOR_VARIABLE_NO_VALIDO,List.of(ctx.id.getText()), ctx.id);
             }
             values.add(valueNumber);
 
@@ -72,16 +71,16 @@ public class ProgramAnalysis extends SicomeBaseListener {
 
         try {
             if (size <= 1) {
-                ErrorController.getInstance().addNewError(ErrorEnum.TAMANYO_VECTOR_INVALIDO,List.of(ctx.size + "< 2"),ctx.size);
+                err.addNewError(ErrorEnum.TAMANYO_VECTOR_INVALIDO,List.of(ctx.size + "< 2"),ctx.size);
             } else if (values.size() == 1) {
                 symbolTable.addVectorVariable(id, size, values.get(0));
             } else if (size == values.size()) {
                 symbolTable.addVectorVariable(id, size, values);
             } else {
-                ErrorController.getInstance().addNewError(ErrorEnum.INICIALIZACION_VECTOR_INVALIDA,List.of(),ctx.size);
+                err.addNewError(ErrorEnum.INICIALIZACION_VECTOR_INVALIDA,List.of(),ctx.size);
             }
         }catch (EspecificationException e){
-            ErrorController.getInstance().addNewError(ErrorEnum.VARIABLE_MISMO_NOMBRE,List.of(id), ctx.id);
+            err.addNewError(ErrorEnum.VARIABLE_MISMO_NOMBRE,List.of(id), ctx.id);
         }
     }
 
@@ -105,7 +104,7 @@ public class ProgramAnalysis extends SicomeBaseListener {
         try {
             symbolTable.addLabel(ctx.label.getText(), ProgramLine);
         } catch (EspecificationException e ){
-            ErrorController.getInstance().addNewError(ErrorEnum.ETIQUETA_MISMO_NOMBRE,List.of(ctx.label.getText()), ctx.label);
+            err.addNewError(ErrorEnum.ETIQUETA_MISMO_NOMBRE,List.of(ctx.label.getText()), ctx.label);
         }
     }
 

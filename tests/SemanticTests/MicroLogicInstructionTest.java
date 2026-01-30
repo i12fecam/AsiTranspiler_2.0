@@ -17,7 +17,7 @@ import static Runner.ObjetiveConfig.LOGIC;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MicroLogicInstructionTest {
-    private final Runner helper = new Runner();
+    //private final Runner helper = new Runner();
     @Test
     @DisplayName("Comprueba que no haya dos lógicas de bifurcación con el mismo nombre.")
     public void LOGICA_BIFURCACION_MISMO_NOMBRE(){
@@ -27,9 +27,10 @@ public class MicroLogicInstructionTest {
                  inc -> BIF
             }
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,LOGIC,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.LOGICA_BIFURCACION_MISMO_NOMBRE));
     }
     @Test
@@ -59,9 +60,10 @@ public class MicroLogicInstructionTest {
                  }
             }
             """;
+        var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,LOGIC,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.NUMERO_LOGICA_BIFURCACION_SUPERADO));
     }
 
@@ -80,8 +82,8 @@ public class MicroLogicInstructionTest {
             """;
         var helper = new Runner();
         assertThrows(RuntimeException.class, () -> helper.run(inputText,LOGIC,null));
-        ErrorController.getInstance().printToConsole(true);
-        assertTrue(ErrorController.getInstance()
+        helper.printErrors(true);
+        assertTrue(helper
                 .containsErrorEnum(ErrorEnum.BANDERA_NO_RECONOCIDA));
     }
 

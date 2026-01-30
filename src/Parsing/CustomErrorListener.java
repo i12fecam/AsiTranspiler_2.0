@@ -9,6 +9,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class CustomErrorListener extends BaseErrorListener {
+    private final ErrorController err;
+    public CustomErrorListener(ErrorController err) {
+        this.err=err;
+    }
+
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer,
                             Object offendingSymbol,
@@ -34,6 +39,6 @@ public class CustomErrorListener extends BaseErrorListener {
             msgFinal = "Carácter no reconocido '" + offendingText + "'";
         }
 
-            ErrorController.getInstance().addNewError(ErrorEnum.ANTLR4,List.of(msgFinal), (Token) token);
+            err.addNewError(ErrorEnum.ANTLR4,List.of(msgFinal), (Token) token);
     }
 }

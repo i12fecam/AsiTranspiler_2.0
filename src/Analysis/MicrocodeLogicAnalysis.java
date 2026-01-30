@@ -12,9 +12,10 @@ import static Internals.Errors.ErrorEnum.NUMERO_LOGICA_BIFURCACION_SUPERADO;
 
 public class MicrocodeLogicAnalysis extends SicomeBaseListener {
     public SymbolTable symbolTable = new SymbolTable();
-
-    public MicrocodeLogicAnalysis(SymbolTable symbolTable) {
+    public ErrorController err;
+    public MicrocodeLogicAnalysis(SymbolTable symbolTable, ErrorController err) {
         this.symbolTable = symbolTable;
+        this.err = err;
     }
 
     @Override
@@ -29,9 +30,9 @@ public class MicrocodeLogicAnalysis extends SicomeBaseListener {
         var resadd = symbolTable.addBifurcationLogic(name,needsArg);
 
         if(resadd == -1){
-            ErrorController.getInstance().addNewError(NUMERO_LOGICA_BIFURCACION_SUPERADO,List.of(), ctx.name);
+           err.addNewError(NUMERO_LOGICA_BIFURCACION_SUPERADO,List.of(), ctx.name);
         }else if (resadd == -2){
-            ErrorController.getInstance().addNewError(LOGICA_BIFURCACION_MISMO_NOMBRE, List.of(ctx.name.getText()), ctx.name);
+           err.addNewError(LOGICA_BIFURCACION_MISMO_NOMBRE, List.of(ctx.name.getText()), ctx.name);
 
         }
 
@@ -52,9 +53,9 @@ public class MicrocodeLogicAnalysis extends SicomeBaseListener {
 
         var resadd = symbolTable.addBifurcationLogic(name,needsArg);
         if(resadd == -1){
-            ErrorController.getInstance().addNewError(NUMERO_LOGICA_BIFURCACION_SUPERADO,List.of(), ctx.name);
+           err.addNewError(NUMERO_LOGICA_BIFURCACION_SUPERADO,List.of(), ctx.name);
         }else if (resadd == -2){
-            ErrorController.getInstance().addNewError(LOGICA_BIFURCACION_MISMO_NOMBRE, List.of(ctx.name.getText()), ctx.name);
+           err.addNewError(LOGICA_BIFURCACION_MISMO_NOMBRE, List.of(ctx.name.getText()), ctx.name);
 
         }
 

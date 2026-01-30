@@ -45,7 +45,7 @@ public class ProgramTest {
             helper.run(inputText);
 
         }catch (RuntimeException e) {
-            ErrorController.getInstance().printToConsole(true);
+            helper.printErrors(true);
             throw e;
         }
         //assertEquals(outputProgramText,helper.getProgramText());
