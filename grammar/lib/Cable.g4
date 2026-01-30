@@ -11,4 +11,4 @@ stepCable: '|' linstr=permissibleLOADSRMicroIntr '|' rinstr+=microIntr* ';'  #si
     | '{'conditionalStepCable+ '}'                         #conditionalCableStepBlock
     ;
 
-conditionalStepCable: flags+=FLAG (',' flags+=FLAG)* ':' '|' linstr=permissibleLOADSRMicroIntr '|' rinstr+=microIntr* ';' ;
+conditionalStepCable: flags+=FLAG+ ':' '|' linstr=permissibleLOADSRMicroIntr '|' rinstr+=microIntr* ';' ;
