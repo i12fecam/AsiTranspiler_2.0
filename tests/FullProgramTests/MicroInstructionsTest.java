@@ -334,39 +334,40 @@ public class MicroInstructionsTest {
                         |inc| M->GPR PC+1->PC;
                         |ret| GPR[OP]->OPR GPR[AD]->MAR;
                     }
-                
-                    isz(value){
+                    halt(){
+                    }
+                    isz(Value){
                           |inc| M->GPR;
                           |inc| GPR+1->GPR;
                           |inc| GPR->M;
                           |jmp_if_not_Zb(0)| ;
                           |bif(0)| PC+1->PC;
                     }
-                    isz_r(value){
+                    isz_r(Value){
                           |inc| M->GPR;
                           |inc| GPR+1->GPR;
                           |inc| GPR->M;
                           |bif_and_disable_if_not_Zb(0)| PC+1->PC;
                     }
-                    push(value){
+                    push(Value){
                         |inc| M->GPR SP-1->SP;
                         |inc| SP->MAR;
                         |bif(0)| GPR->M;
                     }
-                    pop(value){
+                    pop(Value){
                         |inc| SP->MAR;
                         |inc| M->QR SP+1->SP;
                         |inc| GPR[AD]->MAR;
                         |bif(0)| QR->M;
                     }
-                    push_i(value){
+                    push_i(Value){
                         |inc| M->GPR SP-1->SP;
                         |inc| GPR[AD]->MAR;
                         |inc| M->GPR;
                         |inc| SP->MAR;
                         |bif(0)| GPR->M;
                     }
-                    pop_i(value){
+                    pop_i(Value){
                         |inc| SP->MAR;
                         |inc| M->QR SP+1->SP;
                         |inc| GPR[AD]->MAR;
@@ -378,19 +379,19 @@ public class MicroInstructionsTest {
                         |jmp_and_disable_if_Zac(0)| PC+1->PC;
                         |bifurcate_and_disable_if_not_As(0)| PC+1->PC;
                     }
-                    jmpr(dir){
+                    jmpr(Dir){
                         |inc| GPR->QR SP-1->SP;
                         |inc| ACC->GPR SP->MAR;
                         |inc| GPR->M 0->ACC;
                         |inc| QR->GPR !ACC->ACC;
                         |inc| PC->GPR GPR->PC;
-                        |inc| GPR+ACC->ACC;
+                        |inc| ACC+GPR->ACC;
                         |inc| PC->GPR;
-                        |inc| GPR+ACC->ACC;
+                        |inc| ACC+GPR->ACC;
                         |inc| ACC->GPR;
                         |inc| GPR->PC 0->ACC;
                         |inc| M->GPR SP+1->SP;
-                        |bif(0)| GPR+ACC->ACC;
+                        |bif(0)| ACC+GPR->ACC;
                     }
                     
                     
@@ -402,7 +403,7 @@ public class MicroInstructionsTest {
         String outputRepositoryText = """
                 $
                 CB 4000100
-                CB 0201100
+                CB 201100
                 CB B000300
                 $
                 halt false 0
@@ -445,12 +446,17 @@ public class MicroInstructionsTest {
 
 
         var helper = new Runner();
+        try {
+            helper.run(inputText);
 
+        }catch (RuntimeException e){
+            helper.printErrors(true);
+
+        }
             helper.run(inputText);
 
 
 
-        helper.printErrors(true);
         assertEquals(outputRepositoryText,helper.getRepositoryText());
         assertEquals(outputLogicText,helper.getLogicText());
     }
