@@ -10,6 +10,8 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 public class MicrocodeAnalysis extends SicomeBaseListener {
     public ParseTreeProperty<Integer> ids = new ParseTreeProperty<>();
     public SymbolTable symbolTable = new SymbolTable();
@@ -34,7 +36,12 @@ public class MicrocodeAnalysis extends SicomeBaseListener {
 
         int instrId = -1;
         try {
-            instrId = symbolTable.addInstruction(identifier.getText(), argString, size);
+            Integer nEstimatedSteps = null;
+            if(ctx.nSteps != null){
+                nEstimatedSteps = parseInt(ctx.nSteps.getText());
+            }
+
+            instrId = symbolTable.addInstruction(identifier.getText(), argString, size, nEstimatedSteps);
         }catch (RuntimeException e){
             err.addNewError(ErrorEnum.INSTRUCCION_MISMO_NOMBRE, List.of(ctx.IDENTIFIER().getText()), ctx.IDENTIFIER().getSymbol());
 
@@ -52,7 +59,7 @@ public class MicrocodeAnalysis extends SicomeBaseListener {
     @Override
     public void enterFetchDefinitionMicro(SicomeParser.FetchDefinitionMicroContext ctx){
         //we annotates the fetch with the special value -1
-        var instrId = symbolTable.addInstruction("FETCH","",ctx.stepMicro().size());
+        var instrId = symbolTable.addInstruction("FETCH","",ctx.stepMicro().size(),null );
 
         ids.put(ctx,instrId);
 

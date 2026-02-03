@@ -21,14 +21,14 @@ public class CableRepositoryHelper {
      */
     public String getText(){
         StringBuilder builder = new StringBuilder();
-        for(Instruction func: _symbols.getInstructions()){
-            builder.append(func.getName());
+        for(Instruction instr: _symbols.getInstructions()){
+            builder.append(instr.getName());
             builder.append(" ");
-            builder.append(func.getBooleanParam().toString());
+            builder.append(instr.getBooleanParam().toString());
             builder.append(" ");
-            builder.append(func.getNSteps());
+            builder.append(instr.getEstimatedSteps());
             builder.append(" ");
-            builder.append("q").append(func.getId());
+            builder.append("q").append(instr.getId());
 
             builder.append("\n");
         }

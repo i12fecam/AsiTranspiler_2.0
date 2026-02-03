@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.List;
 
 import static Internals.Errors.ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO;
+import static java.lang.Integer.parseInt;
 
 public class CableAnalysis extends SicomeBaseListener {
     private final SymbolTable symbolTable;
@@ -41,7 +42,11 @@ public class CableAnalysis extends SicomeBaseListener {
         List<SicomeParser.StepCableContext> steps =ctx.stepCable();
         int instr_id = -1;
         try {
-            instr_id = symbolTable.addInstruction(functionName, args, steps.size());
+            Integer nEstimatedSteps = null;
+            if(ctx.nSteps !=null){
+                nEstimatedSteps = parseInt(ctx.nSteps.getText(),10);
+            }
+            instr_id = symbolTable.addInstruction(functionName, args, steps.size(),nEstimatedSteps);
         }catch (RuntimeException e){
             err.addNewError(ErrorEnum.INSTRUCCION_MISMO_NOMBRE, List.of(ctx.IDENTIFIER().getText()), ctx.IDENTIFIER().getSymbol());
         }

@@ -20,7 +20,7 @@ instructionBlockMicro : '@Micro' 'Instrucciones''{' fetchDefinitionMicro instruc
 
 fetchDefinitionMicro: 'Fetch' '{' stepMicro+ '}';
 
-instructionMicro: IDENTIFIER '(' arg=('Value'|'Dir'|'Var')? ')' '{' stepMicro* '}';
+instructionMicro: IDENTIFIER '(' arg=('Value'|'Dir'|'Var')? ')' nSteps=DECNUMBER? '{' stepMicro* '}';
 
 stepMicro: '|' biflogic=IDENTIFIER ('(' bifLogicArgument ')')? '|' instr+=microIntr* ';';
 

@@ -7,13 +7,14 @@ public class Instruction {
     private final int _id;
     private InstructionArgumentTypeEnum _params;
     private int _nSteps=0;
+    private int _estimatedSteps;
     /**
      *
      * @param functionName
      * @param functionArg Can be "value","dir","var" or ""
      * @return FunctionNumber
      */
-    public Instruction(String functionName, String functionArg, int nSteps , int id){
+    public Instruction(String functionName, String functionArg, int nSteps , int id,Integer estimatedSteps){
         this._functionName = functionName;
         switch (functionArg){
             case "Dir": _params= InstructionArgumentTypeEnum.Dir; break;
@@ -24,6 +25,11 @@ public class Instruction {
         }
         _id=id;
         _nSteps=nSteps;
+        if(estimatedSteps == null){
+            this._estimatedSteps=nSteps;
+        }else{
+            this._estimatedSteps=estimatedSteps;
+        }
     }
 
     public String getName(){
@@ -50,6 +56,8 @@ public class Instruction {
         return _nSteps;
     }
 
-
+    public int getEstimatedSteps(){
+        return _estimatedSteps;
+    }
 
 }

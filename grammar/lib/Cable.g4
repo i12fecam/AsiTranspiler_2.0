@@ -3,7 +3,7 @@ import Base;
 
 instructionBlockCable: '@Cable' 'Instrucciones''{' fetchDefinitionCable instructionCable+ '}';
 
-instructionCable: IDENTIFIER '(' arg=('Value'|'Dir'|'Var')? ')' '{' stepCable* '}';
+instructionCable: IDENTIFIER '(' arg=('Value'|'Dir'|'Var')? ')' nSteps=DECNUMBER? '{' stepCable* '}';
 
 fetchDefinitionCable: 'Fetch' '{' stepCable+ '}';
 

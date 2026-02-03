@@ -12,18 +12,20 @@ public class SymbolTable {
 
     /**
      * Registers a new function
-     * @param functionName the function name
-     * @param functionArg the function arguments
-     * @param steps the number of steps of the function
+     *
+     * @param functionName    the function name
+     * @param functionArg     the function arguments
+     * @param steps           the number of steps of the function
+     * @param nEstimatedSteps
      * @return the id of the registered function
      */
-    public int addInstruction(String functionName, String functionArg, int steps) throws RuntimeException {
+    public int addInstruction(String functionName, String functionArg, int steps, Integer nEstimatedSteps) throws RuntimeException {
         for(Instruction fun: instructions){
             if(Objects.equals(fun.getName(), functionName)){
                 throw new RuntimeException("Ya existe una función con este nombre");
             }
         }
-        instructions.add(new Instruction(functionName,functionArg,steps, instructions.size()));
+        instructions.add(new Instruction(functionName,functionArg,steps, instructions.size(),nEstimatedSteps));
         return instructions.size()-1;
     }
 
