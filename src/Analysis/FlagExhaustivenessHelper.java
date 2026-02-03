@@ -1,184 +1,177 @@
 package Analysis;
 
+import Internals.Errors.ErrorController;
+import Internals.Errors.ErrorEnum;
 import Internals.FlagEnum;
 import Internals.FlagState;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static Internals.Errors.ErrorEnum.LOGICA_CONTROL_NO_EXHAUSTIVA;
 
 public class FlagExhaustivenessHelper {
 
     public static void main(String[] args) {
-        FlagExhaustivenessHelper fc = new FlagExhaustivenessHelper();
-        fc.addNewFlagCombination(List.of(new FlagState(FlagEnum.As,true)
-                                        ,new FlagState(FlagEnum.Bs,null)
-        ));
-        fc.addNewFlagCombination(List.of(new FlagState(FlagEnum.As,true)
-                                        ,new FlagState(FlagEnum.Bs,false)
-        ));
-        fc.checkCompletness();
-    }
-    private FlagTree tree = new FlagTree(null,null);
+        var err = new ErrorController();
+        var helper = new FlagExhaustivenessHelper(err);
+        helper.addNewFlagCombination(Set.of(new FlagState(FlagEnum.F,true)));
+        helper.addNewFlagCombination(Set.of(new FlagState(FlagEnum.F,false)));
 
-
-    private Set<FlagEnum> flagsObserved = null;
-
-
-
-    public void addNewFlagCombination(List<FlagState> flagStates){
-
-        //Check for new non observed flags
-        checkForNotObservedFlags(flagStates);
-
-        var expandedFlagStates = expandUndefinedFlags(flagStates);
-
-        tree.addChildren(expandedFlagStates);
+        helper.check();
     }
 
-    private void checkForNotObservedFlags(List<FlagState> flagStates){
-        var flags = flagStates.stream()
-                .map(FlagState::getFlag)
-                .collect(Collectors.toSet());
+    public FlagExhaustivenessHelper(ErrorController err){
+        this.err = err;
+    }
 
-        if(flagsObserved == null){
-            flagsObserved = new HashSet<>(flags);
+    private ErrorController err = null;
+    private final Set<FlagEnum> flagsObserved = new LinkedHashSet<>();
+    private final List<Set<FlagState>> flagStatesWritten = new ArrayList<>();
+
+    public void addNewFlagCombination(Set<FlagState> flagStates){
+            flagStates.forEach(fs -> {
+                var repeated = !flagsObserved.add(fs.getFlag());
+
+            });
+            flagStatesWritten.add(flagStates);
+    }
+
+    public FlagExhaustivenessError check(){
+
+        var flagsStatesWrittenFull = flagStatesWritten.stream()
+                .map(fs -> toBinary(fs, flagsObserved))
+                .flatMap(this::eliminateWildCarts)
+                .toList();
+
+        var repeatedElementsWritten = flagsStatesWrittenFull.stream()
+                .filter(e -> Collections.frequency(flagsStatesWrittenFull,e) > 1)
+                .toList();
+
+        if(!repeatedElementsWritten.isEmpty()){
+            return new RepeatedConditionError(repeatedElementsWritten.stream()
+                    .map(c ->toSet(c,flagsObserved))
+                    .distinct()
+                    .map(s -> {return s.stream()
+                            .map(FlagState::getInputName)
+                            .collect(Collectors.joining(" "));
+                    })
+                    .toList()
+            );
         }
 
-        var missing_flags = new TreeSet<>(flags);
-        missing_flags.removeAll(flagsObserved);
+        //  Create flagStatesIdeal based on flagsObserved
+        var flagStatesIdeal = allFlagCombinations(flagsObserved);
+        // Get flagStatesDifference from flagStatesIdeal and flagStatesWritten
+        var flagStateDifference = flagStatesIdeal.stream()
+                .filter(idealString -> !flagsStatesWrittenFull.contains(idealString))
+                .toList();
 
-        if(missing_flags.size() > 0 ){
-            throw new RuntimeException("Introduced new flag not defined in previous definitions:" + missing_flags);
+        if(!flagStateDifference.isEmpty()){
+            return new MissingConditionError(
+                flagStateDifference.stream()
+                        .map(c -> toSet(c,flagsObserved))
+                        .map(s -> {return s.stream()
+                                .map(FlagState::getInputName)
+                                .collect(Collectors.joining(" "));
+                        })
+                        .toList()
+            );
         }
+
+        return new NoError();
     }
 
-    private List<FlagState> expandUndefinedFlags(List<FlagState> flagStates){
-        var undefined_flags = flagStates.stream()
-                .filter(f -> f.getFlag() == null)
-                .collect(Collectors.toList());
 
-        var defined_flags = flagStates.stream()
-                .filter(f -> f.getFlag() != null)
-                .collect(Collectors.toList());
+    private String toBinary(Set<FlagState> flagStates, Set<FlagEnum> flagsObserved){
 
-        var flagStatesToAdd = new ArrayList<FlagState>();
-        for(var perm : getPermutations( List.of(true,false),undefined_flags.size())){
-            for (var i=0;i< perm.size();i++){
-                flagStatesToAdd.add(new FlagState(undefined_flags.get(i).getFlag(), perm.get(i)));
+        return flagsObserved.stream().map(fo ->{
+            var state = flagStates.stream()
+                    .filter(fs ->fs.getFlag() == fo)
+                    .map(FlagState::getState)
+                    .findFirst();
+
+            if (state.isEmpty()){
+                return  "-";
+            }else if(state.get()){
+                 return  "1";
+            }else {
+                return "0";
             }
+        }).collect(Collectors.joining(""));
+
+    }
+
+    private Set<FlagState> toSet(String combination, Set<FlagEnum> flags){
+        assert combination.length() == flags.size();
+        var flagArray = new ArrayList<>(flags);
+        var res = new LinkedHashSet<FlagState>();
+        for (int i = 0; i < flagArray.size(); i++) {
+            var flag = flagArray.get(i);
+            Boolean state = null;
+            state = combination.charAt(i) == '1';
+            res.add(new FlagState(flag,state));
         }
-        defined_flags.addAll(flagStatesToAdd);
-
-        Collections.sort(defined_flags);
-
-        return defined_flags;
-
-    }
-
-    public void checkCompletness(){
-        tree.checkCorrect();
+        return res;
     }
 
 
 
-    private static <T> List<List<T>> getPermutations(List<T> set, int k) {
-        List<List<T>> result = new ArrayList<>();
-        int n = set.size();
-        getPermutationsImp(set, new ArrayList<>() {}, n, k, result);
-        return result;
-    }
-
-    private static <T> void getPermutationsImp(List<T> set, Collection<T> prefix, int n, int k, List<List<T>> result) {
-        // Base case: k is 0, add the prefix as a result
-        if (k == 0) {
-            result.add(new ArrayList<>(prefix));
-            return;
+    private Stream<String> eliminateWildCarts(String binary){
+        List<String> res = List.of(binary);
+        while(res.stream().anyMatch(s -> s.contains("-"))){
+            res = res.stream()
+                    .flatMap(s -> {
+                        if (s.contains("-")) {
+                            return Stream.of(
+                                    s.replaceFirst("-", "0"),
+                                    s.replaceFirst("-", "1")
+                            );
+                        } else {
+                            return Stream.of(s);
+                        }
+                    }).toList();
         }
-
-        // Iterate over the set and recursively call for k - 1
-        for (int i = 0; i < n; ++i) {
-            // Add the current element to the prefix
-            prefix.add(set.get(i));
-
-            // Recur for the next element with reduced k
-            getPermutationsImp(set, prefix, n, k - 1, result);
-
-            // Backtrack to remove the last element
-            prefix.remove(prefix.size() - 1);
-        }
-
+        return res.stream();
     }
-}
+    private List<String> allFlagCombinations(Set<FlagEnum> flagsObserved){
+        var flagNumber = flagsObserved.size();
+        var numLimit =(int) Math.pow(2,flagNumber);
 
-
-
-class FlagTree{
-    private FlagTree parent;
-    private HashMap<FlagState,FlagTree> childs = new HashMap<>();
-    private FlagState value;
-    public boolean isChecked = false;
-    public FlagTree(FlagTree parent,FlagState value){
-        this.parent = parent;
-        this.value = value;
+        return IntStream.range(0,numLimit)
+            .mapToObj(Integer::toBinaryString)
+            .map(c ->{
+                return String.format("%"+ flagNumber + "s",c).replace(" ","0");
+            })
+            .toList();
     }
 
-
-
-    public FlagTree addChildren(List<FlagState> flagStates){
-
-        assert flagStates.get(0).isStateDefined();
-
-
-        if(flagStates.isEmpty()) {return null;}
-
-        childs.put(flagStates.get(0),new FlagTree(this, flagStates.get(0)));
-        var newChild = childs.get(flagStates.get(0));
-
-        newChild.addChildren(flagStates.subList(1, flagStates.size()));
-
-        return newChild;
+    public sealed interface FlagExhaustivenessError permits
+            RepeatedConditionError,
+            MissingConditionError,
+            NoError{
+        public List<String> getConditions();
     }
 
-
-
-
-    private boolean existsOpposite(){
-        if(isChecked) return true;
-        if(parent == null) return true;
-        var oppositeValue = new FlagState(value.getFlag(),!value.getState());
-        var res = parent.childs.get(oppositeValue);
-        if(res == null){
-            //get whole tree backwards
-            var flags = new LinkedList<FlagState>();
-            var currentNode = this;
-            while(currentNode.parent != null){
-                flags.add(currentNode.value);
-                currentNode = currentNode.parent;
-            }
-
-            var message = "There needs to be a flag combination that covers the combination { ";
-            for(var flag : flags){
-                message+=flag.getInputName();
-            }
-            message+=" }";
-            throw new RuntimeException(message);
-            //return false;
-        }
-        res.isChecked = true;
-        return true;
-    }
-
-
-
-    public void checkCorrect(){
-        //process node
-        existsOpposite();
-        //proces childs
-        for(var child : childs.values()){
-            child.checkCorrect();
+    public record RepeatedConditionError(List<String> conditions) implements FlagExhaustivenessError{
+        @Override
+        public List<String> getConditions(){
+            return conditions;
         }
     }
-
-
+    public record MissingConditionError(List<String> conditions) implements FlagExhaustivenessError{
+        @Override
+        public List<String> getConditions(){
+            return conditions;
+        }
+    }
+    public record NoError() implements FlagExhaustivenessError{
+        @Override
+        public List<String> getConditions(){
+            return Collections.emptyList();
+        }
+    }
 }
 

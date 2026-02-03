@@ -54,8 +54,10 @@ public class FlagState implements Comparable {
         return activated == flagState.activated && flagEnum == flagState.flagEnum;
     }
 
-
-
+    @Override
+    public String toString() {
+        return getInputName();
+    }
 
     @Override
     public int hashCode() {

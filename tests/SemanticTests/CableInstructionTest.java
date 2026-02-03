@@ -632,5 +632,85 @@ public class CableInstructionTest {
                 .containsErrorEnum(ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO));
     }
 
+    @Test
+    @DisplayName("Comprueba que no se haga referencia a la misma bandera varias veces en la misma condición.")
+    void PASO_COMPLEJO_NO_EXHAUSTIVO(){
+        String inputText ="""
+            @Cable
+            Instrucciones {
+                Fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(){
+                    |SR+1->SR| GPR->PC;
+                    {
+                        F !F:  |SR+1->SR|;
+                        !F: |SR+1->SR|;
+                    }
+                }
+            }\
+            """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.PASO_COMPLEJO_NO_EXHAUSTIVO));
+    }
+    @Test
+    @DisplayName("Comprueba que no haya dos condiciones iguales definidas.")
+    void PASO_COMPLEJO_NO_EXHAUSTIVO2(){
+        String inputText ="""
+            @Cable
+            Instrucciones {
+                Fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(){
+                    |SR+1->SR| GPR->PC;
+                    {
+                        F Zsc:  |SR+1->SR|;
+                        F: |SR+1->SR|;
+                        !F: |SR+1->SR|;
+                    }
+                }
+            }\
+            """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.PASO_COMPLEJO_NO_EXHAUSTIVO));
+    }
+
+    @Test
+    @DisplayName("Comprueba que no haya condiciones sin definir.")
+    void PASO_COMPLEJO_NO_EXHAUSTIVO3(){
+        String inputText ="""
+            @Cable
+            Instrucciones {
+                Fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(){
+                    |SR+1->SR| GPR->PC;
+                    {
+                        F Zsc:  |SR+1->SR|;
+                    }
+                }
+            }\
+            """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.PASO_COMPLEJO_NO_EXHAUSTIVO));
+    }
+
 
 }

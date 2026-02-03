@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -94,24 +95,66 @@ public class MicroLogicInstructionTest {
 
     }
 
-    @ParameterizedTest
-    @MethodSource("provideValidFlags")
-    @DisplayName("Comprueba que todas las banderas se reconozcan de forma correcta.")
-    void BANDERA_NO_RECONOCIDA2(String flag){
-        String inputText = String.format("""
+    @Test
+    @DisplayName("Comprueba que no se haga referencia a la misma bandera varias veces en la misma condición.")
+    void LOGICA_CONTROL_NO_EXHAUSTIVA(){
+        String inputText ="""
             Lógica{
                  inc ->  INCR
                  bif_if_flag -> {
-                    %s: BIF
-                    !%s: INCR
+                    F !F: BIF
+                    !F: INCR
                  }
                  rtn -> RTN
             }
             
-            """,flag,flag);
+            """;
         var helper = new Runner();
-        assertDoesNotThrow(() -> helper.run(inputText,LOGIC,null));
+        assertThrows(RuntimeException.class,() -> helper.run(inputText,LOGIC,null));
+        helper.printErrors(true);
+        helper.containsErrorEnum(ErrorEnum.LOGICA_CONTROL_NO_EXHAUSTIVA);
     }
+
+    @Test
+    @DisplayName("Comprueba que no haya dos condiciones iguales definidas")
+    void LOGICA_CONTROL_NO_EXHAUSTIVA2(){
+        String inputText ="""
+            Lógica{
+                 inc ->  INCR
+                 bif_if_flag -> {
+                    F Zsc: BIF
+                    F: INCR
+                    !F: INCR
+                 }
+                 rtn -> RTN
+            }
+            
+            """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class,() -> helper.run(inputText,LOGIC,null));
+        helper.printErrors(true);
+        helper.containsErrorEnum(ErrorEnum.LOGICA_CONTROL_NO_EXHAUSTIVA);
+    }
+
+    @Test
+    @DisplayName("Comprueba que no haya condiciones sin definir")
+    void LOGICA_CONTROL_NO_EXHAUSTIVA3(){
+        String inputText ="""
+            Lógica{
+                 inc ->  INCR
+                 bif_if_flag -> {
+                    F : BIF
+                 }
+                 rtn -> RTN
+            }
+            
+            """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class,() -> helper.run(inputText,LOGIC,null));
+        helper.printErrors(true);
+        helper.containsErrorEnum(ErrorEnum.LOGICA_CONTROL_NO_EXHAUSTIVA);
+    }
+
 
 
 }

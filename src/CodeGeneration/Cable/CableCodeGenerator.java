@@ -1,5 +1,6 @@
 package CodeGeneration.Cable;
 
+import Analysis.FlagExhaustivenessHelper;
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
 import Internals.MicroInstruction;
@@ -11,10 +12,7 @@ import Internals.MicroInstructionEnum;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static Internals.Errors.ErrorEnum.*;
 import static Internals.MicroInstructionEnum.*;
@@ -28,6 +26,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
     protected ParseTreeProperty<Integer> _ids = null;
     protected SymbolTable symbols;
     private final ErrorController err;
+    private final FlagExhaustivenessHelper flagHelper;
 
     public CableCodeGenerator(ParseTreeProperty<Integer> ids, SymbolTable st, ErrorController err) {
         _ids = ids;
@@ -35,6 +34,7 @@ public class CableCodeGenerator extends SicomeBaseListener {
         repository = new CableRepositoryHelper(st);
         symbols = st;
         this.err = err;
+        this.flagHelper = new FlagExhaustivenessHelper(err);
     }
 
     public String getLogicFileString(){
@@ -158,6 +158,20 @@ public class CableCodeGenerator extends SicomeBaseListener {
             flags.add(newFlag);
 
         }
+
+        var repeatedFlags = flags.stream()
+                .map(FlagState::getFlag)
+                .toList();
+        repeatedFlags.stream()
+                .filter(f -> Collections.frequency(repeatedFlags,f) > 1)
+                .distinct()
+                .forEach(f -> err.addNewError(PASO_COMPLEJO_NO_EXHAUSTIVO,
+                        List.of("La bandera " + f.inputName + " se encuentra definida varias veces en la misma condición"),
+                        ctx.start)
+                );
+
+        flagHelper.addNewFlagCombination(new HashSet<>(flags));
+
         //Process left instruction
         var lmInstrEnum = MicroInstructionEnum.valueOfInput(ctx.linstr.MICRO_INSTR().getText());
         switch (lmInstrEnum){
@@ -242,5 +256,27 @@ public class CableCodeGenerator extends SicomeBaseListener {
             }
         }
 
+    }
+    @Override
+    public void exitConditionalCableStepBlock(SicomeParser.ConditionalCableStepBlockContext ctx){
+
+        var res = flagHelper.check();
+        switch (res){
+            case FlagExhaustivenessHelper.NoError ignored ->{}
+            case FlagExhaustivenessHelper.MissingConditionError error ->{
+                error.getConditions().forEach(c ->
+                        err.addNewError(PASO_COMPLEJO_NO_EXHAUSTIVO
+                                ,List.of("Combinación " + c + " no controlada"),
+                                ctx.start)
+                );
+            }
+            case FlagExhaustivenessHelper.RepeatedConditionError error ->{
+                error.getConditions().forEach(c ->
+                        err.addNewError(PASO_COMPLEJO_NO_EXHAUSTIVO
+                                ,List.of("Combinación " + c + " definida varias veces"),
+                                ctx.start)
+                );
+            }
+        }
     }
 }

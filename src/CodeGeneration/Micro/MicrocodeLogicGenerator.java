@@ -1,5 +1,6 @@
 package CodeGeneration.Micro;
 
+import Analysis.FlagExhaustivenessHelper;
 import Internals.Errors.ErrorController;
 import Parsing.SicomeBaseListener;
 import Parsing.SicomeParser;
@@ -8,9 +9,12 @@ import Internals.BifurcationLogic;
 import Internals.SymbolTable;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import static Internals.Errors.ErrorEnum.BANDERA_NO_RECONOCIDA;
+import static Internals.Errors.ErrorEnum.LOGICA_CONTROL_NO_EXHAUSTIVA;
 
 public class MicrocodeLogicGenerator extends SicomeBaseListener {
 
@@ -18,11 +22,12 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
     //private ParseTreeProperty<Integer> ids;
 
     private final MicroLogicHelper logic = new MicroLogicHelper();
-    private ErrorController err;
-
-    public MicrocodeLogicGenerator(SymbolTable st, ErrorController err) {
+    private final ErrorController errorController;
+    private final FlagExhaustivenessHelper flagHelper;
+    public MicrocodeLogicGenerator(SymbolTable st, ErrorController errorController) {
         this.symbols = st;
-        this.err = err;
+        this.errorController = errorController;
+         this.flagHelper = new FlagExhaustivenessHelper(errorController);
     }
 
 
@@ -63,12 +68,29 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
             for(var flagToken:optionCtx.flags){
                 FlagState flag = FlagState.ValueOfInput(flagToken.getText());
                 if(flag==null) {
-                   err.addNewError(BANDERA_NO_RECONOCIDA,
+                   errorController.addNewError(BANDERA_NO_RECONOCIDA,
                                     List.of(flagToken.getText()),
                                     flagToken);
                 }
                 flags.add(flag);
             }
+
+            //We check if there is defined flag multiples times in set
+
+            var repeatedFlags = flags.stream()
+                    .map(FlagState::getFlag)
+                    .toList();
+            repeatedFlags.stream()
+                    .filter(f -> Collections.frequency(repeatedFlags,f) > 1)
+                    .distinct()
+                    .forEach(f -> errorController.addNewError(LOGICA_CONTROL_NO_EXHAUSTIVA,
+                                List.of("La bandera " + f.inputName + " se encuentra definida varias veces en la misma condición"),
+                                ctx.start)
+                    );
+
+            flagHelper.addNewFlagCombination(new HashSet<>(flags));
+
+
             BifurcationLogic bifLogic = symbols.getBifurcationLogic(name);
             boolean inc = false;
             boolean bif = false;
@@ -91,6 +113,28 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
             if(optionCtx.disable!=null) enable=false;
 
             logic.addStatusLogic(bifLogic.getId(),flags,inc,bif,ret,enable);
+        }
+    }
+
+    @Override
+    public void exitComplexStatusLogic(SicomeParser.ComplexStatusLogicContext ctx) {
+        var res = flagHelper.check();
+        switch (res){
+            case FlagExhaustivenessHelper.NoError ignored ->{}
+            case FlagExhaustivenessHelper.MissingConditionError err ->{
+                err.getConditions().forEach(c ->
+                        errorController.addNewError(LOGICA_CONTROL_NO_EXHAUSTIVA
+                        ,List.of("Combinación " + c + " no controlada"),
+                        ctx.start)
+                );
+            }
+            case FlagExhaustivenessHelper.RepeatedConditionError err ->{
+                err.getConditions().forEach(c ->
+                        errorController.addNewError(LOGICA_CONTROL_NO_EXHAUSTIVA
+                                ,List.of("Combinación " + c + " definida varias veces"),
+                                ctx.start)
+                );
+            }
         }
     }
 

@@ -35,7 +35,7 @@ public class SicomeLexer extends Lexer {
 			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
 			"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", 
 			"T__17", "T__18", "T__19", "T__20", "T__21", "T__22", "T__23", "T__24", 
-			"T__25", "T__26", "HEXNUMBER", "BINNUMBER", "COMPLEMENT2NUMBER", "SINGNMAGNITUDENUMBER", 
+			"T__25", "T__26", "HEXNUMBER", "BINNUMBER", "COMPLEMENT2NUMBER", "SIGNMAGNITUDENUMBER", 
 			"MEMORYVALUE", "DECNUMBER", "FLAG", "IDENTIFIER", "MICRO_INSTR", "LINE_COMMENT", 
 			"COMMENT", "NEWLINE", "WS"
 		};
