@@ -4,6 +4,7 @@ import Analysis.LogicException;
 import Internals.Errors.ErrorController;
 import Internals.Errors.ErrorEnum;
 import Runner.Runner;
+import Runner.ObjetiveConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -533,6 +534,174 @@ public class ProgramTest {
 
 
 
+    @Test
+    @DisplayName("Comprueba si no está definido el bloque de instrucciones cuando se eliga analizar instrucciones en microprogramado")
+    void FALTA_BLOQUE_NECESARIO(){
+        String inputText ="""
+               Lógica{
+                    inc -> INCR
+                    bif -> BIF
+                    ret -> RTN
+                }
+                Variables{
+                }
+                Programa{
+                }
+               """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText, ObjetiveConfig.INSTRUCTION_SET,null);
+        });
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.FALTA_BLOQUE_NECESARIO));
+    }
+
+    @Test
+    @DisplayName("Comprueba si no está definido el bloque de instrucciones cuando se eliga analizar todo en microprogramado")
+    void FALTA_BLOQUE_NECESARIO2(){
+        String inputText ="""
+               Lógica{
+                    inc -> INCR
+                    bif -> BIF
+                    ret -> RTN
+                }
+//               @Micro
+//                Instrucciones {
+//                    Fetch {
+//                        |inc| PC->MAR;
+//                        |inc| M->GPR PC+1->PC;
+//                        |ret| GPR[OP]->OPR GPR[AD]->MAR;
+//                    }
+//                    instruccion1(Value){}
+//                }
+                Variables{
+                }
+                Programa{
+                }
+               """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText, ObjetiveConfig.ALL,null);
+        });
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.FALTA_BLOQUE_NECESARIO));
+    }
+
+    @Test
+    @DisplayName("Comprueba si no está definido el bloque de variables y programa cuando se eliga analizar todo en microprogramado")
+    void FALTA_BLOQUE_NECESARIO3(){
+        String inputText ="""
+               Lógica{
+                    inc -> INCR
+                    bif -> BIF
+                    ret -> RTN
+                }
+               @Micro
+                Instrucciones {
+                    Fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |ret| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
+                    instruccion1(Value){}
+                }
+               """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText, ObjetiveConfig.ALL,null);
+        });
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.FALTA_BLOQUE_NECESARIO));
+    }
+
+    @Test
+    @DisplayName("Comprueba que no se pueda analizar solo lógica si es un programa en cableado")
+    void FALTA_BLOQUE_NECESARIO4(){
+        String inputText ="""
+               @Cable
+                Instrucciones {
+                    Fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
+                    instruccion1(Value){}
+                }
+               
+               """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText, ObjetiveConfig.LOGIC,null);
+        });
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.FALTA_BLOQUE_NECESARIO));
+    }
+
+
+    @Test
+    @DisplayName("Comprueba si no está definido el bloque de instrucciones cuando se eliga analizar todo en cableado")
+    void FALTA_BLOQUE_NECESARIO5(){
+        String inputText ="""
+               
+                Variables{
+                }
+                Programa{
+                }
+               """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText, ObjetiveConfig.ALL,null);
+        });
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.FALTA_BLOQUE_NECESARIO));
+    }
+
+    @Test
+    @DisplayName("Comprueba si no está definido el bloque de instrucciones cuando se eliga analizar instrucciones en cableado")
+    void FALTA_BLOQUE_NECESARIO6(){
+        String inputText ="""
+               
+                Variables{
+                }
+                Programa{
+                }
+               """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText, ObjetiveConfig.INSTRUCTION_SET,null);
+        });
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.FALTA_BLOQUE_NECESARIO));
+    }
+
+    @Test
+    @DisplayName("Comprueba si no está definido el bloque de programa y variable cuando se eliga analizar todo en cableado")
+    void FALTA_BLOQUE_NECESARIO7(){
+        String inputText ="""
+               @Cable
+                Instrucciones {
+                    Fetch {
+                        |SR+1->SR| PC->MAR;
+                        |SR+1->SR| M->GPR PC+1->PC;
+                        |SR+1->SR| GPR[OP]->OPR GPR[AD]->MAR;
+                    }
+                    instruccion1(Value){}
+                }
+               """;
+        var helper = new Runner();
+        assertThrows(RuntimeException.class, () -> {
+            helper.run(inputText, ObjetiveConfig.ALL,null);
+        });
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.FALTA_BLOQUE_NECESARIO));
+    }
 
 
 

@@ -96,7 +96,7 @@ public class Runner {
                 if (obj == ObjetiveConfig.INSTRUCTION_SET ||  obj == ObjetiveConfig.ALL){
 
                     if(ctx.instructionBlockMicro() == null){
-                        err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of(),ctx.start);
+                        err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of("Bloque de instrucciones"),ctx.start);
                     }
 
                     var analysisMicroPass = new MicrocodeAnalysis(ids,symbols,err);
@@ -112,7 +112,7 @@ public class Runner {
                 if(obj == ObjetiveConfig.ALL){
 
                     if(ctx.variablesBlock() == null || ctx.programBlock() == null){
-                        err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of(),ctx.start);
+                        err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of("Bloque de variables y programa"),ctx.start);
                     }
 
                     var analysisProgram = new ProgramAnalysis(symbols,ids,err);
@@ -131,7 +131,7 @@ public class Runner {
             case SicomeParser.CableProgramContext ctx -> {
 
                 if(obj == ObjetiveConfig.LOGIC){
-                    err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of(), ctx.getStart());
+                    err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of("No se puede analizar lógica en cableado"), ctx.getStart());
                 }
 
                 var cableAnalysisPass = new CableAnalysis(ids,symbols,err);
@@ -146,7 +146,7 @@ public class Runner {
                 if (obj == ObjetiveConfig.ALL){
 
                     if(ctx.variablesBlock() == null || ctx.programBlock() == null){
-                        err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of(),ctx.start);
+                        err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of("Bloque de variables y programa"),ctx.start);
                     }
 
                     var programAnalysisPass = new ProgramAnalysis(symbols,ids, err);
