@@ -13,8 +13,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import static Internals.Errors.ErrorEnum.BANDERA_NO_RECONOCIDA;
-import static Internals.Errors.ErrorEnum.LOGICA_CONTROL_NO_EXHAUSTIVA;
+import static Internals.Errors.ErrorEnum.*;
 
 public class MicrocodeLogicGenerator extends SicomeBaseListener {
 
@@ -71,6 +70,13 @@ public class MicrocodeLogicGenerator extends SicomeBaseListener {
                    errorController.addNewError(BANDERA_NO_RECONOCIDA,
                                     List.of(flagToken.getText()),
                                     flagToken);
+                }
+
+                assert flag != null;
+                if(!flag.getFlag().canBeUsedInMicro()){
+                    errorController.addNewError(BANDERA_INVALIDA,
+                            List.of(flagToken.getText()),
+                            flagToken);
                 }
                 flags.add(flag);
             }

@@ -506,4 +506,37 @@ public class MicroInstructionsTest {
         assertTrue(helper
                 .containsErrorEnum(ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO));
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Ovf"})
+    @DisplayName("Comprueba que no se utiliza bandera prohibidas en microprogramado")
+    void BANDERA_INVALIDA(String argument){
+        String inputText = String.format("""
+            Lógica{
+                inc -> INCR
+                rtn -> RTN
+                instruccion_prohibida -> {
+                    %s: INCR
+                    !%s: INCR
+                }
+            }
+            @Micro
+            Instrucciones {
+                Fetch {
+                        |inc| PC->MAR;
+                        |inc| M->GPR PC+1->PC;
+                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
+                }
+                instruccion1(Value){
+                    
+                }
+            }\
+            """,argument,argument);
+        var helper = new Runner();
+
+        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        helper.printErrors(true);
+        assertTrue(helper
+                .containsErrorEnum(ErrorEnum.BANDERA_INVALIDA));
+    }
 }

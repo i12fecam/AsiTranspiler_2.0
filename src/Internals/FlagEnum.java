@@ -5,7 +5,7 @@ public enum FlagEnum {
     Za("Za","Za"), //micro ,cable
     Zac("Zac","Zac"), //micro, cable
     Zsc("Zsc","Zsc"), //micro, cable
-    Ovf("Ovf","Ovf"), //TODO que hacer sobre este
+    Ovf("Ovf","Ovf",false),
     N("N","N"), //micro ,cable
     Qn("Qn","Qn"), //micro , cable
     Qn1("Qn+","Qn_plus"), //micro, cable
@@ -19,6 +19,8 @@ public enum FlagEnum {
     public final String outputName;
 
     public final String inputName;
+
+    public final boolean admitsMicro;
 
     public static FlagEnum ValueofInput(String input){
         for (FlagEnum e : values()) {
@@ -38,21 +40,23 @@ public enum FlagEnum {
         return null;
     }
 
+    public boolean canBeUsedInMicro(){
+        return this.admitsMicro;
+    }
 
     private FlagEnum(String inputName, String outputName){
         this.outputName = outputName;
         this.inputName = inputName;
+        this.admitsMicro = true;
+    }
+
+    private FlagEnum(String inputName, String outputName,boolean admitsMicro){
+        this.outputName = outputName;
+        this.inputName = inputName;
+        this.admitsMicro = admitsMicro;
     }
 
 
 
-    /*
-    public static void main(String[] arg){
-        for(Flag e:values()){
-            System.out.println("- " + e.inputName);
-        }
 
-    }
-
-     */
 }
