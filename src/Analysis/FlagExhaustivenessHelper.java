@@ -28,8 +28,8 @@ public class FlagExhaustivenessHelper {
     }
 
     private ErrorController err = null;
-    private final Set<FlagEnum> flagsObserved = new LinkedHashSet<>();
-    private final List<Set<FlagState>> flagStatesWritten = new ArrayList<>();
+    private  Set<FlagEnum> flagsObserved = new LinkedHashSet<>();
+    private  List<Set<FlagState>> flagStatesWritten = new ArrayList<>();
 
     public void addNewFlagCombination(Set<FlagState> flagStates){
             flagStates.forEach(fs -> {
@@ -60,6 +60,7 @@ public class FlagExhaustivenessHelper {
                     })
                     .toList()
             );
+
         }
 
         //  Create flagStatesIdeal based on flagsObserved
@@ -81,6 +82,9 @@ public class FlagExhaustivenessHelper {
             );
         }
 
+        //Borramos los estados anteriores
+        flagsObserved = new LinkedHashSet<>();
+        flagStatesWritten = new ArrayList<>();
         return new NoError();
     }
 

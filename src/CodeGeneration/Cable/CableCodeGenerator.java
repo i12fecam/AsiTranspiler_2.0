@@ -101,15 +101,15 @@ public class CableCodeGenerator extends SicomeBaseListener {
             var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
             switch (rmIntrEnum){
                 case sr_plus_to_sr,load_sr -> {
-                    err.addNewError(MICROINSTRUCCION_INVALIDA,List.of(ctx.linstr.MICRO_INSTR().getText(),"En lado derecho no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                    err.addNewError(MICROINSTRUCCION_INVALIDA,List.of(mInstr.MICRO_INSTR().getText(),"En lado derecho no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),mInstr.MICRO_INSTR().getSymbol());
                 }
                 case null -> {
-                    err.addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
+                    err.addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(mInstr.MICRO_INSTR().getText()),mInstr.MICRO_INSTR().getSymbol());
                 }
                 default -> {
 
                     if (!seenMicroInstruction.add(rmIntrEnum)) {
-                        err.addNewError(MICROINSTRUCCION_INVALIDA, List.of(ctx.linstr.MICRO_INSTR().getText(),"No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
+                        err.addNewError(MICROINSTRUCCION_INVALIDA, List.of(mInstr.MICRO_INSTR().getText(),"No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName), mInstr.MICRO_INSTR().getSymbol());
                     }
                     if (rmIntrEnum.needsArgument && mInstr.arg == null) {
                         err.addNewError(MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO,
@@ -218,15 +218,15 @@ public class CableCodeGenerator extends SicomeBaseListener {
             var rmIntrEnum = MicroInstructionEnum.valueOfInput(mInstr.MICRO_INSTR().getText());
             switch (rmIntrEnum){
                 case sr_plus_to_sr,load_sr ->   {
-                    err.addNewError(MICROINSTRUCCION_INVALIDA,List.of(ctx.linstr.MICRO_INSTR().getText(),"En lado derecho no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
+                    err.addNewError(MICROINSTRUCCION_INVALIDA,List.of(mInstr.MICRO_INSTR().getText(),"En lado derecho no está permitido las instrucciones"+ load_sr.inputName + " y "+ sr_plus_to_sr.inputName),ctx.linstr.MICRO_INSTR().getSymbol());
                 }
                 case null ->{
-                    err.addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(ctx.linstr.MICRO_INSTR().getText()),ctx.linstr.MICRO_INSTR().getSymbol());
+                    err.addNewError(ErrorEnum.MICROINSTRUCCION_NO_RECONOCIDA,List.of(mInstr.MICRO_INSTR().getText()),mInstr.MICRO_INSTR().getSymbol());
                 }
                 default -> {
 
                     if (!seenMicroInstruction.add(rmIntrEnum)) {
-                        err.addNewError(MICROINSTRUCCION_INVALIDA,List.of(ctx.linstr.MICRO_INSTR().getText(),"No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName),mInstr.MICRO_INSTR().getSymbol());
+                        err.addNewError(MICROINSTRUCCION_INVALIDA,List.of(mInstr.MICRO_INSTR().getText(),"No puede definirse la misma instrucción dos veces en el mismo paso:" + rmIntrEnum.inputName),mInstr.MICRO_INSTR().getSymbol());
                     }
 
                     if (rmIntrEnum.needsArgument && mInstr.arg == null) {
