@@ -653,7 +653,7 @@ public class CableInstructionTest {
             }\
             """;
         var helper = new Runner();
-        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertDoesNotThrow(() ->helper.run(inputText,INSTRUCTION_SET,null));
         helper.printErrors(true);
         assertTrue(helper
                 .containsErrorEnum(ErrorEnum.PASO_COMPLEJO_NO_EXHAUSTIVO));
@@ -680,7 +680,8 @@ public class CableInstructionTest {
             }\
             """;
         var helper = new Runner();
-        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertDoesNotThrow(() -> helper.run(inputText,INSTRUCTION_SET,null) );
+
         helper.printErrors(true);
         assertTrue(helper
                 .containsErrorEnum(ErrorEnum.PASO_COMPLEJO_NO_EXHAUSTIVO));
@@ -706,7 +707,8 @@ public class CableInstructionTest {
             }\
             """;
         var helper = new Runner();
-        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertDoesNotThrow(() ->helper.run(inputText,INSTRUCTION_SET,null));
+
         helper.printErrors(true);
         assertTrue(helper
                 .containsErrorEnum(ErrorEnum.PASO_COMPLEJO_NO_EXHAUSTIVO));

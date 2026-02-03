@@ -27,7 +27,8 @@ public class ErrorController {
                 token
                 );
         addNewErrorMsg(msg);
-        throw new RuntimeException("Falta Error");
+        if(id.level == ErrorLevelEnum.FATAL_ERROR)
+        throw new RuntimeException("Parado ejecución por error grave");
     }
 
 

@@ -71,7 +71,7 @@ public class ProgramAnalysis extends SicomeBaseListener {
 
         try {
             if (size <= 1) {
-                err.addNewError(ErrorEnum.TAMANYO_VECTOR_INVALIDO,List.of(ctx.size + "< 2"),ctx.size);
+                err.addNewError(ErrorEnum.TAMANYO_VECTOR_INVALIDO,List.of(ctx.size.getText() + "< 2"),ctx.size);
             } else if (values.size() == 1) {
                 symbolTable.addVectorVariable(id, size, values.get(0));
             } else if (size == values.size()) {

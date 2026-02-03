@@ -111,7 +111,8 @@ public class Runner {
 
                 if(obj == ObjetiveConfig.ALL){
 
-                    if(ctx.variablesBlock() == null || ctx.programBlock() == null){
+                    if((programTree instanceof SicomeParser.CableProgramContext ||programTree instanceof SicomeParser.MicroProgramContext)
+                            && ctx.programBlock() == null){
                         err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of("Bloque de variables y programa"),ctx.start);
                     }
 
@@ -144,8 +145,9 @@ public class Runner {
                 repositoryText = cableCodeGeneratorPass.getRepositoryFileString();
 
                 if (obj == ObjetiveConfig.ALL){
-
-                    if(ctx.variablesBlock() == null || ctx.programBlock() == null){
+                    //No hace falta comprobar el apartado de variable porque estan definidos programa y variables o ninguno
+                    if((programTree instanceof SicomeParser.CableProgramContext ||programTree instanceof SicomeParser.MicroProgramContext)
+                            && ctx.programBlock() == null){
                         err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of("Bloque de variables y programa"),ctx.start);
                     }
 
@@ -160,7 +162,7 @@ public class Runner {
 
             }
             default -> {
-                //There is no other option
+                err.addNewError(ErrorEnum.FALTA_BLOQUE_NECESARIO,List.of("No se puede identificar el tipo de programa"), includeTree.getStart());
             }
         }
 

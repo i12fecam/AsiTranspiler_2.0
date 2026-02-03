@@ -26,7 +26,8 @@ public class ErrorMessage {
         //ANSI_RED[AVISO] linea 4: DATO_ERRONEO_BIF, El valor del bif no puede ser repetido
         String levelText = switch (errorEnum.level) {
             case WARNING -> "Aviso";
-            case FATAL_ERROR-> "Error";
+            case FATAL_ERROR,ANTLR4_FATAL_ERROR-> "Error grave";
+            case BIG_WARNING -> "Aviso grave";
         };
 
         String errorExplanation = String.format(
@@ -50,7 +51,7 @@ public class ErrorMessage {
             String ANSI_RESET = "\u001B[0m";
             res = switch (errorEnum.level){
                 case WARNING -> ANSI_YELLOW + res + ANSI_RESET;
-                case FATAL_ERROR -> ANSI_RED + res + ANSI_RESET;
+                case FATAL_ERROR,BIG_WARNING,ANTLR4_FATAL_ERROR -> ANSI_RED + res + ANSI_RESET;
             };
         }
         return res;

@@ -466,9 +466,9 @@ public class ProgramTest {
                 }
                """;
         var helper = new Runner();
-        assertThrows(RuntimeException.class, () -> {
+
             helper.run(inputText);
-        });
+
         helper.printErrors(true);
         assertTrue(helper
                 .containsErrorEnum(ErrorEnum.ESPACIO_MEMORIA_SUPERADO));

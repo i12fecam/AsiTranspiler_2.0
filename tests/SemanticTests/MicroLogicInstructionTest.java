@@ -110,7 +110,7 @@ public class MicroLogicInstructionTest {
             
             """;
         var helper = new Runner();
-        assertThrows(RuntimeException.class,() -> helper.run(inputText,LOGIC,null));
+        assertDoesNotThrow(() -> helper.run(inputText,LOGIC,null));
         helper.printErrors(true);
         helper.containsErrorEnum(ErrorEnum.LOGICA_CONTROL_NO_EXHAUSTIVA);
     }
@@ -131,7 +131,7 @@ public class MicroLogicInstructionTest {
             
             """;
         var helper = new Runner();
-        assertThrows(RuntimeException.class,() -> helper.run(inputText,LOGIC,null));
+        assertDoesNotThrow(() -> helper.run(inputText,LOGIC,null));
         helper.printErrors(true);
         helper.containsErrorEnum(ErrorEnum.LOGICA_CONTROL_NO_EXHAUSTIVA);
     }
@@ -150,7 +150,7 @@ public class MicroLogicInstructionTest {
             
             """;
         var helper = new Runner();
-        assertThrows(RuntimeException.class,() -> helper.run(inputText,LOGIC,null));
+        assertDoesNotThrow(() -> helper.run(inputText,LOGIC,null));
         helper.printErrors(true);
         helper.containsErrorEnum(ErrorEnum.LOGICA_CONTROL_NO_EXHAUSTIVA);
     }

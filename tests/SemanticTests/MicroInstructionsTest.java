@@ -402,7 +402,7 @@ public class MicroInstructionsTest {
             }\
             """,argument);
         var helper = new Runner();
-        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
+        assertDoesNotThrow( () -> helper.run(inputText,INSTRUCTION_SET,null));
         helper.printErrors(true);
         assertTrue(helper
                 .containsErrorEnum(ErrorEnum.MICROINSTRUCCION_CON_ARGUMENTO_INNECESARIO));
