@@ -70,21 +70,40 @@ public class CableInstructionTest {
                          |SR+1->SR| M->GPR PC+1->PC;
                          |SR+1->SR| GPR[OP]->OPR;
                     }
+                    
+                    
+                    /*
+                    Carga del registro ACC con el contenido de la dirección de memoria
+                    indicada
+                    */
                     lda(Dir){
                         |SR+1->SR| GPR[AD]->MAR;
                         |SR+1->SR| M->GPR 0->ACC;
                         |LOAD_SR(START)| ACC+GPR->ACC;
                     }
+                    
+                    
+                    /*Carga del registro QR con el contenido de la dirección de memoria
+                      indicada */
                     ldq(Dir){
                         |SR+1->SR| GPR[AD]->MAR;
                         |SR+1->SR| M->GPR;
                         |LOAD_SR(START)| GPR->QR;
                     }
+                    
+                    
+                    /* Almacena el contenido del registro ACC en la dirección de memoria
+                       indicada.*/
                     sta(Dir){
                         |SR+1->SR| GPR[AD]->MAR;
                         |SR+1->SR| ACC->GPR;
                         |LOAD_SR(START)| GPR->M;
                     }
+                    
+                    
+                    /* Calcula el valor absoluto del valor almacenado en la dirección de memoria
+                       indicada y guarda el resultado en la misma dirección.
+                        Si se utiliza el registro ACC,debe quedar como estaba. +/
                     abs(Dir){
                         |SR+1->SR| GPR[AD]->MAR;
                         |SR+1->SR| M->QR;
@@ -96,6 +115,13 @@ public class CableInstructionTest {
                         |SR+1->SR| !QR+1->QR;
                         |LOAD_SR(START)| GPR->M;
                     }
+                    
+                    
+                    /*Suma el valor inmediato codificado en la instrucción en los 11 bits menos
+                      significativos de la propia instrucción (v) al contenido del acumulador. Se debe
+                      implementar la instrucción haciendo rotaciones entre los registros F, ACC y QR; ya
+                      que el valor inmediato puede ser positivo o negativo. El registro QR debe quedar
+                      como estaba*/
                     addv11(Value){
                         |SR+1->SR| SP-1->SP LOAD_SC(2); //0
                         //El registro SR se puede cargar aquí o un poco más adelante, no importa. Lo pongo en la columna CONTROL porque es un regsitro del circuito de control. Si lo ponen en la columna de microoperaciones, no se tiene en cuenta.
@@ -143,6 +169,14 @@ public class CableInstructionTest {
                             Zsc: |LOAD_SR(START)|;
                         }
                     }
+                    
+                    
+                    
+                    /*Realizar desplazamientos cíclicos a la izquierda del registro
+                      conjunto F|ACC hasta detectar un 1 en el registro F. Guardar el número de
+                      desplazamientos realizados en la dirección de memoria dir. Si no hubiese ningún 1 en
+                      el acumulador, almacenar 0. Al finalizar, el registro acumulador y el registro QR
+                      deben quedar como estaban*/
                     rol_1_f_acc(Dir){
                         |SR+1->SR| GPR[AD]->MAR;
                         |SR+1->SR| QR->M;
@@ -169,7 +203,13 @@ public class CableInstructionTest {
                              Zsc: |LOAD_SR(START)|;
                         }
                     }
-                    addaq(Dir){
+                    
+                    
+                    
+                    
+                    /*suma el valor almacenado en las posiciones de memoria consecutivas dir
+                    y dir+1 al contenido del registro compuesto Acc y QR*/
+                    addaq(Var){
                         /*
                           Quiero sumar V(msb)|V(lsb) + M(msb)|V(lsb).
                           El problema es que tengo que sumar primero la parte menos signficativa (lsb),
@@ -201,7 +241,20 @@ public class CableInstructionTest {
                         |SR+1->SR| M->GPR SP+1->SP; //GPR: V(msb). Pila:  : [ DIR M(msb),  V(msb) ]
                         |LOAD_SR(START)| ACC+GPR->ACC SP+1->SP; //Pila: Liberada
                     }
+                    
+                    
+                    
                 }
+                
+                Variables{
+                        var1 = 0s0;
+                        var2 = 0s1;
+                    }
+                    
+                Programa{
+                    addaq var1;
+                }
+                
                 """;
 
         String outputRepositoryText = """
@@ -260,7 +313,7 @@ public class CableInstructionTest {
             helper.printErrors(true);
 
         }
-        System.err.println(helper.getRepositoryText());
+        System.err.println(inputText);
 
 
         //assertEquals(outputRepositoryText,helper.getRepositoryText());
