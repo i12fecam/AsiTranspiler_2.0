@@ -1,3 +1,5 @@
+package Main;
+
 import Runner.ObjetiveConfig;
 import Runner.VerbConfig;
 
@@ -89,12 +91,7 @@ static class AsiTranspiler implements Callable<Integer> {
         return 1;// your business logic goes here...
 }
 
-    // this example implements Callable, so parsing, error handling and handling user
-    // requests for usage help or version help can be done with one line of code.
-    public static void main(String... args) {
-        int exitCode = new CommandLine(new AsiTranspiler()).execute(args);
-        System.exit(exitCode);
-    }
+
 }
 
 
@@ -127,6 +124,13 @@ static class AsiTranspiler implements Callable<Integer> {
         }
 
         return content.toString();
+    }
+
+    // this example implements Callable, so parsing, error handling and handling user
+    // requests for usage help or version help can be done with one line of code.
+    public static void main(String... args) {
+        int exitCode = new CommandLine(new AsiTranspiler()).execute(args);
+        System.exit(exitCode);
     }
 
 }

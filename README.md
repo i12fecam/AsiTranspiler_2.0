@@ -12,4 +12,4 @@ El comando compile recibe como primer argumento el fichero con el codigo fuente,
 El comando test recibe como primer argumento el fichero con el código fuente con el objetivo de captar rapidamente todos los errores sin necesidad de crear los archivos.
 
 ## Instalación
- El proyecto fue creado con la version de java 21, para inicar el programa iniciar la clase Main.
+ El proyecto fue creado con la version de java 21, para inicar el programa iniciar la clase Main.Main.
