@@ -103,7 +103,7 @@ public class CableInstructionTest {
                     
                     /* Calcula el valor absoluto del valor almacenado en la dirección de memoria
                        indicada y guarda el resultado en la misma dirección.
-                        Si se utiliza el registro ACC,debe quedar como estaba. +/
+                        Si se utiliza el registro ACC,debe quedar como estaba. */
                     abs(Dir){
                         |SR+1->SR| GPR[AD]->MAR;
                         |SR+1->SR| M->QR;

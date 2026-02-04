@@ -189,6 +189,10 @@ public class Runner {
     public boolean containsErrorEnum(ErrorEnum error){
         return err.containsErrorEnum(error);
     }
+
+    public boolean canCompile() {
+        return err.canCompile();
+    }
 //    public void printTokens(){
 //        tokens.fill();
 //        for (Token token : tokens.getTokens()) {

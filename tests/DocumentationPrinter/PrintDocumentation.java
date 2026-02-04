@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 
 public class PrintDocumentation {
      public static void main(String[] args) {
-        System.out.println(getMicroInstructionTable());
-         //System.out.println(getTestTable());
+        //System.out.println(getMicroInstructionTable());
+         System.out.println(getTestTable());
     }
 
     public static String getMicroInstructionTable(){
@@ -22,35 +22,35 @@ public class PrintDocumentation {
         res.append("""
                 \\begin{longtable}{|p{0.4\\textwidth}|p{0.6\\textwidth}|}
                 \\hline
-                 Nombre & Descripción \\\\
+                 Nombre & Nombre en SICOME \\\\
                  \\hline
                  """);
         res.append("""
-        \\hline
+        
         \\multicolumn{2}{|c|}{MAR} \\\\ \n
         \\hline
         """);
         res.append(getMicroInstructionType(MicroInstructionTypeEnum.mar));
         res.append("""
-        \\hline
+        
         \\multicolumn{2}{|c|}{OPR} \\\\ \n
         \\hline
         """);
         res.append(getMicroInstructionType(MicroInstructionTypeEnum.opr));
         res.append("""
-        \\hline
+        
         \\multicolumn{2}{|c|}{PC, SP y SC} \\\\ \n
         \\hline
         """);
         res.append(getMicroInstructionType(MicroInstructionTypeEnum.pc_sp_sc));
         res.append("""
-        \\hline
+        
         \\multicolumn{2}{|c|}{GPR} \\\\ \n
         \\hline
         """);
         res.append(getMicroInstructionType(MicroInstructionTypeEnum.gpr));
         res.append("""
-        \\hline
+        
         \\multicolumn{2}{|c|}{ALU} \\\\ \n
         \\hline
         """);

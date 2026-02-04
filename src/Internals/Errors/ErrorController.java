@@ -37,4 +37,10 @@ public class ErrorController {
     }
 
 
+    public boolean canCompile() {
+       return  msgs.stream().filter(msgs -> {
+            return msgs.errorEnum.level == ErrorLevelEnum.ANTLR4_FATAL_ERROR
+            || msgs.errorEnum.level == ErrorLevelEnum.FATAL_ERROR;
+        }).toList().isEmpty();
+    }
 }

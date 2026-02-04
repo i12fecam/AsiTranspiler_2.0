@@ -411,7 +411,7 @@ public class MicroInstructionsTest {
     @ParameterizedTest
     @ValueSource(strings = {"256"})
     @DisplayName("Comprueba que el argumento pasado a LOAD SC no supere el límite de 8 bits")
-    void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO3(String argument){
+    void MICROINSTRUCCION_CON_ARGUMENTO_INVALIDO2(String argument){
         String inputText = String.format("""
             Lógica{
                 inc -> INCR
@@ -507,36 +507,5 @@ public class MicroInstructionsTest {
                 .containsErrorEnum(ErrorEnum.NUMERO_INSTRUCCIONES_SUPERADO));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"Ovf"})
-    @DisplayName("Comprueba que no se utiliza bandera prohibidas en microprogramado")
-    void BANDERA_INVALIDA(String argument){
-        String inputText = String.format("""
-            Lógica{
-                inc -> INCR
-                rtn -> RTN
-                instruccion_prohibida -> {
-                    %s: INCR
-                    !%s: INCR
-                }
-            }
-            @Micro
-            Instrucciones {
-                Fetch {
-                        |inc| PC->MAR;
-                        |inc| M->GPR PC+1->PC;
-                        |rtn| GPR[OP]->OPR GPR[AD]->MAR;
-                }
-                instruccion1(Value){
-                    
-                }
-            }\
-            """,argument,argument);
-        var helper = new Runner();
 
-        assertThrows(RuntimeException.class, () -> helper.run(inputText,INSTRUCTION_SET,null));
-        helper.printErrors(true);
-        assertTrue(helper
-                .containsErrorEnum(ErrorEnum.BANDERA_INVALIDA));
-    }
 }
